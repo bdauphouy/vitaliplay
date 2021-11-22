@@ -14,17 +14,22 @@ const Burger = ({ menu, setMenu }) => {
       className="w-7 h-6 relative cursor-pointer"
       onClick={() => setMenu(menu => !menu)}>
       <span
-        className={`burger-span bg-blue-900 transition-burger-up-and-down-spans ${
+        className={`burger-span bg-blue-900 ${
           menu ? 'rotate-45' : '-mt-2'
-        }`}></span>
+        } transition`}
+        style={{
+          transitionProperty: 'margin-top, transform',
+        }}></span>
       <span
-        className={`burger-span transition-burger-middle-span ${
+        className={`burger-span ${
           menu ? 'bg-transparent' : 'bg-blue-900'
-        }`}></span>
+        } transition`}
+        style={{ transitionProperty: 'background-color, transform' }}></span>
       <span
-        className={`burger-span bg-blue-900 transition-burger-up-and-down-spans ${
+        className={`burger-span bg-blue-900 ${
           menu ? '-rotate-45' : 'mt-2'
-        }`}></span>
+        } transition`}
+        style={{ transitionProperty: 'margin-top, transform' }}></span>
     </div>
   )
 }
@@ -74,8 +79,11 @@ const Nav = ({ navLinks, isAuth }) => {
         </Link>
         <ul className="flex relative h-full items-center">
           <div
-            className="absolute h-1 bg-blue-900 bottom-0 transition-marker"
-            ref={marker}></div>
+            className="absolute h-1 bg-blue-900 bottom-0 transition"
+            ref={marker}
+            style={{
+              transitionProperty: 'width, left',
+            }}></div>
           {navLinks.map((navLink, i) => {
             return (
               <li key={i} className="h-full">
@@ -110,7 +118,7 @@ const Nav = ({ navLinks, isAuth }) => {
         </ul>
       </nav>
       <nav
-        className="absolute top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 drop-shadow-level1
+        className="absolute top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
     ">
         <div className="flex justify-between items-center w-full h-20">
           <Link href={getPath('Accueil')}>
@@ -126,7 +134,8 @@ const Nav = ({ navLinks, isAuth }) => {
         <div
           className={`${
             menu ? 'max-h-144' : 'max-h-0'
-          } transition-max-h bg-white overflow-hidden absolute w-full top-full left-0 px-6 md:px-24 duration-500`}>
+          } bg-white overflow-hidden absolute w-full top-full left-0 px-6 md:px-24 transition duration-500`}
+          style={{ transitionProperty: 'max-height' }}>
           <ul>
             {navLinks.map((navLink, i) => {
               return (
@@ -149,11 +158,12 @@ const Nav = ({ navLinks, isAuth }) => {
             <li className="mt-4 mb-8">
               {isAuth ? (
                 <div className="w-12 h-12 rounded-full bg-blue-900 flex justify-center items-center cursor-pointer">
-                  <User size={24} />
+                  <User color="#FFFFFF" size={24} />
                 </div>
               ) : (
                 <div
                   onClick={() => {
+                    router.push(getPath('Accueil'))
                     setIsAuth(true)
                   }}>
                   <Cta size="l">Connexion</Cta>
@@ -168,28 +178,28 @@ const Nav = ({ navLinks, isAuth }) => {
             <li>
               <Link href={externalLinks.linkedin}>
                 <div className="cursor-pointer">
-                  <Linkedin color="fill-blue-900" />
+                  <Linkedin color="#1778F2" />
                 </div>
               </Link>
             </li>
             <li>
               <Link href={externalLinks.instagram}>
                 <div className="cursor-pointer">
-                  <Instagram color="fill-blue-900" />
+                  <Instagram color="#1778F2" />
                 </div>
               </Link>
             </li>
             <li>
               <Link href={externalLinks.facebook}>
                 <div className="cursor-pointer">
-                  <Facebook color="fill-blue-900" />
+                  <Facebook color="#1778F2" />
                 </div>
               </Link>
             </li>
             <li>
               <Link href={externalLinks.twitter}>
                 <div className="cursor-pointer">
-                  <Twitter color="fill-blue-900" />
+                  <Twitter color="#1778F2" />
                 </div>
               </Link>
             </li>

@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '../contexts/LinksContext'
-import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
+import { Apple, Android, Instagram, Linkedin, Facebook, Twitter } from './Icons'
 
 const DownloadButton = ({ children }) => {
   return (
-    <div className="flex justify-center font-body text-black bg-light-100 border-solid border-1 border-gray-200 px-6 py-3 rounded-lg">
+    <div className="flex justify-center items-center font-body text-black bg-light-100 border-solid border-1 border-gray-200 px-6 py-3 rounded-lg">
       {children}
     </div>
   )
@@ -24,11 +24,15 @@ const Footer = ({ navLinks }) => {
             </h3>
             <div className="flex gap-8">
               <DownloadButton>
-                <img src="/apple.svg" className="mr-3" />
+                <div className="mr-3">
+                  <Apple color="#141414" size={23} />
+                </div>
                 Disponible sur IOS
               </DownloadButton>
               <DownloadButton>
-                <img src="/android.svg" className="mr-3" />
+                <div className="mr-3">
+                  <Android color="#26C196" size={23} />
+                </div>
                 Disponible sur Android
               </DownloadButton>
             </div>
@@ -80,28 +84,28 @@ const Footer = ({ navLinks }) => {
                 <li>
                   <Link href={externalLinks.linkedin}>
                     <div className="cursor-pointer">
-                      <Linkedin />
+                      <Linkedin color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
                   <Link href={externalLinks.instagram}>
                     <div className="cursor-pointer">
-                      <Instagram />
+                      <Instagram color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
                   <Link href={externalLinks.facebook}>
                     <div className="cursor-pointer">
-                      <Facebook />
+                      <Facebook color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
                   <Link href={externalLinks.twitter}>
                     <div className="cursor-pointer">
-                      <Twitter />
+                      <Twitter color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
@@ -130,11 +134,15 @@ const Footer = ({ navLinks }) => {
               Pour être toujours plus près de vous
             </h3>
             <DownloadButton>
-              <img src="/apple.svg" className="mr-3" />
+              <div className="mr-3">
+                <Apple color="#141414" size={20} />
+              </div>
               Disponible sur IOS
             </DownloadButton>
             <DownloadButton>
-              <img src="/android.svg" className="mr-3" />
+              <div className="mr-3">
+                <Android color="#26C196" size={20} />
+              </div>
               Disponible sur Android
             </DownloadButton>
           </div>
@@ -183,28 +191,28 @@ const Footer = ({ navLinks }) => {
             <li>
               <Link href={externalLinks.linkedin}>
                 <div className="cursor-pointer">
-                  <Linkedin />
+                  <Linkedin color="#ECF4FE" />
                 </div>
               </Link>
             </li>
             <li>
               <Link href={externalLinks.instagram}>
                 <div className="cursor-pointer">
-                  <Instagram />
+                  <Instagram color="#ECF4FE" />
                 </div>
               </Link>
             </li>
             <li>
               <Link href={externalLinks.facebook}>
                 <div className="cursor-pointer">
-                  <Facebook />
+                  <Facebook color="#ECF4FE" />
                 </div>
               </Link>
             </li>
             <li>
               <Link href={externalLinks.twitter}>
                 <div className="cursor-pointer">
-                  <Twitter />
+                  <Twitter color="#ECF4FE" />
                 </div>
               </Link>
             </li>

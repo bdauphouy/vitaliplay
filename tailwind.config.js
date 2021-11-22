@@ -65,7 +65,7 @@ module.exports = {
           500: '#FF5A5A',
         },
       },
-      dropShadow: {
+      boxShadow: {
         level1: '0 4px 16px #0000001A',
         level2: '0 16px 48px #0000001A',
         'image-sm': '-32px 32px #ECF4FE',
@@ -92,18 +92,6 @@ module.exports = {
         1.75: '0.4375rem',
         2.75: '0.6875rem',
         3.75: '0.8125rem',
-      },
-      stroke: {
-        light: '#FFFFFF',
-        primary: '#1778F2',
-        disabled: '#A2C9FA',
-        gray: '#727272',
-        dark: '#141414',
-      },
-      fill: {
-        light: '#FFFFFF',
-        primary: '#1778F2',
-        disabled: '#A2C9FA',
       },
       transitionProperty: {
         marker: 'width left',

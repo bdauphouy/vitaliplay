@@ -15,11 +15,14 @@ const Faq = ({ question, answer }) => {
         <p className="font-body text-dark-500 font-normal pr-8">{question}</p>
         <div
           onClick={openDropDown}
-          className="cursor-pointer transform transition-transform">
+          className="cursor-pointer transform"
+          style={{ transitionProperty: 'transform' }}>
           <Button size={buttonSize} />
         </div>
       </div>
-      <div className="pt-4 max-h-0 overflow-y-hidden transition-max-h duration-300">
+      <div
+        className="pt-4 max-h-0 overflow-y-hidden duration-300"
+        style={{ transitionProperty: 'max-height' }}>
         <p className="font-body text-dark-500 font-normal pr-8">{answer}</p>
       </div>
     </div>

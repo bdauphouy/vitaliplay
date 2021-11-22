@@ -71,19 +71,19 @@ const Cta = ({
             invert ? 'bg-light-100 text-blue-900' : 'bg-blue-900 text-light-100'
           }`,
         ])
-        setArrowColor('stroke-light')
+        setArrowColor('#FFFFFF')
         break
       case 'secondary':
         setClasses(classes => [...classes, 'bg-blue-50', 'text-blue-900'])
-        setArrowColor('stroke-primary')
+        setArrowColor('#1778F2')
         break
       case 'disabled':
         setClasses(classes => [...classes, 'bg-blue-50', 'text-blue-300'])
-        setArrowColor('stroke-disabled')
+        setArrowColor('#A2C9FA')
         break
       case 'link':
         setClasses(classes => [...classes, textColor])
-        setArrowColor('stroke-gray')
+        setArrowColor('#727272')
         break
       default:
         break

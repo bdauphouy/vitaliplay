@@ -30,15 +30,12 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     setNavLinks(isAuth ? authNavLinks : notAuthNavLinks)
-    if (router.asPath !== getPath('Accueil')) {
-      router.push(getPath('Accueil'))
-    }
   }, [isAuth])
 
   return (
     <>
       <Head>
-        <title>Vitaliplay - {page}</title>
+        <title>Vitaliplay {page && `- ${page}`}</title>
       </Head>
       <Nav navLinks={navLinks} isAuth={isAuth} />
       {children}

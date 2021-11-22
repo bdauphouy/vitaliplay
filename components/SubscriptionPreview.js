@@ -1,5 +1,5 @@
 import Cta from './Cta'
-import { Gift } from './Icons'
+import { Gift, Stamp } from './Icons'
 import useResponsiveState from '../hooks/useResponsiveState'
 
 const SubscriptionPreview = ({
@@ -11,21 +11,23 @@ const SubscriptionPreview = ({
   responsive = 'small',
   stamp = false,
 }) => {
-  const giftSize = useResponsiveState(1024, { from: 40, to: 28 })
+  const giftSize = useResponsiveState(1024, { from: 50, to: 35 })
+  const stampSize = useResponsiveState(768, { from: 90, to: 64 })
 
   return (
     <div
       className={`${
         variant === 'blue' ? 'bg-blue-900' : 'bg-light-100'
-      } drop-shadow-level1 p-4 pb-6 lg:p-6 lg:pb-8 rounded-lg h-full relative`}>
+      } shadow-level1 p-4 pb-6 lg:p-6 lg:pb-8 rounded-lg h-full relative`}>
       <div
         className={`${
           !stamp && 'hidden'
         } absolute right-0 top-0 transform translate-x-1/3 -translate-y-1/3`}>
-        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 -mt-1">
+        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
           <Gift size={giftSize} />
         </div>
-        <img src="/stamp.svg" alt="stamp" className="w-16 lg:w-24" />
+
+        <Stamp size={stampSize} color="#FFA799" />
       </div>
 
       <h3
