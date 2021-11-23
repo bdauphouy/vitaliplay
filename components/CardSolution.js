@@ -1,4 +1,5 @@
 import Cta from './Cta'
+import Image from 'next/image'
 
 const CardSolution = ({ icon, title, description, variant }) => {
   return (
@@ -8,7 +9,7 @@ const CardSolution = ({ icon, title, description, variant }) => {
           ? 'bg-blue-50'
           : 'bg-light-100 border-solid border-1 border-gray-200'
       }`}>
-      <img src={icon} alt="icon" />
+      <Image src={icon} width="40" height="40" alt="icon" />
       <h3 className="font-head font-bold text-xl text-dark-900 mt-9 ">
         {title}
       </h3>

@@ -21,7 +21,7 @@ const CardPreview = ({ title, duration, level, type }) => {
       default:
         break
     }
-  }, [])
+  }, [type])
 
   return (
     <div

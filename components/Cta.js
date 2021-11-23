@@ -88,7 +88,7 @@ const Cta = ({
       default:
         break
     }
-  }, [])
+  }, [invert, textColor, size, type])
 
   return (
     <button

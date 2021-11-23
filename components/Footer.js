@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '../contexts/LinksContext'
 import { Apple, Android, Instagram, Linkedin, Facebook, Twitter } from './Icons'
+import Image from 'next/image'
 
 const DownloadButton = ({ children }) => {
   return (
@@ -40,13 +41,19 @@ const Footer = ({ navLinks }) => {
         </div>
         <div className="bg-blue-900 px-24 pb-7 pt-56 -mt-40">
           <div className="flex justify-between flex-wrap">
-            <Link href="/">
-              <img
-                src="/logo-footer.svg"
-                alt="vitaliplay"
-                className="cursor-pointer md:w-44 w-44 self-start"
-              />
-            </Link>
+            <div className="self-start">
+              <Link href="/" passHref>
+                <a>
+                  <Image
+                    src="/logo-footer.svg"
+                    alt="vitaliplay"
+                    width="212"
+                    height="48"
+                    className="cursor-pointer md:w-44 w-44 self-start"
+                  />
+                </a>
+              </Link>
+            </div>
             <ul className="pl-8 -mt-2">
               {navLinks.map((navLink, i) => {
                 return (
@@ -82,28 +89,28 @@ const Footer = ({ navLinks }) => {
               </h3>
               <ul className="mt-3 flex gap-4">
                 <li>
-                  <Link href={externalLinks.linkedin}>
+                  <Link href={externalLinks.linkedin} passHref>
                     <div className="cursor-pointer">
                       <Linkedin color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
-                  <Link href={externalLinks.instagram}>
+                  <Link href={externalLinks.instagram} passHref>
                     <div className="cursor-pointer">
                       <Instagram color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
-                  <Link href={externalLinks.facebook}>
+                  <Link href={externalLinks.facebook} passHref>
                     <div className="cursor-pointer">
                       <Facebook color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
-                  <Link href={externalLinks.twitter}>
+                  <Link href={externalLinks.twitter} passHref>
                     <div className="cursor-pointer">
                       <Twitter color="#ECF4FE" />
                     </div>
@@ -115,7 +122,7 @@ const Footer = ({ navLinks }) => {
           <div className="mt-16 border-solid border-t-1 border-light-40 flex justify-between">
             <h4 className="font-body font-semibold text-sm mt-4 text-light-100">
               Réalisé par{' '}
-              <Link href={externalLinks.synerghetic}>
+              <Link href={externalLinks.synerghetic} passHref>
                 <span className="cursor-pointer">
                   <u>Synerg’hetic</u> 💜
                 </span>
@@ -148,12 +155,16 @@ const Footer = ({ navLinks }) => {
           </div>
         </div>
         <div className="bg-blue-900 p-6 pt-48 -mt-32">
-          <Link href="/">
-            <img
-              src="/logo-footer.svg"
-              alt="vitaliplay"
-              className="cursor-pointer md:w-44 w-44"
-            />
+          <Link href="/" passHref>
+            <a>
+              <Image
+                src="/logo-footer.svg"
+                alt="vitaliplay"
+                width="212"
+                height="48"
+                className="cursor-pointer md:w-44 w-44"
+              />
+            </a>
           </Link>
           <ul className="w-full mt-8">
             {navLinks.map((navLink, i) => {
@@ -189,28 +200,28 @@ const Footer = ({ navLinks }) => {
           </h3>
           <ul className="mt-3 flex gap-4">
             <li>
-              <Link href={externalLinks.linkedin}>
+              <Link href={externalLinks.linkedin} passHref>
                 <div className="cursor-pointer">
                   <Linkedin color="#ECF4FE" />
                 </div>
               </Link>
             </li>
             <li>
-              <Link href={externalLinks.instagram}>
+              <Link href={externalLinks.instagram} passHref>
                 <div className="cursor-pointer">
                   <Instagram color="#ECF4FE" />
                 </div>
               </Link>
             </li>
             <li>
-              <Link href={externalLinks.facebook}>
+              <Link href={externalLinks.facebook} passHref>
                 <div className="cursor-pointer">
                   <Facebook color="#ECF4FE" />
                 </div>
               </Link>
             </li>
             <li>
-              <Link href={externalLinks.twitter}>
+              <Link href={externalLinks.twitter} passHref>
                 <div className="cursor-pointer">
                   <Twitter color="#ECF4FE" />
                 </div>
@@ -220,7 +231,7 @@ const Footer = ({ navLinks }) => {
           <div className="border-solid border-t-1 border-light-40 flex justify-between mt-16">
             <h4 className="font-body font-semibold text-sm mt-4 text-light-100">
               Réalisé par{' '}
-              <Link href={externalLinks.synerghetic}>
+              <Link href={externalLinks.synerghetic} passHref>
                 <span className="cursor-pointer">
                   <u>Synerg’hetic</u> 💜
                 </span>

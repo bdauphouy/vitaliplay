@@ -7,6 +7,7 @@ import { AuthContext } from '../contexts/AuthContext'
 import { RouteContext } from '../contexts/RouteContext'
 import { LinksContext } from '../contexts/LinksContext'
 import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
+import Image from 'next/image'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -65,19 +66,22 @@ const Nav = ({ navLinks, isAuth }) => {
         })
       }
     })
-  }, [router])
+  }, [router, getPath, setPage])
 
   return (
     <>
       <nav
         className="hidden absolute top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
     ">
-        <Link href={getPath('Accueil')}>
-          <img
-            src="/logo.svg"
-            alt="vitaliplay"
-            className="cursor-pointer md:w-44 w-34"
-          />
+        <Link href={getPath('Accueil')} passHref>
+          <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
+            <Image
+              src="/logo.svg"
+              alt="vitaliplay"
+              layout="fill"
+              className="cursor-pointer"
+            />
+          </div>
         </Link>
         <ul className="flex relative h-full items-center">
           <div
@@ -123,12 +127,15 @@ const Nav = ({ navLinks, isAuth }) => {
         className="absolute top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
     ">
         <div className="flex justify-between items-center w-full h-20">
-          <Link href={getPath('Accueil')}>
-            <img
-              src="/logo.svg"
-              alt="vitaliplay"
-              className="cursor-pointer md:w-44 w-34"
-            />
+          <Link href={getPath('Accueil')} passHref>
+            <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
+              <Image
+                src="/logo.svg"
+                alt="vitaliplay"
+                layout="fill"
+                className="cursor-pointer"
+              />
+            </div>
           </Link>
 
           <Burger menu={menu} setMenu={setMenu} />
@@ -178,28 +185,28 @@ const Nav = ({ navLinks, isAuth }) => {
           </h3>
           <ul className="mt-3 flex gap-4">
             <li>
-              <Link href={externalLinks.linkedin}>
+              <Link href={externalLinks.linkedin} passHref>
                 <div className="cursor-pointer">
                   <Linkedin color="#1778F2" />
                 </div>
               </Link>
             </li>
             <li>
-              <Link href={externalLinks.instagram}>
+              <Link href={externalLinks.instagram} passHref>
                 <div className="cursor-pointer">
                   <Instagram color="#1778F2" />
                 </div>
               </Link>
             </li>
             <li>
-              <Link href={externalLinks.facebook}>
+              <Link href={externalLinks.facebook} passHref>
                 <div className="cursor-pointer">
                   <Facebook color="#1778F2" />
                 </div>
               </Link>
             </li>
             <li>
-              <Link href={externalLinks.twitter}>
+              <Link href={externalLinks.twitter} passHref>
                 <div className="cursor-pointer">
                   <Twitter color="#1778F2" />
                 </div>
@@ -209,7 +216,7 @@ const Nav = ({ navLinks, isAuth }) => {
           <div className="border-solid border-t-1 border-dark-50 flex justify-between pb-4 mt-16">
             <h4 className="font-body font-semibold text-sm mt-4 text-dark-500">
               Réalisé par{' '}
-              <Link href={externalLinks.synerghetic}>
+              <Link href={externalLinks.synerghetic} passHref>
                 <span className="cursor-pointer">
                   <u>Synerg’hetic</u> 💜
                 </span>

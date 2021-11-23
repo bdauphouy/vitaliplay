@@ -1,5 +1,4 @@
 import Tag from './Tag'
-import { useEffect, useState } from 'react'
 
 const Card = ({
   tagType = '1',

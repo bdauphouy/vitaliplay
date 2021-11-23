@@ -14,15 +14,20 @@ const Layout = ({ children }) => {
 
   const router = useRouter()
 
-  const authNavLinks = [
+  const [authNavLinks] = useState([
     'Accueil',
     'En direct',
     'Séances',
     'Conférences de santé',
     'Mon espace santé',
-  ]
+  ])
 
-  const notAuthNavLinks = ['Accueil', 'Notre solution', 'Abonnement', 'Contact']
+  const [notAuthNavLinks] = useState([
+    'Accueil',
+    'Notre solution',
+    'Abonnement',
+    'Contact',
+  ])
 
   const [navLinks, setNavLinks] = useState(
     isAuth ? authNavLinks : notAuthNavLinks,
@@ -30,7 +35,7 @@ const Layout = ({ children }) => {
 
   useEffect(() => {
     setNavLinks(isAuth ? authNavLinks : notAuthNavLinks)
-  }, [isAuth])
+  }, [isAuth, authNavLinks, notAuthNavLinks])
 
   return (
     <>
