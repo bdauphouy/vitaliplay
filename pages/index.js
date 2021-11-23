@@ -2,20 +2,24 @@ import CardSolution from '../components/CardSolution'
 import Image from 'next/image'
 import SubscriptionPreview from '../components/SubscriptionPreview'
 import Cta from '../components/Cta'
+import Title from '../components/Title'
+import Subtitle from '../components/Subtitle'
 
 const Home = () => {
   return (
     <div className="mt-32 lg:mt-0">
       <div className="flex flex-col lg:flex-row lg:h-screen lg:justify-between lg:gap-20">
         <div className="px-6 flex flex-col justify-center md:px-24 lg:w-2/3 xl:w-1/2">
-          <h2 className="font-bold font-head text-3xl md:text-5xl lg:font-extrabold">
+          <Title type="1">
             Votre <span className="text-blue-900">bonne santé</span> de demain
             commence dès <span className="text-blue-900">aujourd'hui</span>
-          </h2>
-          <p className="subtitle mt-4 md:mt-6">
-            Vitaliplay est une plateforme numérique de santé et d'activité
-            physique dédiée aux plus de 55 ans
-          </p>
+          </Title>
+          <div className="mt-4 md:mt-6">
+            <Subtitle>
+              Vitaliplay est une plateforme numérique de santé et d'activité
+              physique dédiée aux plus de 55 ans
+            </Subtitle>
+          </div>
         </div>
 
         <div className="relative self-end mt-6 w-72 h-96 shadow-image-sm lg:self-stretch lg:mt-20 lg:shadow-image-lg lg:h-4/5 lg:w-2/5">
@@ -28,12 +32,14 @@ const Home = () => {
         </div>
       </div>
       <div className="px-6 mt-24 md:px-24">
-        <h2 className="font-bold font-head text-2xl text-center md:text-4xl">
+        <Title center={true}>
           Découvrez notre <span className="text-blue-900">solution</span>
-        </h2>
-        <p className="subtitle mt-4 text-center">
-          Conçu pour vous par des professionnels de santé
-        </p>
+        </Title>
+        <div className="mt-4">
+          <Subtitle center={true}>
+            Conçu pour vous par des professionnels de santé
+          </Subtitle>
+        </div>
       </div>
       <div className="flex justify-center px-6 mt-10 md:px-24 lg:mt-20">
         <div className="grid grid-cols-1 gap-4 w-full lg:grid-cols-2 lg:w-auto">
@@ -80,15 +86,15 @@ const Home = () => {
       <div className="mt-16 relative md:flex md:flex-row-reverse items-center justify-center lg:mt-36 lg:h-4/5-screen lg:justify-between lg:pl-24">
         <div className="w-full h-96 absolute bg-blue-50 bottom-16 -z-1 lg:bottom-0 lg:top-0 lg:h-5/6"></div>
         <div className="px-6 md:w-1/2 mb-8 md:pl-10 md:px-0 lg:pl-0 lg:pr-24 lg:mb-24">
-          <h2 className="font-bold font-head text-2xl md:text-4xl">
-            Gravida eget varius a diam faucibus nec sodales
-          </h2>
-          <p className="subtitle mt-4">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
-            eget varius a diam faucibus nec sodales fermentum eget. Lorem ipsum
-            dolor sit amet, consectetur adipiscing elit. Gravida eget varius a
-            diam faucibus nec sodales fermentum eget.
-          </p>
+          <Title>Gravida eget varius a diam faucibus nec sodales</Title>
+          <div className="mt-4">
+            <Subtitle>
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
+              eget varius a diam faucibus nec sodales fermentum eget. Lorem
+              ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
+              varius a diam faucibus nec sodales fermentum eget.
+            </Subtitle>
+          </div>
         </div>
         <div className="relative self-end mt-10 w-80 h-112 lg:self-stretch lg:mt-0 lg:h-full lg:w-2/5">
           <Image
@@ -100,11 +106,11 @@ const Home = () => {
         </div>
       </div>
       <div className="px-6 mt-16 md:px-24 lg:mt-36">
-        <h2 className="font-bold font-head text-2xl text-center md:text-4xl">
+        <Title center={true}>
           Ils nous font <span className="text-blue-900">confiance</span>
           <br />
           dans notre <span className="text-blue-900">aventure</span>
-        </h2>
+        </Title>
         <div className="grid mt-16 place-items-center grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
           <div className="w-56 h-28 relative">
             <Image src="/cocacola.svg" alt="cocacola" layout="fill" />
@@ -132,14 +138,14 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="px-6 pt-16 md:px-24 lg:pt-36">
-        <h2 className="font-bold font-head text-2xl text-center md:text-4xl">
-          Découvrez nos abonnements
-        </h2>
-        <p className="subtitle mt-4 text-center">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </p>
+      <div className="px-6 pt-16 md:px-24 lg:pt-36 overflow-x-hidden">
+        <Title center={true}>Découvrez nos abonnements</Title>
+        <div className="mt-4">
+          <Subtitle center={true}>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
+            eget varius a diam faucibus nec sodales fermentum eget.
+          </Subtitle>
+        </div>
         <div className="mt-10 gap-4 items-center flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
             <SubscriptionPreview

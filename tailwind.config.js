@@ -116,6 +116,7 @@ module.exports = {
       },
       minHeight: {
         72: '18rem',
+        '4/5-screen': '80vh',
       },
       maxHeight: {
         112: '28rem',

@@ -49,6 +49,8 @@ const Nav = ({ navLinks, isAuth }) => {
 
     navItems.forEach(navItem => {
       const updateMarker = () => {
+        if (!marker) return
+
         marker.current.style.left = `${navItem.offsetLeft}px`
         marker.current.style.width = `${navItem.offsetWidth}px`
       }
@@ -68,7 +70,7 @@ const Nav = ({ navLinks, isAuth }) => {
   return (
     <>
       <nav
-        className="hidden absolute top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between drop-shadow-level1
+        className="hidden absolute top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
     ">
         <Link href={getPath('Accueil')}>
           <img
