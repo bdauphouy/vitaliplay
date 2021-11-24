@@ -138,7 +138,7 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="px-6 pt-16 md:px-24 lg:pt-36 overflow-x-hidden">
+      <div className="px-6 mt-16 md:px-24 lg:mt-36 overflow-x-hidden lg:overflow-x-visible">
         <Title center={true}>Découvrez nos abonnements</Title>
         <div className="mt-4">
           <Subtitle center={true}>
@@ -146,7 +146,7 @@ const Home = () => {
             eget varius a diam faucibus nec sodales fermentum eget.
           </Subtitle>
         </div>
-        <div className="mt-10 gap-4 items-center flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
+        <div className=" mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
             <SubscriptionPreview
               title="Annuel"
@@ -154,27 +154,29 @@ const Home = () => {
               suffix="/par an"
               description="Avec l’abonnement annuel profitez de 1 mois offert et économisez 31% sur l’année"
               variant="blue"
-              responsive="big"
+              size="big"
               stamp={true}
             />
           </div>
-          <div className="w-full lg:w-96 lg:order-1">
+          <div className="lg:py-8 w-full lg:w-96 lg:order-1">
             <SubscriptionPreview
               title="Mensuel"
               price="12"
               suffix="/par mois"
               description="Gravida eget varius a diam faucibus nec sodales fermentum eget."
-              responsive="small"
+              size="small"
             />
           </div>
-          <div className="flex flex-col justify-center items-center w-full bg-blue-50 py-20 px-6 rounded-lg lg:py-16 lg:w-96 lg:order-3">
-            <h3 className="font-bold font-head text-xl text-center">
-              Vous possédez déjà un code d’invitation ?
-            </h3>
-            <div className="mt-6 lg:mt-8">
-              <Cta size="l" type="primary">
-                J’ai un code d’invitation
-              </Cta>
+          <div className="lg:order-3 w-full lg:w-96 lg:py-8">
+            <div className="flex flex-col justify-center items-center h-full bg-blue-50 px-6 py-10 rounded-lg">
+              <h3 className="font-bold font-head text-xl text-center">
+                Vous possédez déjà un code d’invitation ?
+              </h3>
+              <div className="mt-6 lg:mt-10">
+                <Cta size="l" type="primary">
+                  J’ai un code d’invitation
+                </Cta>
+              </div>
             </div>
           </div>
         </div>

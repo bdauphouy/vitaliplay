@@ -1,11 +1,12 @@
 import Button from './Button'
+import useResponsiveState from '../hooks/useResponsiveState'
 
 const Faq = ({ question, answer }) => {
-  const buttonSize = useResponsiveState(1024, { from: 40, to: 28 })
+  const buttonSize = useResponsiveState(768, { from: 23, to: 18 })
 
   const openDropDown = e => {
     e.target.parentElement.nextSibling.classList.toggle('max-h-0')
-    e.target.parentElement.nextSibling.classList.toggle('max-h-40')
+    e.target.parentElement.nextSibling.classList.toggle('max-h-16')
     e.target.classList.toggle('rotate-45')
   }
 
@@ -15,13 +16,13 @@ const Faq = ({ question, answer }) => {
         <p className="font-body text-dark-500 font-normal pr-8">{question}</p>
         <div
           onClick={openDropDown}
-          className="cursor-pointer transform"
+          className="cursor-pointer transition"
           style={{ transitionProperty: 'transform' }}>
-          <Button size={buttonSize} />
+          <Button size={buttonSize} color="#1778F2" />
         </div>
       </div>
       <div
-        className="pt-4 max-h-0 overflow-y-hidden duration-300"
+        className="pt-4 max-h-0 overflow-y-hidden duration-700"
         style={{ transitionProperty: 'max-height' }}>
         <p className="font-body text-dark-500 font-normal pr-8">{answer}</p>
       </div>
