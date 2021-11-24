@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 
 const useResponsiveState = (breakpoint, states) => {
-  const [responsiveState, setReponsiveState] = useState(states.from)
+  const [responsiveState, setReponsiveState] = useState()
 
   const updateResponsiveState = () => {
     if (window.innerWidth >= breakpoint) {
@@ -15,6 +15,8 @@ const useResponsiveState = (breakpoint, states) => {
     updateResponsiveState()
 
     window.addEventListener('resize', updateResponsiveState)
+
+    return () => window.removeEventListener('resize', updateResponsiveState)
   }, [])
 
   return responsiveState

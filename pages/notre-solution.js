@@ -82,7 +82,7 @@ const OurSolution = () => {
 
   const [sliding, setSliding] = useState(false)
 
-  const extraLargeDevice = useResponsiveState(1280, { from: true, to: false })
+  const isExtraLargeDevice = useResponsiveState(1280, { from: true, to: false })
 
   const getSectionById = id => {
     for (let section of sections) {
@@ -98,12 +98,17 @@ const OurSolution = () => {
   }
 
   const triggerSlide = id => {
-    if (id === currentSection || sliding) return
+    if (
+      isExtraLargeDevice === undefined ||
+      !isExtraLargeDevice ||
+      sliding ||
+      id === tempCurrentSection
+    )
+      return
 
     setSliding(true)
-    setTempCurrentSection(id)
 
-    const sectionItems = document.querySelectorAll('.section-item')
+    setTempCurrentSection(id)
 
     slideSection.current.style.transform = 'translate3d(0, 3rem, 0)'
     slideSection.current.style.opacity = 0
@@ -113,7 +118,9 @@ const OurSolution = () => {
       slideSection.current.style.opacity = 1
       setCurrentSection(id)
       setSliding(false)
-    }, 500)
+    }, 300)
+
+    const sectionItems = document.querySelectorAll('.section-item')
 
     sectionItems.forEach(sectionItem => {
       const updateMarker = () => {
@@ -133,9 +140,8 @@ const OurSolution = () => {
 
   useEffect(() => {
     const timer = triggerSlide(0)
-
     return () => clearTimeout(timer)
-  }, [extraLargeDevice])
+  }, [isExtraLargeDevice])
 
   return (
     <div className="mt-32 px-6 lg:px-0">
@@ -181,7 +187,7 @@ const OurSolution = () => {
             <div className="w-full">
               <div
                 ref={slideSection}
-                className="transition duration-500"
+                className="transition duration-300"
                 style={{
                   transform: 'translate3d(0, 100%, 0)',
                   transitionProperty: 'transform, opacity',

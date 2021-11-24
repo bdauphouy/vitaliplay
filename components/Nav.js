@@ -8,6 +8,7 @@ import { RouteContext } from '../contexts/RouteContext'
 import { LinksContext } from '../contexts/LinksContext'
 import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
+import useResponsiveState from '../hooks/useResponsiveState'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -41,6 +42,8 @@ const Nav = ({ navLinks, isAuth }) => {
   const { externalLinks, getPath } = useContext(LinksContext)
   const [menu, setMenu] = useState(false)
 
+  const isExtraLargeDevice = useResponsiveState(1280, { from: true, to: false })
+
   const router = useRouter()
 
   const marker = useRef()
@@ -59,14 +62,9 @@ const Nav = ({ navLinks, isAuth }) => {
       if (getPath(navItem.innerText) === router.asPath) {
         setPage(navItem.innerText)
         updateMarker()
-        window.addEventListener('resize', () => {
-          if (window.innerWidth >= 1280) {
-            updateMarker()
-          }
-        })
       }
     })
-  }, [router, getPath, setPage])
+  }, [router, getPath, setPage, isExtraLargeDevice])
 
   return (
     <>
@@ -110,11 +108,12 @@ const Nav = ({ navLinks, isAuth }) => {
           <li className="ml-6">
             {isAuth ? (
               <div className="w-12 h-12 rounded-full bg-blue-900 flex justify-center items-center cursor-pointer">
-                <User />
+                <User color="#FFFFFF" size={24} />
               </div>
             ) : (
               <div
                 onClick={() => {
+                  router.push(getPath('Accueil'))
                   setIsAuth(true)
                 }}>
                 <Cta size="l">Connexion</Cta>
