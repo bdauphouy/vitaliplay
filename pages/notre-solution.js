@@ -3,6 +3,7 @@ import Title from '../components/Title'
 import Subtitle from '../components/Subtitle'
 import { useEffect, useState, useRef } from 'react'
 import useResponsiveState from '../hooks/useResponsiveState'
+import ourSolution from '../public/our-solution.jpg'
 
 const OurSolution = () => {
   const [sections] = useState([
@@ -203,9 +204,10 @@ const OurSolution = () => {
           </div>
           <div className="2xl:w-2/5 w-1/3 relative">
             <Image
-              src="/our-solution.jpg"
+              src={ourSolution}
               alt="notre solution"
               layout="fill"
+              placeholder="blur"
               objectFit="cover"
             />
           </div>
@@ -220,9 +222,10 @@ const OurSolution = () => {
                 }`}>
                 <div className="xl:h-96 lg:h-auto h-96 lg:self-stretch lg:w-2/5 relative mt-16 xl:mt-16 lg:mt-0">
                   <Image
-                    src="/our-solution.jpg"
+                    src={ourSolution}
                     alt="notre solution"
                     layout="fill"
+                    placeholder="blur"
                     objectFit="cover"
                   />
                 </div>

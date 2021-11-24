@@ -4,6 +4,7 @@ import SubscriptionPreview from '../components/SubscriptionPreview'
 import Cta from '../components/Cta'
 import Title from '../components/Title'
 import Subtitle from '../components/Subtitle'
+import homepage from '../public/homepage.jpg'
 
 const Home = () => {
   return (
@@ -24,9 +25,10 @@ const Home = () => {
 
         <div className="relative self-end mt-6 w-72 h-96 shadow-image-sm lg:self-stretch lg:mt-20 lg:shadow-image-lg lg:h-4/5 lg:w-2/5">
           <Image
-            src="/homepage.jpg"
+            src={homepage}
             alt="homepage"
             layout="fill"
+            placeholder="blur"
             objectFit="cover"
           />
         </div>
@@ -98,9 +100,10 @@ const Home = () => {
         </div>
         <div className="relative self-end mt-10 w-80 h-112 lg:self-stretch lg:mt-0 lg:h-full lg:w-2/5">
           <Image
-            src="/homepage.jpg"
+            src={homepage}
             alt="homepage"
             layout="fill"
+            placeholder="blur"
             objectFit="cover"
           />
         </div>
