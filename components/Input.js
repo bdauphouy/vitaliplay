@@ -10,15 +10,14 @@ const Input = ({
   value,
   textarea = false,
   prefix = '',
+  error = '',
 }) => {
   const [randomId, setRandomId] = useState()
-  const [length, setLength] = useState(0)
 
   const input = useRef()
 
   useEffect(() => {
     setRandomId(uuidv4())
-    setLength(input.current.value.length)
   }, [])
 
   return (
@@ -67,6 +66,9 @@ const Input = ({
           />
         </div>
       )}
+      <span className="mt-1 font-body font-normal text-md text-warning-500">
+        {error}
+      </span>
     </div>
   )
 }
