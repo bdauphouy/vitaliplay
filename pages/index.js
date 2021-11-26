@@ -44,7 +44,7 @@ const Home = () => {
         </div>
       </div>
       <div className="flex justify-center px-6 mt-10 md:px-24 lg:mt-20">
-        <div className="grid grid-cols-1 gap-4 w-full lg:grid-cols-2 lg:w-auto">
+        <div className="grid grid-cols-1 gap-x-8 w-full lg:grid-cols-2 lg:w-auto">
           <div className="lg:max-w-lg">
             <CardSolution
               icon="/card-icon.svg"

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 const Cta = ({
   children,
   size = 'm',
+  buttonType = 'button',
   type = 'primary',
   arrow = null,
   invert = false,
@@ -92,6 +93,7 @@ const Cta = ({
 
   return (
     <button
+      type={buttonType}
       className={`${classes.join(
         ' ',
       )} font-body font-semibold flex items-center`}>
