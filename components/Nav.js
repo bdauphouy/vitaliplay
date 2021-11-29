@@ -101,6 +101,7 @@ const Nav = ({ navLinks, isAuth }) => {
                     {navLink.page}
                   </a>
                 </Link>
+                {router.asPath}
                 {navLink.path}
               </li>
             )
@@ -160,6 +161,7 @@ const Nav = ({ navLinks, isAuth }) => {
                       {navLink.page}
                     </a>
                   </Link>
+                  {router.asPath}
                   {navLink.path}
                 </li>
               )
