@@ -6,33 +6,39 @@ export const LinksContextProvider = ({ children }) => {
   const getPath = page => {
     let path = null
 
-    Object.values(internalLinks).map(internalLink => {
-      if (internalLink.page === page) {
-        path = internalLink.path
+    internalLinks.map(internalLinks => {
+      if (internalLinks.page === page) {
+        path = internalLinks.path
       }
     })
 
     return path
   }
 
-  const [internalLinks, setInternalLinks] = useState({
-    home: { page: 'Accueil', path: '/' },
-    ourSolution: { page: 'Notre solution', path: '/notre-solution' },
-    subscription: { page: 'Abonnement', path: '/abonnement' },
-    contact: { page: 'Contact', path: '/contact' },
-    onLive: { page: 'En direct', path: '/en-direct' },
-    sessions: { page: 'Séances', path: '/seances' },
-    healthConferences: {
+  const [internalLinks, setInternalLinks] = useState([
+    { page: 'Accueil', path: '/' },
+    { page: 'Notre solution', path: '/notre-solution', auth: false },
+    { page: 'Abonnement', path: '/abonnement', auth: false },
+    { page: 'Contact', path: '/contact', auth: false },
+    { page: 'En direct', path: '/en-direct', auth: true },
+    { page: 'Séances', path: '/seances', auth: true },
+    {
       page: 'Conférences de santé',
       path: '/conferences-de-sante',
+      auth: true,
     },
-    myHealthSpace: { page: 'Mon espace santé', path: '/mon-espace-sante' },
-    legalNotice: { page: 'Mentions légales', path: '/mentions-legales' },
-    termsOfUse: {
+    {
+      page: 'Mon espace santé',
+      path: '/mon-espace-sante',
+      auth: true,
+    },
+    { page: 'Mentions légales', path: '/mentions-legales', nav: false },
+    {
       page: "Conditions d'utilisation",
       path: '/conditions-d-utilisation',
+      nav: false,
     },
-  })
+  ])
 
   const [externalLinks, setExternalLinks] = useState({
     twitter: 'https://twitter.com/',
@@ -42,6 +48,18 @@ export const LinksContextProvider = ({ children }) => {
     synerghetic: 'https://synerghetic.net',
   })
 
+  const [authNavLinks] = useState(
+    internalLinks.filter(internalLink => {
+      return internalLink.auth !== false && internalLink.nav !== false
+    }),
+  )
+
+  const [notAuthNavLinks] = useState(
+    internalLinks.filter(internalLink => {
+      return internalLink.auth !== true && internalLink.nav !== false
+    }),
+  )
+
   return (
     <LinksContext.Provider
       value={{
@@ -50,6 +68,8 @@ export const LinksContextProvider = ({ children }) => {
         externalLinks,
         setExternalLinks,
         getPath,
+        authNavLinks,
+        notAuthNavLinks,
       }}>
       {children}
     </LinksContext.Provider>

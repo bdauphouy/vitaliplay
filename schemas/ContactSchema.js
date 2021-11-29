@@ -3,7 +3,7 @@ import * as yup from 'yup'
 const ContactSchema = yup.object().shape({
   lastName: yup
     .string()
-    .min(2, 'Veuillez renseigner un nom valide.')
+    .min(2, 'Veuillez renseigner un nom valide')
     .max(50, 'Veuillez renseigner un nom valide.')
     .required('Veuillez renseigner un nom.'),
   firstName: yup
