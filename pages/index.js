@@ -11,7 +11,7 @@ import { getStrapiMedia } from '../lib/media'
 export const getStaticProps = async () => {
   const home = await fetchAPI('/home-landing')
 
-  return { props: { home } }
+  return { props: { home }, revalidate: 10 }
 }
 
 const Home = ({ home }) => {
