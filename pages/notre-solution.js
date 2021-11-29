@@ -3,76 +3,28 @@ import Title from '../components/Title'
 import Subtitle from '../components/Subtitle'
 import { useEffect, useState, useRef } from 'react'
 import useResponsiveState from '../hooks/useResponsiveState'
-import ourSolution from '../public/our-solution.jpg'
+import { fetchAPI } from '../lib/api'
 
-const OurSolution = () => {
-  const [sections] = useState([
-    {
-      id: 0,
-      keyword: 'Bilan',
-      title: 'Bilan de santé personnalisé',
-      subtitle: `Le bilan a été élaboré par des professionnels de santé et basé sur
-      des tests validés scientifiquement. Il permet d'évaluer votre
-      condition physique globale (force, souplesse, endurance et
-      équilibre), votre bien être subjectif et votre niveau d'activité
-      quotidien. Il permet de vous indiquer vos points forts et vos axes
-      d’amélioration. Vous pourrez ainsi suivre l'évolution de vos
-      résultats régulièrement.`,
-    },
-    {
-      id: 1,
-      keyword: 'Séances',
-      title: 'Des séances variées',
-      subtitle: `DIFFÉRENTES DISCIPLINES
-      <br />
-      Les séanes sont variées et originales afin que vous puissiez
-      découvrir de nouvelles disciplines : Taïso, Danse, stretching,
-      Yoga, Relaxation, Boxe.
-      <br />
-      <br />
-      DES SÉANCES ADAPTÉES À VOS CAPACITÉS
-      <br />
-      L'enseignant, spécialiste de sa discipline, propose différents
-      niveaux de difficultés pour chaque exercice afin qu'il soit adapté
-      à chacun.`,
-    },
-    {
-      id: 2,
-      keyword: 'Conférences santé',
-      title: 'Conseils de professionels de santé',
-      subtitle: `Les conférences étant en live, vous pouvez poser vos questions aux
-      professionnels. Les vidéos sont accessibles en permanence sur le
-      site à la suite du direct.
-      <br />
-      <br />
-      DIFFÉRENTS THÈMES ABORDÉS
-      <br />
-      Les thèmes abordés sont tous axés autour de la santé et du
-      bien-être. L’objectif est de s’appuyer sur les recommandations
-      scientifiques actuelles et de laisser de côté certaines croyances
-      qui ne sont plus d’actualité.
-      <br />
-      <br />
-      DE NOMBREUX PROFESSIONNELS
-      <br />
-      Médecin, kinésithérapeute, enseignant en activité physique
-      adaptée, infirmier. Ces différents spécialistes mènent les
-      conférences en fonction des thèmes abordés.`,
-    },
-    {
-      id: 3,
-      keyword: 'Direct',
-      title: 'Séances en direct',
-      subtitle: `Elles sont réalisées, en direct, toutes les semaines par des enseignants en activité physique adaptée. Un calendrier et un système d'alerte vous permet de ne pas les manquer.
-      Si vous n’êtes pas disponibles à l’heure prévue, pas de panique, les vidéos sont accessibles en rediffusion à la suite du direct.`,
-    },
-    {
-      id: 4,
-      keyword: 'Conseils',
-      title: 'Conseils personnalisés',
-      subtitle: `A la suite du bilan, nous vous conseillons les axes à travailler davantage afin de progresser. Des séances vous sont automatiquement sélectionnées afin de privilégier les domaines dans lesquels vous avez le plus de difficultés.`,
-    },
-  ])
+export const getStaticProps = async () => {
+  const ourSolution = await fetchAPI('/home-solution')
+
+  return { props: { ourSolution } }
+}
+
+const OurSolution = ({ ourSolution }) => {
+  const [sections] = useState(
+    ourSolution.solutions.map((solution, i) => {
+      return {
+        id: i,
+        keyword: solution.name,
+        title: solution.title,
+        subtitle: solution.description,
+        image: i % 2 === 0 ? '/our-solution.jpg' : '/cat.jpg',
+      }
+    }),
+  )
+
+  const imageRef = useRef()
 
   const marker = useRef()
 
@@ -107,16 +59,20 @@ const OurSolution = () => {
     )
       return
 
+    console.log(imageRef.current)
+
     setSliding(true)
 
     setTempCurrentSection(id)
 
     slideSection.current.style.transform = 'translate3d(0, 3rem, 0)'
     slideSection.current.style.opacity = 0
+    imageRef.current.style.opacity = 0
 
     const timer = setTimeout(() => {
       slideSection.current.style.transform = 'translate3d(0, 0, 0)'
       slideSection.current.style.opacity = 1
+      imageRef.current.style.opacity = 1
       setCurrentSection(id)
       setSliding(false)
     }, 300)
@@ -149,13 +105,10 @@ const OurSolution = () => {
       <div className="flex flex-col">
         <div className="lg:max-w-2xl self-center lg:py-16 lg:px-6 lg:h-96">
           <Title type="1" center={true}>
-            Un ensemble de services à votre disposition
+            {ourSolution.title}
           </Title>
           <div className="mt-10">
-            <Subtitle center={true}>
-              Dans le but de vous accompagner au mieux afin de rester en pleine
-              forme et plein de vitalité.
-            </Subtitle>
+            <Subtitle center={true}>{ourSolution.description}</Subtitle>
           </div>
         </div>
         <div className="hidden min-h-4/5-screen xl:flex justify-between pl-24">
@@ -202,12 +155,18 @@ const OurSolution = () => {
               </div>
             </div>
           </div>
-          <div className="2xl:w-2/5 w-1/3 relative">
+          <div
+            className="2xl:w-2/5 w-1/3 relative opacity-0 transition duration-300"
+            ref={imageRef}
+            style={{ transitionProperty: 'opacity' }}>
             <Image
-              src={ourSolution}
+              src={
+                getSectionById(currentSection).image
+                  ? getSectionById(currentSection).image
+                  : '/our-solution.jpg'
+              }
               alt="notre solution"
               layout="fill"
-              placeholder="blur"
               objectFit="cover"
             />
           </div>
@@ -222,10 +181,9 @@ const OurSolution = () => {
                 }`}>
                 <div className="xl:h-96 lg:h-auto h-96 lg:self-stretch lg:w-2/5 relative mt-16 xl:mt-16 lg:mt-0">
                   <Image
-                    src={ourSolution}
+                    src={section.image}
                     alt="notre solution"
                     layout="fill"
-                    placeholder="blur"
                     objectFit="cover"
                   />
                 </div>

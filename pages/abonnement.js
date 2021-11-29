@@ -3,27 +3,31 @@ import Subtitle from '../components/Subtitle'
 import SubscriptionPreview from '../components/SubscriptionPreview'
 import Cta from '../components/Cta'
 import Faq from '../components/Faq'
+import { fetchAPI } from '../lib/api'
 
-const Subscription = () => {
+export const getStaticProps = async () => {
+  const subscriptions = await fetchAPI('/home-about')
+
+  return { props: { subscriptions } }
+}
+
+const Subscription = ({ subscriptions }) => {
   return (
     <>
       <div className="px-6 mt-32 md:px-24 lg:mt-36 overflow-x-hidden lg:overflow-x-visible">
         <Title type="1" center={true}>
-          Nos abonnements
+          {subscriptions.title}
         </Title>
         <div className="mt-4">
-          <Subtitle center={true}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
-            eget varius a diam faucibus nec sodales fermentum eget.
-          </Subtitle>
+          <Subtitle center={true}>{subscriptions.description}</Subtitle>
         </div>
         <div className="mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
             <SubscriptionPreview
               title="Annuel"
-              price="99"
+              price={subscriptions.prices[1].price.prices[0].price}
               suffix="/par an"
-              description="Avec l’abonnement annuel profitez de 1 mois offert et économisez 31% sur l’année"
+              description={subscriptions.prices[1].price.prices[0].description}
               variant="blue"
               size="big"
               stamp={true}
@@ -40,9 +44,9 @@ const Subscription = () => {
           <div className="w-full lg:py-8 lg:w-96 lg:order-1">
             <SubscriptionPreview
               title="Mensuel"
-              price="12"
+              price={subscriptions.prices[0].price.prices[0].price}
               suffix="/par mois"
-              description="Gravida eget varius a diam faucibus nec sodales fermentum eget."
+              description={subscriptions.prices[0].price.prices[0].description}
               size="small"
               subPage={true}
               program={[
@@ -56,13 +60,11 @@ const Subscription = () => {
           <div className="self-stretch lg:order-3 w-full lg:w-96 py-8">
             <div className="flex flex-col justify-center items-center w-full bg-blue-50 px-6 py-10 rounded-lg h-full">
               <h3 className="font-bold font-head text-xl text-center">
-                Vous possédez déjà un code d’invitation ?
+                {subscriptions.code_reduc_title}
               </h3>
               <div className="mt-4">
                 <Subtitle center={true}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Gravida eget varius a diam faucibus nec sodales fermentum
-                  eget.
+                  {subscriptions.code_reduc_description}
                 </Subtitle>
               </div>
               <div className="mt-6 lg:mt-8">
@@ -79,15 +81,10 @@ const Subscription = () => {
               <h3
                 style={{ fontSize: 20 }}
                 className="font-bold font-head text-blue-900 lg:text-xl">
-                Offrir un abonnement annuel ?
+                {subscriptions.offer_sub_title}
               </h3>
               <div className="mt-4">
-                <Subtitle>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Gravida eget varius a diam faucibus nec sodales fermentum eget
-                  consectetur adipiscing elit. Gravida eget varius a diam
-                  faucibus nec sodales fermentum eget.
-                </Subtitle>
+                <Subtitle>{subscriptions.offer_sub_decription}</Subtitle>
               </div>
             </div>
             <div className="mt-6 lg:mt-0">
@@ -101,23 +98,16 @@ const Subscription = () => {
               FAQ
             </Title>
             <div className="mt-12">
-              <Faq
-                question="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius ?"
-                answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius."
-              />
+              {subscriptions.faq.map(item => {
+                return (
+                  <Faq
+                    key={item.id}
+                    question={item.question}
+                    answer={item.answer}
+                  />
+                )
+              })}
             </div>
-            <Faq
-              question="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius ?"
-              answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius."
-            />
-            <Faq
-              question="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius ?"
-              answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius."
-            />
-            <Faq
-              question="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius ?"
-              answer="Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius. Lorem ipsum dolor sit amet, consectetur adipiscing elit travida eget varius."
-            />
           </div>
         </div>
       </div>

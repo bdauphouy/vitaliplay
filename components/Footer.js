@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { LinksContext } from '../contexts/LinksContext'
 import { Apple, Android, Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
@@ -42,7 +42,7 @@ const Footer = ({ navLinks }) => {
         <div className="bg-blue-900 px-24 pb-7 pt-56 -mt-40">
           <div className="flex justify-between flex-wrap">
             <div className="self-start">
-              <Link href="/" passHref>
+              <Link href={getPath('Accueil')} passHref>
                 <a>
                   <Image
                     src="/logo-footer.svg"
@@ -58,9 +58,9 @@ const Footer = ({ navLinks }) => {
               {navLinks.map((navLink, i) => {
                 return (
                   <li key={i}>
-                    <Link href={getPath(navLink)}>
+                    <Link href={navLink.path}>
                       <a className="font-body font-semibold text-base py-2 inline-flex text-light-100">
-                        {navLink}
+                        {navLink.page}
                       </a>
                     </Link>
                   </li>
@@ -155,7 +155,7 @@ const Footer = ({ navLinks }) => {
           </div>
         </div>
         <div className="bg-blue-900 p-6 pt-48 -mt-32">
-          <Link href="/" passHref>
+          <Link href={getPath('Accueil')} passHref>
             <a>
               <Image
                 src="/logo-footer.svg"
@@ -170,9 +170,9 @@ const Footer = ({ navLinks }) => {
             {navLinks.map((navLink, i) => {
               return (
                 <li key={i}>
-                  <Link href={getPath(navLink)}>
+                  <Link href={navLink.path}>
                     <a className="w-full font-body font-semibold text-base py-2 h-full inline-flex items-center text-light-100">
-                      {navLink}
+                      {navLink.page}
                     </a>
                   </Link>
                 </li>

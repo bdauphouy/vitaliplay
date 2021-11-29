@@ -91,14 +91,14 @@ const Nav = ({ navLinks, isAuth }) => {
           {navLinks.map((navLink, i) => {
             return (
               <li key={i} className="h-full">
-                <Link href={getPath(navLink)}>
+                <Link href={navLink.path}>
                   <a
                     className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
-                      router.asPath === getPath(navLink)
+                      router.asPath === navLink.path
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}>
-                    {navLink}
+                    {navLink.page}
                   </a>
                 </Link>
               </li>
@@ -148,15 +148,15 @@ const Nav = ({ navLinks, isAuth }) => {
             {navLinks.map((navLink, i) => {
               return (
                 <li key={i}>
-                  <Link href={getPath(navLink)}>
+                  <Link href={navLink.path}>
                     <a
                       onClick={() => setMenu(false)}
                       className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${
-                        router.asPath === getPath(navLink)
+                        router.asPath === navLink.path
                           ? 'text-blue-900'
                           : 'text-dark-300'
                       }`}>
-                      {navLink}
+                      {navLink.page}
                     </a>
                   </Link>
                 </li>

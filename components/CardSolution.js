@@ -9,7 +9,7 @@ const CardSolution = ({ icon, title, description, variant }) => {
           ? 'bg-blue-50'
           : 'bg-light-100 border-solid border-1 border-gray-200'
       }`}>
-      <Image src={icon} width="40" height="40" alt="icon" />
+      <Image src={icon} width="60" height="60" alt="icon" />
       <h3 className="font-head font-bold text-xl text-dark-900 mt-9 ">
         {title}
       </h3>

@@ -2,32 +2,14 @@ import Nav from './Nav'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../contexts/AuthContext'
 import Head from 'next/head'
-import { useRouter } from 'next/router'
 import { RouteContext } from '../contexts/RouteContext'
 import Footer from './Footer'
 import { LinksContext } from '../contexts/LinksContext'
 
-const Layout = ({ children }) => {
+const Layout = ({ children, data }) => {
   const { isAuth } = useContext(AuthContext)
   const { page } = useContext(RouteContext)
-  const { getPath } = useContext(LinksContext)
-
-  const router = useRouter()
-
-  const [authNavLinks] = useState([
-    'Accueil',
-    'En direct',
-    'Séances',
-    'Conférences de santé',
-    'Mon espace santé',
-  ])
-
-  const [notAuthNavLinks] = useState([
-    'Accueil',
-    'Notre solution',
-    'Abonnement',
-    'Contact',
-  ])
+  const { authNavLinks, notAuthNavLinks } = useContext(LinksContext)
 
   const [navLinks, setNavLinks] = useState(
     isAuth ? authNavLinks : notAuthNavLinks,
