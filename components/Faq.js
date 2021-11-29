@@ -1,5 +1,5 @@
 import Button from './Button'
-import useResponsiveState from '../hooks/useResponsiveState'
+import useResponsiveState from '@/hooks/useResponsiveState'
 
 const Faq = ({ question, answer }) => {
   const buttonSize = useResponsiveState(768, { from: 23, to: 18 })

@@ -3,12 +3,12 @@ import Cta from './Cta'
 import { useEffect, useRef, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { User } from './Icons'
-import { AuthContext } from '../contexts/AuthContext'
-import { RouteContext } from '../contexts/RouteContext'
-import { LinksContext } from '../contexts/LinksContext'
+import { AuthContext } from '@/contexts/AuthContext'
+import { RouteContext } from '@/contexts/RouteContext'
+import { LinksContext } from '@/contexts/LinksContext'
 import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
-import useResponsiveState from '../hooks/useResponsiveState'
+import useResponsiveState from '@/hooks/useResponsiveState'
 
 const Burger = ({ menu, setMenu }) => {
   return (

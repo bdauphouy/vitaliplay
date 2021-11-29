@@ -1,6 +1,6 @@
 import Cta from './Cta'
 import { Gift, Stamp } from './Icons'
-import useResponsiveState from '../hooks/useResponsiveState'
+import useResponsiveState from '@/hooks/useResponsiveState'
 import { Check } from './Icons'
 
 const SubscriptionPreview = ({

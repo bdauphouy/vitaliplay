@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import Title from '../components/Title'
-import Subtitle from '../components/Subtitle'
+import Title from '@/components/Title'
+import Subtitle from '@/components/Subtitle'
 import { useEffect, useState, useRef } from 'react'
-import useResponsiveState from '../hooks/useResponsiveState'
-import { fetchAPI } from '../lib/api'
+import useResponsiveState from '@/hooks/useResponsiveState'
+import { fetchAPI } from '@/lib/api'
 
 export const getStaticProps = async () => {
   const ourSolution = await fetchAPI('/home-solution')

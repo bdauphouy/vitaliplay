@@ -1,6 +1,6 @@
 import Link from 'next/link'
-import { useContext, useEffect } from 'react'
-import { LinksContext } from '../contexts/LinksContext'
+import { useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 import { Apple, Android, Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
 
