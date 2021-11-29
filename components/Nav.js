@@ -94,14 +94,14 @@ const Nav = ({ navLinks, isAuth }) => {
                 <Link href={navLink.path}>
                   <a
                     className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
-                      router.asPath === navLink.path
+                      router.route === navLink.path
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}>
                     {navLink.page}
                   </a>
                 </Link>
-                {router.asPath}
+                {router.route}
                 {navLink.path}
               </li>
             )
@@ -154,14 +154,14 @@ const Nav = ({ navLinks, isAuth }) => {
                     <a
                       onClick={() => setMenu(false)}
                       className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${
-                        router.asPath === navLink.path
+                        router.route === navLink.path
                           ? 'text-blue-900'
                           : 'text-dark-300'
                       }`}>
                       {navLink.page}
                     </a>
                   </Link>
-                  {router.asPath}
+
                   {navLink.path}
                 </li>
               )
