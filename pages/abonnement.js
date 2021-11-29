@@ -8,7 +8,7 @@ import { fetchAPI } from '../lib/api'
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-about')
 
-  return { props: { subscriptions } }
+  return { props: { subscriptions }, revalidate: 10 }
 }
 
 const Subscription = ({ subscriptions }) => {
