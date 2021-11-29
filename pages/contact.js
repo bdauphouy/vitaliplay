@@ -1,9 +1,9 @@
-import Title from '../components/Title'
-import Subtitle from '../components/Subtitle'
-import Input from '../components/Input'
+import Title from '@/components/Title'
+import Subtitle from '@/components/Subtitle'
+import Input from '@/components/Input'
 import { useFormik } from 'formik'
-import Cta from '../components/Cta'
-import ContactSchema from '../schemas/ContactSchema'
+import Cta from '@/components/Cta'
+import ContactSchema from '@/schemas/ContactSchema'
 
 const Contact = () => {
   const formik = useFormik({

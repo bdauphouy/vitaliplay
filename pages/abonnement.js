@@ -1,9 +1,9 @@
-import Title from '../components/Title'
-import Subtitle from '../components/Subtitle'
-import SubscriptionPreview from '../components/SubscriptionPreview'
-import Cta from '../components/Cta'
-import Faq from '../components/Faq'
-import { fetchAPI } from '../lib/api'
+import Title from '@/components/Title'
+import Subtitle from '@/components/Subtitle'
+import SubscriptionPreview from '@/components/SubscriptionPreview'
+import Cta from '@/components/Cta'
+import Faq from '@/components/Faq'
+import { fetchAPI } from '@/lib/api'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-about')

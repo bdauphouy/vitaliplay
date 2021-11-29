@@ -1,12 +1,12 @@
-import CardSolution from '../components/CardSolution'
+import CardSolution from '@/components/CardSolution'
 import Image from 'next/image'
-import SubscriptionPreview from '../components/SubscriptionPreview'
-import Cta from '../components/Cta'
-import Title from '../components/Title'
-import Subtitle from '../components/Subtitle'
-import { fetchAPI } from '../lib/api'
-import useResponsiveState from '../hooks/useResponsiveState'
-import { getStrapiMedia } from '../lib/media'
+import SubscriptionPreview from '@/components/SubscriptionPreview'
+import Cta from '@/components/Cta'
+import Title from '@/components/Title'
+import Subtitle from '@/components/Subtitle'
+import { fetchAPI } from '@/lib/api'
+import useResponsiveState from '@/hooks/useResponsiveState'
+import { getStrapiMedia } from '@/lib/media'
 
 export const getStaticProps = async () => {
   const home = await fetchAPI('/home-landing')
