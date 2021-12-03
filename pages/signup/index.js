@@ -14,13 +14,14 @@ import { useRouter } from 'next/router'
 
 const SignupStart = () => {
   const [civility, setCivility] = useState('M')
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
   const { getPathByPage } = useContext(LinksContext)
 
+  const router = useRouter()
+
   const [buttonSize, setButtonSize] = useState()
 
-  const router = useRouter()
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
   useEffect(() => {
     setButtonSize(isLargeScreen ? 'xl' : 'l')

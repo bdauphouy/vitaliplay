@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
-import { useEffect, useState, useRef, useContext } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { fetchAPI } from '@/lib/api'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
