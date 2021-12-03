@@ -5,7 +5,7 @@ const LoginLayout = ({ children }) => {
   return (
     <>
       <div className="flex min-h-screen">
-        <div className="h-screen xl:w-1/3 relative">
+        <div className="min-h-screen xl:w-1/3 relative">
           <Image
             src={login}
             alt="login"
