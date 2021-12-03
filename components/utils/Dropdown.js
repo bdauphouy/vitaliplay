@@ -1,5 +1,5 @@
 import { ChevronDown } from './Icons'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
   const [open, setOpen] = useState(false)

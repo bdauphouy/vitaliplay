@@ -54,6 +54,7 @@ export const LinksContextProvider = ({ children }) => {
     },
     { page: 'Inscription', path: '/signup', nav: false },
     { page: 'Connexion', path: '/login', nav: false },
+    { page: 'Invitation', path: '/invitation', nav: false },
   ])
 
   const [externalLinks, setExternalLinks] = useState({

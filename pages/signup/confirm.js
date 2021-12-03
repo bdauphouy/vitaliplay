@@ -2,8 +2,24 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import Cta from '@/components/utils/Cta'
+import { useContext, useState, useEffect } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
+import { useRouter } from 'next/router'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const SignupConfirm = () => {
+  const { getPathByPage } = useContext(LinksContext)
+
+  const router = useRouter()
+
+  const [buttonSize, setButtonSize] = useState()
+
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+
+  useEffect(() => {
+    setButtonSize(isLargeScreen ? 'xl' : 'l')
+  }, [isLargeScreen])
+
   return (
     <div className="flex flex-col items-center lg:w-4/5">
       <Title center={true}>
@@ -16,12 +32,14 @@ const SignupConfirm = () => {
         </Subtitle>
       </div>
       <div className="flex mt-12 gap-6 flex-wrap justify-center">
-        <Cta size="xl" type="primary">
+        <Cta size={buttonSize} type="primary">
           S'abonner à Vitaliplay
         </Cta>
-        <Cta size="xl" type="secondary">
-          J'ai un code d'invitation
-        </Cta>
+        <div onClick={() => router.push(getPathByPage('Invitation'))}>
+          <Cta size={buttonSize} type="secondary">
+            J'ai un code d'invitation
+          </Cta>
+        </div>
       </div>
     </div>
   )
