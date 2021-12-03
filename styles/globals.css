@@ -22,3 +22,11 @@
     grid-template-columns: repeat(8, minmax(0, 1fr));
   }
 }
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+input[type='date'] {
+  -webkit-appearance: none;
+}
