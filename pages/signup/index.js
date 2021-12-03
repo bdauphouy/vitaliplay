@@ -10,6 +10,7 @@ import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import SignupSchema from '@/schemas/SignupSchema'
 import LoginLayout from '@/components/layouts/LoginLayout'
+import { useRouter } from 'next/router'
 
 const SignupStart = () => {
   const [civility, setCivility] = useState('M')
@@ -19,9 +20,19 @@ const SignupStart = () => {
 
   const [buttonSize, setButtonSize] = useState()
 
+  const router = useRouter()
+
   useEffect(() => {
     setButtonSize(isLargeScreen ? 'xl' : 'l')
   }, [isLargeScreen])
+
+  const formatDate = date => {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
+    const day = date.getDate().toString().padStart(2, '0')
+
+    return `${year}-${month}-${day}`
+  }
 
   const formik = useFormik({
     initialValues: {
@@ -29,7 +40,7 @@ const SignupStart = () => {
       firstName: '',
       address: '',
       zipCode: '',
-      birthday: '',
+      birthday: formatDate(new Date()),
       email: '',
       phoneNumber: '',
       password: '',
@@ -43,7 +54,7 @@ const SignupStart = () => {
   })
 
   return (
-    <div>
+    <div className="h-full lg:pt-20">
       <Title>Inscription</Title>
       <div className="mt-4">
         <Subtitle>
@@ -51,7 +62,6 @@ const SignupStart = () => {
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>
       </div>
-
       <form
         onSubmit={formik.handleSubmit}
         className="flex flex-col lg:grid lg:grid-area-signup mt-8 lg:mt-10 gap-3 lg:gap-4">
@@ -155,9 +165,12 @@ const SignupStart = () => {
         <div
           className="flex flex-wrap gap-4 lg:gap-8 mt-10"
           style={{ gridArea: 'j' }}>
-          <Cta type="primary" buttonType="submit" size={buttonSize}>
-            S'inscrire
-          </Cta>
+          <div onClick={() => router.push(router.route + '/confirm')}>
+            <Cta type="primary" buttonType="submit" size={buttonSize}>
+              S'inscrire
+            </Cta>
+          </div>
+
           <Link href={getPathByPage('Connexion')} passHref>
             <a>
               <Cta type="secondary" size={buttonSize}>

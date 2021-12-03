@@ -60,7 +60,7 @@ const Input = ({
             value={value}
             className={
               !prefix
-                ? 'outline-none w-full font-body font-normal text-base text-dark-900 px-3 py-2.5 border-solid border-dark-100 border-1 rounded-md'
+                ? 'outline-none w-full font-body font-normal text-base text-dark-900 px-3 py-2.5 border-solid border-dark-100 border-1 rounded-md bg-light-100'
                 : 'outline-none px-3 py-2.5 flex-1'
             }
           />

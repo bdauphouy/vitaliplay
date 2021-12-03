@@ -9,6 +9,7 @@ import { useMediaQuery } from '@mui/material'
 import { useContext, useState, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import LoginLayout from '@/components/layouts/LoginLayout'
+import { useRouter } from 'next/router'
 
 const LoginStart = () => {
   const formik = useFormik({
@@ -22,6 +23,8 @@ const LoginStart = () => {
     },
   })
 
+  const router = useRouter()
+
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
   const { getPathByPage } = useContext(LinksContext)
@@ -33,7 +36,7 @@ const LoginStart = () => {
   }, [isLargeScreen])
 
   return (
-    <div>
+    <div className="h-full lg:pt-20">
       <Title>Connexion</Title>
       <div className="mt-4">
         <Subtitle>
@@ -64,9 +67,11 @@ const LoginStart = () => {
           />
         </div>
         <div className="flex flex-wrap gap-4 lg:gap-8 mt-10">
-          <Cta type="primary" buttonType="submit" size={buttonSize}>
-            Se connecter
-          </Cta>
+          <div onClick={() => router.push(router.route + '/confirm')}>
+            <Cta type="primary" buttonType="submit" size={buttonSize}>
+              Se connecter
+            </Cta>
+          </div>
           <Link href={getPathByPage('Inscription')} passHref>
             <a>
               <Cta type="secondary" size={buttonSize}>

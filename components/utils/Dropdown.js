@@ -1,5 +1,5 @@
 import { ChevronDown } from './Icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
   const [open, setOpen] = useState(false)
@@ -25,7 +25,7 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
           className="mt-2 relative bg-light-100 cursor-pointer">
           <summary
             onClick={toggleDropdown}
-            className="px-3 py-3 h-full flex justify-between rounded-md border-solid border-1 border-gray-300">
+            className="outline-none px-3 py-3 h-full flex items-center justify-between rounded-md border-solid border-1 border-gray-300">
             <span>{selectedOption}</span>
             <div
               className={`${open && 'rotate-180'} transition flex items-center`}
@@ -33,7 +33,7 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
               <ChevronDown size={16} color="#000000" />
             </div>
           </summary>
-          <ul className="-mt-1.5 absolute z-10 w-full bg-light-100 rounded-b-md border-solid border-t-0 border-1 border-gray-300">
+          <ul className="absolute -mt-1.5 z-10 w-full bg-light-100 rounded-b-md border-solid border-t-0 border-1 border-gray-300">
             {options.map((option, i) => {
               if (option === selectedOption) return
               return (
