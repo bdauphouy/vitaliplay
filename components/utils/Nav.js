@@ -8,7 +8,7 @@ import { RouteContext } from '@/contexts/RouteContext'
 import { LinksContext } from '@/contexts/LinksContext'
 import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
-import useResponsiveState from '@/hooks/useResponsiveState'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -39,10 +39,10 @@ const Burger = ({ menu, setMenu }) => {
 const Nav = ({ navLinks, isAuth }) => {
   const { setIsAuth } = useContext(AuthContext)
   const { setPage } = useContext(RouteContext)
-  const { externalLinks, getPath } = useContext(LinksContext)
+  const { externalLinks, getPathByPage } = useContext(LinksContext)
   const [menu, setMenu] = useState(false)
 
-  const isExtraLargeDevice = useResponsiveState(1280, { from: true, to: false })
+  const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
 
   const router = useRouter()
 
@@ -59,19 +59,19 @@ const Nav = ({ navLinks, isAuth }) => {
         marker.current.style.width = `${navItem.offsetWidth}px`
       }
 
-      if (getPath(navItem.innerText) === router.asPath) {
+      if (getPathByPage(navItem.innerText) === router.asPath) {
         setPage(navItem.innerText)
         updateMarker()
       }
     })
-  }, [router, getPath, setPage, isExtraLargeDevice])
+  }, [router, getPathByPage, setPage, isExtraLargeScreen])
 
   return (
     <>
       <nav
         className="hidden absolute top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
     ">
-        <Link href={getPath('Accueil')} passHref>
+        <Link href={getPathByPage('Accueil')} passHref>
           <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
             <Image
               src="/logo.svg"
@@ -111,13 +111,11 @@ const Nav = ({ navLinks, isAuth }) => {
                 <User color="#FFFFFF" size={24} />
               </div>
             ) : (
-              <div
-                onClick={() => {
-                  router.push(getPath('Accueil'))
-                  setIsAuth(true)
-                }}>
-                <Cta size="l">Connexion</Cta>
-              </div>
+              <Link href={getPathByPage('Connexion')} passHref>
+                <div>
+                  <Cta size="l">Connexion</Cta>
+                </div>
+              </Link>
             )}
           </li>
         </ul>
@@ -126,7 +124,7 @@ const Nav = ({ navLinks, isAuth }) => {
         className="absolute top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
     ">
         <div className="flex justify-between items-center w-full h-20">
-          <Link href={getPath('Accueil')} passHref>
+          <Link href={getPathByPage('Accueil')} passHref>
             <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
               <Image
                 src="/logo.svg"
@@ -169,13 +167,11 @@ const Nav = ({ navLinks, isAuth }) => {
                   <User color="#FFFFFF" size={24} />
                 </div>
               ) : (
-                <div
-                  onClick={() => {
-                    router.push(getPath('Accueil'))
-                    setIsAuth(true)
-                  }}>
-                  <Cta size="l">Connexion</Cta>
-                </div>
+                <Link href={getPathByPage('Connexion')} passHref>
+                  <div>
+                    <Cta size="l">Connexion</Cta>
+                  </div>
+                </Link>
               )}
             </li>
           </ul>

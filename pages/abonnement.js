@@ -1,8 +1,8 @@
-import Title from '@/components/Title'
-import Subtitle from '@/components/Subtitle'
-import SubscriptionPreview from '@/components/SubscriptionPreview'
-import Cta from '@/components/Cta'
-import Faq from '@/components/Faq'
+import Title from '@/components/utils/Title'
+import Subtitle from '@/components/utils/Subtitle'
+import SubscriptionCard from '@/components/pages/website/SubscriptionCard'
+import Cta from '@/components/utils/Cta'
+import Faq from '@/components/pages/website/Faq'
 import { fetchAPI } from '@/lib/api'
 
 export const getStaticProps = async () => {
@@ -23,7 +23,7 @@ const Subscription = ({ subscriptions }) => {
         </div>
         <div className="mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
-            <SubscriptionPreview
+            <SubscriptionCard
               title="Annuel"
               price={subscriptions.prices[1].price.prices[0].price}
               suffix="/par an"
@@ -32,29 +32,19 @@ const Subscription = ({ subscriptions }) => {
               size="big"
               stamp={true}
               subPage={true}
-              program={[
-                "des bilans afin d'évaluer votre état de santé et de vous accompagner au mieux sur les futures séances",
-                'des séances en streaming variées et adaptées à vos besoins: Yoga, Pilates, Boxe, Danse, Taïso, stretching ...',
-                'des conférences débat en direct avec des professionnels de santé.',
-                "des séances d'activité physique adaptées en direct.",
-              ]}
+              program={subscriptions.prices[1].price_points}
             />
           </div>
 
           <div className="w-full lg:py-8 lg:w-96 lg:order-1">
-            <SubscriptionPreview
+            <SubscriptionCard
               title="Mensuel"
               price={subscriptions.prices[0].price.prices[0].price}
               suffix="/par mois"
               description={subscriptions.prices[0].price.prices[0].description}
               size="small"
               subPage={true}
-              program={[
-                "des bilans afin d'évaluer votre état de santé et de vous accompagner au mieux sur les futures séances",
-                'des séances en streaming variées et adaptées à vos besoins: Yoga, Pilates, Boxe, Danse, Taïso, stretching ...',
-                'des conférences débat en direct avec des professionnels de santé.',
-                "des séances d'activité physique adaptées en direct.",
-              ]}
+              program={subscriptions.prices[0].price_points}
             />
           </div>
           <div className="self-stretch lg:order-3 w-full lg:w-96 py-8">
@@ -93,7 +83,7 @@ const Subscription = ({ subscriptions }) => {
               </Cta>
             </div>
           </div>
-          <div className="mt-4 lg:mt-20">
+          <div className="mt-10 lg:mt-20">
             <Title center={true} type="1">
               FAQ
             </Title>

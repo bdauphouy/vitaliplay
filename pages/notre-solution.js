@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import Title from '@/components/Title'
-import Subtitle from '@/components/Subtitle'
-import { useEffect, useState, useRef } from 'react'
-import useResponsiveState from '@/hooks/useResponsiveState'
+import Title from '@/components/utils/Title'
+import Subtitle from '@/components/utils/Subtitle'
+import { useEffect, useState, useRef, useContext } from 'react'
 import { fetchAPI } from '@/lib/api'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export const getStaticProps = async () => {
   const ourSolution = await fetchAPI('/home-solution')
@@ -35,7 +35,7 @@ const OurSolution = ({ ourSolution }) => {
 
   const [sliding, setSliding] = useState(false)
 
-  const isExtraLargeDevice = useResponsiveState(1280, { from: true, to: false })
+  const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
 
   const getSectionById = id => {
     for (let section of sections) {
@@ -51,15 +51,7 @@ const OurSolution = ({ ourSolution }) => {
   }
 
   const triggerSlide = id => {
-    if (
-      isExtraLargeDevice === undefined ||
-      !isExtraLargeDevice ||
-      sliding ||
-      id === tempCurrentSection
-    )
-      return
-
-    console.log(imageRef.current)
+    if (!isExtraLargeScreen || sliding || id === tempCurrentSection) return
 
     setSliding(true)
 
@@ -98,7 +90,7 @@ const OurSolution = ({ ourSolution }) => {
   useEffect(() => {
     const timer = triggerSlide(0)
     return () => clearTimeout(timer)
-  }, [isExtraLargeDevice])
+  }, [isExtraLargeScreen])
 
   return (
     <div className="mt-32 px-6 lg:px-0">

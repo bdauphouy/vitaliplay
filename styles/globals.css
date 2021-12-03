@@ -11,6 +11,14 @@
   @apply w-full h-0.75 absolute rounded-lg top-1/2 transform -translate-y-1/2;
 }
 
-.subtitle {
-  @apply font-body text-dark-500 text-base md:text-lg;
+@media (min-width: 1024px) {
+  .lg\:grid-area-signup {
+    grid-template-areas:
+      'a a b b b c c c'
+      'd d d d e e e e'
+      'f f f f g g g g'
+      'h h h h i i i i'
+      'j j j j j . . .';
+    grid-template-columns: repeat(8, minmax(0, 1fr));
+  }
 }

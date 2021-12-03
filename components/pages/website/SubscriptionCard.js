@@ -1,7 +1,7 @@
-import Cta from './Cta'
-import { Gift, Stamp } from './Icons'
-import useResponsiveState from '@/hooks/useResponsiveState'
-import { Check } from './Icons'
+import Cta from '@/components/utils/Cta'
+import { Gift, Stamp, Check } from '@/components/utils/Icons'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useEffect, useState } from 'react'
 
 const SubscriptionPreview = ({
   title,
@@ -14,8 +14,15 @@ const SubscriptionPreview = ({
   subPage = false,
   program = [],
 }) => {
-  const giftSize = useResponsiveState(768, { from: 50, to: 35 })
-  const stampSize = useResponsiveState(768, { from: 90, to: 64 })
+  const [giftSize, setGiftSize] = useState()
+  const [stampSize, setStampSize] = useState()
+
+  const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  useEffect(() => {
+    setGiftSize(isMediumScreen ? 50 : 35)
+    setStampSize(isMediumScreen ? 90 : 64)
+  }, [isMediumScreen])
 
   return (
     <div
@@ -81,7 +88,7 @@ const SubscriptionPreview = ({
                     className={`font-normal ${
                       variant === 'blue' ? 'text-light-100' : 'text-dark-500'
                     } text-md ml-4`}>
-                    {item}
+                    {item.point}
                   </p>
                 </div>
               </li>

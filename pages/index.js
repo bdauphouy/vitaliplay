@@ -1,12 +1,13 @@
-import CardSolution from '@/components/CardSolution'
+import CardSolution from '@/components/pages/website/CardSolution'
 import Image from 'next/image'
-import SubscriptionPreview from '@/components/SubscriptionPreview'
-import Cta from '@/components/Cta'
-import Title from '@/components/Title'
-import Subtitle from '@/components/Subtitle'
+import SubscriptionCard from '@/components/pages/website/SubscriptionCard'
+import Cta from '@/components/utils/Cta'
+import Title from '@/components/utils/Title'
+import Subtitle from '@/components/utils/Subtitle'
 import { fetchAPI } from '@/lib/api'
-import useResponsiveState from '@/hooks/useResponsiveState'
 import { getStrapiMedia } from '@/lib/media'
+import { useEffect } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export const getStaticProps = async () => {
   const home = await fetchAPI('/home-landing')
@@ -23,7 +24,7 @@ const Home = ({ home }) => {
     return (int >>> 0).toString(2)
   }
 
-  const isLargeScreen = useResponsiveState(1024, { from: true, to: false })
+  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
   return (
     <div className="mt-32 lg:mt-0">
@@ -83,7 +84,7 @@ const Home = ({ home }) => {
       <div className="mt-16 relative md:flex md:flex-row-reverse items-center justify-center lg:mt-36 lg:h-4/5-screen lg:justify-between lg:pl-24">
         <div className="w-full h-96 absolute bg-blue-50 bottom-16 -z-1 lg:bottom-0 lg:top-0 lg:h-5/6"></div>
         <div className="px-6 md:w-1/2 mb-8 md:pl-10 md:px-0 lg:pl-0 lg:pr-24 lg:mb-24">
-          <Title>{home.video.tilte}</Title>
+          <Title>{home.video.title}</Title>
           <div className="mt-4">
             <Subtitle>{home.video.description}</Subtitle>
           </div>
@@ -139,7 +140,7 @@ const Home = ({ home }) => {
         </div>
         <div className=" mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
-            <SubscriptionPreview
+            <SubscriptionCard
               title="Annuel"
               price={home.subscription[1].prices[0].price}
               suffix="/par an"
@@ -150,7 +151,7 @@ const Home = ({ home }) => {
             />
           </div>
           <div className="lg:py-8 w-full lg:w-96 lg:order-1">
-            <SubscriptionPreview
+            <SubscriptionCard
               title="Mensuel"
               price={home.subscription[0].prices[0].price}
               suffix="/par mois"

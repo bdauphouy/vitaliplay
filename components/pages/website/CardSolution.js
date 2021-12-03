@@ -1,4 +1,4 @@
-import Cta from './Cta'
+import Cta from '@/components/utils/Cta'
 import Image from 'next/image'
 
 const CardSolution = ({ icon, title, description, variant }) => {

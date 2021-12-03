@@ -3,7 +3,7 @@ import { createContext, useState } from 'react'
 export const LinksContext = createContext()
 
 export const LinksContextProvider = ({ children }) => {
-  const getPath = page => {
+  const getPathByPage = page => {
     let path = null
 
     internalLinks.map(internalLinks => {
@@ -15,22 +15,36 @@ export const LinksContextProvider = ({ children }) => {
     return path
   }
 
+  const getNavByPath = path => {
+    let nav = false
+
+    internalLinks.map(internalLinks => {
+      if (internalLinks.path === path) {
+        nav = internalLinks.nav
+      }
+    })
+
+    return nav
+  }
+
   const [internalLinks, setInternalLinks] = useState([
-    { page: 'Accueil', path: '/' },
-    { page: 'Notre solution', path: '/notre-solution', auth: false },
-    { page: 'Abonnement', path: '/abonnement', auth: false },
-    { page: 'Contact', path: '/contact', auth: false },
-    { page: 'En direct', path: '/en-direct', auth: true },
-    { page: 'Séances', path: '/seances', auth: true },
+    { page: 'Accueil', path: '/', nav: true },
+    { page: 'Notre solution', path: '/notre-solution', auth: false, nav: true },
+    { page: 'Abonnement', path: '/abonnement', auth: false, nav: true },
+    { page: 'Contact', path: '/contact', auth: false, nav: true },
+    { page: 'En direct', path: '/en-direct', auth: true, nav: true },
+    { page: 'Séances', path: '/seances', auth: true, nav: true },
     {
       page: 'Conférences de santé',
       path: '/conferences-de-sante',
       auth: true,
+      nav: true,
     },
     {
       page: 'Mon espace santé',
       path: '/mon-espace-sante',
       auth: true,
+      nav: true,
     },
     { page: 'Mentions légales', path: '/mentions-legales', nav: false },
     {
@@ -38,6 +52,8 @@ export const LinksContextProvider = ({ children }) => {
       path: '/conditions-d-utilisation',
       nav: false,
     },
+    { page: 'Inscription', path: '/signup', nav: false },
+    { page: 'Connexion', path: '/login', nav: false },
   ])
 
   const [externalLinks, setExternalLinks] = useState({
@@ -67,7 +83,8 @@ export const LinksContextProvider = ({ children }) => {
         setInternalLinks,
         externalLinks,
         setExternalLinks,
-        getPath,
+        getPathByPage,
+        getNavByPath,
         authNavLinks,
         notAuthNavLinks,
       }}>

@@ -8,7 +8,7 @@ const Cta = ({
   type = 'primary',
   arrow = null,
   invert = false,
-  textColor = 'text-blue-900',
+  textColor = '#1778F2',
 }) => {
   const [classes, setClasses] = useState([])
   const [arrowSize, setArrowSize] = useState(18)
@@ -17,8 +17,7 @@ const Cta = ({
   useEffect(() => {
     switch (size) {
       case 's':
-        setClasses(classes => [
-          ...classes,
+        setClasses([
           'text-xs',
           type !== 'link' && 'px-2',
           'py-1.25',
@@ -28,8 +27,7 @@ const Cta = ({
         setArrowSize(12)
         break
       case 'm':
-        setClasses(classes => [
-          ...classes,
+        setClasses([
           'text-sm',
           type !== 'link' && 'px-4',
           'py-1.75',
@@ -39,8 +37,7 @@ const Cta = ({
         setArrowSize(18)
         break
       case 'l':
-        setClasses(classes => [
-          ...classes,
+        setClasses([
           'text-lg',
           type !== 'link' && 'px-6',
           'py-2.5',
@@ -50,8 +47,7 @@ const Cta = ({
         setArrowSize(24)
         break
       case 'xl':
-        setClasses(classes => [
-          ...classes,
+        setClasses([
           'text-lg',
           type !== 'link' && 'px-6',
           'py-3',

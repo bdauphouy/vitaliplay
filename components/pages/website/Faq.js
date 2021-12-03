@@ -1,8 +1,15 @@
-import Button from './Button'
-import useResponsiveState from '@/hooks/useResponsiveState'
+import Button from '@/components/utils/Button'
+import useMediaQuery from '@mui/material/useMediaQuery'
+import { useEffect, useState } from 'react'
 
 const Faq = ({ question, answer }) => {
-  const buttonSize = useResponsiveState(768, { from: 23, to: 18 })
+  const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const [buttonSize, setButtonSize] = useState()
+
+  useEffect(() => {
+    setButtonSize(isMediumScreen ? 25 : 20)
+  }, [isMediumScreen])
 
   const openDropDown = e => {
     e.target.parentElement.nextSibling.classList.toggle('max-h-0')
