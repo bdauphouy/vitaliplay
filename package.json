@@ -7,6 +7,9 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
+    "@mui/material": "^5.2.2",
     "formik": "^2.2.9",
     "gsap": "^2.1.3",
     "hover-effect": "^1.1.0",

@@ -7,7 +7,8 @@
       "@/contexts/*": ["../contexts/*"],
       "@/lib/*": ["../lib/*"],
       "@/schemas/*": ["../schemas/*"],
-      "@/styles/*": ["../styles/*"]
+      "@/styles/*": ["../styles/*"],
+      "@/public/*": ["../public/*"]
     }
   }
 }

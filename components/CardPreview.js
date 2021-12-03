@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ChevronRight } from './Icons'
+import { ChevronRight } from './utils/Icons'
 
 const CardPreview = ({ title, duration, level, type }) => {
   const [color, setColor] = useState('border-light-100')

@@ -13,7 +13,7 @@ const DownloadButton = ({ children }) => {
 }
 
 const Footer = ({ navLinks }) => {
-  const { externalLinks, getPath } = useContext(LinksContext)
+  const { externalLinks, getPathByPage } = useContext(LinksContext)
 
   return (
     <>
@@ -42,7 +42,7 @@ const Footer = ({ navLinks }) => {
         <div className="bg-blue-900 px-24 pb-7 pt-56 -mt-40">
           <div className="flex justify-between flex-wrap">
             <div className="self-start">
-              <Link href={getPath('Accueil')} passHref>
+              <Link href={getPathByPage('Accueil')} passHref>
                 <a>
                   <Image
                     src="/logo-footer.svg"
@@ -69,14 +69,14 @@ const Footer = ({ navLinks }) => {
             </ul>
             <ul className="px-8 -mt-2">
               <li>
-                <Link href={getPath('Mentions légales')}>
+                <Link href={getPathByPage('Mentions légales')}>
                   <a className="font-body font-semibold text-base py-2 inline-flex text-light-100">
                     Mentions légales
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href={getPath("Conditions d'utilisation")}>
+                <Link href={getPathByPage("Conditions d'utilisation")}>
                   <a className="font-body font-semibold text-base py-2 text-light-100 inline-block">
                     Conditions d'utilisation
                   </a>
@@ -155,7 +155,7 @@ const Footer = ({ navLinks }) => {
           </div>
         </div>
         <div className="bg-blue-900 p-6 pt-48 -mt-32">
-          <Link href={getPath('Accueil')} passHref>
+          <Link href={getPathByPage('Accueil')} passHref>
             <a>
               <Image
                 src="/logo-footer.svg"
@@ -181,14 +181,14 @@ const Footer = ({ navLinks }) => {
           </ul>
           <ul className="mt-8">
             <li>
-              <Link href={getPath('Mentions légales')}>
+              <Link href={getPathByPage('Mentions légales')}>
                 <a className="font-body font-semibold text-base py-2 text-light-100">
                   Mentions légales
                 </a>
               </Link>
             </li>
             <li>
-              <Link href={getPath("Conditions d'utilisation")}>
+              <Link href={getPathByPage("Conditions d'utilisation")}>
                 <a className="font-body font-semibold text-base py-2 text-light-100 inline-block">
                   Conditions d'utilisation
                 </a>
