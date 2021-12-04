@@ -8,7 +8,7 @@ export const RouteContextProvider = ({ children }) => {
   const [page, setPage] = useState('')
 
   return (
-    <RouteContext.Provider value={{ route: router.asPath, page, setPage }}>
+    <RouteContext.Provider value={{ route: router.route, page, setPage }}>
       {children}
     </RouteContext.Provider>
   )
