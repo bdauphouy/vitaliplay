@@ -4,10 +4,9 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import Cta from '@/components/utils/Cta'
 import { useFormik } from 'formik'
-import { useMediaQuery } from '@mui/material'
-import { useState, useEffect } from 'react'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
+import useButtonSize from '@/hooks/useButtonSize'
 
 const InvitationStart = () => {
   const formik = useFormik({
@@ -21,13 +20,7 @@ const InvitationStart = () => {
 
   const router = useRouter()
 
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
-
-  const [buttonSize, setButtonSize] = useState()
-
-  useEffect(() => {
-    setButtonSize(isLargeScreen ? 'xl' : 'l')
-  }, [isLargeScreen])
+  const buttonSize = useButtonSize()
 
   return (
     <div>

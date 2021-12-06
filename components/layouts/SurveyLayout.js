@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react'
+import { useRouter } from 'next/router'
+import { createRouteLoader } from 'next/dist/client/route-loader'
 
 const SurveyLayout = ({ children }) => {
+  const prefix = '/survey'
+
   const [surveySteps] = useState([
     { id: 1, step: 'Inscription', path: '/signup' },
     { id: 2, step: 'Mensuration', path: '/measurements' },
@@ -8,26 +12,68 @@ const SurveyLayout = ({ children }) => {
     { id: 4, step: 'Douleurs chroniques', path: '/pain' },
     { id: 5, step: 'Affection longue durée', path: '/affection' },
     { id: 6, step: 'Prothèse articulaire', path: '/prosthesis' },
+    { id: 7, step: 'Success', path: '/success', hidden: true },
   ])
+
+  const getPathById = id => {
+    let path = null
+
+    surveySteps.map(surveyStep => {
+      if (surveyStep.id === id) {
+        path = surveyStep.path
+      }
+    })
+
+    return path
+  }
+
+  const getIdByStep = step => {
+    let id = null
+
+    surveySteps.map(surveyStep => {
+      if (surveyStep.step === step) {
+        id = surveyStep.id
+      }
+    })
+
+    return id
+  }
 
   const [achievedSteps, setAchievedSteps] = useState([])
 
   const [activeStep, setActiveStep] = useState(1)
 
+  const router = useRouter()
+
   useEffect(() => {
     setAchievedSteps([...Array.from(Array(activeStep).keys())])
   }, [activeStep])
 
+  useEffect(() => {
+    if (router.route === `${prefix}${getPathById(getIdByStep('Success'))}`) {
+      setActiveStep(getIdByStep('Success'))
+    }
+  }, [router])
+
+  const switchSurveyStep = surveyId => {
+    setActiveStep(surveyId)
+
+    router.push(`${prefix}${getPathById(surveyId)}`)
+  }
+
   return (
-    <>
-      <aside className="hidden lg:flex w-96 shadow-level1 min-h-screen">
+    <div className="flex flex-col lg:flex-row">
+      <aside
+        style={{ minWidth: '400px' }}
+        className="hidden lg:flex shadow-level1 min-h-screen">
         <nav className="mt-40">
           <ul className="flex flex-col gap-8 pl-24">
             {surveySteps.map(surveyStep => {
+              if (surveyStep.hidden) return
               return (
                 <li key={surveyStep.id}>
                   <div
-                    onClick={() => setActiveStep(surveyStep.id)}
+                    onClick={() => switchSurveyStep(surveyStep.id)}
                     className="flex items-center cursor-pointer">
                     <div
                       style={{ transitionProperty: 'background-color, color' }}
@@ -58,20 +104,21 @@ const SurveyLayout = ({ children }) => {
           </ul>
         </nav>
       </aside>
-      <nav className="lg:hidden mt-24 flex justify-center px-6 md:px-24">
+      <nav className="lg:hidden h-48 flex justify-center px-6 md:px-24 shadow-level1 items-end pb-16">
         <ul className="flex relative md:w-full">
           {surveySteps.map(surveyStep => {
+            if (surveyStep.hidden) return
             return (
               <li
                 key={surveyStep.id}
                 className={`flex items-center ${
-                  surveyStep.id < surveySteps.length && 'md:w-full'
+                  surveyStep.id < surveySteps.length - 1 && 'md:w-full'
                 }`}>
                 <div className="flex flex-col items-center relative">
                   <div
-                    onClick={() => setActiveStep(surveyStep.id)}
+                    onClick={() => switchSurveyStep(surveyStep.id)}
                     style={{ transitionProperty: 'background-color, color' }}
-                    className={`transition cursor-pointer w-8 h-8 grid place-items-center rounded-full font-head font-bold ${
+                    className={`transition cursor-pointer w-8 h-8 flex justify-center items-center rounded-full font-head font-bold ${
                       achievedSteps.includes(surveyStep.id)
                         ? 'text-light-100 bg-blue-900'
                         : activeStep === surveyStep.id
@@ -88,16 +135,17 @@ const SurveyLayout = ({ children }) => {
                   </span>
                 </div>
 
-                {surveyStep.id < surveySteps.length && (
+                {surveyStep.id < surveySteps.length - 1 && (
                   <div
                     style={{ transitionProperty: 'width, background-color' }}
                     className={`transition separator h-0.5 mx-1 ${
-                      activeStep === surveyStep.id ||
-                      activeStep === surveyStep.id + 1
-                        ? 'bg-blue-900 w-2 xsm:w-4 md:w-full'
+                      activeStep === surveyStep.id
+                        ? 'w-2 xsm:w-4 md:w-full bg-gray-100'
+                        : activeStep === surveyStep.id + 1
+                        ? 'w-2 xsm:w-4 md:w-full bg-blue-900'
                         : achievedSteps.includes(surveyStep.id)
                         ? 'bg-blue-900 w-1 xsm:w-2 md:w-full'
-                        : 'bg-gray-300 w-1 xsm:w-2 md:w-full'
+                        : 'bg-gray-100 w-1 xsm:w-2 md:w-full'
                     }`}></div>
                 )}
               </li>
@@ -105,8 +153,10 @@ const SurveyLayout = ({ children }) => {
           })}
         </ul>
       </nav>
-      {children}
-    </>
+      <div className="px-6 md:px-24 py-10 lg:py-40 w-full">
+        <div className="lg:w-11/12">{children}</div>
+      </div>
+    </div>
   )
 }
 

@@ -5,11 +5,11 @@ import Subtitle from '@/components/utils/Subtitle'
 import Cta from '@/components/utils/Cta'
 import { useFormik } from 'formik'
 import LoginSchema from '@/schemas/LoginSchema'
-import { useMediaQuery } from '@mui/material'
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
+import useButtonSize from '@/hooks/useButtonSize'
 
 const LoginStart = () => {
   const formik = useFormik({
@@ -25,15 +25,9 @@ const LoginStart = () => {
 
   const router = useRouter()
 
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
-
   const { getPathByPage } = useContext(LinksContext)
 
-  const [buttonSize, setButtonSize] = useState()
-
-  useEffect(() => {
-    setButtonSize(isLargeScreen ? 'xl' : 'l')
-  }, [isLargeScreen])
+  const buttonSize = useButtonSize()
 
   return (
     <div className="h-full lg:pt-20">
