@@ -2,23 +2,17 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import Cta from '@/components/utils/Cta'
-import { useContext, useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import { useRouter } from 'next/router'
-import useMediaQuery from '@mui/material/useMediaQuery'
+import useButtonSize from '@/hooks/useButtonSize'
 
 const SignupConfirm = () => {
   const { getPathByPage } = useContext(LinksContext)
 
   const router = useRouter()
 
-  const [buttonSize, setButtonSize] = useState()
-
-  const isLargeScreen = useMediaQuery('(min-width: 1024px)')
-
-  useEffect(() => {
-    setButtonSize(isLargeScreen ? 'xl' : 'l')
-  }, [isLargeScreen])
+  const buttonSize = useButtonSize()
 
   return (
     <div className="flex flex-col items-center lg:w-4/5">

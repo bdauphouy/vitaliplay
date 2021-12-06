@@ -26,7 +26,7 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
           <summary
             onClick={toggleDropdown}
             className="outline-none px-3 py-3 h-full flex items-center justify-between rounded-md border-solid border-1 border-gray-300">
-            <span>{selectedOption}</span>
+            <span className="mr-6">{selectedOption}</span>
             <div
               className={`${open && 'rotate-180'} transition flex items-center`}
               style={{ transitionProperty: 'transform' }}>
