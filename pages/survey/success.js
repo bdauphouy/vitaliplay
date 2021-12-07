@@ -16,7 +16,7 @@ const SurveySuccess = () => {
   const buttonSize = useButtonSize()
 
   return (
-    <div className="flex flex-col items-center lg:w-4/5">
+    <div className="flex flex-col h-full justify-center items-center">
       <Title center={true}>
         Félicitation, profitez dès à présent de Vitaliplay
       </Title>

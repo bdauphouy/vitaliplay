@@ -8,11 +8,14 @@ import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Checkbox from '@/components/utils/Checkbox'
-import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const SurveyProsthesis = () => {
-  const { store, setStore } = useContext(SurveyContext)
+  const { store, setStore, getPathById, getIdByStep, prefix } =
+    useContext(SurveyContext)
   const [prosthesisLocations] = useState(['Epaule', 'Hanche', 'Genou', 'Autre'])
+
+  const router = useRouter()
 
   const formik = useFormik({
     initialValues: {
@@ -21,6 +24,7 @@ const SurveyProsthesis = () => {
     },
     onSubmit: values => {
       setStore({ ...store, ...values })
+      router.push(`${prefix}${getPathById(getIdByStep('Success'))}`)
     },
   })
 
@@ -65,13 +69,10 @@ const SurveyProsthesis = () => {
             })}
           </div>
           <div className="mt-12 flex flex-wrap gap-4 lg:gap-6">
-            <Link href={'/survey/success'} passHref>
-              <a>
-                <Cta buttonType="submit" type="primary" size={buttonSize}>
-                  Valider
-                </Cta>
-              </a>
-            </Link>
+            <Cta buttonType="submit" type="primary" size={buttonSize}>
+              Valider
+            </Cta>
+
             <Cta type="secondary" size={buttonSize}>
               Passer
             </Cta>

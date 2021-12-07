@@ -1,61 +1,47 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { createRouteLoader } from 'next/dist/client/route-loader'
+import { SurveyContext } from '@/contexts/SurveyContext'
 
 const SurveyLayout = ({ children }) => {
-  const prefix = '/survey'
-
-  const [surveySteps] = useState([
-    { id: 1, step: 'Inscription', path: '/signup' },
-    { id: 2, step: 'Mensuration', path: '/measurements' },
-    { id: 3, step: 'Fumeur', path: '/smoker' },
-    { id: 4, step: 'Douleurs chroniques', path: '/pain' },
-    { id: 5, step: 'Affection longue durée', path: '/affection' },
-    { id: 6, step: 'Prothèse articulaire', path: '/prosthesis' },
-    { id: 7, step: 'Success', path: '/success', hidden: true },
-  ])
-
-  const getPathById = id => {
-    let path = null
-
-    surveySteps.map(surveyStep => {
-      if (surveyStep.id === id) {
-        path = surveyStep.path
-      }
-    })
-
-    return path
-  }
-
-  const getIdByStep = step => {
-    let id = null
-
-    surveySteps.map(surveyStep => {
-      if (surveyStep.step === step) {
-        id = surveyStep.id
-      }
-    })
-
-    return id
-  }
+  const {
+    activeStep,
+    setActiveStep,
+    prefix,
+    getIdByStep,
+    getPathById,
+    getIdByPath,
+    getPathByStep,
+    surveySteps,
+  } = useContext(SurveyContext)
 
   const [achievedSteps, setAchievedSteps] = useState([])
-
-  const [activeStep, setActiveStep] = useState(1)
 
   const router = useRouter()
 
   useEffect(() => {
-    setAchievedSteps([...Array.from(Array(activeStep).keys())])
+    setAchievedSteps([...Array.from(Array(parseInt(activeStep)).keys())])
   }, [activeStep])
 
   useEffect(() => {
-    if (router.route === `${prefix}${getPathById(getIdByStep('Success'))}`) {
-      setActiveStep(getIdByStep('Success'))
+    if (router.route === `${prefix}${getPathByStep('Succès')}`) {
+      setActiveStep(getIdByStep('Succès'))
+      window.localStorage.setItem(
+        'vitaliplay.survey.activeStep',
+        getIdByStep('Succès').toString(),
+      )
     }
+    window.localStorage.setItem(
+      'vitaliplay.survey.activeStep',
+      getIdByPath(`/${router.route.split('/')[2]}`),
+    )
   }, [router])
 
   const switchSurveyStep = surveyId => {
+    window.localStorage.setItem(
+      'vitaliplay.survey.activeStep',
+      surveyId.toString(),
+    )
+
     setActiveStep(surveyId)
 
     router.push(`${prefix}${getPathById(surveyId)}`)
@@ -65,7 +51,7 @@ const SurveyLayout = ({ children }) => {
     <div className="flex flex-col lg:flex-row">
       <aside
         style={{ minWidth: '400px' }}
-        className="hidden lg:flex shadow-level1 min-h-screen">
+        className="bg-light-100 z-20 hidden lg:flex shadow-level1 min-h-screen">
         <nav className="mt-40">
           <ul className="flex flex-col gap-8 pl-24">
             {surveySteps.map(surveyStep => {
@@ -80,7 +66,7 @@ const SurveyLayout = ({ children }) => {
                       className={`transition w-8 h-8 grid place-items-center rounded-full font-head font-bold ${
                         achievedSteps.includes(surveyStep.id)
                           ? 'text-light-100 bg-blue-900'
-                          : activeStep === surveyStep.id
+                          : parseInt(activeStep) === surveyStep.id
                           ? 'text-blue-900 bg-blue-50'
                           : 'text-dark-300 bg-gray-100'
                       }`}>
@@ -89,7 +75,7 @@ const SurveyLayout = ({ children }) => {
                     <span
                       style={{ transitionProperty: 'color' }}
                       className={`transition text-sm font-bold font-body uppercase ml-4 ${
-                        activeStep === surveyStep.id
+                        parseInt(activeStep) === surveyStep.id
                           ? 'text-blue-900'
                           : achievedSteps.includes(surveyStep.id)
                           ? 'text-blue-300'
@@ -121,7 +107,7 @@ const SurveyLayout = ({ children }) => {
                     className={`transition cursor-pointer w-8 h-8 flex justify-center items-center rounded-full font-head font-bold ${
                       achievedSteps.includes(surveyStep.id)
                         ? 'text-light-100 bg-blue-900'
-                        : activeStep === surveyStep.id
+                        : parseInt(activeStep) === surveyStep.id
                         ? 'text-blue-900 bg-blue-50'
                         : 'text-dark-300 bg-gray-100'
                     }`}>
@@ -129,7 +115,9 @@ const SurveyLayout = ({ children }) => {
                   </div>
                   <span
                     className={`w-24 text-center text-sm font-body font-bold text-blue-900 uppercase absolute mt-10 ${
-                      activeStep === surveyStep.id ? 'block' : 'hidden'
+                      parseInt(activeStep) === surveyStep.id
+                        ? 'block'
+                        : 'hidden'
                     }`}>
                     {surveyStep.step}
                   </span>
@@ -139,9 +127,9 @@ const SurveyLayout = ({ children }) => {
                   <div
                     style={{ transitionProperty: 'width, background-color' }}
                     className={`transition separator h-0.5 mx-1 ${
-                      activeStep === surveyStep.id
+                      parseInt(activeStep) === surveyStep.id
                         ? 'w-2 xsm:w-4 md:w-full bg-gray-100'
-                        : activeStep === surveyStep.id + 1
+                        : parseInt(activeStep) === surveyStep.id + 1
                         ? 'w-2 xsm:w-4 md:w-full bg-blue-900'
                         : achievedSteps.includes(surveyStep.id)
                         ? 'bg-blue-900 w-1 xsm:w-2 md:w-full'
@@ -154,7 +142,7 @@ const SurveyLayout = ({ children }) => {
         </ul>
       </nav>
       <div className="px-6 md:px-24 py-10 lg:py-40 w-full">
-        <div className="lg:w-11/12">{children}</div>
+        <div className="lg:w-11/12 h-full">{children}</div>
       </div>
     </div>
   )
