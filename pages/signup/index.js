@@ -44,7 +44,7 @@ const SignupStart = () => {
     validationSchema: SignupSchema,
 
     onSubmit: values => {
-      console.log({ civility, ...values })
+      router.push(`${router.route}/confirm`)
     },
   })
 
@@ -160,7 +160,7 @@ const SignupStart = () => {
         <div
           className="flex flex-wrap gap-4 lg:gap-8 mt-10"
           style={{ gridArea: 'j' }}>
-          <div onClick={() => router.push(router.route + '/confirm')}>
+          <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               S'inscrire
             </Cta>

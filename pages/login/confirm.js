@@ -3,9 +3,14 @@ import Subtitle from '@/components/utils/Subtitle'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
+import Link from 'next/link'
+import { LinksContext } from '@/contexts/LinksContext'
+import { useContext } from 'react'
 
 const LoginConfirm = () => {
   const buttonSize = useButtonSize()
+
+  const { getPathByPage } = useContext(LinksContext)
 
   return (
     <div className="flex flex-col items-center lg:w-4/5">
@@ -17,9 +22,13 @@ const LoginConfirm = () => {
         </Subtitle>
       </div>
       <div className="mt-12">
-        <Cta size={buttonSize} type="primary">
-          Accéder à Vitaliplay
-        </Cta>
+        <Link href={getPathByPage('Accueil')} passHref>
+          <a>
+            <Cta size={buttonSize} type="primary">
+              Accéder à Vitaliplay
+            </Cta>
+          </a>
+        </Link>
       </div>
     </div>
   )

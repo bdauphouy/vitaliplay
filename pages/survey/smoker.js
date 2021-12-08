@@ -8,19 +8,26 @@ import Radio from '@/components/utils/Radio'
 import DropDown from '@/components/utils/Dropdown'
 import { useState, useContext } from 'react'
 import { SurveyContext } from '@/contexts/SurveyContext'
+import SmokerSchema from '@/schemas/survey/Smoker'
+import Error from '@/components/utils/Error'
+import { useRouter } from 'next/router'
 
 const SurveySmoker = () => {
-  const { store, setStore } = useContext(SurveyContext)
+  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
 
   const [number, setNumber] = useState(5)
   const [forDate, setForDate] = useState('20 ans')
+
+  const router = useRouter()
 
   const formik = useFormik({
     initialValues: {
       smoker: '',
     },
+    validationSchema: SmokerSchema,
     onSubmit: values => {
       setStore({ ...store, ...values, number, forDate })
+      router.push(`${prefix}${getPathByStep('Douleurs chroniques')}`)
     },
   })
 
@@ -52,6 +59,11 @@ const SurveySmoker = () => {
           onChange={formik.handleChange}>
           Fumeur
         </Radio>
+        {formik.touched.smoker && (
+          <div className="md:col-span-2">
+            <Error>{formik.errors.smoker}</Error>
+          </div>
+        )}
         <div className="col-span-1 md:col-span-2 gap-4 md:gap-8 flex mt-5 md:mt-7">
           <DropDown
             options={Array.from({ length: 10 }, (_, i) => i + 1)}
@@ -70,9 +82,14 @@ const SurveySmoker = () => {
           <Cta buttonType="submit" type="primary" size={buttonSize}>
             Valider
           </Cta>
-          <Cta type="secondary" size={buttonSize}>
-            Passer
-          </Cta>
+          <div
+            onClick={() =>
+              router.push(`${prefix}${getPathByStep('Douleurs chroniques')}`)
+            }>
+            <Cta type="secondary" size={buttonSize}>
+              Passer
+            </Cta>
+          </div>
         </div>
       </form>
       <p className="mt-6 underline text-sm font-bold font-body text-dark-300">

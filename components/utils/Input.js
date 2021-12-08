@@ -1,5 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useRef, useEffect } from 'react'
+import Error from '@/components/utils/Error'
 
 const Input = ({
   label,
@@ -66,9 +67,9 @@ const Input = ({
           />
         </div>
       )}
-      <span className="mt-1 font-body font-normal text-md text-warning-500">
+      <Error className="mt-1 font-body font-normal text-md text-warning-500">
         {error}
-      </span>
+      </Error>
     </div>
   )
 }

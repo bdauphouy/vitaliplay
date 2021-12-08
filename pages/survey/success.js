@@ -5,9 +5,12 @@ import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { SurveyContext } from '@/contexts/SurveyContext'
 import { useContext, useEffect } from 'react'
+import Link from 'next/link'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const SurveySuccess = () => {
   const { store } = useContext(SurveyContext)
+  const { internalLinks, getPathByPage } = useContext(LinksContext)
 
   useEffect(() => {
     console.log(store)
@@ -27,9 +30,13 @@ const SurveySuccess = () => {
         </Subtitle>
       </div>
       <div className="mt-12">
-        <Cta size={buttonSize} type="primary">
-          Accéder à Vitaliplay
-        </Cta>
+        <Link href={getPathByPage('Accueil')} passHref>
+          <a>
+            <Cta size={buttonSize} type="primary">
+              Accéder à Vitaliplay
+            </Cta>
+          </a>
+        </Link>
       </div>
     </div>
   )

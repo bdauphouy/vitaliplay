@@ -5,22 +5,25 @@ import { AuthContextProvider } from '@/contexts/AuthContext'
 import { RouteContextProvider } from '@/contexts/RouteContext'
 import { LinksContextProvider } from '@/contexts/LinksContext'
 import { SurveyContextProvider } from '@/contexts/SurveyContext'
+import { CheckupContextProvider } from '@/contexts/CheckupContext'
 
 const MyApp = ({ Component, pageProps }) => {
   return (
-    <SurveyContextProvider>
-      <LinksContextProvider>
-        <RouteContextProvider>
-          <AuthContextProvider>
-            <Layout>
-              <PerPageLayout Layout={Component.Layout}>
-                <Component {...pageProps} />
-              </PerPageLayout>
-            </Layout>
-          </AuthContextProvider>
-        </RouteContextProvider>
-      </LinksContextProvider>
-    </SurveyContextProvider>
+    <CheckupContextProvider>
+      <SurveyContextProvider>
+        <LinksContextProvider>
+          <RouteContextProvider>
+            <AuthContextProvider>
+              <Layout>
+                <PerPageLayout Layout={Component.Layout}>
+                  <Component {...pageProps} />
+                </PerPageLayout>
+              </Layout>
+            </AuthContextProvider>
+          </RouteContextProvider>
+        </LinksContextProvider>
+      </SurveyContextProvider>
+    </CheckupContextProvider>
   )
 }
 

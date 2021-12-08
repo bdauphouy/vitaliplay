@@ -9,10 +9,11 @@ import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Checkbox from '@/components/utils/Checkbox'
 import { useRouter } from 'next/router'
+import Error from '@/components/utils/Error'
+import ProsthesisSchema from '@/schemas/survey/Prosthesis'
 
 const SurveyProsthesis = () => {
-  const { store, setStore, getPathById, getIdByStep, prefix } =
-    useContext(SurveyContext)
+  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
   const [prosthesisLocations] = useState(['Epaule', 'Hanche', 'Genou', 'Autre'])
 
   const router = useRouter()
@@ -22,9 +23,10 @@ const SurveyProsthesis = () => {
       prosthesis: '',
       prosthesisLocations: [],
     },
+    validationSchema: ProsthesisSchema,
     onSubmit: values => {
       setStore({ ...store, ...values })
-      router.push(`${prefix}${getPathById(getIdByStep('Success'))}`)
+      router.push(`${prefix}${getPathByStep('Succès')}`)
     },
   })
 
@@ -53,6 +55,11 @@ const SurveyProsthesis = () => {
               onChange={formik.handleChange}>
               Non
             </Radio>
+            {formik.touched.prosthesis && (
+              <div className="md:col-span-2">
+                <Error>{formik.errors.prosthesis}</Error>
+              </div>
+            )}
             {prosthesisLocations.map((prosthesisLocation, i) => {
               return (
                 <Checkbox
@@ -68,14 +75,23 @@ const SurveyProsthesis = () => {
               )
             })}
           </div>
+          {formik.touched.prosthesisLocations && (
+            <div className="mt-6">
+              <Error>{formik.errors.prosthesisLocations}</Error>
+            </div>
+          )}
           <div className="mt-12 flex flex-wrap gap-4 lg:gap-6">
             <Cta buttonType="submit" type="primary" size={buttonSize}>
               Valider
             </Cta>
-
-            <Cta type="secondary" size={buttonSize}>
-              Passer
-            </Cta>
+            <div
+              onClick={() =>
+                router.push(`${prefix}${getPathByStep('Succès')}`)
+              }>
+              <Cta type="secondary" size={buttonSize}>
+                Passer
+              </Cta>
+            </div>
           </div>
         </form>
         <p className="mt-6 underline text-sm font-bold font-body text-dark-300">

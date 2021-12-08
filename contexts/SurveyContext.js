@@ -16,13 +16,10 @@ export const SurveyContextProvider = ({ children }) => {
     { id: 7, step: 'Succès', path: '/success', hidden: true },
   ])
 
-  const [activeStep, setActiveStep] = useState('1')
-
   useEffect(() => {
     if (!window.localStorage.getItem('vitaliplay.survey.activeStep')) {
       window.localStorage.setItem('vitaliplay.survey.activeStep', '1')
     }
-    setActiveStep(window.localStorage.getItem('vitaliplay.survey.activeStep'))
   }, [])
 
   const getPathById = id => {
@@ -79,8 +76,6 @@ export const SurveyContextProvider = ({ children }) => {
         store,
         setStore,
         prefix,
-        activeStep,
-        setActiveStep,
         getPathById,
         getIdByStep,
         getIdByPath,

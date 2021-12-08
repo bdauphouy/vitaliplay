@@ -8,9 +8,12 @@ import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Checkbox from '@/components/utils/Checkbox'
+import AffectionSchema from '@/schemas/survey/Affection'
+import Error from '@/components/utils/Error'
+import { useRouter } from 'next/router'
 
 const SurveyAffection = () => {
-  const { store, setStore } = useContext(SurveyContext)
+  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
   const [affectionList] = useState([
     'Diabète de type 1 / type 2',
     'Insuffisance cardiaque grave, troubles du rythme graves, cardiopathies valvulaires graves, cardiopathies congénitales graves ',
@@ -27,13 +30,17 @@ const SurveyAffection = () => {
     'Autres',
   ])
 
+  const router = useRouter()
+
   const formik = useFormik({
     initialValues: {
       affection: '',
       affectionList: [],
     },
+    validationSchema: AffectionSchema,
     onSubmit: values => {
       setStore({ ...store, ...values })
+      router.push(`${prefix}${getPathByStep('Prothèse articulaire')}`)
     },
   })
 
@@ -62,6 +69,11 @@ const SurveyAffection = () => {
               onChange={formik.handleChange}>
               Non
             </Radio>
+            {formik.touched.affection && (
+              <div className="md:col-span-2">
+                <Error>{formik.errors.affection}</Error>
+              </div>
+            )}
             <div className="md:col-span-2 flex flex-col gap-4">
               {affectionList.map((affection, i) => {
                 return (
@@ -77,14 +89,23 @@ const SurveyAffection = () => {
               })}
             </div>
           </div>
-
+          {formik.touched.affectionList && (
+            <div className="mt-6">
+              <Error>{formik.errors.affectionList}</Error>
+            </div>
+          )}
           <div className="mt-12 flex flex-wrap gap-4 lg:gap-6">
             <Cta buttonType="submit" type="primary" size={buttonSize}>
               Valider
             </Cta>
-            <Cta type="secondary" size={buttonSize}>
-              Passer
-            </Cta>
+            <div
+              onClick={() =>
+                router.push(`${prefix}${getPathByStep('Prothèse articulaire')}`)
+              }>
+              <Cta type="secondary" size={buttonSize}>
+                Passer
+              </Cta>
+            </div>
           </div>
         </form>
         <p className="mt-6 underline text-sm font-bold font-body text-dark-300">
