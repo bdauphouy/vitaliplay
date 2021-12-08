@@ -7,17 +7,25 @@ import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { SurveyContext } from '@/contexts/SurveyContext'
 import { useContext } from 'react'
+import MeasurementsSchema from '@/schemas/survey/Measurements'
+import { useRouter } from 'next/router'
 
 const SurveyMeasurements = () => {
   const { store, setStore } = useContext(SurveyContext)
+
+  const { prefix, getPathByStep } = useContext(SurveyContext)
+
+  const router = useRouter()
 
   const formik = useFormik({
     initialValues: {
       height: '',
       weight: '',
     },
+    validationSchema: MeasurementsSchema,
     onSubmit: values => {
       setStore({ ...store, ...values })
+      router.push(`${prefix}${getPathByStep('Fumeur')}`)
     },
   })
 
@@ -53,9 +61,12 @@ const SurveyMeasurements = () => {
           <Cta buttonType="submit" type="primary" size={buttonSize}>
             Valider
           </Cta>
-          <Cta type="secondary" size={buttonSize}>
-            Passer
-          </Cta>
+          <div
+            onClick={() => router.push(`${prefix}${getPathByStep('Fumeur')}`)}>
+            <Cta type="secondary" size={buttonSize}>
+              Passer
+            </Cta>
+          </div>
         </div>
       </form>
       <p className="mt-6 underline text-sm font-bold font-body text-dark-300">

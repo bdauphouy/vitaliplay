@@ -37,8 +37,6 @@ const Burger = ({ menu, setMenu }) => {
 }
 
 const Nav = ({ navLinks, isAuth }) => {
-  const { setIsAuth } = useContext(AuthContext)
-  const { setPage } = useContext(RouteContext)
   const { externalLinks, getPathByPage } = useContext(LinksContext)
   const [menu, setMenu] = useState(false)
 
@@ -60,11 +58,10 @@ const Nav = ({ navLinks, isAuth }) => {
       }
 
       if (getPathByPage(navItem.innerText) === router.asPath) {
-        setPage(navItem.innerText)
         updateMarker()
       }
     })
-  }, [router, getPathByPage, setPage, isExtraLargeScreen])
+  }, [router, getPathByPage, isExtraLargeScreen])
 
   return (
     <>

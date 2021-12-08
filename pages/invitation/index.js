@@ -14,7 +14,7 @@ const InvitationStart = () => {
       code: '',
     },
     onSubmit: values => {
-      console.log(values)
+      router.push(`${router.route}/confirm`)
     },
   })
 
@@ -45,7 +45,7 @@ const InvitationStart = () => {
         </div>
 
         <div className="mt-8">
-          <div onClick={() => router.push(router.route + '/confirm')}>
+          <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               Valider
             </Cta>

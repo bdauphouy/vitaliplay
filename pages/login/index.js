@@ -12,6 +12,8 @@ import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 
 const LoginStart = () => {
+  const router = useRouter()
+
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -19,11 +21,9 @@ const LoginStart = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: values => {
-      console.log(values)
+      router.push(`${router.route}/confirm`)
     },
   })
-
-  const router = useRouter()
 
   const { getPathByPage } = useContext(LinksContext)
 
@@ -61,7 +61,7 @@ const LoginStart = () => {
           />
         </div>
         <div className="flex flex-wrap gap-4 lg:gap-8 mt-10">
-          <div onClick={() => router.push(router.route + '/confirm')}>
+          <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               Se connecter
             </Cta>

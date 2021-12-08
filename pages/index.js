@@ -6,8 +6,10 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import { fetchAPI } from '@/lib/api'
 import { getStrapiMedia } from '@/lib/media'
-import { useEffect } from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import Link from 'next/link'
+import { useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 export const getStaticProps = async () => {
   const home = await fetchAPI('/home-landing')
@@ -23,6 +25,8 @@ const Home = ({ home }) => {
 
     return (int >>> 0).toString(2)
   }
+
+  const { getPathByPage } = useContext(LinksContext)
 
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
@@ -140,24 +144,32 @@ const Home = ({ home }) => {
         </div>
         <div className=" mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
-            <SubscriptionCard
-              title="Annuel"
-              price={home.subscription[1].prices[0].price}
-              suffix="/par an"
-              description={home.subscription[1].prices[0].description}
-              variant="blue"
-              size="big"
-              stamp={true}
-            />
+            <Link href={getPathByPage('Abonnement')} passHref>
+              <a>
+                <SubscriptionCard
+                  title="Annuel"
+                  price={home.subscription[1].prices[0].price}
+                  suffix="/par an"
+                  description={home.subscription[1].prices[0].description}
+                  variant="blue"
+                  size="big"
+                  stamp={true}
+                />
+              </a>
+            </Link>
           </div>
           <div className="lg:py-8 w-full lg:w-96 lg:order-1">
-            <SubscriptionCard
-              title="Mensuel"
-              price={home.subscription[0].prices[0].price}
-              suffix="/par mois"
-              description={home.subscription[0].prices[0].description}
-              size="small"
-            />
+            <Link href={getPathByPage('Abonnement')} passHref>
+              <a>
+                <SubscriptionCard
+                  title="Mensuel"
+                  price={home.subscription[0].prices[0].price}
+                  suffix="/par mois"
+                  description={home.subscription[0].prices[0].description}
+                  size="small"
+                />
+              </a>
+            </Link>
           </div>
           <div className="lg:order-3 w-full lg:w-96 lg:py-8">
             <div className="flex flex-col justify-center items-center h-full bg-blue-50 px-6 py-10 rounded-lg">
@@ -165,9 +177,13 @@ const Home = ({ home }) => {
                 Vous possédez déjà un code d’invitation ?
               </h3>
               <div className="mt-6 lg:mt-10">
-                <Cta size="l" type="primary">
-                  J’ai un code d’invitation
-                </Cta>
+                <Link href={getPathByPage('Invitation')} passHref>
+                  <a>
+                    <Cta size="l" type="primary">
+                      J’ai un code d’invitation
+                    </Cta>
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

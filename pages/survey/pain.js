@@ -8,9 +8,12 @@ import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Checkbox from '@/components/utils/Checkbox'
+import Error from '@/components/utils/Error'
+import PainSchema from '@/schemas/survey/Pain'
+import { useRouter } from 'next/router'
 
 const SurveyPain = () => {
-  const { store, setStore } = useContext(SurveyContext)
+  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
   const [painList] = useState([
     'Cervicales',
     'Epaules',
@@ -21,14 +24,18 @@ const SurveyPain = () => {
     'Cheville / Pied',
   ])
 
+  const router = useRouter()
+
   const formik = useFormik({
     initialValues: {
       pain: '',
       painList: [],
       painScale: '',
     },
+    validationSchema: PainSchema,
     onSubmit: values => {
       setStore({ ...store, ...values })
+      router.push(`${prefix}${getPathByStep('Affection longue durée')}`)
     },
   })
 
@@ -59,6 +66,11 @@ const SurveyPain = () => {
               onChange={formik.handleChange}>
               Non
             </Radio>
+            {formik.touched.pain && (
+              <div className="md:col-span-2">
+                <Error>{formik.errors.pain}</Error>
+              </div>
+            )}
             {painList.map((pain, i) => {
               return (
                 <Checkbox
@@ -72,6 +84,11 @@ const SurveyPain = () => {
               )
             })}
           </div>
+          {formik.touched.painList && (
+            <div className="mt-6">
+              <Error>{formik.errors.painList}</Error>
+            </div>
+          )}
           <div className="mt-14 col-span-2">
             <Title>
               Pouvez-vous évaluer ces douleurs sur une échelle de 0 à 10 ?
@@ -98,13 +115,25 @@ const SurveyPain = () => {
               })}
             </div>
           </div>
+          {formik.touched.painScale && (
+            <div className="mt-6">
+              <Error>{formik.errors.painScale}</Error>
+            </div>
+          )}
           <div className="mt-12 flex flex-wrap gap-4 lg:gap-6">
             <Cta buttonType="submit" type="primary" size={buttonSize}>
               Valider
             </Cta>
-            <Cta type="secondary" size={buttonSize}>
-              Passer
-            </Cta>
+            <div
+              onClick={() =>
+                router.push(
+                  `${prefix}${getPathByStep('Affection longue durée')}`,
+                )
+              }>
+              <Cta type="secondary" size={buttonSize}>
+                Passer
+              </Cta>
+            </div>
           </div>
         </form>
         <p className="mt-6 underline text-sm font-bold font-body text-dark-300">

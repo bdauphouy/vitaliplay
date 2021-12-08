@@ -32,7 +32,11 @@ const CloseNav = () => {
           </div>
         </Link>
         <div className="rotate-45 cursor-pointer">
-          <Button size={buttonSize} color="#1778F2" />
+          <Link href={getPathByPage('Accueil')} passHref>
+            <a>
+              <Button size={buttonSize} color="#1778F2" />
+            </a>
+          </Link>
         </div>
       </div>
     </nav>

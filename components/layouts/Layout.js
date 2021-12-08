@@ -13,8 +13,6 @@ const Layout = ({ children }) => {
   const { getNavByPath, authNavLinks, notAuthNavLinks } =
     useContext(LinksContext)
 
-  const { page } = useContext(RouteContext)
-
   const [navLinks, setNavLinks] = useState(
     isAuth ? authNavLinks : notAuthNavLinks,
   )
@@ -28,7 +26,7 @@ const Layout = ({ children }) => {
   return (
     <>
       <Head>
-        <title>Vitaliplay {page && `- ${page}`}</title>
+        <title>Vitaliplay</title>
       </Head>
       {getNavByPath(router.route) ? (
         <>
