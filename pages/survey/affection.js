@@ -1,5 +1,5 @@
 import { SurveyContext } from '@/contexts/SurveyContext'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import SurveyLayout from '@/components/layouts/SurveyLayout'
@@ -13,7 +13,10 @@ import Error from '@/components/utils/Error'
 import { useRouter } from 'next/router'
 
 const SurveyAffection = () => {
-  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
+  const { getPathByStep, prefix } = useContext(SurveyContext)
+
+  const [store, setStore] = useState()
+
   const [affectionList] = useState([
     'Diabète de type 1 / type 2',
     'Insuffisance cardiaque grave, troubles du rythme graves, cardiopathies valvulaires graves, cardiopathies congénitales graves ',
@@ -30,16 +33,28 @@ const SurveyAffection = () => {
     'Autres',
   ])
 
+  useEffect(() => {
+    const localStore = JSON.parse(
+      window.localStorage.getItem('vitaliplay.survey.store'),
+    )
+
+    setStore(localStore)
+  }, [])
+
   const router = useRouter()
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      affection: '',
-      affectionList: [],
+      affection: store?.affection || '',
+      affectionList: store?.affectionList || [],
     },
     validationSchema: AffectionSchema,
     onSubmit: values => {
-      setStore({ ...store, ...values })
+      window.localStorage.setItem(
+        'vitaliplay.survey.store',
+        JSON.stringify({ ...store, ...values }),
+      )
       router.push(`${prefix}${getPathByStep('Prothèse articulaire')}`)
     },
   })
@@ -74,7 +89,13 @@ const SurveyAffection = () => {
                 <Error>{formik.errors.affection}</Error>
               </div>
             )}
-            <div className="md:col-span-2 flex flex-col gap-4">
+            <div
+              style={{ transitionProperty: 'opacity' }}
+              className={`${
+                formik.values.affection === 'yes'
+                  ? 'opacity-100 h-auto'
+                  : 'opacity-0 h-0 overflow-hidden'
+              } transition duration-300 ease-linear md:col-span-2 flex flex-col gap-4`}>
               {affectionList.map((affection, i) => {
                 return (
                   <Checkbox

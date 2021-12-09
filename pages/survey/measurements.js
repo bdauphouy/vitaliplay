@@ -6,25 +6,33 @@ import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { SurveyContext } from '@/contexts/SurveyContext'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import MeasurementsSchema from '@/schemas/survey/Measurements'
 import { useRouter } from 'next/router'
 
 const SurveyMeasurements = () => {
-  const { store, setStore } = useContext(SurveyContext)
+  const [store, setStore] = useState()
+
+  useEffect(() => {
+    setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
+  }, [])
 
   const { prefix, getPathByStep } = useContext(SurveyContext)
 
   const router = useRouter()
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      height: '',
-      weight: '',
+      height: store?.height || '',
+      weight: store?.weight || '',
     },
     validationSchema: MeasurementsSchema,
     onSubmit: values => {
-      setStore({ ...store, ...values })
+      window.localStorage.setItem(
+        'vitaliplay.survey.store',
+        JSON.stringify({ ...store, ...values }),
+      )
       router.push(`${prefix}${getPathByStep('Fumeur')}`)
     },
   })
@@ -44,8 +52,9 @@ const SurveyMeasurements = () => {
         onSubmit={formik.handleSubmit}
         className="mt-5 grid grid-cols-1 md:grid-cols-2 md:gap-4 gap-3">
         <Input
-          label="Taille"
+          label="Taille (en cm)"
           name="height"
+          placeholder="ex. 175"
           onChange={formik.handleChange}
           value={formik.values.height}
           error={formik.touched.height && formik.errors.height}

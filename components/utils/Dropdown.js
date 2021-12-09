@@ -1,9 +1,14 @@
 import { ChevronDown } from './Icons'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
   const [open, setOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(defaultOption)
+
+  useEffect(() => {
+    setSelectedOption(defaultOption)
+    console.log(defaultOption)
+  }, [defaultOption])
 
   const toggleDropdown = e => {
     e.preventDefault()

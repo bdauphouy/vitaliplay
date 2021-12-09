@@ -36,8 +36,8 @@ export const CheckupContextProvider = ({ children }) => {
     },
     {
       id: 2,
-      step: 'Bielan bien-être',
-      path: '/measurements',
+      step: 'Bilan bien-être',
+      path: '/well-being',
       subSteps: [
         {
           id: 1,

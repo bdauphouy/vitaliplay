@@ -15,9 +15,15 @@ const SurveyLayout = ({ children }) => {
   const refreshLocalStorage = id => {
     window.localStorage.setItem(
       'vitaliplay.survey.activeStep',
-      (id && id.toString()) || 1,
+      (id && id.toString()) || '1',
     )
   }
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('vitaliplay.survey.store')) {
+      window.localStorage.setItem('vitaliplay.survey.store', JSON.stringify({}))
+    }
+  }, [])
 
   useEffect(() => {
     setCurrentPath(`/${router.route.split('/')[2]}`)
@@ -113,7 +119,7 @@ const SurveyLayout = ({ children }) => {
                     className={`transition separator h-0.5 mx-1 ${
                       currentPath === surveyStep.path
                         ? 'w-2 xsm:w-4 md:w-full bg-gray-100'
-                        : currentPath === surveyStep.path + 1
+                        : currentPath === getPathById(surveyStep.id + 1)
                         ? 'w-2 xsm:w-4 md:w-full bg-blue-900'
                         : achievedSteps.includes(surveyStep.id)
                         ? 'bg-blue-900 w-1 xsm:w-2 md:w-full'
