@@ -9,12 +9,13 @@ import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 
 const SurveySuccess = () => {
-  const { store } = useContext(SurveyContext)
-  const { internalLinks, getPathByPage } = useContext(LinksContext)
+  const { getPathByPage } = useContext(LinksContext)
 
   useEffect(() => {
-    console.log(store)
-  }, [store])
+    console.log(
+      JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')),
+    )
+  }, [])
 
   const buttonSize = useButtonSize()
 

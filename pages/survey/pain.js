@@ -1,5 +1,5 @@
 import { SurveyContext } from '@/contexts/SurveyContext'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import SurveyLayout from '@/components/layouts/SurveyLayout'
@@ -13,7 +13,18 @@ import PainSchema from '@/schemas/survey/Pain'
 import { useRouter } from 'next/router'
 
 const SurveyPain = () => {
-  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
+  const { getPathByStep, prefix } = useContext(SurveyContext)
+
+  const [store, setStore] = useState()
+
+  useEffect(() => {
+    const localStore = JSON.parse(
+      window.localStorage.getItem('vitaliplay.survey.store'),
+    )
+
+    setStore(localStore)
+  }, [])
+
   const [painList] = useState([
     'Cervicales',
     'Epaules',
@@ -27,14 +38,18 @@ const SurveyPain = () => {
   const router = useRouter()
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      pain: '',
-      painList: [],
-      painScale: '',
+      pain: store?.pain || '',
+      painList: store?.painList || [],
+      painScale: store?.painScale || '',
     },
     validationSchema: PainSchema,
     onSubmit: values => {
-      setStore({ ...store, ...values })
+      window.localStorage.setItem(
+        'vitaliplay.survey.store',
+        JSON.stringify({ ...store, ...values }),
+      )
       router.push(`${prefix}${getPathByStep('Affection longue durée')}`)
     },
   })
@@ -71,25 +86,39 @@ const SurveyPain = () => {
                 <Error>{formik.errors.pain}</Error>
               </div>
             )}
-            {painList.map((pain, i) => {
-              return (
-                <Checkbox
-                  key={i}
-                  id={pain}
-                  name="painList"
-                  checked={formik.values.painList.includes(pain)}
-                  onChange={formik.handleChange}>
-                  {pain}
-                </Checkbox>
-              )
-            })}
+            <div
+              style={{ transitionProperty: 'opacity' }}
+              className={`${
+                formik.values.pain === 'yes'
+                  ? 'opacity-100 h-auto'
+                  : 'opacity-0 h-0 overflow-hidden'
+              } transition duration-300 ease-linear md:col-span-2 grid grid-cols-2 gap-6`}>
+              {painList.map((pain, i) => {
+                return (
+                  <Checkbox
+                    key={i}
+                    id={pain}
+                    name="painList"
+                    checked={formik.values.painList.includes(pain)}
+                    onChange={formik.handleChange}>
+                    {pain}
+                  </Checkbox>
+                )
+              })}
+            </div>
           </div>
           {formik.touched.painList && (
             <div className="mt-6">
               <Error>{formik.errors.painList}</Error>
             </div>
           )}
-          <div className="mt-14 col-span-2">
+          <div
+            style={{ transitionProperty: 'opacity' }}
+            className={`${
+              formik.values.pain === 'yes'
+                ? 'opacity-100 h-auto mt-14'
+                : 'opacity-0 h-0 overflow-hidden'
+            } transition duration-300 ease-linear col-span-2`}>
             <Title>
               Pouvez-vous évaluer ces douleurs sur une échelle de 0 à 10 ?
             </Title>

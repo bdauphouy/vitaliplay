@@ -1,5 +1,5 @@
 import { SurveyContext } from '@/contexts/SurveyContext'
-import { useContext, useState } from 'react'
+import { useContext, useState, useEffect } from 'react'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import SurveyLayout from '@/components/layouts/SurveyLayout'
@@ -13,19 +13,34 @@ import Error from '@/components/utils/Error'
 import ProsthesisSchema from '@/schemas/survey/Prosthesis'
 
 const SurveyProsthesis = () => {
-  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
+  const { getPathByStep, prefix } = useContext(SurveyContext)
+
+  const [store, setStore] = useState()
+
+  useEffect(() => {
+    const localStore = JSON.parse(
+      window.localStorage.getItem('vitaliplay.survey.store'),
+    )
+
+    setStore(localStore)
+  }, [])
+
   const [prosthesisLocations] = useState(['Epaule', 'Hanche', 'Genou', 'Autre'])
 
   const router = useRouter()
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      prosthesis: '',
-      prosthesisLocations: [],
+      prosthesis: store?.prosthesis || '',
+      prosthesisLocations: store?.prosthesisLocations || [],
     },
     validationSchema: ProsthesisSchema,
     onSubmit: values => {
-      setStore({ ...store, ...values })
+      window.localStorage.setItem(
+        'vitaliplay.survey.store',
+        JSON.stringify({ ...store, ...values }),
+      )
       router.push(`${prefix}${getPathByStep('Succès')}`)
     },
   })
@@ -60,20 +75,28 @@ const SurveyProsthesis = () => {
                 <Error>{formik.errors.prosthesis}</Error>
               </div>
             )}
-            {prosthesisLocations.map((prosthesisLocation, i) => {
-              return (
-                <Checkbox
-                  key={i}
-                  id={prosthesisLocation}
-                  name="prosthesisLocations"
-                  checked={formik.values.prosthesisLocations.includes(
-                    prosthesisLocation,
-                  )}
-                  onChange={formik.handleChange}>
-                  {prosthesisLocation}
-                </Checkbox>
-              )
-            })}
+            <div
+              style={{ transitionProperty: 'opacity' }}
+              className={`${
+                formik.values.prosthesis === 'yes'
+                  ? 'opacity-100 h-auto'
+                  : 'opacity-0 h-0 overflow-hidden'
+              } transition duration-300 ease-linear md:col-span-2 flex flex-col gap-4`}>
+              {prosthesisLocations.map((prosthesisLocation, i) => {
+                return (
+                  <Checkbox
+                    key={i}
+                    id={prosthesisLocation}
+                    name="prosthesisLocations"
+                    checked={formik.values.prosthesisLocations.includes(
+                      prosthesisLocation,
+                    )}
+                    onChange={formik.handleChange}>
+                    {prosthesisLocation}
+                  </Checkbox>
+                )
+              })}
+            </div>
           </div>
           {formik.touched.prosthesisLocations && (
             <div className="mt-6">

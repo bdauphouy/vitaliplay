@@ -6,27 +6,45 @@ import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Radio from '@/components/utils/Radio'
 import DropDown from '@/components/utils/Dropdown'
-import { useState, useContext } from 'react'
+import { useState, useContext, useEffect } from 'react'
 import { SurveyContext } from '@/contexts/SurveyContext'
 import SmokerSchema from '@/schemas/survey/Smoker'
 import Error from '@/components/utils/Error'
 import { useRouter } from 'next/router'
 
 const SurveySmoker = () => {
-  const { store, setStore, getPathByStep, prefix } = useContext(SurveyContext)
+  const { getPathByStep, prefix } = useContext(SurveyContext)
 
-  const [number, setNumber] = useState(5)
+  const [store, setStore] = useState()
+
+  const [number, setNumber] = useState('5')
   const [forDate, setForDate] = useState('20 ans')
+
+  useEffect(() => {
+    const localStore = JSON.parse(
+      window.localStorage.getItem('vitaliplay.survey.store'),
+    )
+
+    setStore(localStore)
+    if (localStore.number && localStore.forDate) {
+      setNumber(localStore.number)
+      setForDate(localStore.forDate)
+    }
+  }, [])
 
   const router = useRouter()
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      smoker: '',
+      smoker: store?.smoker || '',
     },
     validationSchema: SmokerSchema,
     onSubmit: values => {
-      setStore({ ...store, ...values, number, forDate })
+      window.localStorage.setItem(
+        'vitaliplay.survey.store',
+        JSON.stringify({ ...store, ...values, number, forDate }),
+      )
       router.push(`${prefix}${getPathByStep('Douleurs chroniques')}`)
     },
   })
@@ -64,7 +82,14 @@ const SurveySmoker = () => {
             <Error>{formik.errors.smoker}</Error>
           </div>
         )}
-        <div className="col-span-1 md:col-span-2 gap-4 md:gap-8 flex mt-5 md:mt-7">
+
+        <div
+          style={{ transitionProperty: 'opacity' }}
+          className={`${
+            formik.values.smoker === 'smoker'
+              ? 'opacity-100 h-auto mt-5 md:mt-7'
+              : 'opacity-0 h-0 overflow-hidden'
+          } transition duration-300 ease-linear flex col-span-1 md:col-span-2 gap-4 md:gap-8`}>
           <DropDown
             options={Array.from({ length: 10 }, (_, i) => i + 1)}
             label="Nombre"
@@ -78,6 +103,7 @@ const SurveySmoker = () => {
             getOption={setForDate}
           />
         </div>
+
         <div className="md:col-span-2 mt-10 flex flex-wrap items-start gap-4 lg:gap-6">
           <Cta buttonType="submit" type="primary" size={buttonSize}>
             Valider
