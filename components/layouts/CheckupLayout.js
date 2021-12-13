@@ -3,34 +3,46 @@ import { useRouter } from 'next/router'
 import { CheckupContext } from '@/contexts/CheckupContext'
 
 const CheckupLayout = ({ children }) => {
-  const { prefix, checkupSteps, getIdByPath, getPathById } =
+  const { prefix, checkupSteps, getIdByPath, getPathByIds } =
     useContext(CheckupContext)
 
-  const [achievedSteps, setAchievedSteps] = useState([])
+  const [achievedSteps, setAchievedSteps] = useState([[0], [0]])
 
   const router = useRouter()
 
-  const [currentPath, setCurrentPath] = useState()
+  const [currentPath, setCurrentPath] = useState([])
 
-  const refreshLocalStorage = id => {
+  const refreshLocalStorage = ids => {
     window.localStorage.setItem(
       'vitaliplay.checkup.activeStep',
-      (id && id.toString()) || 1,
+      (ids && ids.toString()) || '1,0',
     )
   }
 
   useEffect(() => {
-    setCurrentPath(`/${router.route.split('/')[2]}`)
+    if (!window.localStorage.getItem('vitaliplay.checkup.activeStep')) {
+      window.localStorage.setItem('vitaliplay.checkup.activeStep', '1,0')
+    }
+  }, [])
+
+  useEffect(() => {
+    setCurrentPath(router.route.split('/').map(route => `/${route}`))
   }, [router])
 
   useEffect(() => {
-    setAchievedSteps(Array.from(Array(getIdByPath(currentPath)).keys()))
-    refreshLocalStorage(getIdByPath(currentPath))
+    setAchievedSteps([
+      Array.from(Array(getIdByPath(currentPath[2])).keys()),
+      Array.from(Array(getIdByPath(currentPath[3])).keys()),
+    ])
+    refreshLocalStorage([
+      getIdByPath(currentPath[2]),
+      getIdByPath(currentPath[3]),
+    ])
   }, [currentPath])
 
-  const switchCheckupStep = surveyId => {
-    refreshLocalStorage(surveyId)
-    router.push(`${prefix}${getPathById(surveyId)}`)
+  const switchCheckupStep = checkupIds => {
+    refreshLocalStorage(checkupIds)
+    router.push(`${prefix}${getPathByIds(checkupIds)}`)
   }
 
   return (
@@ -45,14 +57,14 @@ const CheckupLayout = ({ children }) => {
               return (
                 <li key={checkupStep.id}>
                   <div
-                    onClick={() => switchCheckupStep(checkupStep.id)}
+                    onClick={() => switchCheckupStep([checkupStep.id, 0])}
                     className="flex items-center cursor-pointer">
                     <div
                       style={{ transitionProperty: 'background-color, color' }}
                       className={`transition w-8 h-8 grid place-items-center rounded-full font-head font-bold ${
-                        achievedSteps.includes(checkupStep.id)
+                        achievedSteps[0].includes(checkupStep.id)
                           ? 'text-light-100 bg-blue-900'
-                          : currentPath === checkupStep.path
+                          : currentPath[2] === checkupStep.path
                           ? 'text-blue-900 bg-blue-50'
                           : 'text-dark-300 bg-gray-100'
                       }`}>
@@ -61,15 +73,42 @@ const CheckupLayout = ({ children }) => {
                     <span
                       style={{ transitionProperty: 'color' }}
                       className={`transition text-sm font-bold font-body uppercase ml-4 ${
-                        currentPath === checkupStep.path
+                        currentPath[2] === checkupStep.path
                           ? 'text-blue-900'
-                          : achievedSteps.includes(checkupStep.id)
+                          : achievedSteps[0].includes(checkupStep.id)
                           ? 'text-blue-300'
                           : 'text-dark-300'
                       }`}>
                       {checkupStep.step}
                     </span>
                   </div>
+                  <ul
+                    style={{ transitionProperty: 'max-height' }}
+                    className={`ml-12 mt-4 transition space-y-4 overflow-hidden ${
+                      currentPath[2] !== checkupStep.path
+                        ? 'max-h-0'
+                        : 'max-h-40'
+                    }`}>
+                    {checkupStep.subSteps.map(subStep => {
+                      return (
+                        <li
+                          onClick={() =>
+                            switchCheckupStep([checkupStep.id, subStep.id])
+                          }
+                          style={{ transitionProperty: 'color' }}
+                          className={`transition cursor-pointer text-sm font-bold font-body uppercase ${
+                            currentPath[3] === subStep.path
+                              ? 'text-blue-900'
+                              : achievedSteps[1].includes(subStep.id)
+                              ? 'text-blue-300'
+                              : 'text-dark-300'
+                          }`}
+                          key={subStep.id}>
+                          {subStep.step}
+                        </li>
+                      )
+                    })}
+                  </ul>
                 </li>
               )
             })}
@@ -88,12 +127,12 @@ const CheckupLayout = ({ children }) => {
                 }`}>
                 <div className="flex flex-col items-center relative">
                   <div
-                    onClick={() => switchCheckupStep(checkupStep.id)}
+                    onClick={() => switchCheckupStep([checkupStep.id, 0])}
                     style={{ transitionProperty: 'background-color, color' }}
-                    className={`transition cursor-pointer w-8 h-8 flex justify-center items-center rounded-full font-head font-bold ${
-                      achievedSteps.includes(checkupStep.id)
+                    className={`transition duration-300 cursor-pointer w-8 h-8 flex justify-center items-center rounded-full font-head font-bold ${
+                      achievedSteps[0].includes(checkupStep.id)
                         ? 'text-light-100 bg-blue-900'
-                        : currentPath === checkupStep.path
+                        : currentPath[2] === checkupStep.path
                         ? 'text-blue-900 bg-blue-50'
                         : 'text-dark-300 bg-gray-100'
                     }`}>
@@ -101,7 +140,7 @@ const CheckupLayout = ({ children }) => {
                   </div>
                   <span
                     className={`w-24 text-center text-sm font-body font-bold text-blue-900 uppercase absolute mt-10 ${
-                      currentPath === checkupStep.path ? 'block' : 'hidden'
+                      currentPath[2] === checkupStep.path ? 'block' : 'hidden'
                     }`}>
                     {checkupStep.step}
                   </span>
@@ -111,11 +150,12 @@ const CheckupLayout = ({ children }) => {
                   <div
                     style={{ transitionProperty: 'width, background-color' }}
                     className={`transition separator h-0.5 mx-1 w-full ${
-                      currentPath === checkupStep.path
+                      currentPath[2] === checkupStep.path
                         ? 'bg-gray-100'
-                        : currentPath === getPathById(checkupStep.id + 1)
+                        : currentPath[2] ===
+                          getPathByIds([checkupStep.id + 1, 0])
                         ? 'bg-blue-900'
-                        : achievedSteps.includes(checkupStep.id)
+                        : achievedSteps[0].includes(checkupStep.id)
                         ? 'bg-blue-900'
                         : 'bg-gray-100'
                     }`}></div>

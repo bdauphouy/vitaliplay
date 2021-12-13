@@ -8,7 +8,7 @@ import { fetchAPI } from '@/lib/api'
 import { getStrapiMedia } from '@/lib/media'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 
 export const getStaticProps = async () => {
@@ -33,7 +33,9 @@ const Home = ({ home }) => {
   return (
     <div className="mt-32 lg:mt-0">
       <div className="flex flex-col lg:flex-row lg:h-screen lg:justify-between lg:gap-20">
-        <div className="px-6 flex flex-col justify-center md:px-24 lg:w-2/3 xl:w-1/2">
+        <div
+          data-lg-reveal="fade"
+          className="px-6 flex flex-col justify-center md:px-24 lg:w-2/3 xl:w-1/2">
           <Title type="1">{home.moto}</Title>
           <div className="mt-4 md:mt-6">
             <Subtitle>{home.moto_description}</Subtitle>
