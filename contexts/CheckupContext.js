@@ -85,18 +85,20 @@ export const CheckupContextProvider = ({ children }) => {
     },
   ])
 
-  useEffect(() => {
-    if (!window.localStorage.getItem('vitaliplay.checkup.activeStep')) {
-      window.localStorage.setItem('vitaliplay.checkup.activeStep', '1')
-    }
-  }, [])
-
-  const getPathById = id => {
+  const getPathByIds = ids => {
     let path = null
 
     checkupSteps.map(checkupStep => {
-      if (checkupStep.id === id) {
-        path = checkupStep.path
+      if (ids[1]) {
+        checkupStep.subSteps.map(subStep => {
+          if (subStep.id === ids[1] && checkupStep.id === ids[0]) {
+            path = `${checkupStep.path}${subStep.path}`
+          }
+        })
+      } else {
+        if (checkupStep.id === ids[0]) {
+          path = checkupStep.path
+        }
       }
     })
 
@@ -128,11 +130,17 @@ export const CheckupContextProvider = ({ children }) => {
   }
 
   const getIdByPath = path => {
-    let id = null
+    let id = 0
 
     checkupSteps.map(checkupStep => {
       if (checkupStep.path === path) {
         id = checkupStep.id
+      } else {
+        checkupStep.subSteps.map(subStep => {
+          if (subStep.path === path) {
+            id = subStep.id
+          }
+        })
       }
     })
 
@@ -145,7 +153,7 @@ export const CheckupContextProvider = ({ children }) => {
         store,
         setStore,
         prefix,
-        getPathById,
+        getPathByIds,
         getIdByStep,
         getIdByPath,
         getPathByStep,

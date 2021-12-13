@@ -3,12 +3,16 @@ import { useRouter } from 'next/router'
 import { CheckupContext } from '@/contexts/CheckupContext'
 
 const Checkup = () => {
-  const { prefix } = useContext(CheckupContext)
+  const { prefix, getPathByIds } = useContext(CheckupContext)
 
   const router = useRouter()
 
   useEffect(() => {
-    router.push(`${prefix}/physical`)
+    const activeStep = window.localStorage
+      .getItem('vitaliplay.checkup.activeStep')
+      .split(',')
+      .map(i => Number(i))
+    router.push(`${prefix}${getPathByIds(activeStep)}`)
   }, [])
 
   return <></>
