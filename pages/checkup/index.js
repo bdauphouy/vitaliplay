@@ -12,6 +12,7 @@ const Checkup = () => {
       .getItem('vitaliplay.checkup.activeStep')
       .split(',')
       .map(i => Number(i))
+
     router.push(`${prefix}${getPathByIds(activeStep)}`)
   }, [])
 
