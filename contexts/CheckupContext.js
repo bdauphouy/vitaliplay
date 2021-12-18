@@ -93,7 +93,7 @@ export const CheckupContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (!window.localStorage.getItem('vitaliplay.checkup.activeStep')) {
-      window.localStorage.setItem('vitaliplay.checkup.activeStep', '[1, 1]')
+      window.localStorage.setItem('vitaliplay.checkup.activeStep', '1,0')
     }
   }, [])
 
