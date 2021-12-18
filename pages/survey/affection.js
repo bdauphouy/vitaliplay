@@ -34,11 +34,7 @@ const SurveyAffection = () => {
   ])
 
   useEffect(() => {
-    const localStore = JSON.parse(
-      window.localStorage.getItem('vitaliplay.survey.store'),
-    )
-
-    setStore(localStore)
+    setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
   }, [])
 
   const router = useRouter()

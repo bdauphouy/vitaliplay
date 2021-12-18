@@ -8,7 +8,7 @@ import { fetchAPI } from '@/lib/api'
 import { getStrapiMedia } from '@/lib/media'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Link from 'next/link'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 
 export const getStaticProps = async () => {

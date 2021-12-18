@@ -1,4 +1,13 @@
-const Radio = ({ children, id, selected, name, onChange, checked, number }) => {
+const Radio = ({
+  children,
+  id,
+  selected,
+  name,
+  onChange,
+  checked,
+  number,
+  label,
+}) => {
   return (
     <div>
       <input
@@ -10,7 +19,7 @@ const Radio = ({ children, id, selected, name, onChange, checked, number }) => {
         className="hidden outline-none"
         id={id}
       />
-      <label htmlFor={id}>
+      <label htmlFor={id} className="flex flex-col items-center gap-2">
         <div
           style={{
             transitionProperty: 'background-color, border-color, color',
@@ -23,7 +32,7 @@ const Radio = ({ children, id, selected, name, onChange, checked, number }) => {
             number
               ? 'flex justify-center items-center text-lg md:text-3xl px-2 py-3 md:px-8 md:py-4 font-head'
               : 'px-6 py-5 md:p-6 text-md font-body'
-          } transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
+          } w-full transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
           <span
             className={`${
               number ? 'w-10 h-6 md:h-10 flex justify-center items-center' : ''
@@ -31,6 +40,9 @@ const Radio = ({ children, id, selected, name, onChange, checked, number }) => {
             {children}
           </span>
         </div>
+        <span className="text-sm text-dark-500 w-full lg:w-24 text-center">
+          {label}
+        </span>
       </label>
     </div>
   )

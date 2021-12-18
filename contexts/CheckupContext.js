@@ -83,14 +83,26 @@ export const CheckupContextProvider = ({ children }) => {
         },
       ],
     },
+    {
+      id: 4,
+      step: 'Succès',
+      path: '/success',
+      hidden: true,
+    },
   ])
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('vitaliplay.checkup.activeStep')) {
+      window.localStorage.setItem('vitaliplay.checkup.activeStep', '[1, 1]')
+    }
+  }, [])
 
   const getPathByIds = ids => {
     let path = null
 
     checkupSteps.map(checkupStep => {
       if (ids[1]) {
-        checkupStep.subSteps.map(subStep => {
+        checkupStep.subSteps?.map(subStep => {
           if (subStep.id === ids[1] && checkupStep.id === ids[0]) {
             path = `${checkupStep.path}${subStep.path}`
           }
@@ -105,30 +117,6 @@ export const CheckupContextProvider = ({ children }) => {
     return path
   }
 
-  const getPathByStep = step => {
-    let path = null
-
-    checkupSteps.map(checkupStep => {
-      if (checkupStep.step === step) {
-        path = checkupStep.path
-      }
-    })
-
-    return path
-  }
-
-  const getIdByStep = step => {
-    let id = null
-
-    checkupSteps.map(checkupStep => {
-      if (checkupStep.step === step) {
-        id = checkupStep.id
-      }
-    })
-
-    return id
-  }
-
   const getIdByPath = path => {
     let id = 0
 
@@ -136,7 +124,7 @@ export const CheckupContextProvider = ({ children }) => {
       if (checkupStep.path === path) {
         id = checkupStep.id
       } else {
-        checkupStep.subSteps.map(subStep => {
+        checkupStep.subSteps?.map(subStep => {
           if (subStep.path === path) {
             id = subStep.id
           }
@@ -154,9 +142,7 @@ export const CheckupContextProvider = ({ children }) => {
         setStore,
         prefix,
         getPathByIds,
-        getIdByStep,
         getIdByPath,
-        getPathByStep,
         checkupSteps,
       }}>
       {children}
