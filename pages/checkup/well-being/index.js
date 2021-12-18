@@ -2,8 +2,13 @@ import CheckupLayout from '@/components/layouts/CheckupLayout'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import Cta from '@/components/utils/Cta'
+import { useContext } from 'react'
+import { CheckupContext } from '@/contexts/CheckupContext'
+import Link from 'next/link'
 
 const WellBeing = () => {
+  const { prefix, getPathByIds } = useContext(CheckupContext)
+
   return (
     <div>
       <Title>Etape 2 : Bilan bien être</Title>
@@ -18,7 +23,11 @@ const WellBeing = () => {
         </Subtitle>
       </div>
       <div className="mt-12">
-        <Cta size="xl">Continuer</Cta>
+        <Link href={`${prefix}${getPathByIds([2, 1])}`} passHref>
+          <a>
+            <Cta size="xl">Continuer</Cta>
+          </a>
+        </Link>
       </div>
     </div>
   )

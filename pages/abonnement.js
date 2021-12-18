@@ -4,6 +4,9 @@ import SubscriptionCard from '@/components/pages/website/SubscriptionCard'
 import Cta from '@/components/utils/Cta'
 import Faq from '@/components/pages/website/Faq'
 import { fetchAPI } from '@/lib/api'
+import { useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
+import Link from 'next/link'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-about')
@@ -12,6 +15,8 @@ export const getStaticProps = async () => {
 }
 
 const Subscription = ({ subscriptions }) => {
+  const { getPathByPage } = useContext(LinksContext)
+
   return (
     <>
       <div className="px-6 mt-32 md:px-24 lg:mt-36 overflow-x-hidden lg:overflow-x-visible">
@@ -58,9 +63,13 @@ const Subscription = ({ subscriptions }) => {
                 </Subtitle>
               </div>
               <div className="mt-6 lg:mt-8">
-                <Cta size="l" type="primary">
-                  J’ai un code d’invitation
-                </Cta>
+                <Link href={getPathByPage('Invitation')} passHref>
+                  <a>
+                    <Cta size="l" type="primary">
+                      J’ai un code d’invitation
+                    </Cta>
+                  </a>
+                </Link>
               </div>
             </div>
           </div>

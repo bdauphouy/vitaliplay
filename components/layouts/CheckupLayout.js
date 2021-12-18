@@ -89,7 +89,7 @@ const CheckupLayout = ({ children }) => {
                         ? 'max-h-0'
                         : 'max-h-40'
                     }`}>
-                    {checkupStep.subSteps.map(subStep => {
+                    {checkupStep.subSteps?.map(subStep => {
                       return (
                         <li
                           onClick={() =>
@@ -123,7 +123,7 @@ const CheckupLayout = ({ children }) => {
               <li
                 key={checkupStep.id}
                 className={`flex items-center ${
-                  checkupStep.id < checkupSteps.length && 'w-full'
+                  checkupStep.id < checkupSteps.length - 1 && 'w-full'
                 }`}>
                 <div className="flex flex-col items-center relative">
                   <div
@@ -146,7 +146,7 @@ const CheckupLayout = ({ children }) => {
                   </span>
                 </div>
 
-                {checkupStep.id < checkupSteps.length && (
+                {checkupStep.id < checkupSteps.length - 1 && (
                   <div
                     style={{ transitionProperty: 'width, background-color' }}
                     className={`transition separator h-0.5 mx-1 w-full ${

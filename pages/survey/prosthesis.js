@@ -18,11 +18,7 @@ const SurveyProsthesis = () => {
   const [store, setStore] = useState()
 
   useEffect(() => {
-    const localStore = JSON.parse(
-      window.localStorage.getItem('vitaliplay.survey.store'),
-    )
-
-    setStore(localStore)
+    setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
   }, [])
 
   const [prosthesisLocations] = useState(['Epaule', 'Hanche', 'Genou', 'Autre'])
