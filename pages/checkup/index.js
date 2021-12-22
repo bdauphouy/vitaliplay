@@ -8,10 +8,16 @@ const Checkup = () => {
   const router = useRouter()
 
   useEffect(() => {
-    const activeStep = window.localStorage
-      .getItem('vitaliplay.checkup.activeStep')
-      .split(',')
-      .map(i => Number(i))
+    let activeStep = window.localStorage.getItem(
+      'vitaliplay.checkup.activeStep',
+    )
+
+    if (!activeStep) {
+      window.localStorage.setItem('vitaliplay.checkup.activeStep', '1,0')
+      activeStep = window.localStorage.getItem('vitaliplay.checkup.activeStep')
+    }
+
+    activeStep = activeStep.split(',').map(i => parseInt(i))
 
     router.push(`${prefix}${getPathByIds(activeStep)}`)
   }, [])

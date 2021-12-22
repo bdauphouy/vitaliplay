@@ -8,11 +8,14 @@ const Survey = () => {
   const { prefix, getPathById } = useContext(SurveyContext)
 
   useEffect(() => {
-    router.push(
-      `${prefix}${getPathById(
-        parseInt(window.localStorage.getItem('vitaliplay.survey.activeStep')),
-      )}`,
-    )
+    let activeStep = window.localStorage.getItem('vitaliplay.survey.activeStep')
+
+    if (!activeStep) {
+      window.localStorage.setItem('vitaliplay.survey.activeStep', '1')
+      activeStep = window.localStorage.getItem('vitaliplay.survey.activeStep')
+    }
+
+    router.push(`${prefix}${getPathById(parseInt(activeStep))}`)
   }, [])
 
   return <></>
