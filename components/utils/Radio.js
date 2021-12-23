@@ -8,9 +8,10 @@ const Radio = ({
   number,
   label,
   center,
+  padding = '1',
 }) => {
   return (
-    <div>
+    <div className="h-full">
       <input
         defaultChecked={selected}
         onChange={onChange}
@@ -20,7 +21,7 @@ const Radio = ({
         className="hidden outline-none"
         id={id}
       />
-      <label htmlFor={id} className="flex flex-col items-center gap-2">
+      <label htmlFor={id} className="flex flex-col items-center gap-2 h-full">
         <div
           style={{
             transitionProperty: 'background-color, border-color, color',
@@ -32,10 +33,10 @@ const Radio = ({
           } ${
             number
               ? 'flex justify-center items-center text-lg md:text-3xl px-2 py-3 md:px-8 md:py-4 font-head'
-              : 'px-6 py-4 md:p-6 text-md font-body'
-          } ${
-            center ? 'flex justify-center text-center' : ''
-          } w-full transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
+              : 'px-6 py-4 text-md font-body'
+          } ${padding === '1' ? 'md:p-6' : ''} ${
+            center ? 'flex justify-center items-center text-center' : ''
+          } h-full w-full transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
           <span
             className={`${
               number ? 'w-10 h-6 md:h-10 flex justify-center items-center' : ''

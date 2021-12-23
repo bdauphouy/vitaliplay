@@ -71,7 +71,7 @@ const DailyActivityModerateActivity = () => {
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-6">
+        <div className="grid grid-cols-1 xl:grid-cols-4 gap-x-4 gap-y-6">
           {radios.map((radio, i) => {
             return (
               <div key={i}>
@@ -80,7 +80,8 @@ const DailyActivityModerateActivity = () => {
                   name="frequency"
                   checked={formik.values.frequency === radio.toString()}
                   onChange={formik.handleChange}
-                  center={true}>
+                  center={true}
+                  padding="2">
                   {radio}
                 </Radio>
               </div>
