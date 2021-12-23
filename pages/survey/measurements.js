@@ -41,9 +41,9 @@ const SurveyMeasurements = () => {
 
   return (
     <div>
-      <Title>Renseignez votre taille et poids</Title>
+      <Title type="3">Renseignez votre taille et poids</Title>
       <div className="mt-4">
-        <Subtitle>
+        <Subtitle type="2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>

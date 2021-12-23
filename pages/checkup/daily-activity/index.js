@@ -11,9 +11,9 @@ const DailyActivity = () => {
 
   return (
     <div>
-      <Title>Etape 3 : Bilan activité quotidienne</Title>
+      <Title type="3">Etape 3 : Bilan activité quotidienne</Title>
       <div className="mt-4">
-        <Subtitle>
+        <Subtitle type="2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. At purus
           pellentesque malesuada pellentesque ultricies leo sit. Ut in sed
           ultricies diam arcu et. Sed lectus feugiat aliquam urna, sed risus

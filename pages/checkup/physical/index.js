@@ -11,13 +11,12 @@ const Physical = () => {
 
   return (
     <div>
-      <Title>Etape 1 : Bilan physique</Title>
+      <Title type="3">Etape 1 : Bilan physique</Title>
       <div className="mt-4">
-        <Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. At purus
-          pellentesque malesuada pellentesque ultricies leo sit. Ut in sed
-          ultricies diam arcu et. Sed lectus feugiat aliquam urna, sed risus
-          sed. Integer vestibulum dolor aliquam volutpat lectus.
+        <Subtitle type="2">
+          Le bilan physique a pour objectif d'évaluer votre condition physique
+          globale à travers différents exercices. Le bilan est personnel car il
+          dépend de votre âge et votre sexe.
         </Subtitle>
       </div>
       <div className="mt-12">

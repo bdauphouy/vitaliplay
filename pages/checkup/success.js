@@ -20,9 +20,11 @@ const SurveySuccess = () => {
 
   return (
     <div className="flex flex-col h-full justify-center items-center">
-      <Title center={true}>Bilan fini ! Votre score est de : 66</Title>
+      <Title center={true} type="3">
+        Bilan fini ! Votre score est de : 66
+      </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
+        <Subtitle center={true} type="2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>

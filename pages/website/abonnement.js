@@ -26,7 +26,7 @@ const Subscription = ({ subscriptions }) => {
         <div className="mt-4">
           <Subtitle center={true}>{subscriptions.description}</Subtitle>
         </div>
-        <div className="mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
+        <div className="mt-10 gap-6 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
             <SubscriptionCard
               title="Annuel"
@@ -52,13 +52,13 @@ const Subscription = ({ subscriptions }) => {
               program={subscriptions.prices[0].price_points}
             />
           </div>
-          <div className="self-stretch lg:order-3 w-full lg:w-96 py-8">
+          <div className="self-stretch lg:order-3 w-full lg:w-96 lg:py-8">
             <div className="flex flex-col justify-center items-center w-full bg-blue-50 px-6 py-10 rounded-lg h-full">
-              <h3 className="font-bold font-head text-xl text-center">
+              <h3 className="font-bold font-head text-2xl text-center">
                 {subscriptions.code_reduc_title}
               </h3>
               <div className="mt-4">
-                <Subtitle center={true}>
+                <Subtitle center={true} type="2">
                   {subscriptions.code_reduc_description}
                 </Subtitle>
               </div>
@@ -74,16 +74,18 @@ const Subscription = ({ subscriptions }) => {
             </div>
           </div>
         </div>
-        <div className="xl:px-28 mt-4 lg:mt-16">
-          <div className="flex flex-col lg:items-center lg:justify-between lg:flex-row w-full bg-blue-50 py-10 px-4 md:px-8 rounded-lg lg:py-16">
+        <div className="xl:px-28 mt-12">
+          <div className="flex flex-col lg:items-center lg:justify-between lg:flex-row w-full bg-blue-50 py-10 px-4 md:px-8 rounded-lg lg:py-10">
             <div className="lg:w-1/2 xl:w-3/5">
               <h3
                 style={{ fontSize: 20 }}
                 className="font-bold font-head text-blue-900 lg:text-xl">
                 {subscriptions.offer_sub_title}
               </h3>
-              <div className="mt-4">
-                <Subtitle>{subscriptions.offer_sub_decription}</Subtitle>
+              <div className="mt-3">
+                <Subtitle type="3">
+                  {subscriptions.offer_sub_decription}
+                </Subtitle>
               </div>
             </div>
             <div className="mt-6 lg:mt-0">

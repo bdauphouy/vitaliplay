@@ -1,9 +1,11 @@
 const Title = ({ children, type = '2', center = false, html = true }) => {
   return html ? (
     <h2
-      className={`font-bold font-head ${
+      className={`font-bold font-head text-dark-900 ${
         type === '1'
           ? 'text-3xl md:text-5xl lg:font-extrabold'
+          : type === '3'
+          ? 'text-3xl'
           : 'text-2xl md:text-4xl'
       } ${center && 'text-center'}`}
       dangerouslySetInnerHTML={{

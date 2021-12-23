@@ -11,15 +11,20 @@ const WellBeing = () => {
 
   return (
     <div>
-      <Title>Etape 2 : Bilan bien être</Title>
+      <Title type="3">Etape 2 : Bilan bien être</Title>
       <div className="mt-4">
-        <Subtitle>
+        <Subtitle type="2" html={false}>
           Veuillez indiquer, pour chacune des cinq affirmations, laquelle se
           rapproche le plus de ce que vous avez ressenti au cours des deux
-          dernières semaines. Notez que le chiffre est propotionnel au
-          bien-être. Exemple : si vous vous êtes senti(e) bien et de bonne
-          humeur plus de la moitié du temps au cours des deux dernières
-          semaines, cochez la case 3. Au cours des deux dernières semaines
+          dernières semaines.
+          <br />
+          <br />
+          Notez que le chiffre est propotionnel au bien-être.
+          <br />
+          <br />
+          Exemple : si vous vous êtes senti(e) bien et de bonne humeur plus de
+          la moitié du temps au cours des deux dernières semaines, cochez la
+          case 3. Au cours des deux dernières semaines
         </Subtitle>
       </div>
       <div className="mt-12">

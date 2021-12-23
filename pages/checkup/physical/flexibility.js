@@ -33,7 +33,7 @@ const PhysicalFlexibility = () => {
     },
     validationSchema: FlexibilitySchema,
     onSubmit: values => {
-      console.log(values)
+      window.scrollTo(0, 0)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
@@ -59,9 +59,9 @@ const PhysicalFlexibility = () => {
     <>
       {currentExercise === 1 ? (
         <div>
-          <Title>Exercice 3 : Souplesse de tronc</Title>
+          <Title type="3">Exercice 3 : Souplesse de tronc</Title>
           <div className="mt-4">
-            <Subtitle>
+            <Subtitle type="2">
               Assis sur le rebord d’une chaise, une jambe tendue, les mains
               cherchent à atteindre le pied, la distance entre le bout des
               doigts et le pied est mesuré

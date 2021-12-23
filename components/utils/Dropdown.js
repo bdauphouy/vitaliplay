@@ -24,7 +24,9 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
   return (
     <>
       <div className="flex flex-col h-full">
-        <label className="font-body text-sm text-dark-900">{label}</label>
+        <label className="font-body text-sm font-normal text-black">
+          {label}
+        </label>
         <details
           open={open}
           className="mt-2 relative bg-light-100 cursor-pointer">

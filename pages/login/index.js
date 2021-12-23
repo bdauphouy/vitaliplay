@@ -30,7 +30,7 @@ const LoginStart = () => {
   const buttonSize = useButtonSize()
 
   return (
-    <div className="h-full lg:pt-20">
+    <div className="h-full lg:pt-20 xl:max-w-3xl">
       <Title>Connexion</Title>
       <div className="mt-4">
         <Subtitle>

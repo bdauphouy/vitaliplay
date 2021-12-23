@@ -53,9 +53,9 @@ const SurveySmoker = () => {
 
   return (
     <div>
-      <Title>Êtes-vous fumeur ?</Title>
+      <Title type="3">Êtes-vous fumeur ?</Title>
       <div className="mt-4">
-        <Subtitle>
+        <Subtitle type="2">
           Si oui, combien de paquets fumez-vous par semaine ? Et depuis combien
           de temps ?
         </Subtitle>

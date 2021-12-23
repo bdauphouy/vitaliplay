@@ -165,7 +165,7 @@ const CheckupLayout = ({ children }) => {
           })}
         </ul>
       </nav>
-      <div className="px-6 md:px-24 py-10 lg:py-40 w-full flex flex-1">
+      <div className="px-6 md:px-24 2xl:mr-40 xl:mr-24 py-10 lg:py-40 w-full flex flex-1">
         <div className="lg:w-11/12">{children}</div>
       </div>
     </div>

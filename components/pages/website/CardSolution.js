@@ -1,7 +1,12 @@
 import Cta from '@/components/utils/Cta'
 import Image from 'next/image'
+import Link from 'next/link'
+import { useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const CardSolution = ({ icon, title, description, variant }) => {
+  const { getPathByPage } = useContext(LinksContext)
+
   return (
     <div
       className={`w-full sm:px-8 min-h-72 sm:py-6 px-4 py-4 sm:pt-11 pt-7 rounded-lg flex flex-col items-start justify-between ${
@@ -17,9 +22,13 @@ const CardSolution = ({ icon, title, description, variant }) => {
         {description}
       </p>
       <div className="mt-8">
-        <Cta size="m" type="link" arrow="right" textColor="text-dark-500">
-          En savoir plus
-        </Cta>
+        <Link href={getPathByPage('Notre solution')}>
+          <a>
+            <Cta size="m" type="link" arrow="right" textColor="text-dark-500">
+              En savoir plus
+            </Cta>
+          </a>
+        </Link>
       </div>
     </div>
   )

@@ -68,7 +68,7 @@ const Nav = ({ navLinks, isAuth }) => {
   return (
     <>
       <nav
-        className="hidden absolute top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
+        className="hidden fixed top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
     ">
         <Link
           href={
