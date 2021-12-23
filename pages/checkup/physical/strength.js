@@ -28,8 +28,8 @@ const PhysicalStrength = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstReps: store?.physical?.strength[0] || '15',
-      secondReps: store?.physical?.strength[1] || '15',
+      firstReps: store?.physical?.strength.firstReps || '15',
+      secondReps: store?.physical?.strength.secondReps || '15',
     },
     validationSchema: StrengthSchema,
     onSubmit: values => {
