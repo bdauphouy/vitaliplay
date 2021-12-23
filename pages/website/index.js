@@ -107,10 +107,10 @@ const Home = ({ home }) => {
         </div>
       </div>
       <div className="px-6 mt-16 md:px-24 lg:mt-36">
-        <Title center={true}>
-          Ils nous font <span className="text-blue-900">confiance</span>
+        <Title center={true} html={false}>
+          Ils nous font <strong>confiance</strong>
           <br />
-          dans notre <span className="text-blue-900">aventure</span>
+          dans notre <strong>aventure</strong>
         </Title>
         <div className="grid mt-16 place-items-center grid-cols-2 xl:grid-cols-4 gap-9">
           {home.parteners.map((partner, i) => {

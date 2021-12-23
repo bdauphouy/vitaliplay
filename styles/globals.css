@@ -30,3 +30,7 @@ summary::-webkit-details-marker {
 input[type='date'] {
   -webkit-appearance: none;
 }
+
+strong {
+  @apply text-blue-900 lg:font-light;
+}

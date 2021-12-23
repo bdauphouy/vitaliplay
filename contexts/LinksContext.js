@@ -28,28 +28,33 @@ export const LinksContextProvider = ({ children }) => {
   }
 
   const [internalLinks, setInternalLinks] = useState([
-    { page: 'Accueil', path: '/', nav: true },
-    { page: 'Notre solution', path: '/notre-solution', auth: false, nav: true },
-    { page: 'Abonnement', path: '/abonnement', auth: false, nav: true },
-    { page: 'Contact', path: '/contact', auth: false, nav: true },
-    { page: 'En direct', path: '/en-direct', auth: true, nav: true },
-    { page: 'Séances', path: '/seances', auth: true, nav: true },
+    { page: 'Accueil', path: '/website', nav: true },
+    {
+      page: 'Notre solution',
+      path: '/website/notre-solution',
+      auth: false,
+      nav: true,
+    },
+    { page: 'Abonnement', path: '/website/abonnement', auth: false, nav: true },
+    { page: 'Contact', path: '/website/contact', auth: false, nav: true },
+    { page: 'En direct', path: '/account/en-direct', auth: true, nav: true },
+    { page: 'Séances', path: '/account/seances', auth: true, nav: true },
     {
       page: 'Conférences de santé',
-      path: '/conferences-de-sante',
+      path: '/account/conferences-de-sante',
       auth: true,
       nav: true,
     },
     {
       page: 'Mon espace santé',
-      path: '/mon-espace-sante',
+      path: '/account/mon-espace-sante',
       auth: true,
       nav: true,
     },
     { page: 'Mentions légales', path: '/mentions-legales', nav: false },
     {
       page: "Conditions d'utilisation",
-      path: '/conditions-d-utilisation',
+      path: '/website/conditions-d-utilisation',
       nav: false,
     },
     { page: 'Inscription', path: '/signup', nav: false },
