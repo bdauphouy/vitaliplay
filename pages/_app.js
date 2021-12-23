@@ -6,8 +6,13 @@ import { RouteContextProvider } from '@/contexts/RouteContext'
 import { LinksContextProvider } from '@/contexts/LinksContext'
 import { SurveyContextProvider } from '@/contexts/SurveyContext'
 import { CheckupContextProvider } from '@/contexts/CheckupContext'
+import { useEffect } from 'react'
 
 const MyApp = ({ Component, pageProps }) => {
+  useEffect(() => {
+    document.cookie = 'auth=false'
+  }, [])
+
   return (
     <CheckupContextProvider>
       <SurveyContextProvider>
