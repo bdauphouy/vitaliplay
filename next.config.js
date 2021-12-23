@@ -16,6 +16,39 @@ module.exports = {
         ],
       },
       {
+        source: '/notre-solution',
+        destination: '/website/notre-solution',
+        has: [
+          {
+            type: 'cookie',
+            key: 'auth',
+            value: 'false',
+          },
+        ],
+      },
+      {
+        source: '/abonnement',
+        destination: '/website/abonnement',
+        has: [
+          {
+            type: 'cookie',
+            key: 'auth',
+            value: 'false',
+          },
+        ],
+      },
+      {
+        source: '/contact',
+        destination: '/website/contact',
+        has: [
+          {
+            type: 'cookie',
+            key: 'auth',
+            value: 'false',
+          },
+        ],
+      },
+      {
         source: '/',
         destination: '/account',
         has: [

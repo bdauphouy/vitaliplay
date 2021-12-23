@@ -70,9 +70,8 @@ const SubscriptionPreview = ({
               : 'text-dark-500 border-dark-100'
           } mt-4 font-body text-md font-normal ${
             program.length > 0 && 'border-b-1 pb-6 border-solid'
-          }`}>
-          {description}
-        </p>
+          }`}
+          dangerouslySetInnerHTML={{ __html: description }}></p>
         <ul className={`flex flex-col gap-4 ${program.length > 0 && 'py-6'}`}>
           {program.map((item, i) => {
             return (
