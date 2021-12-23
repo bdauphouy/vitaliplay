@@ -35,7 +35,8 @@ const Burger = ({ menu, setMenu }) => {
 }
 
 const Nav = ({ navLinks, isAuth }) => {
-  const { externalLinks, getPathByPage } = useContext(LinksContext)
+  const { externalLinks, getPathByPage, getRewriteByPage } =
+    useContext(LinksContext)
   const [menu, setMenu] = useState(false)
 
   const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
@@ -55,7 +56,10 @@ const Nav = ({ navLinks, isAuth }) => {
         marker.current.style.width = `${navItem.offsetWidth}px`
       }
 
-      if (getPathByPage(navItem.innerText) === router.asPath) {
+      if (
+        getPathByPage(navItem.innerText) === router.asPath ||
+        getRewriteByPage(navItem.innerText) === router.asPath
+      ) {
         updateMarker()
       }
     })
@@ -66,7 +70,13 @@ const Nav = ({ navLinks, isAuth }) => {
       <nav
         className="hidden absolute top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
     ">
-        <Link href={getPathByPage('Accueil')} passHref>
+        <Link
+          href={
+            getRewriteByPage('Accueil')
+              ? getRewriteByPage('Accueil')
+              : getPathByPage('Accueil')
+          }
+          passHref>
           <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
             <Image
               src="/logo.svg"
@@ -86,10 +96,11 @@ const Nav = ({ navLinks, isAuth }) => {
           {navLinks.map((navLink, i) => {
             return (
               <li key={i} className="h-full">
-                <Link href={navLink.path}>
+                <Link href={navLink.rewrite || navLink.path}>
                   <a
                     className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
-                      router.route === navLink.path
+                      router.route === navLink.path ||
+                      router.route === navLink.rewrite
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}>
@@ -106,7 +117,13 @@ const Nav = ({ navLinks, isAuth }) => {
                 <User color="#FFFFFF" size={24} />
               </div>
             ) : (
-              <Link href={getPathByPage('Connexion')} passHref>
+              <Link
+                href={
+                  getRewriteByPage('Connexion')
+                    ? getRewriteByPage('Connexion')
+                    : getPathByPage('Connexion')
+                }
+                passHref>
                 <div>
                   <Cta size="l">Connexion</Cta>
                 </div>
@@ -119,7 +136,13 @@ const Nav = ({ navLinks, isAuth }) => {
         className="absolute top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
     ">
         <div className="flex justify-between items-center w-full h-20">
-          <Link href={getPathByPage('Accueil')} passHref>
+          <Link
+            href={
+              getRewriteByPage('Accueil')
+                ? getRewriteByPage('Accueil')
+                : getPathByPage('Accueil')
+            }
+            passHref>
             <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
               <Image
                 src="/logo.svg"
@@ -162,7 +185,13 @@ const Nav = ({ navLinks, isAuth }) => {
                   <User color="#FFFFFF" size={24} />
                 </div>
               ) : (
-                <Link href={getPathByPage('Connexion')} passHref>
+                <Link
+                  href={
+                    getRewriteByPage('Connexion')
+                      ? getRewriteByPage('Connexion')
+                      : getPathByPage('Connexion')
+                  }
+                  passHref>
                   <div>
                     <Cta size="l">Connexion</Cta>
                   </div>

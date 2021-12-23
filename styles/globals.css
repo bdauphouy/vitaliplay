@@ -32,5 +32,9 @@ input[type='date'] {
 }
 
 strong {
-  @apply text-blue-900 lg:font-light;
+  @apply text-blue-900 font-bold lg:font-extrabold !important;
+}
+
+strong.type-2 {
+  @apply font-bold !important;
 }

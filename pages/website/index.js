@@ -54,8 +54,8 @@ const Home = ({ home }) => {
         </div>
       </div>
       <div className="px-6 mt-24 md:px-24">
-        <Title center={true}>
-          Découvrez notre <span className="text-blue-900">solution</span>
+        <Title center={true} html={false}>
+          Découvrez notre <strong className="type-2">solution</strong>
         </Title>
         <div className="mt-4">
           <Subtitle center={true}>
@@ -108,9 +108,9 @@ const Home = ({ home }) => {
       </div>
       <div className="px-6 mt-16 md:px-24 lg:mt-36">
         <Title center={true} html={false}>
-          Ils nous font <strong>confiance</strong>
+          Ils nous font <strong className="type-2">confiance</strong>
           <br />
-          dans notre <strong>aventure</strong>
+          dans notre <strong className="type-2">aventure</strong>
         </Title>
         <div className="grid mt-16 place-items-center grid-cols-2 xl:grid-cols-4 gap-9">
           {home.parteners.map((partner, i) => {

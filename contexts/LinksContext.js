@@ -15,6 +15,18 @@ export const LinksContextProvider = ({ children }) => {
     return path
   }
 
+  const getRewriteByPage = page => {
+    let rewrite = null
+
+    internalLinks.map(internalLinks => {
+      if (internalLinks.page === page) {
+        rewrite = internalLinks.rewrite
+      }
+    })
+
+    return rewrite
+  }
+
   const getNavByPath = path => {
     let nav = false
 
@@ -28,15 +40,28 @@ export const LinksContextProvider = ({ children }) => {
   }
 
   const [internalLinks, setInternalLinks] = useState([
-    { page: 'Accueil', path: '/website', nav: true },
+    { page: 'Accueil', path: '/website', rewrite: '/', nav: true },
     {
       page: 'Notre solution',
       path: '/website/notre-solution',
+      rewrite: '/notre-solution',
       auth: false,
       nav: true,
     },
-    { page: 'Abonnement', path: '/website/abonnement', auth: false, nav: true },
-    { page: 'Contact', path: '/website/contact', auth: false, nav: true },
+    {
+      page: 'Abonnement',
+      path: '/website/abonnement',
+      rewrite: '/abonnement',
+      auth: false,
+      nav: true,
+    },
+    {
+      page: 'Contact',
+      path: '/website/contact',
+      rewrite: '/contact',
+      auth: false,
+      nav: true,
+    },
     { page: 'En direct', path: '/account/en-direct', auth: true, nav: true },
     { page: 'Séances', path: '/account/seances', auth: true, nav: true },
     {
@@ -91,6 +116,7 @@ export const LinksContextProvider = ({ children }) => {
         externalLinks,
         setExternalLinks,
         getPathByPage,
+        getRewriteByPage,
         getNavByPath,
         authNavLinks,
         notAuthNavLinks,
