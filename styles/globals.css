@@ -11,6 +11,14 @@
   @apply w-full h-0.75 absolute rounded-lg top-1/2 transform -translate-y-1/2;
 }
 
+strong {
+  @apply text-blue-900 font-bold lg:font-extrabold !important;
+}
+
+strong.type-2 {
+  @apply font-bold !important;
+}
+
 @media (min-width: 1024px) {
   .lg\:grid-area-signup {
     grid-template-areas:
@@ -31,10 +39,6 @@ input[type='date'] {
   -webkit-appearance: none;
 }
 
-strong {
-  @apply text-blue-900 font-bold lg:font-extrabold !important;
-}
-
-strong.type-2 {
-  @apply font-bold !important;
+html {
+  scroll-behavior: smooth;
 }

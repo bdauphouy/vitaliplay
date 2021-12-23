@@ -10,6 +10,7 @@ import { useRouter } from 'next/router'
 import Radio from '@/components/utils/Radio'
 import ActivitySchema from '@/schemas/checkup/daily-activity/ActivitySchema'
 import Error from '@/components/utils/Error'
+import Subtitle from '@/components/utils/Subtitle'
 
 const DailyActivityModerateActivity = () => {
   const [store, setStore] = useState()
@@ -58,9 +59,19 @@ const DailyActivityModerateActivity = () => {
 
   return (
     <div>
-      <Title>Je me suis senti(e) bien et bonne humeur</Title>
+      <Title type="3">
+        Combien de fois par semaine faites-vous 30 minutes d’activité physique
+        modérée ou de la marche, qui augmente votre fréquence cardiaque ou qui
+        vous font respirer plus fort que normalement ?
+      </Title>
+      <div className="mt-4">
+        <Subtitle type="2">
+          Par exemple : jogging, port de charge lourde, aérobic ou cyclisme à
+          allure rapide
+        </Subtitle>
+      </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
-        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-6">
+        <div className="grid grid-cols-1 xl:grid-cols-3 gap-x-4 gap-y-6">
           {radios.map((radio, i) => {
             return (
               <div key={i}>
@@ -68,7 +79,8 @@ const DailyActivityModerateActivity = () => {
                   id={radio.toString()}
                   name="frequency"
                   checked={formik.values.frequency === radio.toString()}
-                  onChange={formik.handleChange}>
+                  onChange={formik.handleChange}
+                  center={true}>
                   {radio}
                 </Radio>
               </div>

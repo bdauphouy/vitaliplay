@@ -11,6 +11,7 @@ const SubscriptionPreview = ({
   variant = null,
   size = 'small',
   stamp = false,
+  stampValue = '31',
   subPage = false,
   program = [],
 }) => {
@@ -36,8 +37,8 @@ const SubscriptionPreview = ({
           className={`${
             !stamp && 'hidden'
           } absolute right-0 top-0 transform translate-x-1/3 -translate-y-1/3`}>
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
-            <Gift size={giftSize} />
+          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 font-head font-bold text-xl">
+            -{stampValue}%
           </div>
 
           <Stamp size={stampSize} color="#FFA799" />

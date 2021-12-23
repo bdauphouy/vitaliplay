@@ -7,6 +7,7 @@ const Radio = ({
   checked,
   number,
   label,
+  center,
 }) => {
   return (
     <div>
@@ -31,7 +32,9 @@ const Radio = ({
           } ${
             number
               ? 'flex justify-center items-center text-lg md:text-3xl px-2 py-3 md:px-8 md:py-4 font-head'
-              : 'px-6 py-5 md:p-6 text-md font-body'
+              : 'px-6 py-4 md:p-6 text-md font-body'
+          } ${
+            center ? 'flex justify-center text-center' : ''
           } w-full transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
           <span
             className={`${

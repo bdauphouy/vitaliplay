@@ -130,7 +130,7 @@ const OurSolution = ({ ourSolution }) => {
                 )
               })}
             </ul>
-            <div className="w-full">
+            <div className="lg:max-w-xl">
               <div
                 ref={slideSection}
                 className="transition duration-300"
@@ -148,7 +148,7 @@ const OurSolution = ({ ourSolution }) => {
             </div>
           </div>
           <div
-            className="2xl:w-2/5 w-1/3 relative opacity-0 transition duration-300"
+            className="2xl:w-1/2 w-2/5 relative opacity-0 transition duration-300"
             ref={imageRef}
             style={{ transitionProperty: 'opacity' }}>
             <Image

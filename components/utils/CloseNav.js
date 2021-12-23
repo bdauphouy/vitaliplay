@@ -18,7 +18,7 @@ const CloseNav = () => {
 
   return (
     <nav
-      className="absolute top-0 w-full z-50 md:px-24 px-6
+      className="fixed top-0 w-full z-50 md:px-24 px-6
     ">
       <div className="flex justify-between items-center w-full h-20">
         <Link href={getPathByPage('Accueil')} passHref>

@@ -46,9 +46,9 @@ const SurveyProsthesis = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title>Avez-vous une prothèse articulaire?</Title>
+        <Title type="3">Avez-vous une prothèse articulaire?</Title>
         <div className="mt-4">
-          <Subtitle>Si oui, à quel(s) endroit ?</Subtitle>
+          <Subtitle type="2">Si oui, à quel(s) endroit ?</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">

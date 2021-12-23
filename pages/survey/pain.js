@@ -55,11 +55,13 @@ const SurveyPain = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title>
+        <Title type="3">
           Souffrez-vous de douleurs chroniques ? (Depuis plus de 3 mois)
         </Title>
         <div className="mt-4">
-          <Subtitle>Si oui, où sont localisées vos douleurs ?</Subtitle>
+          <Subtitle type="2">
+            Si oui, où sont localisées vos douleurs ?
+          </Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
@@ -115,11 +117,11 @@ const SurveyPain = () => {
                 ? 'opacity-100 h-auto mt-14'
                 : 'opacity-0 h-0 overflow-hidden'
             } transition duration-300 ease-linear col-span-2`}>
-            <Title>
+            <Title type="3">
               Pouvez-vous évaluer ces douleurs sur une échelle de 0 à 10 ?
             </Title>
             <div className="mt-4">
-              <Subtitle>
+              <Subtitle type="2">
                 0 étant pas de douleur et 10 une douleur extrême.
               </Subtitle>
             </div>

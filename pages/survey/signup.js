@@ -14,9 +14,9 @@ const SurveySignup = () => {
 
   return (
     <div>
-      <Title>Compléter votre profil</Title>
+      <Title type="3">Compléter votre profil</Title>
       <div className="mt-4">
-        <Subtitle>
+        <Subtitle type="2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>

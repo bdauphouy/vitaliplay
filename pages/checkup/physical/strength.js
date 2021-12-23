@@ -33,6 +33,7 @@ const PhysicalStrength = () => {
     },
     validationSchema: StrengthSchema,
     onSubmit: values => {
+      window.scrollTo(0, 0)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
@@ -58,9 +59,9 @@ const PhysicalStrength = () => {
     <>
       {currentExercise === 1 ? (
         <div>
-          <Title>Exercice 1 : Assis-debout</Title>
+          <Title type="3">Exercice 1 : Assis-debout</Title>
           <div className="mt-4">
-            <Subtitle>
+            <Subtitle type="2">
               Le but est de se lever et s’assoir sur une chaise le plus de fois
               possibles en 30 secondes.
             </Subtitle>

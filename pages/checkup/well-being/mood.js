@@ -60,7 +60,7 @@ const WellBeingMood = () => {
 
   return (
     <div>
-      <Title>Je me suis senti(e) bien et bonne humeur</Title>
+      <Title type="3">Je me suis senti(e) bien et bonne humeur</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 lg:flex lg:flex-wrap gap-x-4 gap-y-6">
           {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {

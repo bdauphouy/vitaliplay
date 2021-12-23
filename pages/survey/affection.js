@@ -60,9 +60,11 @@ const SurveyAffection = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title>Êtes vous atteints d’une affection longue durée ?</Title>
+        <Title type="3">
+          Êtes vous atteints d’une affection longue durée ?
+        </Title>
         <div className="mt-4">
-          <Subtitle>Si oui, laquelle ?</Subtitle>
+          <Subtitle type="2">Si oui, laquelle ?</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">

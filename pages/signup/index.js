@@ -49,7 +49,7 @@ const SignupStart = () => {
   })
 
   return (
-    <div className="h-full lg:pt-20">
+    <div className="h-full lg:pt-20 xl:max-w-3xl">
       <Title>Inscription</Title>
       <div className="mt-4">
         <Subtitle>

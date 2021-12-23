@@ -23,12 +23,12 @@ const InvitationStart = () => {
   const buttonSize = useButtonSize()
 
   return (
-    <div>
+    <div className="max-w-3xl">
       <Title>Renseignez votre code d'invitation</Title>
       <div className="mt-4">
-        <Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+        <Subtitle type="2">
+          Un code invitation vous a été offert? Renseignez-le pour bénéficier
+          d'un accès gratuit à la plateforme.
         </Subtitle>
       </div>
       <form

@@ -32,7 +32,7 @@ const PhysicalBalance = () => {
     },
     validationSchema: BalanceSchema,
     onSubmit: values => {
-      console.log(values)
+      window.scrollTo(0, 0)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
@@ -55,9 +55,11 @@ const PhysicalBalance = () => {
   return (
     <>
       <div>
-        <Title>Exercice 6 : Equilibre sur une jambe (deux cotés)</Title>
+        <Title type="3">
+          Exercice 6 : Equilibre sur une jambe (deux cotés)
+        </Title>
         <div className="mt-4">
-          <Subtitle>
+          <Subtitle type="2">
             Le but du test est de tenir au moins 30 secondes en équilibre sur
             une jambe sans se tenir. L’exercice est à réaliser de chaque côté.
           </Subtitle>
@@ -71,26 +73,28 @@ const PhysicalBalance = () => {
           allowFullScreen></iframe>
       </div>
 
-      <form onSubmit={formik.handleSubmit} className="w-full lg:w-1/3 mt-5">
-        <div className="mt-4">
-          <Input
-            label="Temps (jambe droite) (secondes)"
-            name="rightLegTime"
-            type="number"
-            onChange={formik.handleChange}
-            value={formik.values.rightLegTime}
-            errors={formik.touched.rightLegTime && formik.errors.rightLegTime}
-          />
-        </div>
-        <div className="mt-4">
-          <Input
-            label="Temps (jambe gauche) (secondes)"
-            name="leftLegTime"
-            type="number"
-            onChange={formik.handleChange}
-            value={formik.values.leftLegTime}
-            errors={formik.touched.leftLegTime && formik.errors.leftLegTime}
-          />
+      <form onSubmit={formik.handleSubmit} className="w-full mt-5 lg:max-w-xl">
+        <div className="flex w-full xl:gap-8 lg:gap-4 gap-3 lg:flex-row flex-col">
+          <div className="mt-4 flex-1">
+            <Input
+              label="Temps (jambe droite) (secondes)"
+              name="rightLegTime"
+              type="number"
+              onChange={formik.handleChange}
+              value={formik.values.rightLegTime}
+              errors={formik.touched.rightLegTime && formik.errors.rightLegTime}
+            />
+          </div>
+          <div className="mt-4 flex-1">
+            <Input
+              label="Temps (jambe gauche) (secondes)"
+              name="leftLegTime"
+              type="number"
+              onChange={formik.handleChange}
+              value={formik.values.leftLegTime}
+              errors={formik.touched.leftLegTime && formik.errors.leftLegTime}
+            />
+          </div>
         </div>
         <div className="mt-10">
           <Cta buttonType="submit" type="primary" size={buttonSize}>

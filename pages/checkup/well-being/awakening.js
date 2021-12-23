@@ -60,7 +60,7 @@ const WellBeingAwakening = () => {
 
   return (
     <div>
-      <Title>
+      <Title type="3">
         Je me suis réveillé(e) en me sentant frais(che) et dispos(e)
       </Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">

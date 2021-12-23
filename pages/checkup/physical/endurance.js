@@ -31,7 +31,7 @@ const PhysicalEndurance = () => {
     },
     validationSchema: EnduranceSchema,
     onSubmit: values => {
-      console.log(values)
+      window.scrollTo(0, 0)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
@@ -53,9 +53,9 @@ const PhysicalEndurance = () => {
   return (
     <>
       <div>
-        <Title>Exercice 5 : Montée genoux</Title>
+        <Title type="3">Exercice 5 : Montée genoux</Title>
         <div className="mt-4">
-          <Subtitle>
+          <Subtitle type="2">
             Nombre de montées de genoux (à mi-distance entre la rotule et la
             crête de l’os iliaque) pendant 2 minutes. on compte le nombre de
             monté de un genou (pas les 2)
