@@ -1,8 +1,11 @@
-import { createContext, useState } from 'react'
+import { createContext, useEffect, useState, useContext } from 'react'
+import { AuthContext } from '@/contexts/AuthContext'
 
 export const LinksContext = createContext()
 
 export const LinksContextProvider = ({ children }) => {
+  const { isAuth } = useContext(AuthContext)
+
   const getPathByPage = page => {
     let path = null
 
@@ -87,6 +90,13 @@ export const LinksContextProvider = ({ children }) => {
     { page: 'Invitation', path: '/invitation', nav: false },
     { page: 'Questionnaire', path: '/survey', nav: false },
   ])
+
+  useEffect(() => {
+    setInternalLinks([
+      ...internalLinks,
+      (internalLinks[0].path = isAuth ? '/account' : '/website'),
+    ])
+  }, [isAuth])
 
   const [externalLinks, setExternalLinks] = useState({
     twitter: 'https://twitter.com/',

@@ -12,9 +12,8 @@ const Card = ({
 }) => {
   return (
     <div
-      className={`${
-        size === 'l' ? 'h-96' : 'h-80'
-      } ${bg} bg-cover bg-center w-72 flex flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden`}>
+      style={{ backgroundImage: `url('${bg}')` }}
+      className="min-h-[250px] h-full bg-cover bg-center min-w-[288px] lg:w-full flex flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden">
       {type === 'séances' ? (
         <>
           <Tag type={tagType}>Renforcement</Tag>

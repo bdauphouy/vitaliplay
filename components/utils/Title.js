@@ -6,6 +6,14 @@ const Title = ({ children, type = '2', center = false, html = true }) => {
           ? 'text-3xl md:text-5xl lg:font-extrabold'
           : type === '3'
           ? 'text-3xl'
+          : type === '4'
+          ? 'text-xl md:text-3xl'
+          : type === '5'
+          ? 'text-[1.25rem] md:text-xl'
+          : type === '6'
+          ? 'text-[1.25rem]'
+          : type === '7'
+          ? 'text-lg'
           : 'text-2xl md:text-4xl'
       } ${center && 'text-center'}`}
       dangerouslySetInnerHTML={{

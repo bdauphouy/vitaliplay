@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 
-const CardSolution = ({ icon, title, description, variant }) => {
+const SolutionCard = ({ icon, title, description, variant }) => {
   const { getPathByPage } = useContext(LinksContext)
 
   return (
@@ -34,4 +34,4 @@ const CardSolution = ({ icon, title, description, variant }) => {
   )
 }
 
-export default CardSolution
+export default SolutionCard

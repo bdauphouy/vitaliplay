@@ -8,7 +8,7 @@ const Cta = ({
   type = 'primary',
   arrow = null,
   invert = false,
-  textColor = '#1778F2',
+  textColor,
 }) => {
   const [classes, setClasses] = useState([])
   const [arrowSize, setArrowSize] = useState(18)
@@ -80,7 +80,7 @@ const Cta = ({
         break
       case 'link':
         setClasses(classes => [...classes, textColor])
-        setArrowColor('#727272')
+        setArrowColor((textColor === 'text-blue-900' && '#1778F2') || '#727272')
         break
       default:
         break

@@ -7,26 +7,29 @@ import { LinksContextProvider } from '@/contexts/LinksContext'
 import { SurveyContextProvider } from '@/contexts/SurveyContext'
 import { CheckupContextProvider } from '@/contexts/CheckupContext'
 import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 const MyApp = ({ Component, pageProps }) => {
+  const router = useRouter()
+
   useEffect(() => {
-    document.cookie = 'auth=false'
+    router.asPath === '/' && router.push('/?auth=false')
   }, [])
 
   return (
     <CheckupContextProvider>
       <SurveyContextProvider>
-        <LinksContextProvider>
+        <AuthContextProvider>
           <RouteContextProvider>
-            <AuthContextProvider>
+            <LinksContextProvider>
               <Layout>
                 <PerPageLayout Layout={Component.Layout}>
                   <Component {...pageProps} />
                 </PerPageLayout>
               </Layout>
-            </AuthContextProvider>
+            </LinksContextProvider>
           </RouteContextProvider>
-        </LinksContextProvider>
+        </AuthContextProvider>
       </SurveyContextProvider>
     </CheckupContextProvider>
   )

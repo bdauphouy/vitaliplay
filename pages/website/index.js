@@ -1,4 +1,4 @@
-import CardSolution from '@/components/pages/website/CardSolution'
+import SolutionCard from '@/components/pages/website/SolutionCard'
 import Image from 'next/image'
 import SubscriptionCard from '@/components/pages/website/SubscriptionCard'
 import Cta from '@/components/utils/Cta'
@@ -72,7 +72,7 @@ const Home = ({ home }) => {
                 className={`lg:max-w-lg ${
                   (i + 2) % 2 !== 0 ? 'lg:mt-16' : ''
                 }`}>
-                <CardSolution
+                <SolutionCard
                   icon={getStrapiMedia(solution.icon)}
                   title={solution.title}
                   description={solution.description}
