@@ -374,3 +374,90 @@ export const CheckMark = ({ color = '#000000', size = 18 }) => {
     </svg>
   )
 }
+
+export const Filter = ({ color = '#000000', size = 18 }) => {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg">
+      <g clipPath="url(#clip0_167_7676)">
+        <path
+          d="M3.90527 16.8568V11.5234"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M3.90527 8.47591V3.14258"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 16.8571V10"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M10 6.9521V3.14258"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M16.0957 16.8569V13.0474"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M16.0957 9.99972V3.14258"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M1.61914 11.5234H6.19057"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M7.71484 6.95215H12.2863"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+        <path
+          d="M13.8096 13.0474H18.381"
+          stroke={color}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_167_7676">
+          <rect
+            width="18.2857"
+            height="18.2857"
+            fill="white"
+            transform="translate(0.857422 0.856934)"
+          />
+        </clipPath>
+      </defs>
+    </svg>
+  )
+}

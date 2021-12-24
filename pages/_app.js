@@ -6,16 +6,8 @@ import { RouteContextProvider } from '@/contexts/RouteContext'
 import { LinksContextProvider } from '@/contexts/LinksContext'
 import { SurveyContextProvider } from '@/contexts/SurveyContext'
 import { CheckupContextProvider } from '@/contexts/CheckupContext'
-import { useEffect } from 'react'
-import { useRouter } from 'next/router'
 
 const MyApp = ({ Component, pageProps }) => {
-  const router = useRouter()
-
-  useEffect(() => {
-    router.asPath === '/' && router.push('/?auth=false')
-  }, [])
-
   return (
     <CheckupContextProvider>
       <SurveyContextProvider>

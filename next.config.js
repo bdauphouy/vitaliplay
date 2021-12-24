@@ -8,13 +8,8 @@ module.exports = {
         source: '/',
         destination: '/website',
         has: [
-          // {
-          //   type: 'cookie',
-          //   key: 'auth',
-          //   value: 'false',
-          // },
           {
-            type: 'query',
+            type: 'cookie',
             key: 'auth',
             value: 'false',
           },
@@ -24,13 +19,8 @@ module.exports = {
         source: '/notre-solution',
         destination: '/website/notre-solution',
         has: [
-          // {
-          //   type: 'cookie',
-          //   key: 'auth',
-          //   value: 'false',
-          // },
           {
-            type: 'query',
+            type: 'cookie',
             key: 'auth',
             value: 'false',
           },
@@ -40,13 +30,8 @@ module.exports = {
         source: '/abonnement',
         destination: '/website/abonnement',
         has: [
-          // {
-          //   type: 'cookie',
-          //   key: 'auth',
-          //   value: 'false',
-          // },
           {
-            type: 'query',
+            type: 'cookie',
             key: 'auth',
             value: 'false',
           },
@@ -56,13 +41,8 @@ module.exports = {
         source: '/contact',
         destination: '/website/contact',
         has: [
-          // {
-          //   type: 'cookie',
-          //   key: 'auth',
-          //   value: 'false',
-          // },
           {
-            type: 'query',
+            type: 'cookie',
             key: 'auth',
             value: 'false',
           },
@@ -72,13 +52,8 @@ module.exports = {
         source: '/',
         destination: '/account',
         has: [
-          // {
-          //   type: 'cookie',
-          //   key: 'auth',
-          //   value: 'true',
-          // },
           {
-            type: 'query',
+            type: 'cookie',
             key: 'auth',
             value: 'true',
           },
