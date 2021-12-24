@@ -1,7 +1,14 @@
 import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
-import { Apple, Android, Instagram, Linkedin, Facebook, Twitter } from './Icons'
+import {
+  Apple,
+  Android,
+  Instagram,
+  Linkedin,
+  Facebook,
+  Twitter,
+} from '@/components/utils/Icons'
 import Image from 'next/image'
 
 const DownloadButton = ({ children }) => {
@@ -12,7 +19,7 @@ const DownloadButton = ({ children }) => {
   )
 }
 
-const Footer = ({ navLinks }) => {
+const WebsiteFooter = ({ navLinks }) => {
   const { externalLinks, getPathByPage } = useContext(LinksContext)
 
   return (
@@ -247,4 +254,4 @@ const Footer = ({ navLinks }) => {
   )
 }
 
-export default Footer
+export default WebsiteFooter

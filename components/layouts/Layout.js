@@ -2,10 +2,11 @@ import Nav from '@/components/utils/Nav'
 import { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '@/contexts/AuthContext'
 import Head from 'next/head'
-import Footer from '@/components/utils/Footer'
+import WebsiteFooter from '@/components/pages/website/WebsiteFooter'
 import { LinksContext } from '@/contexts/LinksContext'
 import { useRouter } from 'next/router'
 import CloseNav from '@/components/utils/CloseNav'
+import AccountFooter from '@/components/pages/account/AccountFooter'
 
 const Layout = ({ children }) => {
   const { isAuth } = useContext(AuthContext)
@@ -17,6 +18,8 @@ const Layout = ({ children }) => {
   )
 
   const router = useRouter()
+
+  console.log(getNavByPath(router.route))
 
   useEffect(() => {
     setNavLinks(isAuth ? authNavLinks : notAuthNavLinks)
@@ -31,7 +34,7 @@ const Layout = ({ children }) => {
         <>
           <Nav navLinks={navLinks} isAuth={isAuth} />
           {children}
-          <Footer navLinks={navLinks} />
+          {isAuth ? <AccountFooter /> : <WebsiteFooter navLinks={navLinks} />}
         </>
       ) : (
         <>

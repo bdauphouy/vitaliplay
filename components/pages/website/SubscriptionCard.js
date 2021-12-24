@@ -15,13 +15,11 @@ const SubscriptionPreview = ({
   subPage = false,
   program = [],
 }) => {
-  const [giftSize, setGiftSize] = useState()
   const [stampSize, setStampSize] = useState()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   useEffect(() => {
-    setGiftSize(isMediumScreen ? 50 : 35)
     setStampSize(isMediumScreen ? 90 : 64)
   }, [isMediumScreen])
 
