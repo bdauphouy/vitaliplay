@@ -10,12 +10,15 @@ const Card = ({
   duration,
   level,
   bg,
+  mobile = false,
 }) => {
   return (
     <>
       <div
         style={{ backgroundImage: `url('${bg}')` }}
-        className="hidden md:flex min-h-[250px] h-full bg-cover bg-center sm:min-w-[288px] min-w-[250px] lg:w-full flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden">
+        className={`${
+          mobile ? 'hidden' : 'flex'
+        } md:flex min-h-[250px] h-full bg-cover bg-center sm:min-w-[288px] min-w-[250px] lg:w-full flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden`}>
         {type === 'séances' ? (
           <>
             <Tag type={tagType}>Renforcement</Tag>
@@ -45,21 +48,23 @@ const Card = ({
           </div>
         )}
       </div>
-      <div className="md:hidden flex items-center gap-4">
-        <div
-          style={{ backgroundImage: `url('${bg}')` }}
-          className="min-w-[72px] min-h-[72px] rounded"></div>
-        <div>
-          <Title type="9" as="h3">
-            Conférences de santé
-          </Title>
+      {mobile && (
+        <div className="md:hidden flex items-center gap-4">
+          <div
+            style={{ backgroundImage: `url('${bg}')` }}
+            className="min-w-[72px] min-h-[72px] rounded"></div>
+          <div>
+            <Title type="9" as="h3">
+              Conférences de santé
+            </Title>
 
-          <p className="mt-1 text-xs text-dark-500 text-light font-body">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
-            eget varius a diam faucibus nec sodales…
-          </p>
+            <p className="mt-1 text-xs text-dark-500 text-light font-body">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
+              eget varius a diam faucibus nec sodales…
+            </p>
+          </div>
         </div>
-      </div>
+      )}
     </>
   )
 }

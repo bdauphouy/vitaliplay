@@ -16,7 +16,7 @@ const HealthConferences = () => {
         />
       </header>
       <div className="py-12">
-        <Row title="Conférences de santé" type="filter">
+        <Row title="Conférences de santé" type="filter" mobile={true}>
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"
