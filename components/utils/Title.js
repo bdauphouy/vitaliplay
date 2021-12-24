@@ -1,7 +1,16 @@
-const Title = ({ children, type = '2', center = false, html = true }) => {
+const Title = ({
+  children,
+  type = '2',
+  center = false,
+  html = true,
+  color = 'text-dark-900',
+  as = 'h2',
+}) => {
+  const TitleTag = as
+
   return html ? (
-    <h2
-      className={`font-bold font-head text-dark-900 ${
+    <TitleTag
+      className={`font-bold font-head ${
         type === '1'
           ? 'text-3xl md:text-5xl lg:font-extrabold'
           : type === '3'
@@ -14,23 +23,27 @@ const Title = ({ children, type = '2', center = false, html = true }) => {
           ? 'text-[1.25rem]'
           : type === '7'
           ? 'text-lg'
+          : type === '8'
+          ? 'text-xl md:text-3xl lg:text-4xl'
+          : type === '9'
+          ? 'text-md'
           : 'text-2xl md:text-4xl'
-      } ${center && 'text-center'}`}
+      } ${center && 'text-center'} ${color}`}
       dangerouslySetInnerHTML={{
         __html:
           type === '2' && typeof children === 'string'
             ? children.split('<strong>').join('<strong class="type-2">')
             : children,
-      }}></h2>
+      }}></TitleTag>
   ) : (
-    <h2
+    <TitleTag
       className={`font-bold font-head ${
         type === '1'
           ? 'text-3xl md:text-5xl lg:font-extrabold'
           : 'text-2xl md:text-4xl'
-      } ${center && 'text-center'}`}>
+      } ${center && 'text-center'} ${color}`}>
       {children}
-    </h2>
+    </TitleTag>
   )
 }
 
