@@ -7,6 +7,7 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import Title from '@/components/utils/Title'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -160,30 +161,47 @@ const Nav = ({ navLinks, isAuth }) => {
             menu ? 'max-h-144' : 'max-h-0'
           } bg-white overflow-hidden absolute w-full top-full left-0 px-6 md:px-24 transition duration-500`}
           style={{ transitionProperty: 'max-height' }}>
-          <ul>
-            {navLinks.map((navLink, i) => {
-              return (
-                <li key={i}>
-                  <Link href={navLink.path}>
-                    <a
-                      onClick={() => setMenu(false)}
-                      className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${
-                        router.route === navLink.path
-                          ? 'text-blue-900'
-                          : 'text-dark-300'
-                      }`}>
-                      {navLink.page}
-                    </a>
-                  </Link>
-                </li>
-              )
-            })}
+          <div className="flex flex-col-reverse mb-8">
+            <ul>
+              {navLinks.map((navLink, i) => {
+                return (
+                  <li key={i}>
+                    <Link href={navLink.path}>
+                      <a
+                        onClick={() => setMenu(false)}
+                        className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${
+                          router.route === navLink.path
+                            ? 'text-blue-900'
+                            : 'text-dark-300'
+                        }`}>
+                        {navLink.page}
+                      </a>
+                    </Link>
+                  </li>
+                )
+              })}
+            </ul>
 
-            <li className="mt-4 mb-8">
+            <div className="my-4 pb-6 border-b-1 border-dark-50">
               {isAuth ? (
-                <div className="w-12 h-12 rounded-full bg-blue-900 flex justify-center items-center cursor-pointer">
-                  <User color="#FFFFFF" size={24} />
-                </div>
+                <>
+                  <div className="hidden w-12 h-12 rounded-full bg-blue-900 xl:flex justify-center items-center cursor-pointer">
+                    <User color="#FFFFFF" size={24} />
+                  </div>
+                  <div className="xl:hidden flex items-center gap-6">
+                    <div className="min-w-[72px] min-h-[72px] sm:min-w-[96px] sm:min-h-[96px] rounded-full bg-gray-100"></div>
+                    <div>
+                      <Title type="5">Guillaume Clerisseau</Title>
+                      <Cta
+                        size="m"
+                        type="link"
+                        arrow="right"
+                        textColor="text-blue-900">
+                        Accéder à mon profil
+                      </Cta>
+                    </div>
+                  </div>
+                </>
               ) : (
                 <Link
                   href={
@@ -197,8 +215,9 @@ const Nav = ({ navLinks, isAuth }) => {
                   </div>
                 </Link>
               )}
-            </li>
-          </ul>
+            </div>
+          </div>
+
           <h3 className="font-body font-semibold text-base text-dark-900">
             Nous retrouver :
           </h3>

@@ -20,7 +20,7 @@ export const CheckupBox = ({ date, score, type }) => {
         {date}
       </span>
       <h4
-        className={`font-head text-[20px] sm:text-xl font-bold mt-2 ${
+        className={`font-head text-[20px] sm:text-2xl font-bold mt-2 ${
           type === '3'
             ? 'text-orange-900'
             : type === '2'
@@ -46,7 +46,7 @@ const Account = () => {
   return (
     <div className="mt-44 px-6 md:px-24 pb-12">
       <div className="lg:flex flex-row-reverse justify-between">
-        <div className="top-20 lg:top-0 left-0 absolute lg:relative lg:w-auto lg:rounded-lg lg:shadow-level1 w-full bg-blue-50 z-50 py-4 px-6 flex justify-center items-center text-center text-md text-blue-900 font-bold font-body">
+        <div className="top-20 lg:top-0 left-0 absolute lg:relative lg:w-auto lg:rounded-lg lg:shadow-level1 w-full bg-blue-50 py-4 px-6 flex justify-center items-center text-center text-md text-blue-900 font-bold font-body">
           Accès offert par : AG2R LA MONDIALE
         </div>
         <Title type="1" html={false}>
