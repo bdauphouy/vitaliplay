@@ -25,7 +25,7 @@ const CardPreview = ({ title, duration, level, type }) => {
 
   return (
     <div
-      className={`${color} relative items-center border-solid border-l-8 font-body font-bold px-4 py-4 rounded-lg bg-light-100 shadow-level1`}>
+      className={`${color} min-w-[250px] relative items-center border-solid border-l-8 font-body font-bold px-4 py-4 rounded-lg bg-light-100 shadow-level1`}>
       <h3 className="font-head font-bold text-lg w-2/3">{title}</h3>
       <p className="text-dark-500 mt-2 text-sm font-normal">
         {duration} min - {level}

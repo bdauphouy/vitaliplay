@@ -13,7 +13,7 @@ const Card = ({
   return (
     <div
       style={{ backgroundImage: `url('${bg}')` }}
-      className="min-h-[250px] h-full bg-cover bg-center min-w-[288px] lg:w-full flex flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden">
+      className="min-h-[250px] h-full bg-cover bg-center sm:min-w-[288px] min-w-[250px] lg:w-full flex flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden">
       {type === 'séances' ? (
         <>
           <Tag type={tagType}>Renforcement</Tag>
