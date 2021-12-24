@@ -5,7 +5,7 @@ import { useMediaQuery } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { Filter } from '@/components/utils/Icons'
 
-const Row = ({ title, children, type }) => {
+const Row = ({ title, children, type, mobile }) => {
   const [buttonSize, setButtonSize] = useState()
 
   const [filter, setFilter] = useState('Par pertinence')
@@ -49,7 +49,9 @@ const Row = ({ title, children, type }) => {
         </div>
       </header>
       <div
-        className={`px-6 md:px-24 flex flex-col md:grid gap-8 mt-8 ${
+        className={`px-6 md:px-24 flex ${
+          mobile ? 'flex-col gap-5' : 'flex-row gap-8'
+        } md:grid mt-8 ${
           type === 'filter'
             ? '2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))] grid-rows-[repeat(2,390px)] '
             : 'grid-cols-[repeat(4,minmax(_288px,_1fr))] h-96 overflow-auto'
