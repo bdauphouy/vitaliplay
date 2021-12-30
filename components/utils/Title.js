@@ -1,3 +1,6 @@
+import showdown from 'showdown'
+import { useEffect, useState } from 'react'
+
 const Title = ({
   children,
   type = '2',
@@ -7,6 +10,12 @@ const Title = ({
   as = 'h2',
 }) => {
   const TitleTag = as
+
+  const [converter, setConverter] = useState()
+
+  useEffect(() => {
+    setConverter(new showdown.Converter())
+  }, [])
 
   return html ? (
     <TitleTag
@@ -32,8 +41,11 @@ const Title = ({
       dangerouslySetInnerHTML={{
         __html:
           type === '2' && typeof children === 'string'
-            ? children.split('<strong>').join('<strong class="type-2">')
-            : children,
+            ? converter
+                ?.makeHtml(children)
+                .split('<strong>')
+                .join('<strong class="type-2">')
+            : converter?.makeHtml(children),
       }}></TitleTag>
   ) : (
     <TitleTag
