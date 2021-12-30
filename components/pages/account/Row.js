@@ -50,7 +50,7 @@ const Row = ({ title, children, type, mobile }) => {
       </header>
       <div
         className={`px-6 md:px-24 flex ${
-          mobile ? 'flex-col gap-5' : 'flex-row gap-8'
+          mobile ? 'flex-col md:gap-8 gap-4' : 'flex-row md:gap-8 gap-3'
         } md:grid mt-8 ${
           type === 'filter'
             ? '2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))] grid-rows-[repeat(2,390px)] '
