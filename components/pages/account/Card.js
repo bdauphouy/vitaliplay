@@ -10,6 +10,7 @@ const Card = ({
   duration,
   level,
   bg,
+  height = 'h-96',
   mobile = false,
 }) => {
   return (
@@ -18,7 +19,7 @@ const Card = ({
         style={{ backgroundImage: `url('${bg}')` }}
         className={`${
           mobile ? 'hidden' : 'flex'
-        } md:flex min-h-[250px] h-full bg-cover bg-center sm:min-w-[288px] min-w-[250px] lg:w-full flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden`}>
+        } ${height} md:flex min-h-[250px] bg-cover bg-center sm:min-w-[288px] min-w-[250px] lg:w-full flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden`}>
         {type === 'séances' ? (
           <>
             <Tag type={tagType}>Renforcement</Tag>
