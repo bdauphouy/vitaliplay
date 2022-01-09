@@ -158,7 +158,11 @@ const Nav = ({ navLinks, isAuth }) => {
         </div>
         <div
           className={`${
-            menu ? 'max-h-144' : 'max-h-0'
+            menu
+              ? !isExtraLargeScreen
+                ? 'max-h-[620px]'
+                : 'max-h-144'
+              : 'max-h-0'
           } bg-white overflow-hidden absolute w-full top-full left-0 px-6 md:px-24 transition duration-500`}
           style={{ transitionProperty: 'max-height' }}>
           <div className="flex flex-col-reverse mb-8">

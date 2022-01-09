@@ -27,9 +27,7 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
         <label className="font-body text-sm font-normal text-black">
           {label}
         </label>
-        <details
-          open={open}
-          className="mt-2 relative bg-light-100 cursor-pointer">
+        <details open={open} className="relative bg-light-100 cursor-pointer">
           <summary
             onClick={toggleDropdown}
             className="outline-none px-3 py-3 h-full flex items-center justify-between rounded-md border-solid border-1 border-gray-300">

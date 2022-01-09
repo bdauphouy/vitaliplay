@@ -49,12 +49,18 @@ const Row = ({ title, children, type, mobile }) => {
         </div>
       </header>
       <div
-        className={`px-6 md:px-24 flex ${
-          mobile ? 'flex-col md:gap-8 gap-4' : 'flex-row md:gap-8 gap-3'
-        } md:grid mt-8 ${
+        className={`px-6 md:px-24 ${
+          mobile
+            ? 'flex flex-col md:gap-8 gap-4'
+            : 'flex flex-row md:gap-8 gap-3'
+        } ${
           type === 'filter'
-            ? '2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))] grid-rows-[repeat(2,390px)] '
-            : 'grid-cols-[repeat(4,minmax(_288px,_1fr))] h-96 overflow-auto'
+            ? 'flex md:grid mt-8 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))]'
+            : 'md:grid-cols-[repeat(4,minmax(_288px,_1fr))] overflow-x-auto'
+        } ${
+          type === 'checkup'
+            ? 'h-72 items-center mt-2 grid grid-cols-[repeat(4,minmax(_224px,_1fr))]'
+            : 'flex mt-8 md:grid'
         }`}>
         {children}
       </div>

@@ -90,6 +90,7 @@ const Account = () => {
               duration="27"
               level="Intermédiaire"
               bg="/bg-card.png"
+              height="h-full"
             />
           </div>
         </div>
