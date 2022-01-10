@@ -63,6 +63,10 @@ const Nav = ({ navLinks, isAuth }) => {
       ) {
         updateMarker()
       }
+
+      if (getPathByPage('Profil') === router.route) {
+        marker.current.style.width = 0
+      }
     })
   }, [router, getPathByPage, isExtraLargeScreen])
 
@@ -114,9 +118,13 @@ const Nav = ({ navLinks, isAuth }) => {
 
           <li className="ml-6">
             {isAuth ? (
-              <div className="w-12 h-12 rounded-full bg-blue-900 flex justify-center items-center cursor-pointer">
-                <User color="#FFFFFF" size={24} />
-              </div>
+              <Link href="/profil" passHref>
+                <a>
+                  <div className="w-12 h-12 rounded-full bg-blue-900 flex justify-center items-center cursor-pointer">
+                    <User color="#FFFFFF" size={24} />
+                  </div>
+                </a>
+              </Link>
             ) : (
               <Link
                 href={
