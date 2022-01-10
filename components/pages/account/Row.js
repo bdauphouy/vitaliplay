@@ -5,7 +5,7 @@ import { useMediaQuery } from '@mui/material'
 import { useState, useEffect } from 'react'
 import { Filter } from '@/components/utils/Icons'
 
-const Row = ({ title, children, type, mobile }) => {
+const Row = ({ title, button = true, children, type, mobile }) => {
   const [buttonSize, setButtonSize] = useState()
 
   const [filter, setFilter] = useState('Par pertinence')
@@ -22,31 +22,33 @@ const Row = ({ title, children, type, mobile }) => {
         <div className="flex-1">
           <Title type="8">{title}</Title>
         </div>
-        <div className="flex-5 flex justify-end">
-          {type === 'filter' ? (
-            <>
-              <div className="hidden md:block w-60 lg:w-80">
-                <DropDown
-                  options={[
-                    'Par pertinence',
-                    'Popularité',
-                    'Recommandé',
-                    'Mes favoris',
-                  ]}
-                  defaultOption={filter}
-                  getOption={setFilter}
-                />
-              </div>
-              <div className="md:hidden w-8 h-8 bg-blue-50 rounded-full flex justify-center items-center">
-                <Filter color="#1778F2" />
-              </div>
-            </>
-          ) : (
-            <Cta size={buttonSize} type="secondary">
-              Voir plus
-            </Cta>
-          )}
-        </div>
+        {button && (
+          <div className="flex-5 flex justify-end">
+            {type === 'filter' ? (
+              <>
+                <div className="hidden md:block w-60 lg:w-80">
+                  <DropDown
+                    options={[
+                      'Par pertinence',
+                      'Popularité',
+                      'Recommandé',
+                      'Mes favoris',
+                    ]}
+                    defaultOption={filter}
+                    getOption={setFilter}
+                  />
+                </div>
+                <div className="md:hidden w-8 h-8 bg-blue-50 rounded-full flex justify-center items-center">
+                  <Filter color="#1778F2" />
+                </div>
+              </>
+            ) : (
+              <Cta size={buttonSize} type="secondary">
+                Voir plus
+              </Cta>
+            )}
+          </div>
+        )}
       </header>
       <div
         className={`px-6 md:px-24 ${
@@ -60,7 +62,7 @@ const Row = ({ title, children, type, mobile }) => {
         } ${
           type === 'checkup'
             ? 'h-72 items-center mt-2 grid grid-cols-[repeat(4,minmax(_224px,_1fr))]'
-            : 'flex mt-8 md:grid'
+            : 'flex mt-4 lg:mt-8 md:grid'
         }`}>
         {children}
       </div>

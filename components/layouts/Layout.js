@@ -10,7 +10,7 @@ import AccountFooter from '@/components/pages/account/AccountFooter'
 
 const Layout = ({ children }) => {
   const { isAuth } = useContext(AuthContext)
-  const { getNavByPath, authNavLinks, notAuthNavLinks } =
+  const { getPathByPage, getNavByPath, authNavLinks, notAuthNavLinks } =
     useContext(LinksContext)
 
   const [navLinks, setNavLinks] = useState(
@@ -18,8 +18,6 @@ const Layout = ({ children }) => {
   )
 
   const router = useRouter()
-
-  console.log(getNavByPath(router.route))
 
   useEffect(() => {
     setNavLinks(isAuth ? authNavLinks : notAuthNavLinks)
@@ -30,7 +28,8 @@ const Layout = ({ children }) => {
       <Head>
         <title>Vitaliplay</title>
       </Head>
-      {getNavByPath(router.route) ? (
+      {getNavByPath(router.route) ||
+      router.route.includes(getPathByPage('Profil')) ? (
         <>
           <Nav navLinks={navLinks} isAuth={isAuth} />
           {children}
