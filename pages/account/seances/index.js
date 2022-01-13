@@ -21,7 +21,10 @@ const Sessions = () => {
         />
       </header>
       <div className="flex flex-col py-12 gap-12">
-        <Row title="Nouveaux entraînements">
+        <Row
+          type="checkup"
+          title="Nouveaux entraînements"
+          path="/nouveaux-entrainements">
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"
@@ -55,7 +58,7 @@ const Sessions = () => {
             bg="/bg-card.png"
           />
         </Row>
-        <Row title="Sélectionnés pour vous">
+        <Row type="checkup" title="Sélectionnés pour vous">
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"
@@ -89,13 +92,13 @@ const Sessions = () => {
             bg="/bg-card.png"
           />
         </Row>
-        <Row title="Disciplines">
+        <Row type="checkup" title="Disciplines">
           <Card title="Yoga" type="catégorie" bg="/bg-card.png" />
           <Card title="Fitness" type="catégorie" bg="/bg-card.png" />
           <Card title="Workout" type="catégorie" bg="/bg-card.png" />
           <Card title="Running" type="catégorie" bg="/bg-card.png" />
         </Row>
-        <Row title="Programmes">
+        <Row type="checkup" title="Programmes">
           <Card
             title="Programme 1"
             subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."

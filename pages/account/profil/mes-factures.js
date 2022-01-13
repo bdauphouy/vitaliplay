@@ -3,7 +3,6 @@ import Subtitle from '@/components/utils/Subtitle'
 import Cta from '@/components/utils/Cta'
 
 const Invoice = ({ id, period, title }) => {
-  console.log(period)
   return (
     <div
       className={`flex justify-between ${

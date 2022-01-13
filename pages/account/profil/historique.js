@@ -10,7 +10,7 @@ const ProfileHistory = () => {
         Historique
       </Title>
       <div className="mt-12 lg:mt-20 space-y-12 lg:space-y-16">
-        <Row title="Août 2021" button={false} mobile={true}>
+        <Row title="Août 2021" type="checkup" button={false} mobile={true}>
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"
@@ -48,7 +48,7 @@ const ProfileHistory = () => {
             mobile={true}
           />
         </Row>
-        <Row title="Juillet 2021" button={false} mobile={true}>
+        <Row title="Juillet 2021" type="checkup" button={false} mobile={true}>
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"

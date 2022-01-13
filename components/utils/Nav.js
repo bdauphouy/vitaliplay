@@ -58,13 +58,13 @@ const Nav = ({ navLinks, isAuth }) => {
       }
 
       if (
-        getPathByPage(navItem.innerText) === router.asPath ||
-        getRewriteByPage(navItem.innerText) === router.asPath
+        router.asPath.includes(getPathByPage(navItem.innerText)) ||
+        router.asPath.includes(getRewriteByPage(navItem.innerText))
       ) {
         updateMarker()
       }
 
-      if (getPathByPage('Profil') === router.route) {
+      if (router.route.includes(getPathByPage('Profil'))) {
         marker.current.style.width = 0
       }
     })
@@ -104,8 +104,13 @@ const Nav = ({ navLinks, isAuth }) => {
                 <Link href={navLink.rewrite || navLink.path}>
                   <a
                     className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
-                      router.route === navLink.path ||
-                      router.route === navLink.rewrite
+                      (router.route.includes(navLink.path) ||
+                        router.route.includes(navLink.rewrite)) &&
+                      navLink.rewrite !== '/' &&
+                      navLink.path !== '/'
+                        ? 'text-blue-900'
+                        : router.route === navLink.path ||
+                          router.route === navLink.rewrite
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}>
@@ -182,7 +187,13 @@ const Nav = ({ navLinks, isAuth }) => {
                       <a
                         onClick={() => setMenu(false)}
                         className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${
-                          router.route === navLink.path
+                          (router.route.includes(navLink.path) ||
+                            router.route.includes(navLink.rewrite)) &&
+                          navLink.rewrite !== '/' &&
+                          navLink.path !== '/'
+                            ? 'text-blue-900'
+                            : router.route === navLink.path ||
+                              router.route === navLink.rewrite
                             ? 'text-blue-900'
                             : 'text-dark-300'
                         }`}>
@@ -204,13 +215,17 @@ const Nav = ({ navLinks, isAuth }) => {
                     <div className="min-w-[72px] min-h-[72px] sm:min-w-[96px] sm:min-h-[96px] rounded-full bg-gray-100"></div>
                     <div>
                       <Title type="5">Guillaume Clerisseau</Title>
-                      <Cta
-                        size="m"
-                        type="link"
-                        arrow="right"
-                        textColor="text-blue-900">
-                        Accéder à mon profil
-                      </Cta>
+                      <Link href={getRewriteByPage('Profil')} passHref>
+                        <a onClick={() => setMenu(false)}>
+                          <Cta
+                            size="m"
+                            type="link"
+                            arrow="right"
+                            textColor="text-blue-900">
+                            Accéder à mon profil
+                          </Cta>
+                        </a>
+                      </Link>
                     </div>
                   </div>
                 </>

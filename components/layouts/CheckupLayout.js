@@ -26,7 +26,7 @@ const CheckupLayout = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    setCurrentPath(router.route.split('/').map(route => `/${route}`))
+    setCurrentPath(router.asPath.split('/').map(route => `/${route}`))
   }, [router])
 
   useEffect(() => {
