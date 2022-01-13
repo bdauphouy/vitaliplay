@@ -10,7 +10,7 @@ const Card = ({
   duration,
   level,
   bg,
-  height = 'h-96',
+  height = 'md:h-96',
   mobile = false,
 }) => {
   return (
@@ -19,7 +19,7 @@ const Card = ({
         style={{ backgroundImage: `url('${bg}')` }}
         className={`${
           mobile ? 'hidden' : 'flex'
-        } ${height} md:flex min-h-[250px] bg-cover bg-center sm:min-w-[288px] min-w-[250px] lg:w-full flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden`}>
+        } h-full min-h-[304px] ${height} md:min-w-[288px] min-w-[224px] md:flex bg-cover bg-center lg:w-full flex-col items-start justify-between font-body font-bold px-6 py-6 rounded-lg bg-light-100 drop-shadow-level1 overflow-hidden`}>
         {type === 'séances' ? (
           <>
             <Tag type={tagType}>Renforcement</Tag>
@@ -53,7 +53,7 @@ const Card = ({
         <div className="md:hidden flex items-center gap-4">
           <div
             style={{ backgroundImage: `url('${bg}')` }}
-            className="min-w-[72px] min-h-[72px] rounded"></div>
+            className="min-w-[4.5rem] min-h-[4.5rem] rounded"></div>
           <div>
             <Title type="9" as="h3">
               Conférences de santé

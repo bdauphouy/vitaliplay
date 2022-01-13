@@ -15,6 +15,7 @@ export const ArrowLeft = ({ color = '#000000', size = 18 }) => {
       />
       <path
         d="M12 19L5 12L12 5"
+        stroke={color}
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"

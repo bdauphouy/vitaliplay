@@ -80,6 +80,20 @@ export const LinksContextProvider = ({ children }) => {
       nav: true,
     },
     {
+      page: 'Bilan',
+      path: '/account/checkup',
+      rewrite: '/checkup',
+      auth: true,
+      nav: false,
+    },
+    {
+      page: 'Nouveaux entraînements',
+      path: '/account/seances/nouveaux-entrainements',
+      rewrite: '/seances/nouveaux-entrainements',
+      auth: true,
+      nav: false,
+    },
+    {
       page: 'Conférences de santé',
       path: '/account/conferences-de-sante',
       rewrite: '/conferences-de-sante',
@@ -92,6 +106,13 @@ export const LinksContextProvider = ({ children }) => {
       rewrite: '/mon-espace-sante',
       auth: true,
       nav: true,
+    },
+    {
+      page: 'Bilans',
+      path: '/account/mon-espace-sante/bilans',
+      rewrite: '/mon-espace-sante/bilans',
+      auth: true,
+      nav: false,
     },
     {
       page: 'Profil',
