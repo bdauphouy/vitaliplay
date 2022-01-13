@@ -13,7 +13,7 @@ const Faq = ({ question, answer }) => {
 
   const openDropDown = e => {
     e.target.parentElement.nextSibling.classList.toggle('max-h-0')
-    e.target.parentElement.nextSibling.classList.toggle('max-h-16')
+    e.target.parentElement.nextSibling.classList.toggle('max-h-32')
     e.target.classList.toggle('rotate-45')
   }
 

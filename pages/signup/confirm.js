@@ -27,7 +27,7 @@ const SignupConfirm = () => {
         </Subtitle>
       </div>
       <div className="flex mt-12 gap-6 flex-wrap justify-center">
-        <Link href={getPathByPage('Abonnement')} passHref>
+        <Link href={getPathByPage('Abonnements')} passHref>
           <a>
             <Cta size={buttonSize} type="primary">
               S'abonner à Vitaliplay
