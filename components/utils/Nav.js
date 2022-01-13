@@ -183,7 +183,7 @@ const Nav = ({ navLinks, isAuth }) => {
               {navLinks.map((navLink, i) => {
                 return (
                   <li key={i}>
-                    <Link href={navLink.path}>
+                    <Link href={navLink.rewrite || navLink.path}>
                       <a
                         onClick={() => setMenu(false)}
                         className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${

@@ -52,9 +52,9 @@ export const LinksContextProvider = ({ children }) => {
       nav: true,
     },
     {
-      page: 'Abonnement',
-      path: '/website/abonnement',
-      rewrite: '/abonnement',
+      page: 'Abonnements',
+      path: '/website/abonnements',
+      rewrite: '/abonnements',
       auth: false,
       nav: true,
     },

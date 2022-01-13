@@ -146,7 +146,7 @@ const Home = ({ home }) => {
         </div>
         <div className=" mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
-            <Link href={getPathByPage('Abonnement')} passHref>
+            <Link href={getPathByPage('Abonnements')} passHref>
               <a>
                 <SubscriptionCard
                   title="Annuel"
@@ -161,7 +161,7 @@ const Home = ({ home }) => {
             </Link>
           </div>
           <div className="lg:py-8 w-full lg:w-96 lg:order-1">
-            <Link href={getPathByPage('Abonnement')} passHref>
+            <Link href={getPathByPage('Abonnements')} passHref>
               <a>
                 <SubscriptionCard
                   title="Mensuel"
