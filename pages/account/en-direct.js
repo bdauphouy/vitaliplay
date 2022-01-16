@@ -20,10 +20,10 @@ const OnLive = () => {
           className="xl:flex-[.8] w-full xl:w-auto xl:min-w-[500px] bg-cover h-36 lg:h-32 rounded-lg flex items-center md:items-end p-4">
           <div className="flex justify-between items-start md:items-center flex-1 md:flex-row flex-col">
             <div>
-              <Title type="7" color="text-light-100">
+              <h3 className="font-head font-bold text-light-100 text-lg leading-6">
                 Live Yoga : Sophie Martinez
-              </Title>
-              <span className="text-sm text-light-100">16:00 - 17:00</span>
+              </h3>
+              <span className="mt-2 text-sm text-light-100">16:00 - 17:00</span>
             </div>
             <div className="md:mt-0 mt-6">
               <Cta size="m">Mettre un rappel</Cta>

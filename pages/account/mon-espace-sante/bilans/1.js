@@ -1,17 +1,9 @@
-import Title from '@/components/utils/Title'
-import Image from 'next/image'
 import Cta from '@/components/utils/Cta'
-import { useState, useEffect } from 'react'
 import { useMediaQuery } from '@mui/material'
-import Card from '@/components/pages/account/Card'
-import DropDown from '@/components/utils/Dropdown'
 import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
-import CheckupPreview from '@/components/pages/account/CheckupPreview'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
-import Subtitle from '@/components/utils/Subtitle'
 import Advices from '@/components/pages/account/Advices'
 
 export const CheckupSectionBar = ({ score, type, section, checkup }) => {
@@ -38,9 +30,8 @@ export const CheckupSectionBar = ({ score, type, section, checkup }) => {
         {checkup.map(category => {
           return (
             <div key={category.title}>
-              <Title
-                type="6"
-                color={
+              <h3
+                className={`font-bold font-head text-[1.25rem] ${
                   type === '1'
                     ? 'text-blue-900'
                     : type === '2'
@@ -48,9 +39,9 @@ export const CheckupSectionBar = ({ score, type, section, checkup }) => {
                     : type === '3'
                     ? 'text-orange-900'
                     : 'text-dark-900'
-                }>
+                }`}>
                 {category.title}
-              </Title>
+              </h3>
               <ul className="mt-3">
                 {category.values.map((value, i) => {
                   return (
@@ -83,7 +74,7 @@ const MyHealthSpaceCheckups1 = () => {
         </Cta>
       </div>
       <div className="mt-10 md:mt-6">
-        <Row title="Bilan 01/02/22" keepColumm={true} button={false}>
+        <Row title="Bilan 01/02/22" type="grid" button={false}>
           <Advices button={false} />
           <CheckupSectionBar
             score="60"

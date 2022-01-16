@@ -40,7 +40,7 @@ const HealthConferences1 = () => {
       </div>
 
       <div className="mt-10 lg:mt-20">
-        <Row type="checkup" title="Conférences en lien" button={false}>
+        <Row title="Conférences en lien" button={false}>
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"

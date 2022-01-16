@@ -1,10 +1,7 @@
 import Title from '@/components/utils/Title'
-import Image from 'next/image'
 import Cta from '@/components/utils/Cta'
-import { useState, useEffect } from 'react'
 import { useMediaQuery } from '@mui/material'
 import Card from '@/components/pages/account/Card'
-import DropDown from '@/components/utils/Dropdown'
 import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import Subtitle from '@/components/utils/Subtitle'
@@ -85,7 +82,7 @@ const SessionsNewTrainings1 = () => {
         </div>
       </div>
       <div className="mt-12 lg:mt-28">
-        <Row type="checkup" title="Découvrez d'autres séances" button={false}>
+        <Row title="Découvrez d'autres séances" button={false}>
           <Link
             href={`/${router.route.split('/').slice(2).join('/')}/1`}
             passHref>

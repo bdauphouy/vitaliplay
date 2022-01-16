@@ -1,6 +1,5 @@
 import Subtitle from '@/components/utils/Subtitle'
 import Title from '@/components/utils/Title'
-import Link from 'next/link'
 import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
 

@@ -1,10 +1,5 @@
-import Title from '@/components/utils/Title'
 import Image from 'next/image'
-import Cta from '@/components/utils/Cta'
-import { useState, useEffect } from 'react'
-import { useMediaQuery } from '@mui/material'
 import Card from '@/components/pages/account/Card'
-import DropDown from '@/components/utils/Dropdown'
 import Row from '@/components/pages/account/Row'
 
 const Sessions = () => {
@@ -21,10 +16,7 @@ const Sessions = () => {
         />
       </header>
       <div className="flex flex-col py-12 gap-12">
-        <Row
-          type="checkup"
-          title="Nouveaux entraînements"
-          path="/nouveaux-entrainements">
+        <Row title="Nouveaux entraînements" path="/nouveaux-entrainements">
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"
@@ -58,7 +50,7 @@ const Sessions = () => {
             bg="/bg-card.png"
           />
         </Row>
-        <Row type="checkup" title="Sélectionnés pour vous">
+        <Row title="Sélectionnés pour vous">
           <Card
             tagType="1"
             title="Exercices intensifs pour le bas du corps"
@@ -92,13 +84,13 @@ const Sessions = () => {
             bg="/bg-card.png"
           />
         </Row>
-        <Row type="checkup" title="Disciplines">
+        <Row title="Disciplines">
           <Card title="Yoga" type="catégorie" bg="/bg-card.png" />
           <Card title="Fitness" type="catégorie" bg="/bg-card.png" />
           <Card title="Workout" type="catégorie" bg="/bg-card.png" />
           <Card title="Running" type="catégorie" bg="/bg-card.png" />
         </Row>
-        <Row type="checkup" title="Programmes">
+        <Row title="Programmes">
           <Card
             title="Programme 1"
             subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."

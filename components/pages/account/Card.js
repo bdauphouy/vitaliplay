@@ -1,6 +1,4 @@
-import Subtitle from '@/components/utils/Subtitle'
 import Tag from './Tag'
-import Title from '@/components/utils/Title'
 
 const Card = ({
   tagType = '1',
@@ -55,10 +53,9 @@ const Card = ({
             style={{ backgroundImage: `url('${bg}')` }}
             className="min-w-[4.5rem] min-h-[4.5rem] rounded"></div>
           <div>
-            <Title type="9" as="h3">
+            <h3 className="font-bold font-head text-dark-900 text-md">
               Conférences de santé
-            </Title>
-
+            </h3>
             <p className="mt-1 text-xs text-dark-500 text-light font-body">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
               eget varius a diam faucibus nec sodales…

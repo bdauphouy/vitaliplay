@@ -25,15 +25,20 @@ const MyHealthSpace = () => {
         </div>
       </div>
       <div className="mt-14 px-6 md:px-24">
-        <Title type="8">Mon dernier bilan</Title>
-        <Advices />
+        <h2 className="font-bold font-head text-dark-900 text-xl md:text-3xl lg:text-4xl">
+          Mon dernier bilan
+        </h2>
+        <div className="mt-8">
+          <Advices />
+        </div>
       </div>
-      <div className="mt-14">
-        <Row title="Mes derniers bilans" type="checkup" path="/bilans">
+      <div className="mt-24">
+        <Row title="Mes derniers bilans" path="/bilans">
           <div className="bg-blue-50 h-56 md:h-64 rounded-lg py-16 px-10 flex flex-col justify-center items-center shadow-level1">
-            <Title type="12" color="text-blue-900" center={true}>
+            <h3
+              className={`font-head font-bold text-lg md:text-xl text-center text-blue-900`}>
               Réaliser un nouveau bilan
-            </Title>
+            </h3>
             <div className="mt-6">
               <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
                 Nouveau bilan

@@ -1,4 +1,3 @@
-import Title from '@/components/utils/Title'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 
@@ -7,9 +6,9 @@ const CheckupPreview = ({ mobile = false, date, score }) => {
 
   return isMediumScreen || !mobile ? (
     <div className="flex flex-col items-center justify-between py-6 w-full shadow-level1 rounded-lg">
-      <Title as="h4" type="10" color="text-dark-700" html={false}>
+      <h4 className="font-body font-normal text-base lg:text-lg text-dark-700">
         Bilan : {date}
-      </Title>
+      </h4>
       <h2 className="text-[4rem] text-blue-900 font-head font-extrabold">
         {score}
       </h2>
