@@ -1,5 +1,4 @@
 import Title from '@/components/utils/Title'
-import Subtitle from '@/components/utils/Subtitle'
 import { useFormik } from 'formik'
 import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'

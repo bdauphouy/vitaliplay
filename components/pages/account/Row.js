@@ -1,5 +1,4 @@
 import DropDown from '@/components/utils/Dropdown'
-import Title from '@/components/utils/Title'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import { useState, useEffect } from 'react'
@@ -16,7 +15,6 @@ const Row = ({
   path = '/',
   type,
   mobile,
-  keepColumn = false,
 }) => {
   const [buttonSize, setButtonSize] = useState()
 
@@ -36,7 +34,9 @@ const Row = ({
     <div>
       <header className="flex justify-between items-center px-6 md:px-24 gap-4 md:gap-12">
         <div className="flex-1">
-          <Title type="8">{title}</Title>
+          <h2 className="font-bold font-head text-dark-900 text-xl md:text-3xl lg:text-4xl">
+            {title}
+          </h2>
         </div>
         {button && (
           <div className="flex-5 flex justify-end">
@@ -64,7 +64,9 @@ const Row = ({
                           Retour
                         </Cta>
                         <div className="mt-10">
-                          <Title type="8">Filtres</Title>
+                          <h2 className="font-bold font-head text-dark-900 text-xl md:text-3xl lg:text-4xl">
+                            Filtres
+                          </h2>
                         </div>
                       </div>
                       <div className="border-b-1 border-solid border-dark-50">
@@ -107,10 +109,10 @@ const Row = ({
             : 'flex flex-row md:gap-8 gap-3'
         } ${
           type === 'filter'
-            ? 'flex md:grid mt-4 lg:mt-8 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))]'
-            : type === 'checkup'
-            ? 'items-center mt-2 lg:mt-8 gap-3 grid grid-cols-[repeat(4,minmax(_224px,_1fr))] md:grid-cols-[repeat(4,minmax(_288px,_1fr))] overflow-x-auto'
-            : 'flex flex-col mt-4 lg:mt-8 md:grid'
+            ? 'flex md:grid mt-2 md:mt-4 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))]'
+            : type === 'grid'
+            ? 'flex flex-col mt-2 md:mt-4 md:grid'
+            : 'items-center mt-2 md:mt-4 gap-3 grid grid-cols-[repeat(4,minmax(_224px,_1fr))] md:grid-cols-[repeat(4,minmax(_288px,_1fr))] overflow-x-auto'
         }`}>
         {children}
       </div>

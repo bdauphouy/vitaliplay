@@ -7,26 +7,12 @@ import { useEffect, useState } from 'react'
 
 export const CheckupBox = ({ date, score, type }) => {
   return (
-    <div
-      className={`flex-1 p-4 ${
-        type === '3'
-          ? 'bg-orange-50'
-          : type === '2'
-          ? 'bg-green-50'
-          : 'bg-blue-50'
-      } rounded flex flex-col items-center sm:items-start`}>
+    <div className="flex-1 p-4 bg-blue-50 rounded flex flex-col items-center sm:items-start">
       <span className="text-dark-700 font-body text-xs font-normal">
         <span className="hidden sm:inline">Bilan : </span>
         {date}
       </span>
-      <h4
-        className={`font-head text-[20px] sm:text-2xl font-bold mt-2 ${
-          type === '3'
-            ? 'text-orange-900'
-            : type === '2'
-            ? 'text-green-900'
-            : 'text-blue-900'
-        }`}>
+      <h4 className="font-head text-[1.25rem] sm:text-2xl font-bold mt-2 text-blue-900">
         {score}
         <span className="text-dark-700 text-xs font-normal">/100</span>
       </h4>
@@ -71,7 +57,9 @@ const Account = () => {
               </div>
             </div>
             <div className="mt-8">
-              <Title type="7">Mes derniers bilans</Title>
+              <h3 className="font-bold font-head text-dark-900 text-lg leading-6">
+                Mes derniers bilans
+              </h3>
               <div className="flex mt-4 gap-4 flex-wrap">
                 <CheckupBox date="23/08/21" score="65" type="1" />
                 <CheckupBox date="23/07/21" score="85" type="2" />

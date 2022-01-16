@@ -1,13 +1,7 @@
-import Title from '@/components/utils/Title'
-import Image from 'next/image'
 import Cta from '@/components/utils/Cta'
-import { useState, useEffect } from 'react'
 import { useMediaQuery } from '@mui/material'
-import Card from '@/components/pages/account/Card'
-import DropDown from '@/components/utils/Dropdown'
 import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import CheckupPreview from '@/components/pages/account/CheckupPreview'
 
 const MyHealthSpaceCheckups = () => {
@@ -23,15 +17,16 @@ const MyHealthSpaceCheckups = () => {
         </Cta>
       </div>
       <div className="mt-10 md:mt-6">
-        <Row title="Mes bilans" button={false}>
-          <div className="grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <Row title="Mes bilans" type="grid" button={false}>
+          <div className="mt-2 grid w-full grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             <div className="flex-wrap md:flex-nowrap bg-blue-50 h-auto md:h-64 rounded-lg py-6 px-4 md:py-16 md:px-10 flex gap-4 md:flex-col flex-row justify-between md:justify-center items-center shadow-level1">
-              <Title
-                type="12"
-                color="text-blue-900"
-                center={isMediumScreen ? true : false}>
+              <h3
+                className={`font-head font-bold text-lg md:text-xl text-blue-900 ${
+                  isMediumScreen ? 'text-center' : ''
+                }`}>
                 Réaliser un nouveau bilan
-              </Title>
+              </h3>
+
               <div className="md:mt-6 min-w-[8rem] flex justify-end bg-red-50">
                 <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
                   Nouveau bilan
