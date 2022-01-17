@@ -28,7 +28,7 @@ const WebsiteFooter = ({ navLinks }) => {
         <div className="relative px-24">
           <div className="bg-blue-50 rounded-lg px-9 py-14 space-y-4 flex flex-col items-center">
             <h3 className="font-head font-bold text-4xl text-center text-dark-900 max-w-sm mb-8">
-              Pour être toujours plus près de vous
+              Pour être toujours au plus près de vous
             </h3>
             <div className="flex gap-8">
               <DownloadButton>

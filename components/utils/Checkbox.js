@@ -1,10 +1,17 @@
-import { CheckMark } from '@/components/utils/Icons'
+import { CheckMark } from './Icons'
+import PropTypes from 'prop-types'
 
-const Checkbox = ({ children, id, selected, name, onChange, checked }) => {
+const Checkbox = ({
+  children = 'Choice',
+  id = '1',
+  name = 'choice',
+  onChange,
+  checked = false,
+}) => {
   return (
     <div>
       <input
-        defaultChecked={selected}
+        defaultChecked={checked}
         onChange={onChange}
         type="checkbox"
         name={name}
@@ -40,6 +47,14 @@ const Checkbox = ({ children, id, selected, name, onChange, checked }) => {
       </label>
     </div>
   )
+}
+
+Checkbox.propTypes = {
+  children: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
 }
 
 export default Checkbox

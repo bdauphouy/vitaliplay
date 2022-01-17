@@ -4,7 +4,12 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 
-const SolutionCard = ({ icon, title, description, variant }) => {
+const SolutionCard = ({
+  icon,
+  title = 'A solution',
+  description = 'This is a solution',
+  variant,
+}) => {
   const { getPathByPage } = useContext(LinksContext)
 
   return (

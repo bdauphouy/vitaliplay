@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useRef, useEffect } from 'react'
-import Error from '@/components/utils/Error'
+import Error from './Error'
+import PropTypes from 'prop-types'
 
 const Input = ({
   label,
-  placeholder,
+  placeholder = '',
   type = 'text',
   name,
   onChange,
@@ -72,6 +73,18 @@ const Input = ({
       </Error>
     </div>
   )
+}
+
+Input.propTypes = {
+  label: PropTypes.string,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+  textarea: PropTypes.bool,
+  prefix: PropTypes.string,
+  error: PropTypes.string,
 }
 
 export default Input

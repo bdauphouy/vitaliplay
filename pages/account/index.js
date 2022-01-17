@@ -5,7 +5,7 @@ import CardPreview from '@/components/pages/account/CardPreview'
 import { useMediaQuery } from '@mui/material'
 import { useEffect, useState } from 'react'
 
-export const CheckupBox = ({ date, score, type }) => {
+export const CheckupBox = ({ date, score }) => {
   return (
     <div className="flex-1 p-4 bg-blue-50 rounded flex flex-col items-center sm:items-start">
       <span className="text-dark-700 font-body text-xs font-normal">
@@ -61,9 +61,9 @@ const Account = () => {
                 Mes derniers bilans
               </h3>
               <div className="flex mt-4 gap-4 flex-wrap">
-                <CheckupBox date="23/08/21" score="65" type="1" />
-                <CheckupBox date="23/07/21" score="85" type="2" />
-                <CheckupBox date="23/06/21" score="43" type="3" />
+                <CheckupBox date="23/08/21" score="65" />
+                <CheckupBox date="23/07/21" score="85" />
+                <CheckupBox date="23/06/21" score="43" />
               </div>
             </div>
           </div>

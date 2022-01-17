@@ -1,15 +1,16 @@
 import showdown from 'showdown'
 import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Title = ({
-  children,
+  children = 'This is a title',
   type = '2',
   center = false,
   html = true,
   color = 'text-dark-900',
   as = 'h2',
 }) => {
-  const TitleTag = as
+  const TitleTag = as || 'h2'
 
   const [converter, setConverter] = useState()
 
@@ -44,36 +45,32 @@ const Title = ({
       }}></TitleTag>
   ) : (
     <TitleTag
-      className={`${
-        type === '10' ? 'font-body font-normal' : 'font-head font-bold'
-      } ${
-        type === '1'
-          ? 'text-3xl md:text-5xl lg:font-extrabold'
-          : type === '3'
-          ? 'text-3xl'
-          : type === '4'
-          ? 'text-xl md:text-3xl'
-          : type === '5'
-          ? 'text-[1.25rem] md:text-xl'
-          : type === '6'
-          ? 'text-[1.25rem]'
-          : type === '7'
-          ? 'text-lg'
-          : type === '8'
-          ? 'text-xl md:text-3xl lg:text-4xl'
-          : type === '9'
-          ? 'text-md'
-          : type === '10'
-          ? 'text-base lg:text-lg'
-          : type === '11'
-          ? 'text-[1.25rem] lg:text-2xl'
-          : type === '12'
-          ? 'text-lg lg:text-xl'
-          : 'text-2xl md:text-4xl'
-      } ${center && 'text-center'} ${color}`}>
+      className={`font-head font-bold
+    ${
+      type === '1'
+        ? 'text-3xl md:text-5xl lg:font-extrabold'
+        : type === '2'
+        ? 'text-2xl md:text-4xl'
+        : type === '3'
+        ? 'text-3xl'
+        : type === '4'
+        ? 'text-xl md:text-3xl'
+        : type === '5'
+        ? 'text-[1.25rem] md:text-xl'
+        : 'text-base'
+    } ${center && 'text-center'} ${color}`}>
       {children}
     </TitleTag>
   )
+}
+
+Title.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  color: PropTypes.string,
+  center: PropTypes.bool,
+  type: PropTypes.oneOf(['1', '2', '3', '4', '5']),
+  html: PropTypes.bool,
+  as: PropTypes.oneOf(['h2', 'h3', 'h4', 'h5', 'h6']),
 }
 
 export default Title

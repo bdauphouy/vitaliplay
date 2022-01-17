@@ -1,13 +1,14 @@
 import Tag from './Tag'
+import PropTypes from 'prop-types'
 
 const Card = ({
   tagType = '1',
   type = 'catégorie',
-  title,
-  subtitle,
-  duration,
-  level,
-  bg,
+  title = 'This is a card',
+  subtitle = 'Lorem ipsum ut dolor',
+  duration = '5',
+  level = 'Intermédiaire',
+  bg = 'http://vitaliplay.eltha.fr/bg-card.png',
   height = 'md:h-96',
   mobile = false,
 }) => {
@@ -40,7 +41,7 @@ const Card = ({
             </p>
           </div>
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center p-4">
+          <div className="w-full h-full flex flex-col text-center items-center justify-center p-4">
             <h3 className="font-head font-bold text-4xl text-light-100">
               {title}
             </h3>
@@ -65,6 +66,18 @@ const Card = ({
       )}
     </>
   )
+}
+
+Card.propTypes = {
+  tagType: PropTypes.oneOf(['1', '2', '3', '4']),
+  type: PropTypes.oneOf(['catégorie', 'séances', 'programme']),
+  title: PropTypes.string,
+  subtitle: PropTypes.string,
+  duration: PropTypes.string,
+  level: PropTypes.string,
+  bg: PropTypes.string,
+  height: PropTypes.string,
+  mobile: PropTypes.bool,
 }
 
 export default Card

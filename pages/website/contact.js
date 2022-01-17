@@ -32,7 +32,7 @@ const Contact = () => {
               <Subtitle center={true}>
                 Nous sommes à votre disposition pour répondre à vos questions.
                 Nous ferons le nécessaire pour vous apporter satisfaction dans
-                les meilleurs délais. Sportivement
+                les meilleurs délais.
               </Subtitle>
             </div>
           </div>

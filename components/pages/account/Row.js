@@ -1,4 +1,4 @@
-import DropDown from '@/components/utils/Dropdown'
+import Dropdown from '@/components/utils/Dropdown'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import { useState, useEffect } from 'react'
@@ -43,7 +43,7 @@ const Row = ({
             {type === 'filter' ? (
               <>
                 <div className="hidden md:block w-60 lg:w-80">
-                  <DropDown
+                  <Dropdown
                     options={filterOptions}
                     defaultOption={filter}
                     getOption={setFilter}

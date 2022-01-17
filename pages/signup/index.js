@@ -2,7 +2,7 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import Input from '@/components/utils/Input'
 import { useFormik } from 'formik'
-import DropDown from '@/components/utils/Dropdown'
+import Dropdown from '@/components/utils/Dropdown'
 import { useState, useContext } from 'react'
 import Cta from '@/components/utils/Cta'
 import Link from 'next/link'
@@ -61,7 +61,7 @@ const SignupStart = () => {
         onSubmit={formik.handleSubmit}
         className="flex flex-col lg:grid lg:grid-area-signup mt-8 lg:mt-10 gap-3 lg:gap-4">
         <div className="self-start" style={{ gridArea: 'a' }}>
-          <DropDown
+          <Dropdown
             options={['M', 'Mme']}
             label="Civilité"
             defaultOption={civility}

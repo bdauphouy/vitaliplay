@@ -1,7 +1,13 @@
 import { ChevronDown } from './Icons'
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
+const Dropdown = ({
+  options = ['Option 1', 'Option 2', 'Option 3'],
+  defaultOption = 'Option 1',
+  getOption,
+  label = '',
+}) => {
   const [open, setOpen] = useState(false)
   const [selectedOption, setSelectedOption] = useState(defaultOption)
 
@@ -39,17 +45,18 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
             </div>
           </summary>
           <ul className="absolute -mt-1.5 z-10 w-full bg-light-100 rounded-b-md border-solid border-t-0 border-1 border-gray-300">
-            {options.map((option, i) => {
-              if (option === selectedOption) return
-              return (
-                <li
-                  onClick={updateSelectedOption}
-                  key={i}
-                  className="py-3 px-3 text-dark-300">
-                  {option}
-                </li>
-              )
-            })}
+            {options.length > 0 &&
+              options.map((option, i) => {
+                if (option === selectedOption) return
+                return (
+                  <li
+                    onClick={updateSelectedOption}
+                    key={i}
+                    className="py-3 px-3 text-dark-300">
+                    {option}
+                  </li>
+                )
+              })}
           </ul>
         </details>
       </div>
@@ -57,4 +64,11 @@ const DropDown = ({ options, defaultOption, getOption, label = '' }) => {
   )
 }
 
-export default DropDown
+Dropdown.propTypes = {
+  options: PropTypes.array,
+  defaultOption: PropTypes.string,
+  getOption: PropTypes.func,
+  label: PropTypes.string,
+}
+
+export default Dropdown

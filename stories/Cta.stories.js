@@ -1,10 +1,10 @@
 import Cta from '../components/utils/Cta'
 
 export default {
-  title: 'Call to action',
+  title: 'Utils/Call to action',
   component: Cta,
 }
 
-export const Default = () => {
-  return <Cta>Click me</Cta>
+export const Default = args => {
+  return <Cta {...args} />
 }

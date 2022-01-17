@@ -80,8 +80,7 @@ const DailyActivityModerateActivity = () => {
                   name="frequency"
                   checked={formik.values.frequency === radio.toString()}
                   onChange={formik.handleChange}
-                  center={true}
-                  padding="2">
+                  center={true}>
                   {radio}
                 </Radio>
               </div>
