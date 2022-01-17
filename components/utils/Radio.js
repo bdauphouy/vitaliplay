@@ -1,19 +1,20 @@
+import PropTypes from 'prop-types'
+
 const Radio = ({
-  children,
+  children = 'Choice',
   id,
-  selected,
   name,
   onChange,
-  checked,
-  number,
-  label,
-  center,
-  padding = '1',
+  checked = false,
+  number = false,
+  label = '',
+  center = false,
+  padding = 'md:p-6',
 }) => {
   return (
     <div className="h-full">
       <input
-        defaultChecked={selected}
+        defaultChecked={checked}
         onChange={onChange}
         type="radio"
         name={name}
@@ -34,7 +35,7 @@ const Radio = ({
             number
               ? 'flex justify-center items-center text-lg md:text-3xl px-2 py-3 md:px-8 md:py-4 font-head'
               : 'px-6 py-4 text-md font-body'
-          } ${padding === '1' ? 'md:p-6' : ''} ${
+          } ${padding} ${
             center ? 'flex justify-center items-center text-center' : ''
           } h-full w-full transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
           <span
@@ -50,6 +51,18 @@ const Radio = ({
       </label>
     </div>
   )
+}
+
+Radio.propTypes = {
+  children: PropTypes.string,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  onChange: PropTypes.func,
+  checked: PropTypes.bool,
+  number: PropTypes.bool,
+  label: PropTypes.string,
+  center: PropTypes.bool,
+  padding: PropTypes.string,
 }
 
 export default Radio

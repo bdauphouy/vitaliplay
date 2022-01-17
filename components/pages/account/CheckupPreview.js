@@ -1,7 +1,8 @@
-import Cta from '@/components/utils/Cta'
+import Cta from '../../utils/Cta'
 import { useMediaQuery } from '@mui/material'
+import PropTypes from 'prop-types'
 
-const CheckupPreview = ({ mobile = false, date, score }) => {
+const CheckupPreview = ({ mobile = false, date = '01/01/01', score = '0' }) => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   return isMediumScreen || !mobile ? (
@@ -37,6 +38,12 @@ const CheckupPreview = ({ mobile = false, date, score }) => {
       </div>
     )
   )
+}
+
+CheckupPreview.propTypes = {
+  mobile: PropTypes.bool,
+  date: PropTypes.string,
+  score: PropTypes.string,
 }
 
 export default CheckupPreview

@@ -1,14 +1,15 @@
 import { ArrowLeft, ArrowRight } from './Icons'
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
 const Cta = ({
-  children,
+  children = 'Click',
   size = 'm',
   buttonType = 'button',
   type = 'primary',
   arrow = null,
   invert = false,
-  textColor,
+  textColor = 'text-blue-900',
 }) => {
   const [classes, setClasses] = useState([])
   const [arrowSize, setArrowSize] = useState(18)
@@ -68,7 +69,7 @@ const Cta = ({
             invert ? 'bg-light-100 text-blue-900' : 'bg-blue-900 text-light-100'
           }`,
         ])
-        setArrowColor('#FFFFFF')
+        setArrowColor(invert ? '#1778F2' : '#FFFFFF')
         break
       case 'secondary':
         setClasses(classes => [...classes, 'bg-blue-50', 'text-blue-900'])
@@ -98,6 +99,16 @@ const Cta = ({
       {arrow === 'right' && <ArrowRight color={arrowColor} size={arrowSize} />}
     </button>
   )
+}
+
+Cta.propTypes = {
+  children: PropTypes.string,
+  size: PropTypes.oneOf(['s', 'm', 'l', 'xl']),
+  buttonType: PropTypes.string,
+  type: PropTypes.oneOf(['primary', 'secondary', 'disabled', 'link']),
+  arrow: PropTypes.oneOf(['left', 'right']),
+  invert: PropTypes.bool,
+  textColor: PropTypes.string,
 }
 
 export default Cta

@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { useContext, useEffect, useState } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
-import Button from './Button'
+import AddButton from './AddButton'
 import useMediaQuery from '@mui/material/useMediaQuery'
 
 const CloseNav = () => {
@@ -34,7 +34,7 @@ const CloseNav = () => {
         <div className="rotate-45 cursor-pointer">
           <Link href={getPathByPage('Accueil')} passHref>
             <a>
-              <Button size={buttonSize} color="#1778F2" />
+              <AddButton size={buttonSize} color="#1778F2" />
             </a>
           </Link>
         </div>

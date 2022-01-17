@@ -5,7 +5,7 @@ import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Radio from '@/components/utils/Radio'
-import DropDown from '@/components/utils/Dropdown'
+import Dropdown from '@/components/utils/Dropdown'
 import { useState, useContext, useEffect } from 'react'
 import { SurveyContext } from '@/contexts/SurveyContext'
 import SmokerSchema from '@/schemas/survey/Smoker'
@@ -90,13 +90,13 @@ const SurveySmoker = () => {
               ? 'opacity-100 h-auto mt-5 md:mt-7'
               : 'opacity-0 h-0 overflow-hidden'
           } transition duration-300 ease-linear flex col-span-1 md:col-span-2 gap-4 md:gap-8`}>
-          <DropDown
+          <Dropdown
             options={Array.from({ length: 10 }, (_, i) => i + 1)}
             label="Nombre"
             defaultOption={number}
             getOption={setNumber}
           />
-          <DropDown
+          <Dropdown
             options={Array.from({ length: 10 }, (_, i) => (i + 1) * 2 + ' ans')}
             label="Depuis"
             defaultOption={forDate}

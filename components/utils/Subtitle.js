@@ -1,8 +1,9 @@
 import showdown from 'showdown'
 import { useEffect, useState } from 'react'
+import PropTypes from 'prop-types'
 
 const Subtitle = ({
-  children,
+  children = 'This is a subtitle',
   color = 'text-dark-500',
   center = false,
   type = '1',
@@ -40,6 +41,14 @@ const Subtitle = ({
       {children}
     </p>
   )
+}
+
+Subtitle.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
+  color: PropTypes.string,
+  center: PropTypes.bool,
+  type: PropTypes.oneOf(['1', '2', '3', '4']),
+  html: PropTypes.bool,
 }
 
 export default Subtitle

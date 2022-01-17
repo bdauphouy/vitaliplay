@@ -3,11 +3,11 @@ import Cta from './Cta'
 import { useEffect, useRef, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import { User } from './Icons'
-import { LinksContext } from '@/contexts/LinksContext'
+import { LinksContext } from '../../contexts/LinksContext'
 import { Instagram, Linkedin, Facebook, Twitter } from './Icons'
 import Image from 'next/image'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import Title from '@/components/utils/Title'
+import Title from './Title'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -38,6 +38,7 @@ const Burger = ({ menu, setMenu }) => {
 const Nav = ({ navLinks, isAuth }) => {
   const { externalLinks, getPathByPage, getRewriteByPage } =
     useContext(LinksContext)
+
   const [menu, setMenu] = useState(false)
 
   const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
@@ -205,8 +206,9 @@ const Nav = ({ navLinks, isAuth }) => {
               })}
             </ul>
 
-            <div className="my-4 pb-6 border-b-1 border-dark-50">
-              {isAuth ? (
+            <div
+              className={isAuth ? 'my-4 pb-6 border-b-1 border-dark-50' : ''}>
+              {isAuth && (
                 <>
                   <div className="hidden w-12 h-12 rounded-full bg-blue-900 xl:flex justify-center items-center cursor-pointer">
                     <User color="#FFFFFF" size={24} />
@@ -229,55 +231,46 @@ const Nav = ({ navLinks, isAuth }) => {
                     </div>
                   </div>
                 </>
-              ) : (
-                <Link
-                  href={
-                    getRewriteByPage('Connexion')
-                      ? getRewriteByPage('Connexion')
-                      : getPathByPage('Connexion')
-                  }
-                  passHref>
-                  <div>
-                    <Cta size="l">Connexion</Cta>
-                  </div>
-                </Link>
               )}
             </div>
           </div>
-
-          <h3 className="font-body font-semibold text-base text-dark-900">
-            Nous retrouver :
-          </h3>
-          <ul className="mt-3 flex gap-4">
-            <li>
-              <Link href={externalLinks.linkedin} passHref>
-                <div className="cursor-pointer">
-                  <Linkedin color="#1778F2" />
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link href={externalLinks.instagram} passHref>
-                <div className="cursor-pointer">
-                  <Instagram color="#1778F2" />
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link href={externalLinks.facebook} passHref>
-                <div className="cursor-pointer">
-                  <Facebook color="#1778F2" />
-                </div>
-              </Link>
-            </li>
-            <li>
-              <Link href={externalLinks.twitter} passHref>
-                <div className="cursor-pointer">
-                  <Twitter color="#1778F2" />
-                </div>
-              </Link>
-            </li>
-          </ul>
+          {externalLinks && (
+            <>
+              <h3 className="font-body font-semibold text-base text-dark-900">
+                Nous retrouver :
+              </h3>
+              <ul className="mt-3 flex gap-4">
+                <li>
+                  <Link href={externalLinks.linkedin} passHref>
+                    <div className="cursor-pointer">
+                      <Linkedin color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={externalLinks.instagram} passHref>
+                    <div className="cursor-pointer">
+                      <Instagram color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={externalLinks.facebook} passHref>
+                    <div className="cursor-pointer">
+                      <Facebook color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+                <li>
+                  <Link href={externalLinks.twitter} passHref>
+                    <div className="cursor-pointer">
+                      <Twitter color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+              </ul>
+            </>
+          )}
           <div className="border-solid border-t-1 border-dark-50 flex justify-between pb-4 mt-16">
             <h4 className="font-body font-semibold text-sm mt-4 text-dark-500">
               Réalisé par{' '}

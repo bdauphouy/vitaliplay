@@ -55,7 +55,9 @@ const MyHealthSpace = () => {
         </Row>
       </div>
       <div className="mt-14 px-6 md:px-24">
-        <Title type="8">Récapitulatif</Title>
+        <h2 className="font-bold font-head text-dark-900 text-xl md:text-3xl lg:text-4xl">
+          Récapitulatif
+        </h2>
       </div>
     </div>
   )

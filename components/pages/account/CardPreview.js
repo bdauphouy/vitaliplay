@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react'
-import { ChevronRight } from '@/components/utils/Icons'
+import { ChevronRight } from '../../utils/Icons'
+import PropTypes from 'prop-types'
 
-const CardPreview = ({ title, duration, level, type }) => {
+const CardPreview = ({
+  title = 'This is a card preview',
+  duration = '5',
+  level = 'Intermédiaire',
+  type = '1',
+}) => {
   const [color, setColor] = useState('border-light-100')
 
   useEffect(() => {
@@ -37,6 +43,13 @@ const CardPreview = ({ title, duration, level, type }) => {
       </div>
     </div>
   )
+}
+
+CardPreview.propTypes = {
+  title: PropTypes.string,
+  duration: PropTypes.string,
+  level: PropTypes.string,
+  type: PropTypes.oneOf(['1', '2', '3', '4']),
 }
 
 export default CardPreview

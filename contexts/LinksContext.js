@@ -1,9 +1,12 @@
+import { useMediaQuery } from '@mui/material'
 import { createContext, useEffect, useState, useContext } from 'react'
-import { AuthContext } from '@/contexts/AuthContext'
+import { AuthContext } from './AuthContext'
 
 export const LinksContext = createContext()
 
 export const LinksContextProvider = ({ children }) => {
+  const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
+
   const { isAuth } = useContext(AuthContext)
 
   const getPathByPage = page => {
@@ -149,14 +152,18 @@ export const LinksContextProvider = ({ children }) => {
       auth: true,
       nav: false,
     },
-    { page: 'Mentions légales', path: '/mentions-legales', nav: false },
+    { page: 'Connexion', path: '/login', nav: false },
+    {
+      page: 'Mentions légales',
+      path: '/mentions-legales',
+      nav: false,
+    },
     {
       page: "Conditions d'utilisation",
-      path: '/website/conditions-d-utilisation',
+      path: '/conditions-d-utilisation',
       nav: false,
     },
     { page: 'Inscription', path: '/signup', nav: false },
-    { page: 'Connexion', path: '/login', nav: false },
     { page: 'Invitation', path: '/invitation', nav: false },
     { page: 'Questionnaire', path: '/survey', nav: false },
   ])
@@ -176,13 +183,13 @@ export const LinksContextProvider = ({ children }) => {
     synerghetic: 'https://synerghetic.net',
   })
 
-  const [authNavLinks] = useState(
+  const [authNavLinks, setAuthNavLinks] = useState(
     internalLinks.filter(internalLink => {
       return internalLink.auth !== false && internalLink.nav !== false
     }),
   )
 
-  const [notAuthNavLinks] = useState(
+  const [notAuthNavLinks, setNotAuthNavLinks] = useState(
     internalLinks.filter(internalLink => {
       return internalLink.auth !== true && internalLink.nav !== false
     }),

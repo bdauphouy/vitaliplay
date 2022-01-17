@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
+import PropTypes from 'prop-types'
 
-const Tag = ({ children, type }) => {
+const Tag = ({ children = 'A tag', type = '1' }) => {
   const [color, setColor] = useState('border-light-100')
 
   useEffect(() => {
@@ -20,7 +21,7 @@ const Tag = ({ children, type }) => {
       default:
         break
     }
-  }, [])
+  }, [type])
 
   return (
     <div
@@ -28,6 +29,11 @@ const Tag = ({ children, type }) => {
       {children}
     </div>
   )
+}
+
+Tag.propTypes = {
+  children: PropTypes.string,
+  type: PropTypes.oneOf(['1', '2', '3', '4']),
 }
 
 export default Tag
