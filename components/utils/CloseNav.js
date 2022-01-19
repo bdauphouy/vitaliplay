@@ -14,14 +14,14 @@ const CloseNav = () => {
     setButtonSize(isMediumScreen ? 25 : 20)
   }, [isMediumScreen])
 
-  const { getPathByPage } = useContext(LinksContext)
+  const { getRewriteByPage } = useContext(LinksContext)
 
   return (
     <nav
       className="absolute top-0 w-full z-50 md:px-24 px-6
     ">
       <div className="flex justify-between items-center w-full h-20">
-        <Link href={getPathByPage('Accueil')} passHref>
+        <Link href={getRewriteByPage('Accueil')} passHref>
           <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
             <Image
               src="/logo.svg"
@@ -32,7 +32,7 @@ const CloseNav = () => {
           </div>
         </Link>
         <div className="rotate-45 cursor-pointer">
-          <Link href={getPathByPage('Accueil')} passHref>
+          <Link href={getRewriteByPage('Accueil')} passHref>
             <a>
               <AddButton size={buttonSize} color="#1778F2" />
             </a>

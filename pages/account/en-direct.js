@@ -5,8 +5,8 @@ import Subtitle from '@/components/utils/Subtitle'
 const OnLive = () => {
   return (
     <div className="mt-20 py-10 md:py-20 px-6 md:px-24 ">
-      <div className="flex gap-10 xl:justify-between items-center xl:gap-24 xl:flex-row flex-col-reverse">
-        <div className="xl:max-w-xl">
+      <div className="flex xl:justify-between items-center xl:flex-row flex-col-reverse">
+        <div className="xl:max-w-xl mt-10 xl:mt-0 xl:mr-24">
           <Title type="1">Live : Remise en forme</Title>
           <div className="mt-4">
             <Subtitle>

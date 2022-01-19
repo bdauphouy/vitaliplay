@@ -1,8 +1,12 @@
 import Image from 'next/image'
 import Card from '@/components/pages/account/Card'
 import Row from '@/components/pages/account/Row'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const Sessions = () => {
+  const router = useRouter()
+
   return (
     <div className="mt-20">
       <header className="h-60 lg:h-96 relative">
@@ -16,105 +20,249 @@ const Sessions = () => {
         />
       </header>
       <div className="flex flex-col py-12 gap-12">
-        <Row title="Nouveaux entraînements" path="/nouveaux-entrainements">
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
+        <Row title="Toutes les séances" path="/toutes-les-seances">
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
         </Row>
-        <Row title="Sélectionnés pour vous">
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
+        <Row title="Sélectionnés pour vous" path="/toutes-les-seances">
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
         </Row>
-        <Row title="Disciplines">
-          <Card title="Yoga" type="catégorie" bg="/bg-card.png" />
-          <Card title="Fitness" type="catégorie" bg="/bg-card.png" />
-          <Card title="Workout" type="catégorie" bg="/bg-card.png" />
-          <Card title="Running" type="catégorie" bg="/bg-card.png" />
+        <Row title="Disciplines" path="/toutes-les-seances">
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card title="Yoga" type="catégorie" bg="/bg-card.png" />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card title="Fitness" type="catégorie" bg="/bg-card.png" />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card title="Workout" type="catégorie" bg="/bg-card.png" />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card title="Running" type="catégorie" bg="/bg-card.png" />
+            </a>
+          </Link>
         </Row>
-        <Row title="Programmes">
-          <Card
-            title="Programme 1"
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            type="programme"
-            bg="/bg-card.png"
-          />
-          <Card
-            title="Programme 1"
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            type="programme"
-            bg="/bg-card.png"
-          />
-          <Card
-            title="Programme 1"
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            type="programme"
-            bg="/bg-card.png"
-          />
-          <Card
-            title="Programme 1"
-            subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-            type="programme"
-            bg="/bg-card.png"
-          />
+        <Row title="Programmes" path="/toutes-les-seances">
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                title="Programme 1"
+                subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                type="programme"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                title="Programme 1"
+                subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                type="programme"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                title="Programme 1"
+                subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                type="programme"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route
+              .split('/')
+              .slice(2)
+              .join('/')}/toutes-les-seances/1`}
+            passHref>
+            <a>
+              <Card
+                title="Programme 1"
+                subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+                type="programme"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
         </Row>
       </div>
     </div>

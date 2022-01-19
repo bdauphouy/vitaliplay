@@ -3,6 +3,9 @@ import { Stamp, Check } from '../../utils/Icons'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
+import Link from 'next/link'
+import { useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const SubscriptionCard = ({
   title = 'This is a subscrption',
@@ -24,6 +27,8 @@ const SubscriptionCard = ({
   const [stampSize, setStampSize] = useState()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const { getRewriteByPage, getPathByPage } = useContext(LinksContext)
 
   useEffect(() => {
     setStampSize(isMediumScreen ? 90 : 64)
@@ -102,12 +107,22 @@ const SubscriptionCard = ({
         </ul>
       </div>
       <div className="flex justify-center mt-8">
-        <Cta
-          size={size === 'big' ? 'xl' : 'l'}
-          type="primary"
-          invert={variant === 'blue'}>
-          {subPage ? 'Choisir cette offre' : 'En savoir plus'}
-        </Cta>
+        <Link
+          href={
+            subPage
+              ? getRewriteByPage('Paiement')
+              : getPathByPage('Abonnements')
+          }
+          passHref>
+          <a>
+            <Cta
+              size={size === 'big' ? 'xl' : 'l'}
+              type="primary"
+              invert={variant === 'blue'}>
+              {subPage ? 'Choisir cette offre' : 'En savoir plus'}
+            </Cta>
+          </a>
+        </Link>
       </div>
     </div>
   )
