@@ -3,11 +3,16 @@ import { useMediaQuery } from '@mui/material'
 import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import CheckupPreview from '@/components/pages/account/CheckupPreview'
+import Link from 'next/link'
+import { LinksContext } from '@/contexts/LinksContext'
+import { useContext } from 'react'
 
 const MyHealthSpaceCheckups = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const { getRewriteByPage } = useContext(LinksContext)
 
   return (
     <div className="mt-20 py-5 md:py-16 min-h-[calc(100vh_-_165px)]">
@@ -27,17 +32,32 @@ const MyHealthSpaceCheckups = () => {
                 Réaliser un nouveau bilan
               </h3>
 
-              <div className="md:mt-6 min-w-[8rem] flex justify-end bg-red-50">
-                <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
-                  Nouveau bilan
-                </Cta>
-              </div>
+              <Link href={getRewriteByPage('Bilan')} passHref>
+                <a>
+                  <div className="mt-6">
+                    <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
+                      Nouveau bilan
+                    </Cta>
+                  </div>
+                </a>
+              </Link>
             </div>
             {[...Array(11)].map((_, i) => {
               return (
-                <div key={i} className="flex h-auto md:h-64">
-                  <CheckupPreview mobile={true} date="01/02/2020" score="65" />
-                </div>
+                <Link
+                  key={i}
+                  href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
+                  passHref>
+                  <a>
+                    <div className="flex h-auto md:h-64">
+                      <CheckupPreview
+                        mobile={true}
+                        date="01/02/2020"
+                        score="65"
+                      />
+                    </div>
+                  </a>
+                </Link>
               )
             })}
           </div>

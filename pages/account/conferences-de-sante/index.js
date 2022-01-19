@@ -45,51 +45,81 @@ const HealthConferences = () => {
               />
             </a>
           </Link>
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-            mobile={true}
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-            mobile={true}
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-            mobile={true}
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-            mobile={true}
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-            mobile={true}
-          />
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+                mobile={true}
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+                mobile={true}
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+                mobile={true}
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+                mobile={true}
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}/1`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+                mobile={true}
+              />
+            </a>
+          </Link>
         </Row>
       </div>
     </div>

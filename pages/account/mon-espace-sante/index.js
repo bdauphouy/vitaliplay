@@ -5,9 +5,14 @@ import Row from '@/components/pages/account/Row'
 import { useMediaQuery } from '@mui/material'
 import CheckupPreview from '@/components/pages/account/CheckupPreview'
 import Advices from '@/components/pages/account/Advices'
+import Link from 'next/link'
+import { useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const MyHealthSpace = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const { getRewriteByPage } = useContext(LinksContext)
 
   return (
     <div className="mt-20 py-10 md:py-20">
@@ -39,17 +44,28 @@ const MyHealthSpace = () => {
               className={`font-head font-bold text-lg md:text-xl text-center text-blue-900`}>
               Réaliser un nouveau bilan
             </h3>
-            <div className="mt-6">
-              <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
-                Nouveau bilan
-              </Cta>
-            </div>
+            <Link href={getRewriteByPage('Bilan')} passHref>
+              <a>
+                <div className="mt-6">
+                  <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
+                    Nouveau bilan
+                  </Cta>
+                </div>
+              </a>
+            </Link>
           </div>
           {[...Array(3)].map((_, i) => {
             return (
-              <div key={i} className="flex h-64 md:h-72 py-4">
-                <CheckupPreview date="01/02/2020" score="65" />
-              </div>
+              <Link
+                key={i}
+                href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
+                passHref>
+                <a>
+                  <div className="flex h-64 md:h-72 py-4">
+                    <CheckupPreview date="01/02/2020" score="65" />
+                  </div>
+                </a>
+              </Link>
             )
           })}
         </Row>

@@ -84,7 +84,7 @@ const SessionsNewTrainings1 = () => {
       <div className="mt-12 lg:mt-28">
         <Row title="Découvrez d'autres séances" button={false}>
           <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
+            href={`/${router.route.split('/').slice(2).join('/')}`}
             passHref>
             <a>
               <Card
@@ -97,30 +97,48 @@ const SessionsNewTrainings1 = () => {
               />
             </a>
           </Link>
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
-          <Card
-            tagType="1"
-            title="Exercices intensifs pour le bas du corps"
-            type="séances"
-            duration="27"
-            level="Intermédiaire"
-            bg="/bg-card.png"
-          />
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
+          <Link
+            href={`/${router.route.split('/').slice(2).join('/')}`}
+            passHref>
+            <a>
+              <Card
+                tagType="1"
+                title="Exercices intensifs pour le bas du corps"
+                type="séances"
+                duration="27"
+                level="Intermédiaire"
+                bg="/bg-card.png"
+              />
+            </a>
+          </Link>
         </Row>
       </div>
     </div>

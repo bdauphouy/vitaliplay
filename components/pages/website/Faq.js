@@ -19,8 +19,6 @@ const Faq = ({
   }, [isMediumScreen])
 
   const openDropdown = e => {
-    e.target.parentElement.nextSibling.classList.toggle('opacity-0')
-    e.target.parentElement.nextSibling.classList.toggle('opacity-100')
     e.target.parentElement.nextSibling.classList.toggle('max-h-0')
     e.target.parentElement.nextSibling.classList.toggle(
       isMediumScreen ? 'max-h-48' : 'max-h-96',
@@ -42,8 +40,8 @@ const Faq = ({
       </div>
       <div
         ref={answerSection}
-        className="mt-4 max-h-0 opacity-0 overflow-y-auto duration-700"
-        style={{ transitionProperty: 'max-height, opacity' }}>
+        className="mt-4 max-h-0 overflow-y-auto duration-700"
+        style={{ transitionProperty: 'max-height' }}>
         <p className="font-body text-ellipsis text-dark-500 font-normal pr-8">
           {answer}
         </p>

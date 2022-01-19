@@ -30,6 +30,14 @@ const Row = ({
     setButtonSize(isLargeScreen ? 'l' : 'm')
   }, [isLargeScreen])
 
+  useEffect(() => {
+    if (type === 'filter') {
+      router.replace(
+        `/${router.route.split('/').slice(2).join('/')}?filter=${filter}`,
+      )
+    }
+  }, [filter])
+
   return (
     <div>
       <header className="flex justify-between items-center px-6 md:px-24 gap-4 md:gap-12">
@@ -39,7 +47,7 @@ const Row = ({
           </h2>
         </div>
         {button && (
-          <div className="flex-5 flex justify-end">
+          <div className="flex justify-end">
             {type === 'filter' ? (
               <>
                 <div className="hidden md:block w-60 lg:w-80">
@@ -91,7 +99,7 @@ const Row = ({
                 </div>
               </>
             ) : (
-              <Link href={router.route + path} passHref>
+              <Link href={router.asPath + path} passHref>
                 <a>
                   <Cta size={buttonSize} type="secondary">
                     Voir plus
@@ -109,10 +117,10 @@ const Row = ({
             : 'flex flex-row md:gap-8 gap-3'
         } ${
           type === 'filter'
-            ? 'flex md:grid mt-2 md:mt-4 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))]'
+            ? 'flex md:grid mt-4 md:mt-8 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(3,minmax(_288px,_1fr))] lg:grid-cols-[repeat(2,minmax(_288px,_1fr))] md:grid-cols-[repeat(1,minmax(_288px,_1fr))]'
             : type === 'grid'
-            ? 'flex flex-col mt-2 md:mt-4 md:grid'
-            : 'items-center mt-2 md:mt-4 gap-3 grid grid-cols-[repeat(4,minmax(_224px,_1fr))] md:grid-cols-[repeat(4,minmax(_288px,_1fr))] overflow-x-auto'
+            ? 'flex flex-col mt-4 md:mt-8 md:grid'
+            : 'items-center mt-4 md:mt-8 gap-3 grid grid-cols-[repeat(4,minmax(_224px,_1fr))] md:grid-cols-[repeat(4,minmax(_288px,_1fr))] overflow-x-auto'
         }`}>
         {children}
       </div>

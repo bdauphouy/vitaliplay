@@ -146,32 +146,24 @@ const Home = ({ home }) => {
         </div>
         <div className=" mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
           <div className="w-full lg:w-96 lg:order-2">
-            <Link href={getPathByPage('Abonnements')} passHref>
-              <a>
-                <SubscriptionCard
-                  title="Annuel"
-                  price={home.subscription[1].prices[0].price}
-                  suffix="/par an"
-                  description={home.subscription[1].prices[0].description}
-                  variant="blue"
-                  size="big"
-                  stamp={true}
-                />
-              </a>
-            </Link>
+            <SubscriptionCard
+              title="Annuel"
+              price={home.subscription[1].prices[0].price}
+              suffix="/par an"
+              description={home.subscription[1].prices[0].description}
+              variant="blue"
+              size="big"
+              stamp={true}
+            />
           </div>
           <div className="lg:py-8 w-full lg:w-96 lg:order-1">
-            <Link href={getPathByPage('Abonnements')} passHref>
-              <a>
-                <SubscriptionCard
-                  title="Mensuel"
-                  price={home.subscription[0].prices[0].price}
-                  suffix="/par mois"
-                  description={home.subscription[0].prices[0].description}
-                  size="small"
-                />
-              </a>
-            </Link>
+            <SubscriptionCard
+              title="Mensuel"
+              price={home.subscription[0].prices[0].price}
+              suffix="/par mois"
+              description={home.subscription[0].prices[0].description}
+              size="small"
+            />
           </div>
           <div className="lg:order-3 w-full lg:w-96 lg:py-8">
             <div className="flex flex-col justify-center items-center h-full bg-blue-50 px-6 py-10 rounded-lg">

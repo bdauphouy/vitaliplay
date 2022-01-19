@@ -2,6 +2,8 @@ import Subtitle from '@/components/utils/Subtitle'
 import Title from '@/components/utils/Title'
 import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
+import { LinksContext } from '@/contexts/LinksContext'
+import { useContext } from 'react'
 
 export const Section = ({ id, icon, title, path = '/' }) => {
   const router = useRouter()
@@ -21,6 +23,8 @@ export const Section = ({ id, icon, title, path = '/' }) => {
 }
 
 const Profile = () => {
+  const { getRewriteByPage } = useContext(LinksContext)
+
   return (
     <div className="mt-20 py-10 lg:py-20 md:px-24 max-w-4xl mx-auto h-[calc(100vh_-_165px)]">
       <div className="flex flex-col items-center">

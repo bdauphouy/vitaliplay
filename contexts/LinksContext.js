@@ -90,6 +90,13 @@ export const LinksContextProvider = ({ children }) => {
       nav: false,
     },
     {
+      page: 'Paiement',
+      path: '/website/checkout',
+      rewrite: '/checkout',
+      auth: false,
+      nav: false,
+    },
+    {
       page: 'Nouveaux entraînements',
       path: '/account/seances/nouveaux-entrainements',
       rewrite: '/seances/nouveaux-entrainements',

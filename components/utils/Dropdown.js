@@ -13,7 +13,6 @@ const Dropdown = ({
 
   useEffect(() => {
     setSelectedOption(defaultOption)
-    console.log(defaultOption)
   }, [defaultOption])
 
   const toggleDropdown = e => {
