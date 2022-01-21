@@ -45,9 +45,11 @@ const Radio = ({
             {children}
           </span>
         </div>
-        <span className="text-sm text-dark-500 w-full lg:w-24 text-center">
-          {label}
-        </span>
+        {label && (
+          <span className="text-sm text-dark-500 w-full lg:w-24 text-center">
+            {label}
+          </span>
+        )}
       </label>
     </div>
   )

@@ -30,7 +30,8 @@ strong.type-2 {
 }
 
 @media (min-width: 1024px) {
-  .lg\:grid-area-signup {
+  .lg\:grid-area-signup,
+  .\32xl\:grid-area-signup {
     grid-template-areas:
       'a a b b b c c c'
       'd d d d e e e e'

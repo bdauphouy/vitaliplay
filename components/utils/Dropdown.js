@@ -28,7 +28,7 @@ const Dropdown = ({
 
   return (
     <>
-      <div className="flex flex-col h-full">
+      <div className="flex flex-col gap-2 h-full">
         <label className="font-body text-sm font-normal text-black">
           {label}
         </label>

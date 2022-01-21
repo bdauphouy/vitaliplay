@@ -23,7 +23,7 @@ const SignupStart = () => {
 
   const formatDate = date => {
     const year = date.getFullYear()
-    const month = date.getMonth() + 1
+    const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const day = date.getDate().toString().padStart(2, '0')
 
     return `${year}-${month}-${day}`
@@ -59,7 +59,7 @@ const SignupStart = () => {
       </div>
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col lg:grid lg:grid-area-signup mt-8 lg:mt-10 gap-3 lg:gap-4">
+        className="flex flex-col lg:grid lg:grid-area-signup mt-8 lg:mt-10 gap-4 lg:gap-5">
         <div className="self-start" style={{ gridArea: 'a' }}>
           <Dropdown
             options={['M', 'Mme']}
