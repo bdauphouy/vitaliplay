@@ -60,17 +60,19 @@ const Input = ({
             onChange={onChange}
             placeholder={placeholder}
             value={value}
-            className={
+            className={`${type === 'date' ? 'px-3 py-[9px]' : 'px-3 py-2.5'} ${
               !prefix
-                ? 'outline-none w-full font-body font-normal text-base text-dark-900 px-3 py-2.5 border-solid border-dark-100 border-1 rounded-md bg-light-100'
-                : 'outline-none px-3 py-2.5 flex-1'
-            }
+                ? 'outline-none w-full font-body font-normal text-base text-dark-900 border-solid border-dark-100 border-1 rounded-md bg-light-100'
+                : 'outline-none flex-1'
+            }`}
           />
         </div>
       )}
-      <Error className="mt-1 font-body font-normal text-md text-warning-500">
-        {error}
-      </Error>
+      {error && (
+        <Error className="mt-1 font-body font-normal text-md text-warning-500">
+          {error}
+        </Error>
+      )}
     </div>
   )
 }

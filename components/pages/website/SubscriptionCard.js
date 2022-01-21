@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import Link from 'next/link'
 import { useContext } from 'react'
-import { LinksContext } from '@/contexts/LinksContext'
+import { LinksContext } from '../../../contexts/LinksContext'
 
 const SubscriptionCard = ({
   title = 'This is a subscrption',
