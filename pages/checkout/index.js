@@ -97,7 +97,7 @@ const Checkout = () => {
   return (
     <div className="mt-10 lg:mt-40 px-6 md:px-24">
       <Title>Avez-vous un compte ?</Title>
-      <form>
+      <form onSubmit={formik.handleSubmit}>
         <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-4 mt-8">
           <Radio
             id="already"
