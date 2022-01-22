@@ -77,7 +77,7 @@ const PhysicalFlexibility = () => {
         </div>
       ) : (
         <div>
-          <Title>Exercice 4 : Gratte dos (dès 2 côtés)</Title>
+          <Title type="3">Exercice 4 : Gratte dos (dès 2 côtés)</Title>
           <div className="mt-4">
             <Subtitle>
               Une main au-dessus de l’épaule, paume contre le dos et l’autre

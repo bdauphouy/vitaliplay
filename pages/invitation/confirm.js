@@ -13,8 +13,10 @@ const InvitationConfirm = () => {
   const { getPathByPage } = useContext(LinksContext)
 
   return (
-    <div className="flex flex-col items-center lg:w-4/5">
-      <Title center={true}>Bienvenue parmis nous !</Title>
+    <div className="flex flex-col items-center w-full px-6 md:px-24 lg:max-w-3xl absolute left-1/2 transform -translate-x-1/2">
+      <Title center={true} type="3">
+        Bienvenue parmis nous !
+      </Title>
       <div className="mt-4">
         <Subtitle center={true}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget

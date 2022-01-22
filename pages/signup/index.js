@@ -49,8 +49,8 @@ const SignupStart = () => {
   })
 
   return (
-    <div className="h-full lg:pt-20 xl:max-w-3xl">
-      <Title>Inscription</Title>
+    <div className="h-full lg:pt-32 xl:mr-20">
+      <Title type="3">Inscription</Title>
       <div className="mt-4">
         <Subtitle>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget

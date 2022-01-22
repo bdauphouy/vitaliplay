@@ -90,7 +90,7 @@ const SurveyPain = () => {
                 formik.values.pain === 'yes'
                   ? 'opacity-100 h-auto'
                   : 'opacity-0 h-0 overflow-hidden'
-              } transition duration-300 ease-linear md:col-span-2 grid grid-cols-2 gap-6`}>
+              } transition duration-300 ease-linear md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6`}>
               {painList.map((pain, i) => {
                 return (
                   <Checkbox

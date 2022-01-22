@@ -159,16 +159,24 @@ export const LinksContextProvider = ({ children }) => {
       auth: true,
       nav: false,
     },
-    { page: 'Connexion', path: '/login', nav: false },
+    {
+      page: 'Connexion',
+      path: '/login',
+      auth: false,
+      nav: false,
+      mobileNav: true,
+    },
     {
       page: 'Mentions légales',
       path: '/mentions-legales',
       nav: false,
+      mobileNav: true,
     },
     {
       page: "Conditions d'utilisation",
       path: '/conditions-d-utilisation',
       nav: false,
+      mobileNav: true,
     },
     { page: 'Inscription', path: '/signup', nav: false },
     { page: 'Invitation', path: '/invitation', nav: false },
@@ -192,13 +200,19 @@ export const LinksContextProvider = ({ children }) => {
 
   const [authNavLinks, setAuthNavLinks] = useState(
     internalLinks.filter(internalLink => {
-      return internalLink.auth !== false && internalLink.nav !== false
+      return (
+        internalLink.auth !== false &&
+        (internalLink.nav !== false || internalLink.mobileNav)
+      )
     }),
   )
 
   const [notAuthNavLinks, setNotAuthNavLinks] = useState(
     internalLinks.filter(internalLink => {
-      return internalLink.auth !== true && internalLink.nav !== false
+      return (
+        internalLink.auth !== true &&
+        (internalLink.nav !== false || internalLink.mobileNav)
+      )
     }),
   )
 

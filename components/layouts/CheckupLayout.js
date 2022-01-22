@@ -115,7 +115,7 @@ const CheckupLayout = ({ children }) => {
           </ul>
         </nav>
       </aside>
-      <nav className="lg:hidden h-48 flex justify-center px-6 md:px-24 shadow-level1 items-end pb-16">
+      <nav className="sticky top-0 bg-light-100 lg:hidden h-48 flex justify-center px-6 md:px-24 shadow-level1 items-end pb-16">
         <ul className="flex relative w-full px-10">
           {checkupSteps.map(checkupStep => {
             if (checkupStep.hidden) return

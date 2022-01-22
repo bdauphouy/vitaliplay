@@ -15,7 +15,7 @@ const SubscriptionCard = ({
   variant = null,
   size = 'small',
   stamp = false,
-  stampValue = '31',
+  stampValue = '32',
   subPage = false,
   program = [
     { point: 'Lorem ipsum ut dolor' },

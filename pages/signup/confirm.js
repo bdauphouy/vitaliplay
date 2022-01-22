@@ -16,8 +16,8 @@ const SignupConfirm = () => {
   const buttonSize = useButtonSize()
 
   return (
-    <div className="flex flex-col items-center lg:w-4/5">
-      <Title center={true}>
+    <div className="flex flex-col items-center w-full px-6 md:px-24 lg:max-w-3xl absolute left-1/2 transform -translate-x-1/2">
+      <Title center={true} type="3">
         Félicitations, vous êtes bien inscrit sur Vitaliplay
       </Title>
       <div className="mt-4">

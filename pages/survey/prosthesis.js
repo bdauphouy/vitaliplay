@@ -46,7 +46,7 @@ const SurveyProsthesis = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title type="3">Avez-vous une prothèse articulaire?</Title>
+        <Title type="3">Avez-vous une prothèse articulaire ?</Title>
         <div className="mt-4">
           <Subtitle type="2">Si oui, à quel(s) endroit ?</Subtitle>
         </div>
@@ -77,7 +77,7 @@ const SurveyProsthesis = () => {
                 formik.values.prosthesis === 'yes'
                   ? 'opacity-100 h-auto'
                   : 'opacity-0 h-0 overflow-hidden'
-              } transition duration-300 ease-linear md:col-span-2 flex flex-col gap-4`}>
+              } transition duration-300 ease-linear md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4`}>
               {prosthesisLocations.map((prosthesisLocation, i) => {
                 return (
                   <Checkbox

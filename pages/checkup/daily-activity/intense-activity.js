@@ -69,7 +69,7 @@ const DailyActivityIntenseActivity = () => {
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
-        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-x-4 gap-y-6">
+        <div className="grid grid-cols-1 xl:grid-cols-2 2xl:grid-cols-3 gap-4">
           {radios.map((radio, i) => {
             return (
               <div key={i}>
