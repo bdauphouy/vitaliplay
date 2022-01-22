@@ -101,24 +101,26 @@ const Nav = ({ navLinks, isAuth }) => {
             }}></div>
           {navLinks.map((navLink, i) => {
             return (
-              <li key={i} className="h-full">
-                <Link href={navLink.rewrite || navLink.path}>
-                  <a
-                    className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
-                      (router.route.includes(navLink.path) ||
-                        router.route.includes(navLink.rewrite)) &&
-                      navLink.rewrite !== '/' &&
-                      navLink.path !== '/'
-                        ? 'text-blue-900'
-                        : router.route === navLink.path ||
-                          router.route === navLink.rewrite
-                        ? 'text-blue-900'
-                        : 'text-dark-300'
-                    }`}>
-                    {navLink.page}
-                  </a>
-                </Link>
-              </li>
+              !navLink.mobileNav && (
+                <li key={i} className="h-full">
+                  <Link href={navLink.rewrite || navLink.path}>
+                    <a
+                      className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
+                        (router.route.includes(navLink.path) ||
+                          router.route.includes(navLink.rewrite)) &&
+                        navLink.rewrite !== '/' &&
+                        navLink.path !== '/'
+                          ? 'text-blue-900'
+                          : router.route === navLink.path ||
+                            router.route === navLink.rewrite
+                          ? 'text-blue-900'
+                          : 'text-dark-300'
+                      }`}>
+                      {navLink.page}
+                    </a>
+                  </Link>
+                </li>
+              )
             )
           })}
 
@@ -148,7 +150,7 @@ const Nav = ({ navLinks, isAuth }) => {
         </ul>
       </nav>
       <nav
-        className="absolute top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
+        className="fixed top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
     ">
         <div className="flex justify-between items-center w-full h-20">
           <Link
@@ -174,7 +176,7 @@ const Nav = ({ navLinks, isAuth }) => {
           className={`${
             menu
               ? !isExtraLargeScreen
-                ? 'max-h-[620px]'
+                ? 'max-h-[820px]'
                 : 'max-h-144'
               : 'max-h-0'
           } bg-white overflow-hidden absolute w-full top-full left-0 px-6 md:px-24 transition duration-500`}

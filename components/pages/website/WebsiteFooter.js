@@ -13,7 +13,7 @@ import Image from 'next/image'
 
 const DownloadButton = ({ children }) => {
   return (
-    <div className="flex justify-center items-center font-body text-black bg-light-100 border-solid border-1 border-gray-200 px-6 py-3 rounded-lg">
+    <div className="flex w-full md:w-auto justify-center items-center font-body text-black bg-light-100 border-solid border-1 text-md md:text-lg font-bold border-gray-200 px-6 py-3 rounded-lg">
       {children}
     </div>
   )
@@ -144,7 +144,7 @@ const WebsiteFooter = ({ navLinks }) => {
       <footer className="md:hidden pt-20">
         <div className="relative px-6">
           <div className="bg-blue-50 rounded-lg px-9 py-6 space-y-4 flex flex-col items-center">
-            <h3 className="font-head font-bold text-2xl text-center text-dark-900 max-w-xs mb-8">
+            <h3 className="font-head font-bold text-xl text-center text-dark-900 max-w-xs mb-8">
               Pour être toujours plus près de vous
             </h3>
             <DownloadButton>
@@ -178,29 +178,16 @@ const WebsiteFooter = ({ navLinks }) => {
               return (
                 <li key={i}>
                   <Link href={navLink.path}>
-                    <a className="w-full font-body font-semibold text-base py-2 h-full inline-flex items-center text-light-100">
+                    <a
+                      className={`${
+                        navLink.page === 'Mentions légales' ? 'mt-8' : ''
+                      } w-full font-body font-semibold text-base py-2 h-full inline-flex items-center text-light-100`}>
                       {navLink.page}
                     </a>
                   </Link>
                 </li>
               )
             })}
-          </ul>
-          <ul className="mt-8">
-            <li>
-              <Link href={getPathByPage('Mentions légales')}>
-                <a className="font-body font-semibold text-base py-2 text-light-100">
-                  Mentions légales
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link href={getPathByPage("Conditions d'utilisation")}>
-                <a className="font-body font-semibold text-base py-2 text-light-100 inline-block">
-                  Conditions d'utilisation
-                </a>
-              </Link>
-            </li>
           </ul>
           <h3 className="font-body font-semibold text-base py-2 mt-8 text-light-100">
             Nous retrouver :

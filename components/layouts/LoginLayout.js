@@ -14,7 +14,7 @@ const LoginLayout = ({ children }) => {
             objectFit="cover"
           />
         </div>
-        <div className="xl:w-2/3 xl:mr-20 w-full flex flex-col min-h-screen justify-center px-6 md:px-24 py-20 mt-12 lg:mt-0">
+        <div className="relative w-full flex flex-col min-h-screen justify-center px-6 md:px-24 py-28 lg:py-0 lg:mt-0">
           {children}
         </div>
       </div>

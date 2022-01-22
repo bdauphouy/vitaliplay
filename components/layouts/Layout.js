@@ -7,6 +7,7 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { useRouter } from 'next/router'
 import CloseNav from '@/components/utils/CloseNav'
 import AccountFooter from '@/components/pages/account/AccountFooter'
+import { useMediaQuery } from '@mui/material'
 
 const Layout = ({ children }) => {
   const { isAuth } = useContext(AuthContext)

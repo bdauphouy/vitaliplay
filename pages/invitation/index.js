@@ -24,7 +24,7 @@ const InvitationStart = () => {
 
   return (
     <div className="max-w-3xl">
-      <Title>Renseignez votre code d'invitation</Title>
+      <Title type="3">Renseignez votre code d'invitation</Title>
       <div className="mt-4">
         <Subtitle type="2">
           Un code invitation vous a été offert? Renseignez-le pour bénéficier
