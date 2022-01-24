@@ -29,9 +29,10 @@ const Profile = () => {
     <div className="mt-20 py-10 lg:py-20 md:px-24 max-w-4xl mx-auto h-[calc(100vh_-_165px)]">
       <div className="flex flex-col items-center">
         <div className="w-36 h-36 bg-dark-100 rounded-full mb-6 lg:mb-8"></div>
-        <Title type="12" center={true}>
+        <h2 className="font-head font-bold text-dark-900 text-lg md:text-xl text-center">
           Guillaume Clerisseau
-        </Title>
+        </h2>
+
         <div className="mt-2 lg:mt-3">
           <Subtitle type="4" center={true}>
             Abonné jusqu’au 12 juillet 2022
