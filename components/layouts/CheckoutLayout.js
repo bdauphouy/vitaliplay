@@ -1,5 +1,9 @@
 import Input from '@/components/utils/Input'
+import { CheckoutContext } from '@/contexts/CheckoutContext'
 import { useFormik } from 'formik'
+import { useRouter } from 'next/router'
+import { useContext } from 'react'
+import { useState, useEffect } from 'react'
 
 const CheckoutLayout = ({ children }) => {
   const formik = useFormik({
@@ -11,9 +15,39 @@ const CheckoutLayout = ({ children }) => {
     },
   })
 
+  const router = useRouter()
+
+  const [currentPath, setCurrentPath] = useState()
+
+  const refreshLocalStorage = id => {
+    window.localStorage.setItem(
+      'vitaliplay.checkout.activeStep',
+      (id && id.toString()) || '1',
+    )
+  }
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('vitaliplay.checkout.store')) {
+      window.localStorage.setItem(
+        'vitaliplay.checkout.store',
+        JSON.stringify({}),
+      )
+    }
+  }, [])
+
+  useEffect(() => {
+    setCurrentPath(`/${router.route.split('/')[2]}`)
+  }, [router])
+
+  useEffect(() => {
+    refreshLocalStorage(getIdByPath(currentPath))
+  }, [currentPath])
+
+  const { getIdByPath } = useContext(CheckoutContext)
+
   return (
-    <div className="flex flex-col-reverse lg:flex-row min-h-screen">
-      <div className="flex-[3]">
+    <div className="flex flex-col-reverse justify-end lg:flex-row min-h-screen">
+      <div className="lg:flex-[3]">
         {children}
         <p className="px-6 md:px-24 my-14 block lg:hidden font-body text-sm text-dark-300">
           *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eleifend
@@ -24,7 +58,7 @@ const CheckoutLayout = ({ children }) => {
           diam, morbi parturient imperdiet potenti libero.
         </p>
       </div>
-      <aside className="pt-24 lg:pt-36 flex-[2] lg:min-w-[400px] bg-light-100 shadow-level1 px-6 md:px-24 lg:px-14 lg:pb-10 pb-6 flex flex-col justify-between">
+      <aside className="pt-24 lg:pt-36 lg:flex-[2] lg:min-w-[400px] bg-light-100 shadow-level1 px-6 md:px-24 lg:px-14 lg:pb-10 pb-6 flex flex-col justify-between">
         <div>
           <h2 className="font-head font-bold lg:text-center text-lg md:text-xl text-blue-900">
             Récapitulatif de la commande
@@ -60,17 +94,19 @@ const CheckoutLayout = ({ children }) => {
               onChange={formik.handleChange}
             />
           </form>
-          <div className="mt-6 flex justify-between items-start">
-            <h2 className="font-bold text-base md:text-lg text-dark-900 font-body">
-              Total TTC
-            </h2>
-            <span className="font-bold text-[1.25rem] md:text-2xl text-blue-900 font-head">
-              89€
-            </span>
+          <div>
+            <div className="mt-6 flex justify-between items-start">
+              <h2 className="font-bold text-base md:text-lg text-dark-900 font-body">
+                Total TTC
+              </h2>
+              <span className="font-bold text-[1.25rem] md:text-2xl text-blue-900 font-head">
+                89€
+              </span>
+            </div>
+            <p className="font-bold font-body text-blue-900 mt-4 text-md">
+              -10 € avec le code VITALIPLAY10
+            </p>
           </div>
-          <p className="font-bold font-body text-blue-900 mt-4 text-md">
-            -10 € avec le code VITALIPLAY10
-          </p>
         </div>
         <p className="hidden lg:block font-body text-sm text-dark-300">
           *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eleifend

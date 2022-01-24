@@ -6,6 +6,7 @@ import { RouteContextProvider } from '@/contexts/RouteContext'
 import { LinksContextProvider } from '@/contexts/LinksContext'
 import { SurveyContextProvider } from '@/contexts/SurveyContext'
 import { CheckupContextProvider } from '@/contexts/CheckupContext'
+import { CheckoutContextProvider } from '@/contexts/CheckoutContext'
 
 const MyApp = ({ Component, pageProps }) => {
   return (
@@ -14,11 +15,13 @@ const MyApp = ({ Component, pageProps }) => {
         <AuthContextProvider>
           <RouteContextProvider>
             <LinksContextProvider>
-              <Layout>
-                <PerPageLayout Layout={Component.Layout}>
-                  <Component {...pageProps} />
-                </PerPageLayout>
-              </Layout>
+              <CheckoutContextProvider>
+                <Layout>
+                  <PerPageLayout Layout={Component.Layout}>
+                    <Component {...pageProps} />
+                  </PerPageLayout>
+                </Layout>
+              </CheckoutContextProvider>
             </LinksContextProvider>
           </RouteContextProvider>
         </AuthContextProvider>

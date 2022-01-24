@@ -30,8 +30,7 @@ strong.type-2 {
 }
 
 @media (min-width: 1024px) {
-  .lg\:grid-area-signup,
-  .\32xl\:grid-area-signup {
+  .lg\:grid-area-signup {
     grid-template-areas:
       'a a b b b c c c'
       'd d d d e e e e'
@@ -46,6 +45,36 @@ strong.type-2 {
       'a a b c'
       'd d e e'
       'f f f f';
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1280px) {
+  .xl\:grid-area-card-info {
+    grid-template-areas:
+      'a a . .'
+      'b b c d';
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1280px) {
+  .md\:grid-area-card-info {
+    grid-template-areas:
+      'a a a a'
+      'b b b b'
+      'c c d d';
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .grid-area-card-info {
+    grid-template-areas:
+      'a a a a'
+      'b b b b'
+      'c c c c'
+      'd d d d';
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

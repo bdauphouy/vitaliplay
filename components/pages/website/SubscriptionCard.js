@@ -110,7 +110,7 @@ const SubscriptionCard = ({
         <Link
           href={
             subPage
-              ? getRewriteByPage('Paiement')
+              ? `${getRewriteByPage('Paiement')}?abonnement=${title}`
               : getPathByPage('Abonnements')
           }
           passHref>

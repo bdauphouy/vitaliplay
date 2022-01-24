@@ -6,10 +6,18 @@ import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { useRouter } from 'next/router'
-import { useContext } from 'react'
-import { LinksContext } from '@/contexts/LinksContext'
+import { useContext, useState, useEffect } from 'react'
+import { CheckoutContext } from '@/contexts/CheckoutContext'
 
 const CheckoutInfo = () => {
+  const [store, setStore] = useState()
+
+  useEffect(() => {
+    setStore(
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store')),
+    )
+  }, [])
+
   const formik = useFormik({
     initialValues: {
       lastName: '',
@@ -20,11 +28,15 @@ const CheckoutInfo = () => {
       zipCode: '',
     },
     onSubmit: values => {
-      router.push(`${getRewriteByPage('Paiement')}/paiement`)
+      window.localStorage.setItem(
+        'vitaliplay.checkout.store',
+        JSON.stringify({ ...store, billing: { ...values } }),
+      )
+      router.push(`${prefix}${getPathByStep('Paiement')}`)
     },
   })
 
-  const { getRewriteByPage } = useContext(LinksContext)
+  const { getPathByStep, prefix } = useContext(CheckoutContext)
 
   const router = useRouter()
 
