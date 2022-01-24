@@ -44,7 +44,7 @@ const CheckoutInfo = () => {
 
   return (
     <div className="px-6 md:px-24 mt-10 lg:mt-40 pb-10">
-      <Title>Informations de facturation</Title>
+      <Title type="3">Informations de facturation</Title>
       <div className="mt-4">
         <Subtitle type="2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget

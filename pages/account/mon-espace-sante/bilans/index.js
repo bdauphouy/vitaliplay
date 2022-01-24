@@ -34,7 +34,7 @@ const MyHealthSpaceCheckups = () => {
 
               <Link href={getRewriteByPage('Bilan')} passHref>
                 <a>
-                  <div className="mt-6">
+                  <div className="mt-0 md:mt-6">
                     <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
                       Nouveau bilan
                     </Cta>

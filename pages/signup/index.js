@@ -11,6 +11,8 @@ import SignupSchema from '@/schemas/SignupSchema'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
+import { v4 as uuidv4 } from 'uuid'
+import { postAPI } from '@/lib/api'
 
 const SignupStart = () => {
   const [civility, setCivility] = useState('M')
@@ -45,6 +47,18 @@ const SignupStart = () => {
 
     onSubmit: values => {
       router.push(`${router.route}/confirm`)
+      postAPI('/api/auth/local/register', {
+        username: uuidv4(),
+        email: values.email,
+        password: values.password,
+        civilite: values.civility,
+        firstname: values.firstName,
+        lastname: values.lastName,
+        address: values.address,
+        postal_code: values.zipCode,
+        birthdate: values.birthday,
+        phone: values.phoneNumber,
+      })
     },
   })
 

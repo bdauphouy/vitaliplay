@@ -16,11 +16,14 @@ import Cta from '@/components/utils/Cta'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
+import useButtonSize from '@/hooks/useButtonSize'
 
 const CheckoutCheckout = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   const [store, setStore] = useState()
+
+  const buttonSize = useButtonSize()
 
   useEffect(() => {
     setStore(
@@ -54,7 +57,7 @@ const CheckoutCheckout = () => {
 
   return (
     <div className="mt-10 lg:mt-40 px-6 md:px-24">
-      <Title>Procéder au paiement</Title>
+      <Title type="3">Procéder au paiement</Title>
       <div className="mt-4">
         <Subtitle type="2">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
@@ -151,12 +154,14 @@ const CheckoutCheckout = () => {
             </div>
           </div>
           <div className="flex mt-12 gap-4 md:gap-6 flex-wrap">
-            <Cta size={isMediumScreen ? 'xl' : 'l'} buttonType="submit">
+            <Cta size={buttonSize} buttonType="submit">
               Suivant
             </Cta>
-            <Cta size={isMediumScreen ? 'xl' : 'l'} type="secondary">
-              Retour
-            </Cta>
+            <div onClick={() => router.back()}>
+              <Cta size={buttonSize} type="secondary">
+                Retour
+              </Cta>
+            </div>
           </div>
         </div>
       </form>
