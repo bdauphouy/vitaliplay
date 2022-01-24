@@ -15,6 +15,10 @@ const Survey = () => {
       activeStep = window.localStorage.getItem('vitaliplay.survey.activeStep')
     }
 
+    if (!window.localStorage.getItem('vitaliplay.survey.store')) {
+      window.localStorage.setItem('vitaliplay.survey.store', JSON.stringify({}))
+    }
+
     router.push(`${prefix}${getPathById(parseInt(activeStep))}`)
   }, [])
 

@@ -10,6 +10,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { useEffect } from 'react'
 
 export const getStaticProps = async () => {
   const home = await fetchAPI('/home-landing')
@@ -25,6 +26,11 @@ const Home = ({ home }) => {
 
     return (int >>> 0).toString(2)
   }
+
+  useEffect(() => {
+    window.localStorage.removeItem('vitaliplay.checkout.activeStep')
+    window.localStorage.removeItem('vitaliplay.checkout.subscription')
+  }, [])
 
   const { getPathByPage } = useContext(LinksContext)
 

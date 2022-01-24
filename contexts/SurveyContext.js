@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState } from 'react'
 
 export const SurveyContext = createContext()
 
@@ -15,12 +15,6 @@ export const SurveyContextProvider = ({ children }) => {
     { id: 6, step: 'Prothèse articulaire', path: '/prosthesis' },
     { id: 7, step: 'Succès', path: '/success', hidden: true },
   ])
-
-  useEffect(() => {
-    if (!window.localStorage.getItem('vitaliplay.survey.activeStep')) {
-      window.localStorage.setItem('vitaliplay.survey.activeStep', '1')
-    }
-  }, [])
 
   const getPathById = id => {
     let path = null
