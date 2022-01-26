@@ -5,7 +5,7 @@ const LoginLayout = ({ children }) => {
   return (
     <>
       <div className="flex min-h-screen">
-        <div className="min-h-screen xl:w-1/3 relative">
+        <div className="relative min-h-screen xl:w-1/3">
           <Image
             src={login}
             alt="login"
@@ -14,7 +14,7 @@ const LoginLayout = ({ children }) => {
             objectFit="cover"
           />
         </div>
-        <div className="relative w-full flex flex-col min-h-screen justify-center px-6 md:px-24 py-28 lg:py-0 lg:mt-0">
+        <div className="relative flex min-h-screen w-full flex-col justify-center px-6 py-28 md:px-24 lg:mt-0 lg:py-0">
           {children}
         </div>
       </div>

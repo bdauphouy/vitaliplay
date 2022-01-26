@@ -9,6 +9,11 @@ import Dropdown from '@/components/utils/Dropdown'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
+import {
+  StartGuestSchema,
+  StartLoginSchema,
+  StartSignupSchema,
+} from '@/schemas/checkout/StartSchemas'
 
 const CheckoutStart = () => {
   const [civility, setCivility] = useState('M')
@@ -17,17 +22,19 @@ const CheckoutStart = () => {
 
   useEffect(() => {
     setStore(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store')),
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store'))
     )
   }, [])
 
-  const formatDate = date => {
+  const formatDate = (date) => {
     const year = date.getFullYear()
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const day = date.getDate().toString().padStart(2, '0')
 
     return `${year}-${month}-${day}`
   }
+
+  const [validationSchema, setValidationSchema] = useState()
 
   const formik = useFormik({
     initialValues: {
@@ -42,13 +49,14 @@ const CheckoutStart = () => {
       phoneNumber: '',
       confirmPassword: '',
     },
-    onSubmit: values => {
+    validationSchema,
+    onSubmit: (values) => {
       const entries = Object.entries(values)
       const filtered = entries.filter(([key, value]) => value !== '')
       if (!disabled) {
         window.localStorage.setItem(
           'vitaliplay.checkout.store',
-          JSON.stringify({ ...store, ...Object.fromEntries(filtered) }),
+          JSON.stringify({ ...store, ...Object.fromEntries(filtered) })
         )
         router.push(`${prefix}${getPathByStep('Informations')}`)
       }
@@ -56,11 +64,17 @@ const CheckoutStart = () => {
   })
 
   useEffect(() => {
+    formik.validationSchema = validationSchema
+  }, [validationSchema])
+
+  useEffect(() => {
     switch (formik.values.account) {
       case 'already':
+        setValidationSchema(StartLoginSchema)
         setDisabled(!(formik.values.email && formik.values.password))
         break
       case 'create':
+        setValidationSchema(StartSignupSchema)
         setDisabled(
           !(
             civility &&
@@ -73,17 +87,18 @@ const CheckoutStart = () => {
             formik.values.birthday &&
             formik.values.phoneNumber &&
             formik.values.confirmPassword
-          ),
+          )
         )
         break
       case 'guest':
+        setValidationSchema(StartGuestSchema)
         setDisabled(
           !(
             civility &&
             formik.values.email &&
             formik.values.lastName &&
             formik.values.firstName
-          ),
+          )
         )
         break
       default:
@@ -93,9 +108,11 @@ const CheckoutStart = () => {
   }, [formik.values])
 
   useEffect(() => {
-    Object.keys(formik.initialValues).map(key => {
+    Object.keys(formik.initialValues).map((key) => {
       if (key !== 'account') {
         formik.values[key] = ''
+        formik.errors[key] = ''
+        formik.touched[key] = ''
       }
     })
   }, [formik.values.account])
@@ -109,40 +126,44 @@ const CheckoutStart = () => {
   const [disabled, setDisabled] = useState(true)
 
   return (
-    <div className="mt-10 lg:mt-40 px-6 md:px-24">
+    <div className="mt-10 px-6 md:px-24 lg:mt-0 lg:h-[calc(100vh)] lg:overflow-auto lg:pt-40">
       <Title type="3">Avez-vous un compte ?</Title>
-      <form onSubmit={formik.handleSubmit}>
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-x-6 gap-y-4 mt-8">
+      <form onSubmit={formik.handleSubmit} className="pb-20">
+        <div className="mt-8 grid grid-cols-1 gap-x-6 gap-y-4 xl:grid-cols-2">
           <Radio
             id="already"
             name="account"
             checked={formik.values.account === 'already'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             Je possède déjà un compte
           </Radio>
           <Radio
             id="create"
             name="account"
             checked={formik.values.account === 'create'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             Je créer mon compte
           </Radio>
           <Radio
             id="guest"
             name="account"
             checked={formik.values.account === 'guest'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             Continuer en tant qu'invité
           </Radio>
         </div>
         <div className="mt-7">
           {formik.values.account === 'already' ? (
-            <div className="flex flex-col gap-3 lg:gap-5 lg:w-4/5">
+            <div className="flex flex-col gap-3 lg:w-4/5 lg:gap-5">
               <Input
                 label="Email"
                 name="email"
                 value={formik.values.email}
                 onChange={formik.handleChange}
+                error={formik.touched.email && formik.errors.email}
               />
               <Input
                 label="Mot de passe"
@@ -150,10 +171,11 @@ const CheckoutStart = () => {
                 name="password"
                 value={formik.values.password}
                 onChange={formik.handleChange}
+                error={formik.touched.password && formik.errors.password}
               />
             </div>
           ) : formik.values.account === 'create' ? (
-            <div className="flex flex-col 2xl:grid lg:grid-area-signup gap-4 lg:gap-5">
+            <div className="lg:grid-area-signup flex flex-col gap-4 lg:gap-5 2xl:grid">
               <div className="self-start" style={{ gridArea: 'a' }}>
                 <Dropdown
                   options={['M', 'Mme']}
@@ -189,7 +211,7 @@ const CheckoutStart = () => {
                   error={formik.touched.address && formik.errors.address}
                 />
               </div>
-              <div className="gap-4 flex" style={{ gridArea: 'e' }}>
+              <div className="flex gap-4" style={{ gridArea: 'e' }}>
                 <div className="flex-1">
                   <Input
                     label="Code Postal"
@@ -258,7 +280,7 @@ const CheckoutStart = () => {
           ) : (
             formik.values.account === 'guest' && (
               <div className="flex flex-col gap-5">
-                <div className="flex gap-4 flex-col lg:flex-row">
+                <div className="flex flex-col gap-4 lg:flex-row">
                   <Dropdown
                     options={['M', 'Mme']}
                     label="Civilité"
@@ -303,7 +325,8 @@ const CheckoutStart = () => {
           <Cta
             buttonType="submit"
             type={disabled ? 'disabled' : 'primary'}
-            size={buttonSize}>
+            size={buttonSize}
+          >
             Suivant
           </Cta>
         </div>

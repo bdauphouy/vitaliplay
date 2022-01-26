@@ -9,7 +9,7 @@ import { LinksContext } from '../../../contexts/LinksContext'
 
 const SubscriptionCard = ({
   title = 'This is a subscrption',
-  price = '10',
+  price = 10,
   suffix = '/mois',
   description = 'Lorem ipsum ut dolor',
   variant = null,
@@ -38,15 +38,17 @@ const SubscriptionCard = ({
     <div
       className={`${
         variant === 'blue' ? 'bg-blue-900' : 'bg-light-100'
-      } shadow-level1 h-full p-4 pb-6 lg:p-6 ${
+      } h-full p-4 pb-6 shadow-level1 lg:p-6 ${
         size === 'big' ? 'lg:py-8' : 'lg:py-6'
-      } rounded-lg relative flex flex-col justify-between`}>
+      } relative flex flex-col justify-between rounded-lg`}
+    >
       <div>
         <div
           className={`${
             !stamp && 'hidden'
-          } absolute right-0 top-0 transform translate-x-1/3 -translate-y-1/3`}>
-          <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 font-head font-bold text-lg md:text-xl">
+          } absolute right-0 top-0 translate-x-1/3 -translate-y-1/3 transform`}
+        >
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transform font-head text-lg font-bold md:text-xl">
             -{stampValue}%
           </div>
 
@@ -56,19 +58,22 @@ const SubscriptionCard = ({
         <h3
           className={`${
             variant === 'blue' ? 'text-light-100' : 'text-dark-700'
-          } font-head font-bold text-lg ${size === 'big' && 'lg:text-xl'}`}>
+          } font-head text-lg font-bold ${size === 'big' && 'lg:text-xl'}`}
+        >
           {title}
         </h3>
         <h4
           className={`${size === 'small' && 'lg:mt-1'} ${
             variant === 'blue' ? 'text-light-80' : 'text-dark-700'
-          } font-body font-normal text-sm mt-3 lg:text-base`}>
+          } mt-3 font-body text-sm font-normal lg:text-base`}
+        >
           <span
             className={`${
               variant === 'blue' ? 'text-light-100' : 'text-dark-900'
-            } text-light-100 font-head font-bold text-4xl ${
+            } font-head text-4xl font-bold text-light-100 ${
               size === 'big' && 'lg:text-5xl lg:font-extrabold'
-            } pr-2`}>
+            } pr-2`}
+          >
             €{price}
           </span>
           {suffix}
@@ -76,12 +81,13 @@ const SubscriptionCard = ({
         <p
           className={`${
             variant === 'blue'
-              ? 'text-light-100 border-light-60'
-              : 'text-dark-500 border-dark-100'
+              ? 'border-light-60 text-light-100'
+              : 'border-dark-100 text-dark-500'
           } mt-4 font-body text-md font-normal ${
-            program.length > 0 && subPage && 'border-b-1 pb-6 border-solid'
+            program.length > 0 && subPage && 'border-b-1 border-solid pb-6'
           }`}
-          dangerouslySetInnerHTML={{ __html: description }}></p>
+          dangerouslySetInnerHTML={{ __html: description }}
+        ></p>
         <ul className={`flex flex-col gap-4 ${program.length > 0 && 'py-6'}`}>
           {subPage &&
             program.map((item, i) => {
@@ -97,7 +103,8 @@ const SubscriptionCard = ({
                     <p
                       className={`font-normal ${
                         variant === 'blue' ? 'text-light-100' : 'text-dark-500'
-                      } text-md ml-4`}>
+                      } ml-4 text-md`}
+                    >
                       {item.point}
                     </p>
                   </div>
@@ -106,19 +113,23 @@ const SubscriptionCard = ({
             })}
         </ul>
       </div>
-      <div className="flex justify-center mt-8">
+      <div
+        className={`${size === 'big' ? 'mt-0' : 'mt-4'} flex justify-center`}
+      >
         <Link
           href={
             subPage
               ? `${getRewriteByPage('Paiement')}?abonnement=${title}`
               : getPathByPage('Abonnements')
           }
-          passHref>
+          passHref
+        >
           <a>
             <Cta
               size={size === 'big' ? 'xl' : 'l'}
               type="primary"
-              invert={variant === 'blue'}>
+              invert={variant === 'blue'}
+            >
               {subPage ? 'Choisir cette offre' : 'En savoir plus'}
             </Cta>
           </a>

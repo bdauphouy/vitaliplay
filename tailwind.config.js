@@ -115,6 +115,7 @@ module.exports = {
       },
       maxWidth: {
         sm: '25rem',
+        'screen-3xl': '1920px',
       },
       height: {
         0.5: '0.125rem',

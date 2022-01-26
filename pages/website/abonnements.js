@@ -10,51 +10,52 @@ import Link from 'next/link'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-about')
+  const home = await fetchAPI('/home-landing')
 
-  return { props: { subscriptions }, revalidate: 10 }
+  return { props: { subscriptions, home }, revalidate: 10 }
 }
 
-const Subscription = ({ subscriptions }) => {
+const Subscription = ({ subscriptions, home }) => {
   const { getPathByPage } = useContext(LinksContext)
 
   return (
     <>
-      <div className="px-6 mt-32 md:px-24 lg:mt-36 overflow-x-hidden lg:overflow-x-visible">
+      <div className="mt-32 overflow-x-hidden px-6 md:px-24 lg:mt-36 lg:overflow-x-visible">
         <Title type="1" center={true}>
           {subscriptions.title}
         </Title>
         <div className="mt-4">
           <Subtitle center={true}>{subscriptions.description}</Subtitle>
         </div>
-        <div className="mt-10 gap-6 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
-          <div className="w-full lg:w-96 lg:order-2">
+        <div className="mt-10 flex flex-col gap-6 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
+          <div className="w-full lg:order-2 lg:w-96">
             <SubscriptionCard
               title="Annuel"
-              price={subscriptions.prices[1].price.prices[0].price}
+              price={home.prices.data[0].attributes.price}
               suffix="/par an"
-              description={subscriptions.prices[1].price.prices[0].description}
+              description={home.prices.data[0].attributes.description}
               variant="blue"
               size="big"
               stamp={true}
               subPage={true}
-              program={subscriptions.prices[1].price_points}
+              // program={subscriptions.prices[1].price_points}
             />
           </div>
 
-          <div className="w-full lg:py-8 lg:w-96 lg:order-1">
+          <div className="w-full lg:order-1 lg:w-96 lg:py-8">
             <SubscriptionCard
               title="Mensuel"
-              price={subscriptions.prices[0].price.prices[0].price}
+              price={home.prices.data[1].attributes.price}
               suffix="/par mois"
-              description={subscriptions.prices[0].price.prices[0].description}
+              description={home.prices.data[1].attributes.description}
               size="small"
               subPage={true}
-              program={subscriptions.prices[0].price_points}
+              // program={subscriptions.prices[0].price_points}
             />
           </div>
-          <div className="self-stretch lg:order-3 w-full lg:w-96 lg:py-8">
-            <div className="flex flex-col justify-center items-center w-full bg-blue-50 px-6 py-10 rounded-lg h-full">
-              <h3 className="font-bold font-head text-2xl text-center">
+          <div className="w-full self-stretch lg:order-3 lg:w-96 lg:py-8">
+            <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-blue-50 px-6 py-10">
+              <h3 className="text-center font-head text-2xl font-bold">
                 {subscriptions.code_reduc_title}
               </h3>
               <div className="mt-4">
@@ -74,12 +75,13 @@ const Subscription = ({ subscriptions }) => {
             </div>
           </div>
         </div>
-        <div className="xl:px-28 mt-12">
-          <div className="flex flex-col lg:items-center lg:justify-between lg:flex-row w-full bg-blue-50 py-10 px-4 md:px-8 rounded-lg lg:py-10">
+        <div className="mx-auto mt-12 max-w-screen-xl">
+          <div className="flex w-full flex-col rounded-lg bg-blue-50 py-10 px-4 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:py-10">
             <div className="lg:w-1/2 xl:w-3/5">
               <h3
                 style={{ fontSize: 20 }}
-                className="font-bold font-head text-blue-900 lg:text-xl">
+                className="font-head font-bold text-blue-900 lg:text-xl"
+              >
                 {subscriptions.offer_sub_title}
               </h3>
               <div className="mt-3">
@@ -99,7 +101,7 @@ const Subscription = ({ subscriptions }) => {
               FAQ
             </Title>
             <div className="mt-12">
-              {subscriptions.faq.map(item => {
+              {subscriptions.faq?.map((item) => {
                 return (
                   <Faq
                     key={item.id}

@@ -12,10 +12,10 @@ const SurveyLayout = ({ children }) => {
 
   const [currentPath, setCurrentPath] = useState()
 
-  const refreshLocalStorage = id => {
+  const refreshLocalStorage = (id) => {
     window.localStorage.setItem(
       'vitaliplay.survey.activeStep',
-      (id && id.toString()) || '1',
+      (id && id.toString()) || '1'
     )
   }
 
@@ -34,7 +34,7 @@ const SurveyLayout = ({ children }) => {
     refreshLocalStorage(getIdByPath(currentPath))
   }, [currentPath])
 
-  const switchSurveyStep = surveyId => {
+  const switchSurveyStep = (surveyId) => {
     refreshLocalStorage(surveyId)
     router.push(`${prefix}${getPathById(surveyId)}`)
   }
@@ -43,36 +43,40 @@ const SurveyLayout = ({ children }) => {
     <div className="flex min-h-screen flex-col lg:flex-row">
       <aside
         style={{ minWidth: '400px' }}
-        className="bg-light-100 z-20 hidden lg:flex shadow-level1 min-h-screen">
+        className="z-20 hidden min-h-screen bg-light-100 shadow-level1 lg:flex"
+      >
         <nav className="mt-40">
           <ul className="flex flex-col gap-8 pl-24">
-            {surveySteps.map(surveyStep => {
+            {surveySteps.map((surveyStep) => {
               if (surveyStep.hidden) return
               return (
                 <li key={surveyStep.id}>
                   <div
                     onClick={() => switchSurveyStep(surveyStep.id)}
-                    className="flex items-center cursor-pointer">
+                    className="flex cursor-pointer items-center"
+                  >
                     <div
                       style={{ transitionProperty: 'background-color, color' }}
-                      className={`transition w-8 h-8 grid place-items-center rounded-full font-head font-bold ${
+                      className={`grid h-8 w-8 place-items-center rounded-full font-head font-bold transition ${
                         achievedSteps.includes(surveyStep.id)
-                          ? 'text-light-100 bg-blue-900'
+                          ? 'bg-blue-900 text-light-100'
                           : currentPath === surveyStep.path
-                          ? 'text-blue-900 bg-blue-50'
-                          : 'text-dark-300 bg-gray-100'
-                      }`}>
+                          ? 'bg-blue-50 text-blue-900'
+                          : 'bg-gray-100 text-dark-300'
+                      }`}
+                    >
                       {surveyStep.id}
                     </div>
                     <span
                       style={{ transitionProperty: 'color' }}
-                      className={`transition text-sm font-bold font-body uppercase ml-4 ${
+                      className={`ml-4 font-body text-sm font-bold uppercase transition ${
                         currentPath === surveyStep.path
                           ? 'text-blue-900'
                           : achievedSteps.includes(surveyStep.id)
                           ? 'text-blue-300'
                           : 'text-dark-300'
-                      }`}>
+                      }`}
+                    >
                       {surveyStep.step}
                     </span>
                   </div>
@@ -82,33 +86,36 @@ const SurveyLayout = ({ children }) => {
           </ul>
         </nav>
       </aside>
-      <nav className="lg:hidden h-48 flex justify-center px-6 md:px-24 shadow-level1 items-end pb-16">
-        <ul className="flex relative md:w-full">
-          {surveySteps.map(surveyStep => {
+      <nav className="flex h-48 items-end justify-center px-6 pb-16 shadow-level1 md:px-24 lg:hidden">
+        <ul className="relative flex md:w-full">
+          {surveySteps.map((surveyStep) => {
             if (surveyStep.hidden) return
             return (
               <li
                 key={surveyStep.id}
                 className={`flex items-center ${
                   surveyStep.id < surveySteps.length - 1 && 'md:w-full'
-                }`}>
-                <div className="flex flex-col items-center relative">
+                }`}
+              >
+                <div className="relative flex flex-col items-center">
                   <div
                     onClick={() => switchSurveyStep(surveyStep.id)}
                     style={{ transitionProperty: 'background-color, color' }}
-                    className={`transition cursor-pointer w-8 h-8 flex justify-center items-center rounded-full font-head font-bold ${
+                    className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full font-head font-bold transition ${
                       achievedSteps.includes(surveyStep.id)
-                        ? 'text-light-100 bg-blue-900'
+                        ? 'bg-blue-900 text-light-100'
                         : currentPath === surveyStep.path
-                        ? 'text-blue-900 bg-blue-50'
-                        : 'text-dark-300 bg-gray-100'
-                    }`}>
+                        ? 'bg-blue-50 text-blue-900'
+                        : 'bg-gray-100 text-dark-300'
+                    }`}
+                  >
                     {surveyStep.id}
                   </div>
                   <span
-                    className={`w-24 text-center text-sm font-body font-bold text-blue-900 uppercase absolute mt-10 ${
+                    className={`absolute mt-10 w-24 text-center font-body text-sm font-bold uppercase text-blue-900 ${
                       currentPath === surveyStep.path ? 'block' : 'hidden'
-                    }`}>
+                    }`}
+                  >
                     {surveyStep.step}
                   </span>
                 </div>
@@ -116,22 +123,23 @@ const SurveyLayout = ({ children }) => {
                 {surveyStep.id < surveySteps.length - 1 && (
                   <div
                     style={{ transitionProperty: 'width, background-color' }}
-                    className={`transition separator h-0.5 mx-1 ${
+                    className={`separator mx-1 h-0.5 transition ${
                       currentPath === surveyStep.path
-                        ? 'w-2 xsm:w-4 md:w-full bg-gray-100'
+                        ? 'w-2 bg-gray-100 xsm:w-4 md:w-full'
                         : currentPath === getPathById(surveyStep.id + 1)
-                        ? 'w-2 xsm:w-4 md:w-full bg-blue-900'
+                        ? 'w-2 bg-blue-900 xsm:w-4 md:w-full'
                         : achievedSteps.includes(surveyStep.id)
-                        ? 'bg-blue-900 w-1 xsm:w-2 md:w-full'
-                        : 'bg-gray-100 w-1 xsm:w-2 md:w-full'
-                    }`}></div>
+                        ? 'w-1 bg-blue-900 xsm:w-2 md:w-full'
+                        : 'w-1 bg-gray-100 xsm:w-2 md:w-full'
+                    }`}
+                  ></div>
                 )}
               </li>
             )
           })}
         </ul>
       </nav>
-      <div className="px-6 md:px-24 2xl:mr-40 xl:mr-24 py-10 lg:py-40 w-full flex flex-1">
+      <div className="flex w-full flex-1 px-6 py-10 md:px-24 lg:py-40 xl:mr-24 2xl:mr-40">
         <div className="w-full lg:w-11/12">{children}</div>
       </div>
     </div>

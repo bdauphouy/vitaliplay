@@ -15,7 +15,7 @@ const Layout = ({ children }) => {
     useContext(LinksContext)
 
   const [navLinks, setNavLinks] = useState(
-    isAuth ? authNavLinks : notAuthNavLinks,
+    isAuth ? authNavLinks : notAuthNavLinks
   )
 
   const router = useRouter()
