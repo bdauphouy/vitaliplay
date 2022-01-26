@@ -45,9 +45,9 @@ const SignupStart = () => {
     },
     validationSchema: SignupSchema,
 
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       // router.push(`${router.route}/confirm`)
-      postAPI('/api/auth/local/register', {
+      const res = await postAPI('/auth/local/register', {
         username: uuidv4(),
         email: values.email,
         password: values.password,
@@ -58,7 +58,8 @@ const SignupStart = () => {
         postal_code: values.zipCode,
         birthdate: values.birthday,
         phone: values.phoneNumber,
-      }).then((res) => console.log(res))
+      })
+      console.log(res)
     },
   })
 
