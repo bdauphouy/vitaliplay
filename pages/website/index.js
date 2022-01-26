@@ -24,7 +24,7 @@ const Home = ({ home }) => {
       return toBinary(int + 1)
     }
 
-    return (int >>> 0).toString(2)
+    return int.toString(2)
   }
 
   useEffect(() => {

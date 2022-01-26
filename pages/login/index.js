@@ -10,6 +10,7 @@ import { LinksContext } from '@/contexts/LinksContext'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
+import { postAPI } from '@/lib/api'
 
 const LoginStart = () => {
   const router = useRouter()
@@ -20,8 +21,14 @@ const LoginStart = () => {
       password: '',
     },
     validationSchema: LoginSchema,
-    onSubmit: values => {
-      router.push(`${router.route}/confirm`)
+    onSubmit: async (values) => {
+      // router.push(`${router.route}/confirm`)
+      const res = await postAPI('/auth/local', {
+        identifier: values.email,
+        password: values.password,
+      })
+
+      console.log(res)
     },
   })
 
@@ -30,7 +37,7 @@ const LoginStart = () => {
   const buttonSize = useButtonSize()
 
   return (
-    <div className="h-full lg:pt-32 xl:max-w-3xl xl:mr-20">
+    <div className="h-full lg:pt-32 xl:mr-20 xl:max-w-3xl">
       <Title type="3">Connexion</Title>
       <div className="mt-4">
         <Subtitle>
@@ -40,7 +47,8 @@ const LoginStart = () => {
       </div>
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col mt-8 lg:mt-10 gap-3 lg:gap-4">
+        className="mt-8 flex flex-col gap-3 lg:mt-10 lg:gap-4"
+      >
         <div>
           <Input
             label="Email"
@@ -60,7 +68,7 @@ const LoginStart = () => {
             error={formik.touched.password && formik.errors.password}
           />
         </div>
-        <div className="flex flex-wrap gap-4 lg:gap-8 mt-10">
+        <div className="mt-10 flex flex-wrap gap-4 lg:gap-8">
           <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               Se connecter
