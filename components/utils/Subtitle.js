@@ -17,7 +17,9 @@ const Subtitle = ({
 
   return html ? (
     <p
-      dangerouslySetInnerHTML={{ __html: converter?.makeHtml(children) }}
+      dangerouslySetInnerHTML={{
+        __html: converter?.makeHtml(children.replaceAll('\n', '<br>')),
+      }}
       className={`font-body ${color} leading-8 ${
         type === '1'
           ? 'md:text-lg'
@@ -26,7 +28,8 @@ const Subtitle = ({
           : type === '4'
           ? 'text-md lg:text-base'
           : 'text-base'
-      } md:leading-8 ${center && 'text-center'}`}></p>
+      } md:leading-8 ${center && 'text-center'}`}
+    ></p>
   ) : (
     <p
       className={`font-body ${color} leading-8 ${
@@ -37,7 +40,8 @@ const Subtitle = ({
           : type === '4'
           ? 'text-md lg:text-base'
           : 'text-base'
-      } md:leading-8 ${center && 'text-center'}`}>
+      } md:leading-8 ${center && 'text-center'}`}
+    >
       {children}
     </p>
   )

@@ -14,16 +14,17 @@ const SolutionCard = ({
 
   return (
     <div
-      className={`w-full sm:px-8 min-h-72 sm:py-6 px-4 py-4 sm:pt-11 pt-7 rounded-lg flex flex-col items-start justify-between ${
+      className={`flex min-h-72 w-full flex-col items-start justify-between rounded-lg px-4 py-4 pt-7 sm:px-8 sm:py-6 sm:pt-11 ${
         variant === 'blue'
           ? 'bg-blue-50'
-          : 'bg-light-100 border-solid border-1 border-gray-200'
-      }`}>
-      <Image src={icon} width="60" height="60" alt="icon" />
-      <h3 className="font-head font-bold text-xl text-dark-900 mt-9 ">
+          : 'border-1 border-solid border-gray-200 bg-light-100'
+      }`}
+    >
+      {icon && <Image src={icon} width="60" height="60" alt="icon" />}
+      <h3 className="mt-9 font-head text-xl font-bold text-dark-900 ">
         {title}
       </h3>
-      <p className="font-body font-normal text-md text-dark-500 mt-4">
+      <p className="mt-4 font-body text-md font-normal text-dark-500">
         {description}
       </p>
       <div className="mt-8">

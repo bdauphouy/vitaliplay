@@ -21,8 +21,10 @@ const OurSolution = ({ ourSolution }) => {
         subtitle: solution.description,
         image: i % 2 === 0 ? '/our-solution.jpg' : '/cat.jpg',
       }
-    }),
+    })
   )
+
+  console.log(sections)
 
   const imageRef = useRef()
 
@@ -37,7 +39,7 @@ const OurSolution = ({ ourSolution }) => {
 
   const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
 
-  const getSectionById = id => {
+  const getSectionById = (id) => {
     for (let section of sections) {
       if (section.id === id) {
         return section
@@ -50,7 +52,7 @@ const OurSolution = ({ ourSolution }) => {
     }
   }
 
-  const triggerSlide = id => {
+  const triggerSlide = (id) => {
     if (!isExtraLargeScreen || sliding || id === tempCurrentSection) return
 
     setSliding(true)
@@ -71,7 +73,7 @@ const OurSolution = ({ ourSolution }) => {
 
     const sectionItems = document.querySelectorAll('.section-item')
 
-    sectionItems.forEach(sectionItem => {
+    sectionItems.forEach((sectionItem) => {
       const updateMarker = () => {
         if (!marker) return
         marker.current.style.left = `${sectionItem.offsetLeft}px`
@@ -94,8 +96,8 @@ const OurSolution = ({ ourSolution }) => {
 
   return (
     <div className="mt-32 px-6 lg:px-0">
-      <div className="flex flex-col">
-        <div className="lg:max-w-2xl self-center lg:py-16 lg:px-6 lg:h-96">
+      <div className="mx-auto flex max-w-screen-3xl flex-col">
+        <div className="self-center lg:h-96 lg:max-w-2xl lg:py-16 lg:px-6">
           <Title type="1" center={true}>
             {ourSolution.title}
           </Title>
@@ -103,15 +105,16 @@ const OurSolution = ({ ourSolution }) => {
             <Subtitle center={true}>{ourSolution.description}</Subtitle>
           </div>
         </div>
-        <div className="hidden min-h-4/5-screen xl:flex justify-between pl-24">
-          <div className="2xl:w-1/2 w-3/5">
-            <ul className="inline-flex items-center bg-blue-50 rounded-full px-4 py-3 relative">
+        <div className="hidden min-h-4/5-screen justify-between pl-24 xl:flex">
+          <div className="w-3/5 2xl:w-1/2">
+            <ul className="relative inline-flex items-center rounded-full bg-blue-50 px-4 py-3">
               <div
                 ref={marker}
-                className="h-8 rounded-full bg-blue-900 absolute transition"
+                className="absolute h-8 rounded-full bg-blue-900 transition"
                 style={{
                   transitionProperty: 'left, width, height',
-                }}></div>
+                }}
+              ></div>
               {sections.map((section, i) => {
                 return (
                   <li
@@ -122,9 +125,10 @@ const OurSolution = ({ ourSolution }) => {
                         ? 'text-light-100'
                         : 'text-blue-500'
                     } section-item
-                    } py-1.25 px-6 rounded-full font-bold font-body uppercase cursor-pointer text-md transition z-10`}
+                    } z-10 cursor-pointer rounded-full py-1.25 px-6 font-body text-md font-bold uppercase transition`}
                     onClick={() => triggerSlide(i)}
-                    style={{ transitionProperty: 'color' }}>
+                    style={{ transitionProperty: 'color' }}
+                  >
                     {section.keyword}
                   </li>
                 )
@@ -137,7 +141,8 @@ const OurSolution = ({ ourSolution }) => {
                 style={{
                   transform: 'translate3d(0, 100%, 0)',
                   transitionProperty: 'transform, opacity',
-                }}>
+                }}
+              >
                 <div className="mt-36">
                   <Title>{getSectionById(currentSection).title}</Title>
                 </div>
@@ -148,9 +153,10 @@ const OurSolution = ({ ourSolution }) => {
             </div>
           </div>
           <div
-            className="2xl:w-1/2 w-2/5 relative opacity-0 transition duration-300"
+            className="relative w-2/5 opacity-0 transition duration-300 2xl:w-1/2"
             ref={imageRef}
-            style={{ transitionProperty: 'opacity' }}>
+            style={{ transitionProperty: 'opacity' }}
+          >
             <Image
               src={
                 getSectionById(currentSection).image
@@ -168,10 +174,11 @@ const OurSolution = ({ ourSolution }) => {
             return (
               <div
                 key={i}
-                className={`lg:flex justify-between items-center mt-16 lg:min-h-1/2-screen ${
+                className={`mt-16 items-center justify-between lg:flex lg:min-h-1/2-screen ${
                   i % 2 === 0 ? 'flex-row-reverse lg:pl-24' : 'lg:pr-24'
-                }`}>
-                <div className="xl:h-96 lg:h-auto h-96 lg:self-stretch lg:w-2/5 relative mt-16 xl:mt-16 lg:mt-0">
+                }`}
+              >
+                <div className="relative mt-16 h-96 lg:mt-0 lg:h-auto lg:w-2/5 lg:self-stretch xl:mt-16 xl:h-96">
                   <Image
                     src={section.image}
                     alt="notre solution"
@@ -180,7 +187,7 @@ const OurSolution = ({ ourSolution }) => {
                   />
                 </div>
                 <div className="lg:w-1/2">
-                  <div className="mt-8 xl:mt-8 lg:mt-0">
+                  <div className="mt-8 lg:mt-0 xl:mt-8">
                     <Title>{section.title}</Title>
                   </div>
                   <div className="mt-4">

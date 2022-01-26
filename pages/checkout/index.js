@@ -9,8 +9,8 @@ export const getStaticProps = async () => {
 
   return {
     props: {
-      subscriptions: subscriptions.subscription.map(
-        subscription => subscription.prices[0],
+      subscriptions: subscriptions.prices.data.map(
+        (subscription) => subscription.attributes
       ),
     },
     revalidate: 10,
@@ -21,7 +21,7 @@ const Checkout = ({ subscriptions }) => {
   const router = useRouter()
 
   const [types] = useState({
-    Annuel: 'Annual',
+    Annuel: 'annual',
     Mensuel: 'monthly',
   })
 
@@ -29,7 +29,7 @@ const Checkout = ({ subscriptions }) => {
 
   useEffect(() => {
     let activeStep = window.localStorage.getItem(
-      'vitaliplay.checkout.activeStep',
+      'vitaliplay.checkout.activeStep'
     )
 
     if (!activeStep) {
@@ -40,7 +40,7 @@ const Checkout = ({ subscriptions }) => {
     if (!window.localStorage.getItem('vitaliplay.checkout.store')) {
       window.localStorage.setItem(
         'vitaliplay.checkout.store',
-        JSON.stringify({}),
+        JSON.stringify({})
       )
     }
 
@@ -49,10 +49,10 @@ const Checkout = ({ subscriptions }) => {
         'vitaliplay.checkout.subscription',
         JSON.stringify({
           subscription: subscriptions.find(
-            subscription =>
-              subscription.Type === types[router.query.abonnement],
+            (subscription) =>
+              subscription.type === types[router.query.abonnement]
           ),
-        }),
+        })
       )
     }
 

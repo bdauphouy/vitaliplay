@@ -10,7 +10,7 @@ const CheckoutLayout = ({ children }) => {
     initialValues: {
       promoCode: '',
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       console.log(values)
     },
   })
@@ -19,10 +19,10 @@ const CheckoutLayout = ({ children }) => {
 
   const [currentPath, setCurrentPath] = useState()
 
-  const refreshLocalStorage = id => {
+  const refreshLocalStorage = (id) => {
     window.localStorage.setItem(
       'vitaliplay.checkout.activeStep',
-      (id && id.toString()) || '1',
+      (id && id.toString()) || '1'
     )
   }
 
@@ -30,7 +30,7 @@ const CheckoutLayout = ({ children }) => {
     if (!window.localStorage.getItem('vitaliplay.checkout.store')) {
       window.localStorage.setItem(
         'vitaliplay.checkout.store',
-        JSON.stringify({}),
+        JSON.stringify({})
       )
     }
   }, [])
@@ -46,10 +46,10 @@ const CheckoutLayout = ({ children }) => {
   const { getIdByPath } = useContext(CheckoutContext)
 
   return (
-    <div className="flex flex-col-reverse justify-end lg:flex-row min-h-screen">
+    <div className="flex min-h-screen flex-col-reverse justify-end lg:flex-row">
       <div className="lg:flex-[3]">
         {children}
-        <p className="px-6 md:px-24 my-14 block lg:hidden font-body text-sm text-dark-300">
+        <p className="my-14 block px-6 font-body text-sm text-dark-300 md:px-24 lg:hidden">
           *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eleifend
           sapien vitae aenean malesuada scelerisque. Sagittis in in habitant
           venenatis iaculis pellentesque quis justo nisi. Hac enim in nisi,
@@ -58,35 +58,36 @@ const CheckoutLayout = ({ children }) => {
           diam, morbi parturient imperdiet potenti libero.
         </p>
       </div>
-      <aside className="pt-24 lg:pt-36 lg:flex-[2] lg:min-w-[400px] bg-light-100 shadow-level1 px-6 md:px-24 lg:px-14 lg:pb-10 pb-6 flex flex-col justify-between">
+      <aside className="flex flex-col justify-between bg-light-100 px-6 pt-24 pb-6 shadow-level1 md:px-24 lg:min-w-[400px] lg:flex-[2] lg:px-14 lg:pt-36 lg:pb-10">
         <div>
-          <h2 className="font-head font-bold lg:text-center text-lg md:text-xl text-blue-900">
+          <h2 className="font-head text-lg font-bold text-blue-900 md:text-xl lg:text-center">
             Récapitulatif de la commande
           </h2>
           <div className="mt-6 lg:mt-14">
-            <h4 className="font-body font-bold text-dark-300 hidden md:inline-block text-sm">
+            <h4 className="hidden font-body text-sm font-bold text-dark-300 md:inline-block">
               Votre panier :
             </h4>
-            <div className="flex justify-between items-start mt-4">
+            <div className="mt-4 flex items-start justify-between">
               <div>
-                <h2 className="font-bold text-base md:text-lg text-dark-900 font-body">
+                <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">
                   x1 Abonnement Annuel
                 </h2>
-                <p className="mt-2 font-body text-xs md:text-sm text-dark-500">
+                <p className="mt-2 font-body text-xs text-dark-500 md:text-sm">
                   Valable du 20/09/2021 au 20/09/2022
                 </p>
-                <p className="mt-1 font-body text-xs md:text-sm text-dark-500">
+                <p className="mt-1 font-body text-xs text-dark-500 md:text-sm">
                   Numéro de commande : 00001
                 </p>
               </div>
-              <span className="font-bold text-base md:text-lg text-dark-900 font-body">
+              <span className="font-body text-base font-bold text-dark-900 md:text-lg">
                 99€
               </span>
             </div>
           </div>
           <form
             className="mt-7 border-b-1 border-solid border-dark-100 pb-8"
-            onSubmit={formik.handleSubmit}>
+            onSubmit={formik.handleSubmit}
+          >
             <Input
               label="Possédez-vous un code promo ?"
               value={formik.values.promoCode}
@@ -95,20 +96,20 @@ const CheckoutLayout = ({ children }) => {
             />
           </form>
           <div>
-            <div className="mt-6 flex justify-between items-start">
-              <h2 className="font-bold text-base md:text-lg text-dark-900 font-body">
+            <div className="mt-6 flex items-start justify-between">
+              <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">
                 Total TTC
               </h2>
-              <span className="font-bold text-[1.25rem] md:text-2xl text-blue-900 font-head">
+              <span className="font-head text-[1.25rem] font-bold text-blue-900 md:text-2xl">
                 89€
               </span>
             </div>
-            <p className="font-bold font-body text-blue-900 mt-4 text-md">
+            <p className="mt-4 font-body text-md font-bold text-blue-900">
               -10 € avec le code VITALIPLAY10
             </p>
           </div>
         </div>
-        <p className="hidden lg:block font-body text-sm text-dark-300">
+        <p className="hidden font-body text-sm text-dark-300 lg:block">
           *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eleifend
           sapien vitae aenean malesuada scelerisque. Sagittis in in habitant
           venenatis iaculis pellentesque quis justo nisi. Hac enim in nisi,

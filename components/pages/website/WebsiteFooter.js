@@ -13,7 +13,7 @@ import Image from 'next/image'
 
 const DownloadButton = ({ children }) => {
   return (
-    <div className="flex w-full md:w-auto justify-center items-center font-body text-black bg-light-100 border-solid border-1 text-md md:text-lg font-bold border-gray-200 px-6 py-3 rounded-lg">
+    <div className="flex w-full items-center justify-center rounded-lg border-1 border-solid border-gray-200 bg-light-100 px-6 py-3 font-body text-md font-bold text-black md:w-auto md:text-lg">
       {children}
     </div>
   )
@@ -24,10 +24,10 @@ const WebsiteFooter = ({ navLinks }) => {
 
   return (
     <>
-      <footer className="hidden md:flex flex-col pt-36">
+      <footer className="hidden flex-col pt-36 md:flex">
         <div className="relative px-24">
-          <div className="bg-blue-50 rounded-lg px-9 py-14 space-y-4 flex flex-col items-center">
-            <h3 className="font-head font-bold text-4xl text-center text-dark-900 max-w-sm mb-8">
+          <div className="mx-auto flex max-w-screen-3xl flex-col items-center space-y-4 rounded-lg bg-blue-50 px-9 py-14">
+            <h3 className="mb-8 max-w-sm text-center font-head text-4xl font-bold text-dark-900">
               Pour être toujours au plus près de vous
             </h3>
             <div className="flex gap-8">
@@ -46,8 +46,8 @@ const WebsiteFooter = ({ navLinks }) => {
             </div>
           </div>
         </div>
-        <div className="bg-blue-900 px-24 pb-7 pt-56 -mt-40">
-          <div className="flex justify-between flex-wrap">
+        <div className="-mt-40 bg-blue-900 px-24 pb-7 pt-56">
+          <div className="mx-auto flex max-w-screen-3xl flex-wrap justify-between">
             <div className="self-start">
               <Link href={getPathByPage('Accueil')} passHref>
                 <a>
@@ -56,17 +56,17 @@ const WebsiteFooter = ({ navLinks }) => {
                     alt="vitaliplay"
                     width="212"
                     height="48"
-                    className="cursor-pointer md:w-44 w-44 self-start"
+                    className="w-44 cursor-pointer self-start md:w-44"
                   />
                 </a>
               </Link>
             </div>
-            <ul className="pl-8 -mt-2">
+            <ul className="-mt-2 pl-8">
               {navLinks.map((navLink, i) => {
                 return (
                   <li key={i}>
                     <Link href={navLink.path}>
-                      <a className="font-body font-semibold text-base py-2 inline-flex text-light-100">
+                      <a className="inline-flex py-2 font-body text-base font-semibold text-light-100">
                         {navLink.page}
                       </a>
                     </Link>
@@ -74,24 +74,24 @@ const WebsiteFooter = ({ navLinks }) => {
                 )
               })}
             </ul>
-            <ul className="px-8 -mt-2">
+            <ul className="-mt-2 px-8">
               <li>
                 <Link href={getPathByPage('Mentions légales')}>
-                  <a className="font-body font-semibold text-base py-2 inline-flex text-light-100">
+                  <a className="inline-flex py-2 font-body text-base font-semibold text-light-100">
                     Mentions légales
                   </a>
                 </Link>
               </li>
               <li>
                 <Link href={getPathByPage("Conditions d'utilisation")}>
-                  <a className="font-body font-semibold text-base py-2 text-light-100 inline-block">
+                  <a className="inline-block py-2 font-body text-base font-semibold text-light-100">
                     Conditions d'utilisation
                   </a>
                 </Link>
               </li>
             </ul>
             <div className="flex flex-col pr-36">
-              <h3 className="font-body font-semibold text-base text-light-100">
+              <h3 className="font-body text-base font-semibold text-light-100">
                 Nous retrouver :
               </h3>
               <ul className="mt-3 flex gap-4">
@@ -126,8 +126,8 @@ const WebsiteFooter = ({ navLinks }) => {
               </ul>
             </div>
           </div>
-          <div className="mt-16 border-solid border-t-1 border-light-40 flex justify-between">
-            <h4 className="font-body font-semibold text-sm mt-4 text-light-100">
+          <div className="mx-auto mt-16 flex max-w-screen-3xl justify-between border-t-1 border-solid border-light-40">
+            <h4 className="mt-4 font-body text-sm font-semibold text-light-100">
               Réalisé par{' '}
               <Link href={externalLinks.synerghetic} passHref>
                 <span className="cursor-pointer">
@@ -135,16 +135,16 @@ const WebsiteFooter = ({ navLinks }) => {
                 </span>
               </Link>
             </h4>
-            <h4 className="font-body font-semibold text-sm mt-4 text-light-100">
+            <h4 className="mt-4 font-body text-sm font-semibold text-light-100">
               Vitaliplay &copy; 2021
             </h4>
           </div>
         </div>
       </footer>
-      <footer className="md:hidden pt-20">
-        <div className="relative px-6">
-          <div className="bg-blue-50 rounded-lg px-9 py-6 space-y-4 flex flex-col items-center">
-            <h3 className="font-head font-bold text-xl text-center text-dark-900 max-w-xs mb-8">
+      <footer className="pt-20 md:hidden">
+        <div className="relative max-w-screen-3xl px-6">
+          <div className="flex flex-col items-center space-y-4 rounded-lg bg-blue-50 px-9 py-6">
+            <h3 className="mb-8 max-w-xs text-center font-head text-xl font-bold text-dark-900">
               Pour être toujours plus près de vous
             </h3>
             <DownloadButton>
@@ -161,7 +161,7 @@ const WebsiteFooter = ({ navLinks }) => {
             </DownloadButton>
           </div>
         </div>
-        <div className="bg-blue-900 p-6 pt-48 -mt-32">
+        <div className="-mt-32 bg-blue-900 p-6 pt-48">
           <Link href={getPathByPage('Accueil')} passHref>
             <a>
               <Image
@@ -169,11 +169,11 @@ const WebsiteFooter = ({ navLinks }) => {
                 alt="vitaliplay"
                 width="212"
                 height="48"
-                className="cursor-pointer md:w-44 w-44"
+                className="w-44 cursor-pointer md:w-44"
               />
             </a>
           </Link>
-          <ul className="w-full mt-8">
+          <ul className="mt-8 w-full">
             {navLinks.map((navLink, i) => {
               return (
                 <li key={i}>
@@ -181,7 +181,8 @@ const WebsiteFooter = ({ navLinks }) => {
                     <a
                       className={`${
                         navLink.page === 'Mentions légales' ? 'mt-8' : ''
-                      } w-full font-body font-semibold text-base py-2 h-full inline-flex items-center text-light-100`}>
+                      } inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
+                    >
                       {navLink.page}
                     </a>
                   </Link>
@@ -189,7 +190,7 @@ const WebsiteFooter = ({ navLinks }) => {
               )
             })}
           </ul>
-          <h3 className="font-body font-semibold text-base py-2 mt-8 text-light-100">
+          <h3 className="mt-8 py-2 font-body text-base font-semibold text-light-100">
             Nous retrouver :
           </h3>
           <ul className="mt-3 flex gap-4">
@@ -222,8 +223,8 @@ const WebsiteFooter = ({ navLinks }) => {
               </Link>
             </li>
           </ul>
-          <div className="border-solid border-t-1 border-light-40 flex justify-between mt-16">
-            <h4 className="font-body font-semibold text-sm mt-4 text-light-100">
+          <div className="mt-16 flex justify-between border-t-1 border-solid border-light-40">
+            <h4 className="mt-4 font-body text-sm font-semibold text-light-100">
               Réalisé par{' '}
               <Link href={externalLinks.synerghetic} passHref>
                 <span className="cursor-pointer">
@@ -231,7 +232,7 @@ const WebsiteFooter = ({ navLinks }) => {
                 </span>
               </Link>
             </h4>
-            <h4 className="font-body font-semibold text-sm mt-4 text-light-100">
+            <h4 className="mt-4 font-body text-sm font-semibold text-light-100">
               Vitaliplay &copy; 2021
             </h4>
           </div>

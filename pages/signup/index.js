@@ -23,7 +23,7 @@ const SignupStart = () => {
 
   const buttonSize = useButtonSize()
 
-  const formatDate = date => {
+  const formatDate = (date) => {
     const year = date.getFullYear()
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
     const day = date.getDate().toString().padStart(2, '0')
@@ -45,8 +45,8 @@ const SignupStart = () => {
     },
     validationSchema: SignupSchema,
 
-    onSubmit: values => {
-      router.push(`${router.route}/confirm`)
+    onSubmit: (values) => {
+      // router.push(`${router.route}/confirm`)
       postAPI('/api/auth/local/register', {
         username: uuidv4(),
         email: values.email,
@@ -58,7 +58,7 @@ const SignupStart = () => {
         postal_code: values.zipCode,
         birthdate: values.birthday,
         phone: values.phoneNumber,
-      })
+      }).then((res) => console.log(res))
     },
   })
 
@@ -73,7 +73,8 @@ const SignupStart = () => {
       </div>
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col lg:grid lg:grid-area-signup mt-8 lg:mt-10 gap-4 lg:gap-5">
+        className="lg:grid-area-signup mt-8 flex flex-col gap-4 lg:mt-10 lg:grid lg:gap-5"
+      >
         <div className="self-start" style={{ gridArea: 'a' }}>
           <Dropdown
             options={['M', 'Mme']}
@@ -109,7 +110,7 @@ const SignupStart = () => {
             error={formik.touched.address && formik.errors.address}
           />
         </div>
-        <div className="gap-4 flex" style={{ gridArea: 'e' }}>
+        <div className="flex gap-4" style={{ gridArea: 'e' }}>
           <div className="flex-1">
             <Input
               label="Code Postal"
@@ -172,8 +173,9 @@ const SignupStart = () => {
           />
         </div>
         <div
-          className="flex flex-wrap gap-4 lg:gap-8 mt-10"
-          style={{ gridArea: 'j' }}>
+          className="mt-10 flex flex-wrap gap-4 lg:gap-8"
+          style={{ gridArea: 'j' }}
+        >
           <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               S'inscrire

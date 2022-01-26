@@ -19,7 +19,7 @@ export const getStaticProps = async () => {
 }
 
 const Home = ({ home }) => {
-  const toBinary = int => {
+  const toBinary = (int) => {
     if (int % 2 === 0) {
       return toBinary(int + 1)
     }
@@ -38,28 +38,30 @@ const Home = ({ home }) => {
 
   return (
     <div className="mt-32 lg:mt-0">
-      <div className="flex flex-col lg:flex-row lg:h-screen lg:justify-between lg:gap-20">
-        <div
-          data-lg-reveal="fade"
-          className="px-6 flex flex-col justify-center md:px-24 lg:w-2/3 xl:w-1/2">
+      <div className="mx-auto flex max-w-screen-3xl flex-col md:gap-20 lg:h-screen lg:flex-row lg:justify-between">
+        <div className="flex flex-col justify-center px-6 md:px-24 lg:w-2/3 xl:w-[55%] 2xl:max-w-3xl">
           <Title type="1">{home.moto}</Title>
           <div className="mt-4 md:mt-6">
             <Subtitle>{home.moto_description}</Subtitle>
           </div>
         </div>
 
-        <div className="relative self-end mt-6 w-72 h-96 shadow-image-sm lg:self-stretch lg:mt-20 lg:shadow-image-lg lg:h-4/5 lg:w-2/5">
+        <div className="relative mt-6 h-96 w-72 self-end shadow-image-sm lg:mt-20 lg:h-4/5 lg:w-2/5 lg:self-stretch lg:shadow-image-lg">
           <Image
-            src={getStrapiMedia(home.main_image.formats.medium)}
+            src={getStrapiMedia(
+              home.main_image.data.attributes.formats.thumbnail
+            )}
             alt="homepage"
             layout="fill"
             placeholder="blur"
-            blurDataURL={getStrapiMedia(home.main_image.formats.thumbnail)}
+            blurDataURL={getStrapiMedia(
+              home.main_image.data.attributes.formats.thumbnail
+            )}
             objectFit="cover"
           />
         </div>
       </div>
-      <div className="px-6 mt-24 md:px-24">
+      <div className="mt-24 px-6 md:px-24">
         <Title center={true} html={false}>
           Découvrez notre <strong className="type-2">solution</strong>
         </Title>
@@ -69,17 +71,16 @@ const Home = ({ home }) => {
           </Subtitle>
         </div>
       </div>
-      <div className="flex justify-center px-6 mt-10 md:px-24 lg:mt-20">
-        <div className="grid grid-cols-1 gap-x-8 w-full lg:grid-cols-2 lg:w-auto gap-y-8 lg:gap-y-0">
+      <div className="mt-10 flex justify-center px-6 md:px-24 lg:mt-20">
+        <div className="grid w-full grid-cols-1 gap-x-8 gap-y-8 lg:w-auto lg:grid-cols-2 lg:gap-y-0">
           {home.solutions.map((solution, i) => {
             return (
               <div
                 key={solution.id}
-                className={`lg:max-w-lg ${
-                  (i + 2) % 2 !== 0 ? 'lg:mt-16' : ''
-                }`}>
+                className={`lg:max-w-lg ${(i + 2) % 2 !== 0 ? 'lg:mt-16' : ''}`}
+              >
                 <SolutionCard
-                  icon={getStrapiMedia(solution.icon)}
+                  icon={getStrapiMedia(solution?.icon)}
                   title={solution.title}
                   description={solution.description}
                   variant={
@@ -93,37 +94,41 @@ const Home = ({ home }) => {
           })}
         </div>
       </div>
-      <div className="mt-16 relative md:flex md:flex-row-reverse items-center justify-center lg:mt-36 lg:h-4/5-screen lg:justify-between lg:pl-24">
-        <div className="w-full h-96 absolute bg-blue-50 bottom-16 -z-1 lg:bottom-0 lg:top-0 lg:h-5/6"></div>
-        <div className="px-6 md:w-1/2 mb-8 md:pl-10 md:px-0 lg:pl-0 lg:pr-24 lg:mb-24">
+      <div className="relative mt-16 items-center justify-center self-stretch md:flex md:flex-row-reverse lg:mt-36 lg:h-4/5-screen lg:justify-between lg:pl-24">
+        <div className="absolute bottom-16 -z-1 h-96 w-full bg-blue-50 lg:bottom-0 lg:top-0 lg:h-5/6"></div>
+        <div className="mb-8 px-6 md:w-1/2 md:px-0 md:pl-10 lg:mb-24 lg:pl-0 lg:pr-24">
           <Title>{home.video.title}</Title>
           <div className="mt-4">
             <Subtitle>{home.video.description}</Subtitle>
           </div>
         </div>
-        <div className="relative self-end mt-10 w-80 h-112 lg:self-stretch lg:mt-0 lg:h-full lg:w-2/5">
-          <Image
-            src={getStrapiMedia(home.video.video.formats.medium)}
-            alt="homepage"
-            layout="fill"
-            placeholder="blur"
-            blurDataURL={getStrapiMedia(home.video.video.formats.thumbnail)}
-            objectFit="cover"
-          />
+        <div className="relative mt-10 h-112 w-80 self-end lg:mt-0 lg:h-full lg:w-2/5 lg:self-stretch">
+          {home.video.data && (
+            <Image
+              src={getStrapiMedia(home.video?.data?.attributes.formats.medium)}
+              alt="homepage"
+              layout="fill"
+              placeholder="blur"
+              blurDataURL={getStrapiMedia(
+                home.video?.data?.attributes.thumbnail
+              )}
+              objectFit="cover"
+            />
+          )}
         </div>
       </div>
-      <div className="px-6 mt-16 md:px-24 lg:mt-36">
+      <div className="mx-auto mt-16 max-w-screen-3xl px-6 md:px-24 lg:mt-36">
         <Title center={true} html={false}>
           Ils nous font <strong className="type-2">confiance</strong>
           <br />
           dans notre <strong className="type-2">aventure</strong>
         </Title>
-        <div className="grid mt-16 place-items-center grid-cols-2 xl:grid-cols-4 gap-9">
-          {home.parteners.map((partner, i) => {
+        <div className="mt-16 grid grid-cols-2 place-items-center gap-9 xl:grid-cols-4">
+          {home.parteners.data.map((partner, i) => {
             return (
-              <div key={i} className="w-36 h-20 sm:h-28 sm:w-56 relative">
+              <div key={i} className="relative h-20 w-36 sm:h-28 sm:w-56">
                 <Image
-                  src={getStrapiMedia(partner)}
+                  src={getStrapiMedia(partner.attributes)}
                   alt="cocacola"
                   layout="fill"
                   objectFit="cover"
@@ -131,11 +136,11 @@ const Home = ({ home }) => {
               </div>
             )
           })}
-          {home.parteners.map((partner, i) => {
+          {home.parteners.data.map((partner, i) => {
             return (
-              <div key={i} className="w-36 h-20 sm:h-28 sm:w-56 relative">
+              <div key={i} className="relative h-20 w-36 sm:h-28 sm:w-56">
                 <Image
-                  src={getStrapiMedia(partner)}
+                  src={getStrapiMedia(partner.attributes)}
                   alt="cocacola"
                   layout="fill"
                   objectFit="cover"
@@ -145,35 +150,35 @@ const Home = ({ home }) => {
           })}
         </div>
       </div>
-      <div className="px-6 mt-16 md:px-24 lg:mt-36 overflow-x-hidden lg:overflow-x-visible">
+      <div className="mt-16 overflow-x-hidden px-6 md:px-24 lg:mt-36 lg:overflow-x-visible">
         <Title center={true}>{home.subscription_title}</Title>
         <div className="mt-4">
           <Subtitle center={true}>{home.subscription_description}</Subtitle>
         </div>
-        <div className=" mt-10 gap-4 flex flex-col lg:mt-16 lg:flex-row lg:gap-0 lg:justify-center">
-          <div className="w-full lg:w-96 lg:order-2">
+        <div className=" mt-10 flex flex-col gap-4 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
+          <div className="w-full lg:order-2 lg:w-96">
             <SubscriptionCard
               title="Annuel"
-              price={home.subscription[1].prices[0].price}
+              price={home.prices.data[0].attributes.price}
               suffix="/par an"
-              description={home.subscription[1].prices[0].description}
+              description={home.prices.data[0].attributes.description}
               variant="blue"
               size="big"
               stamp={true}
             />
           </div>
-          <div className="lg:py-8 w-full lg:w-96 lg:order-1">
+          <div className="w-full lg:order-1 lg:w-96 lg:py-8">
             <SubscriptionCard
               title="Mensuel"
-              price={home.subscription[0].prices[0].price}
+              price={home.prices.data[1].attributes.price}
               suffix="/par mois"
-              description={home.subscription[0].prices[0].description}
+              description={home.prices.data[1].attributes.description}
               size="small"
             />
           </div>
-          <div className="lg:order-3 w-full lg:w-96 lg:py-8">
-            <div className="flex flex-col justify-center items-center h-full bg-blue-50 px-6 py-10 rounded-lg">
-              <h3 className="font-bold font-head text-xl text-center">
+          <div className="w-full lg:order-3 lg:w-96 lg:py-8">
+            <div className="flex h-full flex-col items-center justify-center rounded-lg bg-blue-50 px-6 py-10">
+              <h3 className="text-center font-head text-xl font-bold">
                 Vous possédez déjà un code d’invitation ?
               </h3>
               <div className="mt-6 lg:mt-10">
