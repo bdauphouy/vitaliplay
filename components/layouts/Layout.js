@@ -29,11 +29,7 @@ const Layout = ({ children }) => {
       <Head>
         <title>Vitaliplay</title>
       </Head>
-      {getNavByPath(router.route) ||
-      router.route.includes(getPathByPage('Profil')) ||
-      router.route.includes(getPathByPage('Séances')) ||
-      router.route.includes(getPathByPage('Conférences de santé')) ||
-      router.route.includes(getPathByPage('Mon espace santé')) ? (
+      {getNavByPath(router.route) ? (
         <>
           <Nav navLinks={navLinks} isAuth={isAuth} />
           {children}

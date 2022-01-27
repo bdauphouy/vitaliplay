@@ -6,34 +6,11 @@ module.exports = {
     return [
       {
         source: '/',
-        destination: '/website',
-        has: [
-          {
-            type: 'cookie',
-            key: 'auth',
-            value: 'false',
-          },
-        ],
-      },
-      {
-        source: '/:path*',
-        destination: '/website/:path*',
-        has: [
-          {
-            type: 'cookie',
-            key: 'auth',
-            value: 'false',
-          },
-        ],
-      },
-      {
-        source: '/',
         destination: '/account',
         has: [
           {
             type: 'cookie',
-            key: 'auth',
-            value: 'true',
+            key: 'jwt',
           },
         ],
       },
@@ -43,10 +20,17 @@ module.exports = {
         has: [
           {
             type: 'cookie',
-            key: 'auth',
-            value: 'true',
+            key: 'jwt',
           },
         ],
+      },
+      {
+        source: '/',
+        destination: '/website',
+      },
+      {
+        source: '/:path*',
+        destination: '/website/:path*',
       },
     ]
   },

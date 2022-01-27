@@ -10,10 +10,10 @@ import { useContext } from 'react'
 const LoginConfirm = () => {
   const buttonSize = useButtonSize()
 
-  const { getPathByPage } = useContext(LinksContext)
+  const { getRewriteByPage } = useContext(LinksContext)
 
   return (
-    <div className="flex flex-col items-center px-6 md:px-24 w-full lg:max-w-3xl absolute left-1/2 transform -translate-x-1/2">
+    <div className="absolute left-1/2 flex w-full -translate-x-1/2 transform flex-col items-center px-6 md:px-24 lg:max-w-3xl">
       <Title center={true} type="3">
         Bon retour parmis nous !
       </Title>
@@ -24,7 +24,7 @@ const LoginConfirm = () => {
         </Subtitle>
       </div>
       <div className="mt-12">
-        <Link href={getPathByPage('Accueil')} passHref>
+        <Link href={getRewriteByPage('Accueil')} passHref>
           <a>
             <Cta size={buttonSize} type="primary">
               Accéder à Vitaliplay

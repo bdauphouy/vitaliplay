@@ -5,7 +5,7 @@ export const StartLoginSchema = yup.object().shape({
     .string()
     .email('Veuillez rentrer un email valide.')
     .required('Veuillez renseigner un email.'),
-  password: yup.string().required('Veuillez renseigner un mot de passe'),
+  password: yup.string().required('Veuillez renseigner un mot de passe.'),
 })
 
 export const StartSignupSchema = yup.object().shape({
@@ -57,7 +57,7 @@ export const StartSignupSchema = yup.object().shape({
     .required('Veuillez confirmer votre mot de passe.'),
 })
 
-export const StartGuestSchema = yup.object().shape({
+export const StartOfferSchema = yup.object().shape({
   email: yup
     .string()
     .email('Veuillez rentrer un email valide.')
@@ -72,4 +72,9 @@ export const StartGuestSchema = yup.object().shape({
     .min(2, 'Veuillez renseigner un nom valide.')
     .max(50, 'Veuillez renseigner un nom valide.')
     .required('Veuillez renseigner un prénom.'),
+  confirmEmail: yup
+    .string()
+    .email('Veuillez rentrer un email valide.')
+    .oneOf([yup.ref('email'), null], 'Les deux email ne correspondent pas.')
+    .required('Veuillez confirmer votre email.'),
 })
