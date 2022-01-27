@@ -11,6 +11,7 @@ import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { postAPI } from '@/lib/api'
+import { AuthContext } from '@/contexts/AuthContext'
 
 const LoginStart = () => {
   const router = useRouter()
@@ -22,17 +23,24 @@ const LoginStart = () => {
     },
     validationSchema: LoginSchema,
     onSubmit: async (values) => {
-      // router.push(`${router.route}/confirm`)
       const res = await postAPI('/auth/local', {
         identifier: values.email,
         password: values.password,
       })
-
+      if (res.error) {
+        setServerSideErrors(res.error)
+      } else {
+        document.cookie = `jwt=${res.jwt}`
+        setIsAuth(true)
+        router.push(`${router.route}/confirm`)
+      }
       console.log(res)
     },
   })
 
   const { getPathByPage } = useContext(LinksContext)
+
+  const { setIsAuth } = useContext(AuthContext)
 
   const buttonSize = useButtonSize()
 

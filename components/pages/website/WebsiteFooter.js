@@ -63,15 +63,23 @@ const WebsiteFooter = ({ navLinks }) => {
             </div>
             <ul className="-mt-2 pl-8">
               {navLinks.map((navLink, i) => {
-                return (
-                  <li key={i}>
-                    <Link href={navLink.path}>
-                      <a className="inline-flex py-2 font-body text-base font-semibold text-light-100">
-                        {navLink.page}
-                      </a>
-                    </Link>
-                  </li>
-                )
+                if (
+                  ![
+                    'Connexion',
+                    'Mentions légales',
+                    "Conditions d'utilisation",
+                  ].includes(navLink.page)
+                ) {
+                  return (
+                    <li key={i}>
+                      <Link href={navLink.path}>
+                        <a className="inline-flex py-2 font-body text-base font-semibold text-light-100">
+                          {navLink.page}
+                        </a>
+                      </Link>
+                    </li>
+                  )
+                }
               })}
             </ul>
             <ul className="-mt-2 px-8">
@@ -175,19 +183,21 @@ const WebsiteFooter = ({ navLinks }) => {
           </Link>
           <ul className="mt-8 w-full">
             {navLinks.map((navLink, i) => {
-              return (
-                <li key={i}>
-                  <Link href={navLink.path}>
-                    <a
-                      className={`${
-                        navLink.page === 'Mentions légales' ? 'mt-8' : ''
-                      } inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
-                    >
-                      {navLink.page}
-                    </a>
-                  </Link>
-                </li>
-              )
+              if (navLink.page !== 'Connexion') {
+                return (
+                  <li key={i}>
+                    <Link href={navLink.path}>
+                      <a
+                        className={`${
+                          navLink.page === 'Mentions légales' ? 'mt-8' : ''
+                        } inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
+                      >
+                        {navLink.page}
+                      </a>
+                    </Link>
+                  </li>
+                )
+              }
             })}
           </ul>
           <h3 className="mt-8 py-2 font-body text-base font-semibold text-light-100">

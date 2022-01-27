@@ -7,16 +7,29 @@ import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 export const CheckupBox = ({ date, score }) => {
   return (
-    <div className="p-4 bg-blue-50 rounded flex flex-col items-center sm:items-start">
-      <span className="text-dark-700 font-body text-xs font-normal">
+    <div className="flex flex-col items-center rounded bg-blue-50 p-4 sm:items-start">
+      <span className="font-body text-xs font-normal text-dark-700">
         <span className="hidden sm:inline">Bilan : </span>
         {date}
       </span>
-      <h4 className="font-head text-[1.25rem] sm:text-2xl font-bold mt-2 text-blue-900">
+      <h4 className="mt-2 font-head text-[1.25rem] font-bold text-blue-900 sm:text-2xl">
         {score}
-        <span className="text-dark-700 text-xs font-normal">/100</span>
+        <span className="text-xs font-normal text-dark-700">/100</span>
       </h4>
     </div>
   )
@@ -36,21 +49,21 @@ const Account = () => {
   }, [isSmallScreen])
 
   return (
-    <div className="mt-44 px-6 md:px-24 pb-12">
-      <div className="lg:flex flex-row-reverse justify-between">
-        <div className="top-20 lg:top-0 left-0 absolute lg:relative lg:w-auto lg:rounded-lg lg:shadow-level1 w-full bg-blue-50 py-4 px-6 flex justify-center items-center text-center text-md text-blue-900 font-bold font-body">
+    <div className="mt-44 px-6 pb-12 md:px-24">
+      <div className="flex-row-reverse justify-between lg:flex">
+        <div className="absolute top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
           Accès offert par : AG2R LA MONDIALE
         </div>
         <Title type="1" html={false}>
           Bonjour, <strong className="type-1">Guillaume</strong>
         </Title>
       </div>
-      <div className="flex mt-14 gap-8 flex-wrap">
+      <div className="mt-14 flex flex-wrap gap-8">
         <div className="flex-[2] xsm:min-w-[320px] sm:min-w-[400px]">
           <Title type="5">Votre récapitulatif</Title>
-          <div className="shadow-level1 px-6 py-8 rounded-lg mt-6">
+          <div className="mt-6 rounded-lg px-6 py-8 shadow-level1">
             <div className="flex items-center gap-6">
-              <div className="min-w-[72px] min-h-[72px] sm:min-w-[96px] sm:min-h-[96px] rounded-full bg-gray-100"></div>
+              <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 sm:min-h-[96px] sm:min-w-[96px]"></div>
               <div>
                 <Title type="5">Guillaume Clerisseau</Title>
                 <Link href={getRewriteByPage('Bilan')} passHref>
@@ -59,7 +72,8 @@ const Account = () => {
                       size={linkSize}
                       type="link"
                       arrow="right"
-                      textColor="text-blue-900">
+                      textColor="text-blue-900"
+                    >
                       Faire un nouveau bilan
                     </Cta>
                   </a>
@@ -67,27 +81,30 @@ const Account = () => {
               </div>
             </div>
             <div className="mt-8">
-              <h3 className="font-bold font-head text-dark-900 text-lg leading-6">
+              <h3 className="font-head text-lg font-bold leading-6 text-dark-900">
                 Mes derniers bilans
               </h3>
-              <div className="flex mt-4 gap-4 flex-wrap">
+              <div className="mt-4 flex flex-wrap gap-4">
                 <Link
                   href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                  passHref>
+                  passHref
+                >
                   <a className="flex-1">
                     <CheckupBox date="23/08/21" score="65" />
                   </a>
                 </Link>
                 <Link
                   href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                  passHref>
+                  passHref
+                >
                   <a className="flex-1">
                     <CheckupBox date="23/07/21" score="85" />
                   </a>
                 </Link>
                 <Link
                   href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                  passHref>
+                  passHref
+                >
                   <a className="flex-1">
                     <CheckupBox date="23/06/21" score="43" />
                   </a>
@@ -96,9 +113,9 @@ const Account = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col flex-1 md:min-w-[288px] min-w-[224px]">
+        <div className="flex min-w-[224px] flex-1 flex-col md:min-w-[288px]">
           <Title type="5">{cardType}</Title>
-          <div className="h-full mt-6">
+          <div className="mt-6 h-full">
             {cardType === 'Votre séance du jour' ? (
               <Card
                 tagType="1"
@@ -110,11 +127,11 @@ const Account = () => {
                 height="h-full"
               />
             ) : cardType === 'Compléter votre profil' ? (
-              <div className="bg-blue-50 p-6 rounded-lg h-full flex flex-col items-start justify-end">
-                <h3 className="font-head font-bold text-dark-900 text-[1.25rem] leading-6">
+              <div className="flex h-full flex-col items-start justify-end rounded-lg bg-blue-50 p-6">
+                <h3 className="font-head text-[1.25rem] font-bold leading-6 text-dark-900">
                   Votre profil n’est pas totalement complété
                 </h3>
-                <p className="font-body text-md text-dark-700 mt-3 mb-6">
+                <p className="mt-3 mb-6 font-body text-md text-dark-700">
                   Pensez a bien compléter votre profil afin nous puissions nous
                   adapter un maximum à vos capacités physiques
                 </p>
@@ -127,13 +144,14 @@ const Account = () => {
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
                 }}
-                className="bg-center bg-cover rounded-lg p-6 h-full flex flex-col items-center justify-end">
-                <h3 className="font-head font-bold text-light-100 text-center text-lg leading-6">
+                className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
+              >
+                <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
                   Live Yoga:
                   <br />
                   Sophie Martinez
                 </h3>
-                <span className="text-sm font-bold font-body text-light-100 mt-2 mb-4">
+                <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
                   16:00 - 17:00
                 </span>
                 <Cta size="m" type="primary">
@@ -145,10 +163,11 @@ const Account = () => {
         </div>
         <div className="flex-[1.5] self-end">
           <Title type="5">Vos dernières séances</Title>
-          <div className="flex flex-col mt-6 gap-3 xsm:min-w-[300px]">
+          <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
             <Link
               href={`${getRewriteByPage('Séances')}/toutes-les-seances/1`}
-              passHref>
+              passHref
+            >
               <a>
                 <CardPreview
                   title="Exercices intensifs pour le bas du corps"
@@ -160,7 +179,8 @@ const Account = () => {
             </Link>
             <Link
               href={`${getRewriteByPage('Séances')}/toutes-les-seances/1`}
-              passHref>
+              passHref
+            >
               <a>
                 <CardPreview
                   title="Exercices intensifs pour le bas du corps"

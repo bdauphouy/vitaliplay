@@ -10,7 +10,7 @@ import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
 import {
-  StartGuestSchema,
+  StartOfferSchema,
   StartLoginSchema,
   StartSignupSchema,
 } from '@/schemas/checkout/StartSchemas'
@@ -37,6 +37,7 @@ const CheckoutStart = () => {
   const [validationSchema, setValidationSchema] = useState()
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
       account: '',
       email: '',
@@ -48,6 +49,7 @@ const CheckoutStart = () => {
       birthday: formatDate(new Date()),
       phoneNumber: '',
       confirmPassword: '',
+      confirmEmail: '',
     },
     validationSchema,
     onSubmit: (values) => {
@@ -63,7 +65,10 @@ const CheckoutStart = () => {
     },
   })
 
+  console.log(formik.errors)
+
   useEffect(() => {
+    console.log(validationSchema)
     formik.validationSchema = validationSchema
   }, [validationSchema])
 
@@ -90,14 +95,15 @@ const CheckoutStart = () => {
           )
         )
         break
-      case 'guest':
-        setValidationSchema(StartGuestSchema)
+      case 'offer':
+        setValidationSchema(StartOfferSchema)
         setDisabled(
           !(
             civility &&
             formik.values.email &&
             formik.values.lastName &&
-            formik.values.firstName
+            formik.values.firstName &&
+            formik.values.confirmEmail
           )
         )
         break
@@ -109,12 +115,14 @@ const CheckoutStart = () => {
 
   useEffect(() => {
     Object.keys(formik.initialValues).map((key) => {
+      console.log(key)
       if (key !== 'account') {
         formik.values[key] = ''
-        formik.errors[key] = ''
+        delete formik.errors[key]
         formik.touched[key] = ''
       }
     })
+    console.log('entered')
   }, [formik.values.account])
 
   const router = useRouter()
@@ -147,12 +155,12 @@ const CheckoutStart = () => {
             Je créer mon compte
           </Radio>
           <Radio
-            id="guest"
+            id="offer"
             name="account"
-            checked={formik.values.account === 'guest'}
+            checked={formik.values.account === 'offer'}
             onChange={formik.handleChange}
           >
-            Continuer en tant qu'invité
+            Offrir un abonnement
           </Radio>
         </div>
         <div className="mt-7">
@@ -278,7 +286,7 @@ const CheckoutStart = () => {
               </div>
             </div>
           ) : (
-            formik.values.account === 'guest' && (
+            formik.values.account === 'offer' && (
               <div className="flex flex-col gap-5">
                 <div className="flex flex-col gap-4 lg:flex-row">
                   <Dropdown
@@ -308,14 +316,28 @@ const CheckoutStart = () => {
                     />
                   </div>
                 </div>
-                <div className="xl:w-3/5">
-                  <Input
-                    label="Email"
-                    name="email"
-                    onChange={formik.handleChange}
-                    value={formik.values.email}
-                    error={formik.touched.email && formik.errors.email}
-                  />
+                <div className="flex flex-col gap-4 xl:flex-row">
+                  <div className="flex-1">
+                    <Input
+                      label="Email"
+                      name="email"
+                      onChange={formik.handleChange}
+                      value={formik.values.email}
+                      error={formik.touched.email && formik.errors.email}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <Input
+                      label="Confirmer l'email"
+                      name="confirmEmail"
+                      onChange={formik.handleChange}
+                      value={formik.values.confirmEmail}
+                      error={
+                        formik.touched.confirmEmail &&
+                        formik.errors.confirmEmail
+                      }
+                    />
+                  </div>
                 </div>
               </div>
             )

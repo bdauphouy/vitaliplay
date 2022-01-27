@@ -23,6 +23,8 @@ const SignupStart = () => {
 
   const buttonSize = useButtonSize()
 
+  const [serverSideErrors, setServerSideErrors] = useState()
+
   const formatDate = (date) => {
     const year = date.getFullYear()
     const month = (date.getMonth() + 1).toString().padStart(2, '0')
@@ -46,7 +48,6 @@ const SignupStart = () => {
     validationSchema: SignupSchema,
 
     onSubmit: async (values) => {
-      // router.push(`${router.route}/confirm`)
       const res = await postAPI('/auth/local/register', {
         username: uuidv4(),
         email: values.email,
@@ -59,6 +60,12 @@ const SignupStart = () => {
         birthdate: values.birthday,
         phone: values.phoneNumber,
       })
+      if (res.error) {
+        setServerSideErrors(res.error)
+      } else {
+        document.cookie = `jwt=${res.jwt}`
+        router.push(`${router.route}/confirm`)
+      }
       console.log(res)
     },
   })

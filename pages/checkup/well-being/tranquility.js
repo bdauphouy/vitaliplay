@@ -29,7 +29,7 @@ const WellBeingTranquility = () => {
 
   useEffect(() => {
     setStore(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store')),
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store'))
     )
   }, [])
 
@@ -39,7 +39,7 @@ const WellBeingTranquility = () => {
       tranquilityScale: store?.wellBeing?.tranquility?.tranquilityScale || '',
     },
     validationSchema: TranquilitySchema,
-    onSubmit: values => {
+    onSubmit: (values) => {
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
@@ -50,7 +50,7 @@ const WellBeingTranquility = () => {
               tranquilityScale: values.tranquilityScale,
             },
           },
-        }),
+        })
       )
       router.push(`${prefix}${getPathByIds([2, 3])}`)
     },
@@ -62,7 +62,7 @@ const WellBeingTranquility = () => {
     <div>
       <Title type="3">Je me suis senti(e) calme et tranquille</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
-        <div className="grid grid-cols-3 lg:flex lg:flex-wrap gap-x-4 gap-y-6">
+        <div className="grid grid-cols-3 gap-x-4 gap-y-6 lg:flex lg:flex-wrap">
           {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
             return (
               <div key={i}>
@@ -72,7 +72,8 @@ const WellBeingTranquility = () => {
                   name="tranquilityScale"
                   checked={formik.values.tranquilityScale === scale.toString()}
                   onChange={formik.handleChange}
-                  number={true}>
+                  number={true}
+                >
                   {scale}
                 </Radio>
               </div>
