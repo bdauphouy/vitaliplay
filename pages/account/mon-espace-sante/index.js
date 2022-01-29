@@ -8,6 +8,7 @@ import Advices from '@/components/pages/account/Advices'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import CheckupChart from '@/components/pages/account/CheckupChart'
 
 const MyHealthSpace = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -16,7 +17,7 @@ const MyHealthSpace = () => {
 
   return (
     <div className="mt-20 py-10 md:py-20">
-      <div className="max-w-4xl mx-auto px-6 md:px-24">
+      <div className="mx-auto max-w-4xl px-6 md:px-24">
         <Title center={true} type="1">
           Mon espace santé
         </Title>
@@ -30,7 +31,7 @@ const MyHealthSpace = () => {
         </div>
       </div>
       <div className="mt-14 px-6 md:px-24">
-        <h2 className="font-bold font-head text-dark-900 text-xl md:text-3xl lg:text-4xl">
+        <h2 className="font-head text-xl font-bold text-dark-900 md:text-3xl lg:text-4xl">
           Mon dernier bilan
         </h2>
         <div className="mt-8">
@@ -39,9 +40,10 @@ const MyHealthSpace = () => {
       </div>
       <div className="mt-24">
         <Row title="Mes derniers bilans" path="/bilans">
-          <div className="bg-blue-50 h-56 md:h-64 rounded-lg py-16 px-10 flex flex-col justify-center items-center shadow-level1">
+          <div className="flex h-56 flex-col items-center justify-center rounded-lg bg-blue-50 py-16 px-10 shadow-level1 md:h-64">
             <h3
-              className={`font-head font-bold text-lg md:text-xl text-center text-blue-900`}>
+              className={`text-center font-head text-lg font-bold text-blue-900 md:text-xl`}
+            >
               Réaliser un nouveau bilan
             </h3>
             <Link href={getRewriteByPage('Bilan')} passHref>
@@ -59,9 +61,10 @@ const MyHealthSpace = () => {
               <Link
                 key={i}
                 href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                passHref>
+                passHref
+              >
                 <a>
-                  <div className="flex h-64 md:h-72 py-4">
+                  <div className="flex h-64 py-4 md:h-72">
                     <CheckupPreview date="01/02/2020" score="65" />
                   </div>
                 </a>
@@ -71,9 +74,13 @@ const MyHealthSpace = () => {
         </Row>
       </div>
       <div className="mt-14 px-6 md:px-24">
-        <h2 className="font-bold font-head text-dark-900 text-xl md:text-3xl lg:text-4xl">
+        <h2 className="font-head text-xl font-bold text-dark-900 md:text-3xl lg:text-4xl">
           Récapitulatif
         </h2>
+
+        <div className="mt-0.5 lg:mt-10">
+          <CheckupChart />
+        </div>
       </div>
     </div>
   )
