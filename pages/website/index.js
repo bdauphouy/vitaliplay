@@ -46,7 +46,7 @@ const Home = ({ home }) => {
           </div>
         </div>
 
-        <div className="relative mt-6 h-96 w-72 self-end shadow-image-sm lg:mt-20 lg:h-4/5 lg:w-2/5 lg:self-stretch lg:shadow-image-lg">
+        <div className="relative mt-6 h-96 max-h-[1080px] w-72 self-end shadow-image-sm lg:mt-20 lg:h-4/5 lg:w-2/5 lg:self-stretch lg:shadow-image-lg">
           <Image
             src={getStrapiMedia(
               home.main_image.data.attributes.formats.thumbnail
