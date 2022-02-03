@@ -4,6 +4,7 @@ import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
 import { useContext } from 'react'
+import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 
 export const Section = ({ id, icon, title, path = '/' }) => {
   const router = useRouter()
@@ -11,9 +12,10 @@ export const Section = ({ id, icon, title, path = '/' }) => {
   return (
     <div
       onClick={() => router.push(router.asPath + path)}
-      className={`cursor-pointer flex justify-between items-center px-7 py-4 border-solid ${
+      className={`flex cursor-pointer items-center justify-between border-solid px-7 py-4 ${
         id === '0' ? '' : 'border-t-1'
-      } border-dark-100`}>
+      } border-dark-100`}
+    >
       <Subtitle color="text-dark-900" type="4" html={false}>
         {title}
       </Subtitle>
@@ -26,10 +28,10 @@ const Profile = () => {
   const { getRewriteByPage } = useContext(LinksContext)
 
   return (
-    <div className="mt-20 py-10 lg:py-20 md:px-24 max-w-4xl mx-auto h-[calc(100vh_-_165px)]">
+    <div className="mx-auto mt-20 h-[calc(100vh_-_165px)] max-w-4xl py-10 md:px-24 lg:py-20">
       <div className="flex flex-col items-center">
-        <div className="w-36 h-36 bg-dark-100 rounded-full mb-6 lg:mb-8"></div>
-        <h2 className="font-head font-bold text-dark-900 text-lg md:text-xl text-center">
+        <div className="mb-6 h-36 w-36 rounded-full bg-dark-100 lg:mb-8"></div>
+        <h2 className="text-center font-head text-lg font-bold text-dark-900 md:text-xl">
           Guillaume Clerisseau
         </h2>
 
@@ -39,7 +41,7 @@ const Profile = () => {
           </Subtitle>
         </div>
       </div>
-      <div className="border-1 border-dark-100 md:rounded-lg mt-10">
+      <div className="mt-10 border-1 border-dark-100 md:rounded-lg">
         <Section
           id="0"
           title="Informations personnelles"
@@ -57,5 +59,7 @@ const Profile = () => {
     </div>
   )
 }
+
+Profile.Layout = AccountDecorationLayout
 
 export default Profile

@@ -63,10 +63,10 @@ const SignupStart = () => {
       if (res.error) {
         setServerSideErrors(res.error)
       } else {
-        document.cookie = `jwt=${res.jwt}`
+        document.cookie = `jwt_1=${res.jwt}`
+        setIsAuth(true)
         router.push(`${router.route}/confirm`)
       }
-      console.log(res)
     },
   })
 
@@ -181,7 +181,7 @@ const SignupStart = () => {
           />
         </div>
         <div
-          className="mt-10 flex flex-wrap gap-4 lg:gap-8"
+          className="mt-4 flex flex-wrap gap-4 lg:mt-8 lg:gap-8"
           style={{ gridArea: 'j' }}
         >
           <div>

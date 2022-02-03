@@ -27,7 +27,7 @@ const CheckoutCheckout = () => {
 
   useEffect(() => {
     setStore(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store')),
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store'))
     )
   }, [])
 
@@ -41,13 +41,13 @@ const CheckoutCheckout = () => {
       expires: '',
       cvv: '',
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       window.localStorage.setItem(
         'vitaliplay.checkout.store',
         JSON.stringify({
           ...store,
           cardInfo: Buffer.from(JSON.stringify(values)).toString('base64'),
-        }),
+        })
       )
       router.push(`${prefix}${getPathByStep('Confirmation')}`)
     },
@@ -56,7 +56,7 @@ const CheckoutCheckout = () => {
   const { getPathByStep, prefix } = useContext(CheckoutContext)
 
   return (
-    <div className="mt-10 lg:mt-40 px-6 md:px-24">
+    <div className="mt-10 px-6 md:px-24 lg:mt-40">
       <Title type="3">Procéder au paiement</Title>
       <div className="mt-4">
         <Subtitle type="2">
@@ -65,7 +65,7 @@ const CheckoutCheckout = () => {
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit}>
-        <div className="flex flex-wrap gap-x-4 md:gap-x-6 gap-y-4 mt-8">
+        <div className="mt-8 flex flex-wrap gap-x-4 gap-y-4 md:gap-x-6">
           <Radio
             padding="md:px-7 md:py-3"
             center={true}
@@ -73,7 +73,8 @@ const CheckoutCheckout = () => {
             id="mastercard"
             name="way"
             checked={formik.values.way === 'mastercard'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             <Mastercard size={isMediumScreen ? '48' : '35'} />
           </Radio>
           <Radio
@@ -83,7 +84,8 @@ const CheckoutCheckout = () => {
             id="visa"
             name="way"
             checked={formik.values.way === 'visa'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             <Visa size={isMediumScreen ? '48' : '35'} />
           </Radio>
           <Radio
@@ -93,7 +95,8 @@ const CheckoutCheckout = () => {
             id="american-express"
             name="way"
             checked={formik.values.way === 'american-express'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             <AmericanExpress size={isMediumScreen ? '48' : '35'} />
           </Radio>
           <Radio
@@ -103,7 +106,8 @@ const CheckoutCheckout = () => {
             id="apple-pay"
             name="way"
             checked={formik.values.way === 'apple-pay'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             <ApplePay size={isMediumScreen ? '48' : '35'} />
           </Radio>
           <Radio
@@ -113,12 +117,13 @@ const CheckoutCheckout = () => {
             id="paypal"
             name="way"
             checked={formik.values.way === 'paypal'}
-            onChange={formik.handleChange}>
+            onChange={formik.handleChange}
+          >
             <Paypal size={isMediumScreen ? '73' : '50'} />
           </Radio>
         </div>
         <div className="mt-11">
-          <div className="grid xl:grid-area-card-info md:grid-area-card-info grid-area-card-info gap-x-4 gap-3 md:gap-y-5">
+          <div className="xl:grid-area-card-info md:grid-area-card-info grid-area-card-info grid gap-3 gap-x-4 md:gap-y-5">
             <div style={{ gridArea: 'a' }}>
               <Input
                 label="Nom sur la carte"
@@ -153,7 +158,7 @@ const CheckoutCheckout = () => {
               />
             </div>
           </div>
-          <div className="flex mt-12 gap-4 md:gap-6 flex-wrap">
+          <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
             <Cta size={buttonSize} buttonType="submit">
               Suivant
             </Cta>

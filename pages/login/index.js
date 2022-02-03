@@ -30,7 +30,7 @@ const LoginStart = () => {
       if (res.error) {
         setServerSideErrors(res.error)
       } else {
-        document.cookie = `jwt=${res.jwt}`
+        document.cookie = `jwt=${res.jwt}}`
         setIsAuth(true)
         router.push(`${router.route}/confirm`)
       }
@@ -76,7 +76,7 @@ const LoginStart = () => {
             error={formik.touched.password && formik.errors.password}
           />
         </div>
-        <div className="mt-10 flex flex-wrap gap-4 lg:gap-8">
+        <div className="mt-4 flex flex-wrap gap-4 lg:mt-8 lg:gap-8">
           <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               Se connecter

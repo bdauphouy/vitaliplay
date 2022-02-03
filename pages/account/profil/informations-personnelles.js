@@ -3,6 +3,7 @@ import { useFormik } from 'formik'
 import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
+import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 
 const ProfilePersonalInformation = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
@@ -16,19 +17,20 @@ const ProfilePersonalInformation = () => {
       phoneNumber: '',
     },
 
-    onSubmit: values => {
+    onSubmit: (values) => {
       console.log(values)
     },
   })
 
   return (
-    <div className="py-10 lg:py-20 mt-20 px-6 md:px-24 min-h-[calc(100vh_-_165px)]">
+    <div className="mt-20 min-h-[calc(100vh_-_165px)] py-10 px-6 md:px-24 lg:py-20">
       <Title type="1" center={true}>
         Informations personnelles
       </Title>
       <form
         onSubmit={formik.handleSubmit}
-        className="max-w-4xl mx-auto mt-12 lg:mt-16 grid grid-area-profile-personal-information lg:grid-area-profile-personal-information gap-3 lg:gap-4">
+        className="grid-area-profile-personal-information lg:grid-area-profile-personal-information mx-auto mt-12 grid max-w-4xl gap-3 lg:mt-16 lg:gap-4"
+      >
         <div style={{ gridArea: 'a' }}>
           <Input label="Nom & prénom" name="fullName" />
         </div>
@@ -45,8 +47,9 @@ const ProfilePersonalInformation = () => {
           <Input label="Téléphone" name="phoneNumber" prefix="(+33)" />
         </div>
         <div
-          className="flex gap-4 justify-center mt-10"
-          style={{ gridArea: 'f' }}>
+          className="mt-10 flex justify-center gap-4"
+          style={{ gridArea: 'f' }}
+        >
           <Cta size="l" buttonType="submit">
             {isLargeScreen ? 'Sauvegarder les changements' : 'Sauvegarder'}
           </Cta>
@@ -60,5 +63,7 @@ const ProfilePersonalInformation = () => {
     </div>
   )
 }
+
+ProfilePersonalInformation.Layout = AccountDecorationLayout
 
 export default ProfilePersonalInformation

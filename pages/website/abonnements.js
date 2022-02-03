@@ -7,6 +7,11 @@ import { fetchAPI } from '@/lib/api'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import Link from 'next/link'
+import orangeGreen from '@/public/decoration-icons/orange-green.svg'
+import greenBlue from '@/public/decoration-icons/green-blue.svg'
+import blueOrange from '@/public/decoration-icons/blue-orange.svg'
+import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
+import Image from 'next/image'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-about')
@@ -54,7 +59,19 @@ const Subscription = ({ subscriptions, home }) => {
             />
           </div>
           <div className="w-full self-stretch lg:order-3 lg:w-96 lg:py-8">
-            <div className="flex h-full w-full flex-col items-center justify-center rounded-lg bg-blue-50 px-6 py-10">
+            <div className="relative -z-1  flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-32 px-6 lg:py-10">
+              <div className="absolute top-10 -left-6 block">
+                <Image src={orangeGreen} alt="orange-green" />
+              </div>
+              <div className="absolute top-4 -right-4 block">
+                <Image src={blueOrange} alt="blue-orange" />
+              </div>
+              <div className="absolute bottom-4 -left-2 block scale-150 transform">
+                <Image src={greenBlue} alt="green-blue" />
+              </div>
+              <div className="absolute -right-8 bottom-10 block">
+                <Image src={yellowOrange} alt="yellow-orange" />
+              </div>
               <h3 className="text-center font-head text-2xl font-bold">
                 {subscriptions.code_reduc_title}
               </h3>
@@ -76,7 +93,19 @@ const Subscription = ({ subscriptions, home }) => {
           </div>
         </div>
         <div className="mx-auto mt-12 max-w-screen-xl">
-          <div className="flex w-full flex-col rounded-lg bg-blue-50 py-10 px-4 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:py-10">
+          <div className="relative flex w-full flex-col overflow-hidden rounded-lg bg-blue-50 py-10 px-4 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:py-10">
+            <div className="absolute -top-6 -left-6 block scale-75 transform">
+              <Image src={orangeGreen} alt="orange-green" />
+            </div>
+            <div className="absolute -right-6 -top-6 block scale-75 transform lg:-top-4 lg:-right-4 lg:scale-100">
+              <Image src={blueOrange} alt="blue-orange" />
+            </div>
+            <div className="absolute -right-2 -bottom-4 block transform lg:right-auto lg:left-2/3 lg:scale-150">
+              <Image src={greenBlue} alt="green-blue" />
+            </div>
+            <div className="absolute -left-2 -bottom-16 block lg:hidden">
+              <Image src={yellowOrange} alt="yellow-orange" />
+            </div>
             <div className="lg:w-1/2 xl:w-3/5">
               <h3
                 style={{ fontSize: 20 }}

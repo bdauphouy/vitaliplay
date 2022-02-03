@@ -13,7 +13,7 @@ const InvitationStart = () => {
     initialValues: {
       code: '',
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       router.push(`${router.route}/confirm`)
     },
   })
@@ -33,7 +33,8 @@ const InvitationStart = () => {
       </div>
       <form
         onSubmit={formik.handleSubmit}
-        className="flex flex-col mt-7 lg:mt-10 gap-3 lg:gap-4">
+        className="mt-7 flex flex-col gap-3 lg:mt-10 lg:gap-4"
+      >
         <div>
           <Input
             label="Mon code d'invitation"
@@ -44,7 +45,7 @@ const InvitationStart = () => {
           />
         </div>
 
-        <div className="mt-8">
+        <div className="mt-4 lg:mt-8">
           <div>
             <Cta type="primary" buttonType="submit" size={buttonSize}>
               Valider
