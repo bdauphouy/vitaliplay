@@ -20,7 +20,7 @@ const Cta = ({
       case 's':
         setClasses([
           'text-xs',
-          type !== 'link' && 'px-2',
+          type !== 'link' ? 'px-2' : 'hover:gap-3',
           'py-1.25',
           'rounded',
           'gap-1',
@@ -30,7 +30,7 @@ const Cta = ({
       case 'm':
         setClasses([
           'text-sm',
-          type !== 'link' && 'px-4',
+          type !== 'link' ? 'px-4' : 'hover:gap-3',
           'py-1.75',
           'rounded',
           'gap-1',
@@ -40,7 +40,7 @@ const Cta = ({
       case 'l':
         setClasses([
           'text-lg',
-          type !== 'link' && 'px-6',
+          type !== 'link' ? 'px-6' : 'hover:gap-4',
           'py-2.5',
           'rounded-lg',
           'gap-2',
@@ -50,7 +50,7 @@ const Cta = ({
       case 'xl':
         setClasses([
           'text-lg',
-          type !== 'link' && 'px-6',
+          type !== 'link' ? 'px-6' : 'hover:gap-4',
           'py-3',
           'rounded-lg',
           'gap-2',
@@ -63,24 +63,30 @@ const Cta = ({
 
     switch (type) {
       case 'primary':
-        setClasses(classes => [
+        setClasses((classes) => [
           ...classes,
           `${
-            invert ? 'bg-light-100 text-blue-900' : 'bg-blue-900 text-light-100'
+            invert
+              ? 'bg-light-100 hover:bg-light-80 text-blue-900'
+              : 'bg-blue-900 hover:bg-blue-700 text-light-100'
           }`,
         ])
         setArrowColor(invert ? '#1778F2' : '#FFFFFF')
         break
       case 'secondary':
-        setClasses(classes => [...classes, 'bg-blue-50', 'text-blue-900'])
+        setClasses((classes) => [
+          ...classes,
+          'bg-blue-50 hover:bg-blue-100',
+          'text-blue-900',
+        ])
         setArrowColor('#1778F2')
         break
       case 'disabled':
-        setClasses(classes => [...classes, 'bg-blue-50', 'text-blue-300'])
+        setClasses((classes) => [...classes, 'bg-blue-50', 'text-blue-300'])
         setArrowColor('#A2C9FA')
         break
       case 'link':
-        setClasses(classes => [...classes, textColor])
+        setClasses((classes) => [...classes, textColor])
         setArrowColor((textColor === 'text-blue-900' && '#1778F2') || '#727272')
         break
       default:
@@ -92,8 +98,9 @@ const Cta = ({
     <button
       type={buttonType}
       className={`${classes.join(
-        ' ',
-      )} font-body font-semibold flex items-center`}>
+        ' '
+      )} flex items-center font-body font-semibold transition-[background-color,gap,color] duration-300`}
+    >
       {arrow === 'left' && <ArrowLeft color={arrowColor} size={arrowSize} />}
       {children}
       {arrow === 'right' && <ArrowRight color={arrowColor} size={arrowSize} />}

@@ -183,14 +183,14 @@ const Home = ({ home }) => {
         <div className="mt-4">
           <Subtitle center={true}>{home.subscription_description}</Subtitle>
         </div>
-        <div className="relative mx-auto mt-10 flex max-w-screen-3xl flex-col gap-4 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
+        <div className="mx-auto mt-10 flex max-w-screen-3xl flex-col gap-4 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
           <div className="absolute left-9 -top-60 hidden lg:block">
             <Image src={orangeGreen} alt="orange-green" />
           </div>
           <div className="absolute right-8 -top-20 hidden scale-50 transform lg:block">
             <Image src={blueOrange} alt="blue-orange" />
           </div>
-          <div className="w-full lg:order-2 lg:w-96">
+          <div className="z-10 w-full lg:order-2 lg:w-96">
             <SubscriptionCard
               title="Annuel"
               price={home.prices.data[0].attributes.price}
@@ -210,15 +210,15 @@ const Home = ({ home }) => {
               size="small"
             />
           </div>
-          <div className="w-full lg:order-3 lg:w-96 lg:py-8">
-            <div className="relative -z-1 flex h-full flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 px-6 py-10">
-              <div className="absolute -left-4 -top-4 hidden scale-75 transform lg:block">
+          <div className="lg:order-3 lg:w-96 lg:py-8">
+            <div className="relative flex h-full flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 px-6 py-10">
+              <div className="absolute -left-4 -top-4 block scale-75 transform">
                 <Image src={orangeGreen} alt="orange-green" />
               </div>
-              <div className="absolute -right-4 -bottom-8 hidden lg:block">
+              <div className="absolute -right-4 -bottom-8 block">
                 <Image src={blueOrange} alt="blue-orange" />
               </div>
-              <div className="absolute -bottom-4 -left-2 hidden scale-125 transform lg:block">
+              <div className="absolute -bottom-4 -left-2 block scale-125 transform">
                 <Image src={greenBlue} alt="green-blue" />
               </div>
               <h3 className="text-center font-head text-xl font-bold">

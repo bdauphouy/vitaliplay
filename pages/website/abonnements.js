@@ -33,7 +33,7 @@ const Subscription = ({ subscriptions, home }) => {
           <Subtitle center={true}>{subscriptions.description}</Subtitle>
         </div>
         <div className="mt-10 flex flex-col gap-6 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
-          <div className="w-full lg:order-2 lg:w-96">
+          <div className="z-10 w-full lg:order-2 lg:w-96">
             <SubscriptionCard
               title="Annuel"
               price={home.prices.data[0].attributes.price}
@@ -46,7 +46,6 @@ const Subscription = ({ subscriptions, home }) => {
               // program={subscriptions.prices[1].price_points}
             />
           </div>
-
           <div className="w-full lg:order-1 lg:w-96 lg:py-8">
             <SubscriptionCard
               title="Mensuel"
@@ -59,7 +58,7 @@ const Subscription = ({ subscriptions, home }) => {
             />
           </div>
           <div className="w-full self-stretch lg:order-3 lg:w-96 lg:py-8">
-            <div className="relative -z-1  flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-32 px-6 lg:py-10">
+            <div className="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-32 px-6 lg:py-10">
               <div className="absolute top-10 -left-6 block">
                 <Image src={orangeGreen} alt="orange-green" />
               </div>

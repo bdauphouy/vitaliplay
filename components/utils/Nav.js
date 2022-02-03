@@ -12,25 +12,29 @@ import Title from './Title'
 const Burger = ({ menu, setMenu }) => {
   return (
     <div
-      className="w-7 h-6 relative cursor-pointer"
-      onClick={() => setMenu(menu => !menu)}>
+      className="relative h-6 w-7 cursor-pointer"
+      onClick={() => setMenu((menu) => !menu)}
+    >
       <span
         className={`burger-span bg-blue-900 ${
           menu ? 'rotate-45' : '-mt-2'
         } transition`}
         style={{
           transitionProperty: 'margin-top, transform',
-        }}></span>
+        }}
+      ></span>
       <span
         className={`burger-span ${
           menu ? 'bg-transparent' : 'bg-blue-900'
         } transition`}
-        style={{ transitionProperty: 'background-color, transform' }}></span>
+        style={{ transitionProperty: 'background-color, transform' }}
+      ></span>
       <span
         className={`burger-span bg-blue-900 ${
           menu ? '-rotate-45' : 'mt-2'
         } transition`}
-        style={{ transitionProperty: 'margin-top, transform' }}></span>
+        style={{ transitionProperty: 'margin-top, transform' }}
+      ></span>
     </div>
   )
 }
@@ -50,7 +54,7 @@ const Nav = ({ navLinks, isAuth }) => {
   useEffect(() => {
     const navItems = document.querySelectorAll('.nav-item')
 
-    navItems.forEach(navItem => {
+    navItems.forEach((navItem) => {
       const updateMarker = () => {
         if (!marker) return
 
@@ -74,16 +78,18 @@ const Nav = ({ navLinks, isAuth }) => {
   return (
     <>
       <nav
-        className="hidden fixed top-0 z-50 w-full xl:flex h-20 bg-light-100 items-center md:px-24 px-6 justify-between shadow-level1
-    ">
+        className="fixed top-0 z-50 hidden h-20 w-full items-center justify-between bg-light-100 px-6 shadow-level1 md:px-24 xl:flex
+    "
+      >
         <Link
           href={
             getRewriteByPage('Accueil')
               ? getRewriteByPage('Accueil')
               : getPathByPage('Accueil')
           }
-          passHref>
-          <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
+          passHref
+        >
+          <div className="relative w-34 cursor-pointer self-stretch md:w-44">
             <Image
               src="/logo.svg"
               alt="vitaliplay"
@@ -92,20 +98,24 @@ const Nav = ({ navLinks, isAuth }) => {
             />
           </div>
         </Link>
-        <ul className="flex relative h-full items-center">
+        <ul className="relative flex h-full items-center">
           <div
-            className="absolute h-1 bg-blue-900 bottom-0 transition"
+            className="absolute bottom-0 h-1 bg-blue-900 transition"
             ref={marker}
             style={{
               transitionProperty: 'width, left',
-            }}></div>
+            }}
+          ></div>
           {navLinks.map((navLink, i) => {
             return (
               !navLink.mobileNav && (
-                <li key={i} className="h-full">
+                <li
+                  key={i}
+                  className="h-full transition-[background-color] duration-300 hover:bg-blue-50"
+                >
                   <Link href={navLink.rewrite || navLink.path}>
                     <a
-                      className={`nav-item font-head font-semibold text-lg px-6 h-full inline-flex items-center ${
+                      className={`nav-item inline-flex h-full items-center px-6 font-head text-lg font-semibold ${
                         (router.route.includes(navLink.path) ||
                           router.route.includes(navLink.rewrite)) &&
                         navLink.rewrite !== '/' &&
@@ -115,7 +125,8 @@ const Nav = ({ navLinks, isAuth }) => {
                             router.route === navLink.rewrite
                           ? 'text-blue-900'
                           : 'text-dark-300'
-                      }`}>
+                      }`}
+                    >
                       {navLink.page}
                     </a>
                   </Link>
@@ -128,7 +139,11 @@ const Nav = ({ navLinks, isAuth }) => {
             {isAuth ? (
               <Link href="/profil" passHref>
                 <a>
-                  <div className="w-12 h-12 rounded-full bg-blue-900 flex justify-center items-center cursor-pointer">
+                  <div
+                    className={`box-content flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-4 border-solid border-transparent bg-blue-900 transition-[border-color] duration-300 hover:border-blue-300 ${
+                      router.route.includes('/profil') ? 'border-blue-300' : ''
+                    }`}
+                  >
                     <User color="#FFFFFF" size={24} />
                   </div>
                 </a>
@@ -140,7 +155,8 @@ const Nav = ({ navLinks, isAuth }) => {
                     ? getRewriteByPage('Connexion')
                     : getPathByPage('Connexion')
                 }
-                passHref>
+                passHref
+              >
                 <div>
                   <Cta size="l">Connexion</Cta>
                 </div>
@@ -150,17 +166,19 @@ const Nav = ({ navLinks, isAuth }) => {
         </ul>
       </nav>
       <nav
-        className="fixed top-0 w-full z-50 flex flex-col xl:hidden bg-light-100 md:px-24 px-6 shadow-level1
-    ">
-        <div className="flex justify-between items-center w-full h-20">
+        className="fixed top-0 z-50 flex w-full flex-col bg-light-100 px-6 shadow-level1 md:px-24 xl:hidden
+    "
+      >
+        <div className="flex h-20 w-full items-center justify-between">
           <Link
             href={
               getRewriteByPage('Accueil')
                 ? getRewriteByPage('Accueil')
                 : getPathByPage('Accueil')
             }
-            passHref>
-            <div className="cursor-pointer md:w-44 w-34 relative self-stretch">
+            passHref
+          >
+            <div className="relative w-34 cursor-pointer self-stretch md:w-44">
               <Image
                 src="/logo.svg"
                 alt="vitaliplay"
@@ -179,9 +197,10 @@ const Nav = ({ navLinks, isAuth }) => {
                 ? 'max-h-[820px]'
                 : 'max-h-144'
               : 'max-h-0'
-          } bg-white overflow-hidden absolute w-full top-full left-0 px-6 md:px-24 transition duration-500`}
-          style={{ transitionProperty: 'max-height' }}>
-          <div className="flex flex-col-reverse mb-8">
+          } absolute top-full left-0 w-full overflow-hidden bg-white px-6 transition duration-500 md:px-24`}
+          style={{ transitionProperty: 'max-height' }}
+        >
+          <div className="mb-8 flex flex-col-reverse">
             <ul>
               {navLinks.map((navLink, i) => {
                 return (
@@ -189,7 +208,7 @@ const Nav = ({ navLinks, isAuth }) => {
                     <Link href={navLink.rewrite || navLink.path}>
                       <a
                         onClick={() => setMenu(false)}
-                        className={`w-full font-head font-semibold text-lg py-4 h-full inline-flex items-center ${
+                        className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold ${
                           (router.route.includes(navLink.path) ||
                             router.route.includes(navLink.rewrite)) &&
                           navLink.rewrite !== '/' &&
@@ -199,7 +218,8 @@ const Nav = ({ navLinks, isAuth }) => {
                               router.route === navLink.rewrite
                             ? 'text-blue-900'
                             : 'text-dark-300'
-                        }`}>
+                        }`}
+                      >
                         {navLink.page}
                       </a>
                     </Link>
@@ -209,14 +229,15 @@ const Nav = ({ navLinks, isAuth }) => {
             </ul>
 
             <div
-              className={isAuth ? 'my-4 pb-6 border-b-1 border-dark-50' : ''}>
+              className={isAuth ? 'my-4 border-b-1 border-dark-50 pb-6' : ''}
+            >
               {isAuth && (
                 <>
-                  <div className="hidden w-12 h-12 rounded-full bg-blue-900 xl:flex justify-center items-center cursor-pointer">
+                  <div className="hidden h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-blue-900 xl:flex">
                     <User color="#FFFFFF" size={24} />
                   </div>
-                  <div className="xl:hidden flex items-center gap-6">
-                    <div className="min-w-[72px] min-h-[72px] sm:min-w-[96px] sm:min-h-[96px] rounded-full bg-gray-100"></div>
+                  <div className="flex items-center gap-6 xl:hidden">
+                    <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 sm:min-h-[96px] sm:min-w-[96px]"></div>
                     <div>
                       <Title type="5">Guillaume Clerisseau</Title>
                       <Link href={getRewriteByPage('Profil')} passHref>
@@ -225,7 +246,8 @@ const Nav = ({ navLinks, isAuth }) => {
                             size="m"
                             type="link"
                             arrow="right"
-                            textColor="text-blue-900">
+                            textColor="text-blue-900"
+                          >
                             Accéder à mon profil
                           </Cta>
                         </a>
@@ -238,7 +260,7 @@ const Nav = ({ navLinks, isAuth }) => {
           </div>
           {externalLinks && (
             <>
-              <h3 className="font-body font-semibold text-base text-dark-900">
+              <h3 className="font-body text-base font-semibold text-dark-900">
                 Nous retrouver :
               </h3>
               <ul className="mt-3 flex gap-4">
@@ -273,8 +295,8 @@ const Nav = ({ navLinks, isAuth }) => {
               </ul>
             </>
           )}
-          <div className="border-solid border-t-1 border-dark-50 flex justify-between pb-4 mt-16">
-            <h4 className="font-body font-semibold text-sm mt-4 text-dark-500">
+          <div className="mt-16 flex justify-between border-t-1 border-solid border-dark-50 pb-4">
+            <h4 className="mt-4 font-body text-sm font-semibold text-dark-500">
               Réalisé par{' '}
               <Link href={externalLinks.synerghetic} passHref>
                 <span className="cursor-pointer">
@@ -282,7 +304,7 @@ const Nav = ({ navLinks, isAuth }) => {
                 </span>
               </Link>
             </h4>
-            <h4 className="font-body font-semibold text-sm mt-4 text-dark-500">
+            <h4 className="mt-4 font-body text-sm font-semibold text-dark-500">
               Vitaliplay &copy; 2021
             </h4>
           </div>
