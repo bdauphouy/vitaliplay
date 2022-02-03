@@ -107,7 +107,7 @@ const OurSolution = ({ ourSolution }) => {
         </div>
         <div className="hidden min-h-4/5-screen justify-between pl-24 xl:flex">
           <div className="w-3/5 2xl:w-1/2">
-            <ul className="relative inline-flex items-center rounded-full bg-blue-50 px-4 py-3">
+            <ul className="relative inline-flex items-center gap-2 rounded-full bg-blue-50 px-4 py-3">
               <div
                 ref={marker}
                 className="absolute h-8 rounded-full bg-blue-900 transition"
@@ -123,11 +123,9 @@ const OurSolution = ({ ourSolution }) => {
                     className={`${
                       tempCurrentSection === i
                         ? 'text-light-100'
-                        : 'text-blue-500'
-                    } section-item
-                    } z-10 cursor-pointer rounded-full py-1.25 px-6 font-body text-md font-bold uppercase transition`}
+                        : 'text-blue-500 hover:bg-blue-100'
+                    } section-item z-10 cursor-pointer rounded-full py-1.25 px-5 font-body text-md font-bold uppercase transition-[background-color,color] duration-300`}
                     onClick={() => triggerSlide(i)}
-                    style={{ transitionProperty: 'color' }}
                   >
                     {section.keyword}
                   </li>

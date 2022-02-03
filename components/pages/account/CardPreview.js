@@ -31,14 +31,15 @@ const CardPreview = ({
 
   return (
     <div
-      className={`${color} min-w-[250px] relative items-center border-solid border-l-8 font-body font-bold px-4 py-4 rounded-lg bg-light-100 shadow-level1`}>
-      <h3 className="font-head font-bold text-dark-900 text-lg leading-6 w-2/3">
+      className={`${color} relative min-w-[250px] items-center rounded-lg border-l-8 border-solid bg-light-100 px-4 py-4 font-body font-bold shadow-level1 transition-[background-color] duration-300 hover:bg-gray-100`}
+    >
+      <h3 className="w-2/3 font-head text-lg font-bold leading-6 text-dark-900">
         {title}
       </h3>
-      <p className="text-dark-500 mt-2 text-sm font-normal">
+      <p className="mt-2 text-sm font-normal text-dark-500">
         {duration} min - {level}
       </p>
-      <div className="absolute right-5 top-1/2 transform -translate-y-1/2">
+      <div className="absolute right-5 top-1/2 -translate-y-1/2 transform">
         <ChevronRight size={30} color="#727272" />
       </div>
     </div>

@@ -14,7 +14,7 @@ export const Section = ({ id, icon, title, path = '/' }) => {
       onClick={() => router.push(router.asPath + path)}
       className={`flex cursor-pointer items-center justify-between border-solid px-7 py-4 ${
         id === '0' ? '' : 'border-t-1'
-      } border-dark-100`}
+      } border-dark-100 bg-light-100 transition-[background-color] duration-300 hover:bg-dark-50`}
     >
       <Subtitle color="text-dark-900" type="4" html={false}>
         {title}

@@ -17,7 +17,7 @@ import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 
 const DownloadButton = ({ children }) => {
   return (
-    <div className="flex w-full items-center justify-center rounded-lg border-1 border-solid border-gray-200 bg-light-100 px-6 py-3 font-body text-md font-bold text-black md:w-auto md:text-lg">
+    <div className="flex w-full cursor-pointer items-center justify-center rounded-lg border-1 border-solid border-gray-200 bg-light-100 px-6 py-3 font-body text-md font-bold text-black transition-[background-color] duration-300 hover:bg-gray-100 md:w-auto md:text-lg">
       {children}
     </div>
   )
@@ -89,7 +89,7 @@ const WebsiteFooter = ({ navLinks }) => {
                   return (
                     <li key={i}>
                       <Link href={navLink.path}>
-                        <a className="inline-flex py-2 font-body text-base font-semibold text-light-100">
+                        <a className="inline-flex py-2 font-body text-base font-semibold text-light-100 transition-[color] duration-300 hover:text-light-80">
                           {navLink.page}
                         </a>
                       </Link>
@@ -101,14 +101,14 @@ const WebsiteFooter = ({ navLinks }) => {
             <ul className="-mt-2 px-8">
               <li>
                 <Link href={getPathByPage('Mentions légales')}>
-                  <a className="inline-flex py-2 font-body text-base font-semibold text-light-100">
+                  <a className="inline-flex py-2 font-body text-base font-semibold text-light-100 transition-[color] duration-300 hover:text-light-80">
                     Mentions légales
                   </a>
                 </Link>
               </li>
               <li>
                 <Link href={getPathByPage("Conditions d'utilisation")}>
-                  <a className="inline-block py-2 font-body text-base font-semibold text-light-100">
+                  <a className="inline-block py-2 font-body text-base font-semibold text-light-100 transition-[color] duration-300 hover:text-light-80">
                     Conditions d'utilisation
                   </a>
                 </Link>
@@ -121,28 +121,28 @@ const WebsiteFooter = ({ navLinks }) => {
               <ul className="mt-3 flex gap-4">
                 <li>
                   <Link href={externalLinks.linkedin} passHref>
-                    <div className="cursor-pointer">
+                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
                       <Linkedin color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
                   <Link href={externalLinks.instagram} passHref>
-                    <div className="cursor-pointer">
+                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
                       <Instagram color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
                   <Link href={externalLinks.facebook} passHref>
-                    <div className="cursor-pointer">
+                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
                       <Facebook color="#ECF4FE" />
                     </div>
                   </Link>
                 </li>
                 <li>
                   <Link href={externalLinks.twitter} passHref>
-                    <div className="cursor-pointer">
+                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
                       <Twitter color="#ECF4FE" />
                     </div>
                   </Link>

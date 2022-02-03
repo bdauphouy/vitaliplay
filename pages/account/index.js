@@ -22,7 +22,7 @@ export const getServerSideProps = async ({ req }) => {
 
 export const CheckupBox = ({ date, score }) => {
   return (
-    <div className="flex flex-col items-center rounded bg-blue-50 p-4 sm:items-start">
+    <div className="flex flex-col items-center rounded bg-blue-50 p-4 transition-[background-color] duration-300 hover:bg-blue-100 sm:items-start">
       <span className="font-body text-xs font-normal text-dark-700">
         <span className="hidden sm:inline">Bilan : </span>
         {date}

@@ -5,7 +5,7 @@ const LoginSchema = yup.object().shape({
     .string()
     .email('Veuillez rentrer un email valide.')
     .required('Veuillez renseigner un email.'),
-  password: yup.string().required('Veuillez renseigner un mot de passe'),
+  password: yup.string().required('Veuillez renseigner un mot de passe.'),
 })
 
 export default LoginSchema
