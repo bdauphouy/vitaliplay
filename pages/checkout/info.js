@@ -14,7 +14,7 @@ const CheckoutInfo = () => {
 
   useEffect(() => {
     setStore(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store')),
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store'))
     )
   }, [])
 
@@ -27,10 +27,10 @@ const CheckoutInfo = () => {
       country: '',
       zipCode: '',
     },
-    onSubmit: values => {
+    onSubmit: (values) => {
       window.localStorage.setItem(
         'vitaliplay.checkout.store',
-        JSON.stringify({ ...store, billing: { ...values } }),
+        JSON.stringify({ ...store, billing: { ...values } })
       )
       router.push(`${prefix}${getPathByStep('Paiement')}`)
     },
@@ -43,7 +43,7 @@ const CheckoutInfo = () => {
   const buttonSize = useButtonSize()
 
   return (
-    <div className="px-6 md:px-24 mt-10 lg:mt-40 pb-10">
+    <div className="mt-10 px-6 md:px-24 lg:mt-40">
       <Title type="3">Informations de facturation</Title>
       <div className="mt-4">
         <Subtitle type="2">
@@ -53,7 +53,8 @@ const CheckoutInfo = () => {
       </div>
       <form
         onSubmit={formik.handleSubmit}
-        className="grid grid-cols-1 mt-7 xl:grid-cols-2 gap-4 lg:gap-y-5">
+        className="mt-7 grid grid-cols-1 gap-4 lg:gap-y-5 lg:pb-20 xl:grid-cols-2"
+      >
         <Input
           label="Nom"
           name="lastName"
@@ -92,7 +93,7 @@ const CheckoutInfo = () => {
             onChange={formik.handleChange}
           />
         </div>
-        <div className="mt-8 lg:mt-12">
+        <div className="mt-4 lg:mt-7">
           <Cta buttonType="submit" size={buttonSize}>
             Suivant
           </Cta>

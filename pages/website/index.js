@@ -11,6 +11,10 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import { useEffect } from 'react'
+import orangeGreen from '@/public/decoration-icons/orange-green.svg'
+import greenBlue from '@/public/decoration-icons/green-blue.svg'
+import blueOrange from '@/public/decoration-icons/blue-orange.svg'
+import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 
 export const getStaticProps = async () => {
   const home = await fetchAPI('/home-landing')
@@ -39,7 +43,19 @@ const Home = ({ home }) => {
   return (
     <div className="mt-32 lg:mt-0">
       <div className="mx-auto flex max-w-screen-3xl flex-col md:gap-20 lg:h-screen lg:flex-row lg:justify-between">
-        <div className="flex flex-col justify-center px-6 md:px-24 lg:w-2/3 xl:w-[55%] 2xl:max-w-3xl">
+        <div className="relative flex flex-col justify-center px-6 md:px-24 lg:w-2/3 xl:w-[55%] 2xl:max-w-3xl">
+          <div className="absolute top-36 left-9 hidden lg:block">
+            <Image src={orangeGreen} alt="orange-green" />
+          </div>
+          <div className="absolute top-60 right-20 hidden scale-50 transform lg:block 2xl:right-0">
+            <Image src={blueOrange} alt="blue-orange" />
+          </div>
+          <div className="absolute bottom-20 left-9 hidden lg:block">
+            <Image src={greenBlue} alt="green-blue" />
+          </div>
+          <div className="absolute right-20 bottom-40 hidden lg:block 2xl:right-0">
+            <Image src={yellowOrange} alt="yellow-orange" />
+          </div>
           <Title type="1">{home.moto}</Title>
           <div className="mt-4 md:mt-6">
             <Subtitle>{home.moto_description}</Subtitle>
@@ -72,7 +88,19 @@ const Home = ({ home }) => {
         </div>
       </div>
       <div className="mt-10 flex justify-center px-6 md:px-24 lg:mt-20">
-        <div className="grid w-full grid-cols-1 gap-x-8 gap-y-8 lg:w-auto lg:grid-cols-2 lg:gap-y-0">
+        <div className="relative grid w-full grid-cols-1 gap-x-8 gap-y-8 lg:w-auto lg:grid-cols-2 lg:gap-y-0">
+          <div className="absolute -left-32 -top-20 hidden lg:block">
+            <Image src={orangeGreen} alt="orange-green" />
+          </div>
+          <div className="absolute -right-20  top-60 hidden scale-50 transform lg:block 2xl:-right-32">
+            <Image src={blueOrange} alt="blue-orange" />
+          </div>
+          <div className="absolute -bottom-10 -left-20 hidden lg:block">
+            <Image src={greenBlue} alt="green-blue" />
+          </div>
+          <div className="absolute right-10 bottom-10 hidden lg:block 2xl:right-36">
+            <Image src={yellowOrange} alt="yellow-orange" />
+          </div>
           {home.solutions.map((solution, i) => {
             return (
               <div
@@ -85,8 +113,8 @@ const Home = ({ home }) => {
                   description={solution.description}
                   variant={
                     isLargeScreen
-                      ? toBinary(i + 3).slice(-2, -1) === '0' && 'blue'
-                      : i % 2 === 0 && 'blue'
+                      ? toBinary(i + 3).slice(-2, -1) !== '0' && 'blue'
+                      : i % 2 !== 0 && 'blue'
                   }
                 />
               </div>
@@ -155,7 +183,13 @@ const Home = ({ home }) => {
         <div className="mt-4">
           <Subtitle center={true}>{home.subscription_description}</Subtitle>
         </div>
-        <div className=" mt-10 flex flex-col gap-4 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
+        <div className="relative mx-auto mt-10 flex max-w-screen-3xl flex-col gap-4 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
+          <div className="absolute left-9 -top-60 hidden lg:block">
+            <Image src={orangeGreen} alt="orange-green" />
+          </div>
+          <div className="absolute right-8 -top-20 hidden scale-50 transform lg:block">
+            <Image src={blueOrange} alt="blue-orange" />
+          </div>
           <div className="w-full lg:order-2 lg:w-96">
             <SubscriptionCard
               title="Annuel"
@@ -177,7 +211,16 @@ const Home = ({ home }) => {
             />
           </div>
           <div className="w-full lg:order-3 lg:w-96 lg:py-8">
-            <div className="flex h-full flex-col items-center justify-center rounded-lg bg-blue-50 px-6 py-10">
+            <div className="relative -z-1 flex h-full flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 px-6 py-10">
+              <div className="absolute -left-4 -top-4 hidden scale-75 transform lg:block">
+                <Image src={orangeGreen} alt="orange-green" />
+              </div>
+              <div className="absolute -right-4 -bottom-8 hidden lg:block">
+                <Image src={blueOrange} alt="blue-orange" />
+              </div>
+              <div className="absolute -bottom-4 -left-2 hidden scale-125 transform lg:block">
+                <Image src={greenBlue} alt="green-blue" />
+              </div>
               <h3 className="text-center font-head text-xl font-bold">
                 Vous possédez déjà un code d’invitation ?
               </h3>

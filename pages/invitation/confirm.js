@@ -6,14 +6,20 @@ import useButtonSize from '@/hooks/useButtonSize'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { Congrats } from '@/components/utils/Icons'
+import useCongratsSize from '@/hooks/useCongratsSize'
 
 const InvitationConfirm = () => {
   const buttonSize = useButtonSize()
+  const congratsSize = useCongratsSize()
 
   const { getPathByPage } = useContext(LinksContext)
 
   return (
-    <div className="flex flex-col items-center w-full px-6 md:px-24 lg:max-w-3xl absolute left-1/2 transform -translate-x-1/2">
+    <div className="absolute left-1/2 flex w-full -translate-x-1/2 transform flex-col items-center px-6 md:px-24 lg:max-w-3xl">
+      <div className="mb-6 lg:mb-10">
+        <Congrats size={congratsSize} />
+      </div>
       <Title center={true} type="3">
         Bienvenue parmis nous !
       </Title>
@@ -23,7 +29,7 @@ const InvitationConfirm = () => {
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>
       </div>
-      <div className="mt-12">
+      <div className="mt-8 lg:mt-12">
         <Link href={getPathByPage('Questionnaire')}>
           <a>
             <Cta size={buttonSize} type="primary">

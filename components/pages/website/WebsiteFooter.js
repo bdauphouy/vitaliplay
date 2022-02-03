@@ -10,6 +10,10 @@ import {
   Twitter,
 } from '@/components/utils/Icons'
 import Image from 'next/image'
+import orangeGreen from '@/public/decoration-icons/orange-green.svg'
+import greenBlue from '@/public/decoration-icons/green-blue.svg'
+import blueOrange from '@/public/decoration-icons/blue-orange.svg'
+import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 
 const DownloadButton = ({ children }) => {
   return (
@@ -26,8 +30,20 @@ const WebsiteFooter = ({ navLinks }) => {
     <>
       <footer className="hidden flex-col pt-36 md:flex">
         <div className="relative px-24">
-          <div className="mx-auto flex max-w-screen-3xl flex-col items-center space-y-4 rounded-lg bg-blue-50 px-9 py-14">
-            <h3 className="mb-8 max-w-sm text-center font-head text-4xl font-bold text-dark-900">
+          <div className="relative mx-auto flex max-w-screen-3xl flex-col items-center space-y-12 overflow-hidden rounded-lg bg-blue-50 px-9 py-14 pt-0">
+            <div className="absolute left-20 -top-4 hidden lg:block">
+              <Image src={orangeGreen} alt="orange-green" />
+            </div>
+            <div className="absolute right-10 -top-16 hidden lg:block">
+              <Image src={blueOrange} alt="blue-orange" />
+            </div>
+            <div className="absolute -bottom-4 left-40 hidden scale-150 transform lg:block">
+              <Image src={greenBlue} alt="green-blue" />
+            </div>
+            <div className="absolute right-20 -bottom-10 hidden scale-150 transform lg:block">
+              <Image src={yellowOrange} alt="yellow-orange" />
+            </div>
+            <h3 className="max-w-sm text-center font-head text-4xl font-bold text-dark-900">
               Pour être toujours au plus près de vous
             </h3>
             <div className="flex gap-8">
@@ -152,7 +168,7 @@ const WebsiteFooter = ({ navLinks }) => {
       <footer className="pt-20 md:hidden">
         <div className="relative max-w-screen-3xl px-6">
           <div className="flex flex-col items-center space-y-4 rounded-lg bg-blue-50 px-9 py-6">
-            <h3 className="mb-8 max-w-xs text-center font-head text-xl font-bold text-dark-900">
+            <h3 className="mb-9 max-w-xs text-center font-head text-xl font-bold text-dark-900">
               Pour être toujours plus près de vous
             </h3>
             <DownloadButton>

@@ -7,20 +7,26 @@ import { SurveyContext } from '@/contexts/SurveyContext'
 import { useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
+import { Congrats } from '@/components/utils/Icons'
+import useCongratsSize from '@/hooks/useCongratsSize'
 
 const SurveySuccess = () => {
   const { getPathByPage } = useContext(LinksContext)
 
   useEffect(() => {
     console.log(
-      JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')),
+      JSON.parse(window.localStorage.getItem('vitaliplay.survey.store'))
     )
   }, [])
 
   const buttonSize = useButtonSize()
+  const congratsSize = useCongratsSize()
 
   return (
-    <div className="flex flex-col h-full justify-center items-center">
+    <div className="flex h-full flex-col items-center justify-center xl:pl-24">
+      <div className="mb-6 lg:mb-10">
+        <Congrats size={congratsSize} />
+      </div>
       <Title center={true} type="3">
         Félicitation, profitez dès à présent de Vitaliplay
       </Title>

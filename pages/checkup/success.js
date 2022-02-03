@@ -6,27 +6,39 @@ import useButtonSize from '@/hooks/useButtonSize'
 import { useContext, useEffect } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
+import { Congrats } from '@/components/utils/Icons'
+import useCongratsSize from '@/hooks/useCongratsSize'
 
 const SurveySuccess = () => {
   const { getPathByPage } = useContext(LinksContext)
 
+  const congratsSize = useCongratsSize()
+
+  console.log(congratsSize)
+
   useEffect(() => {
     console.log(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store')),
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store'))
     )
   }, [])
 
   const buttonSize = useButtonSize()
 
   return (
-    <div className="flex flex-col h-full justify-center items-center">
-      <Title center={true} type="3">
-        Bilan fini ! Votre score est de : 66
+    <div className="flex h-full flex-col items-center justify-center xl:pl-24">
+      <div className="mb-6 lg:mb-10">
+        <Congrats size={congratsSize} />
+      </div>
+      <Title center={true} type="3" html={false}>
+        Bilan fini !<br />
+        Votre score est de : 66
       </Title>
       <div className="mt-4">
         <Subtitle center={true} type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fringilla
+          viverra tellus adipiscing mi, nunc. Lorem ipsum dolor sit amet,
+          consectetur adipiscing elit. Fringilla viverra tellus adipiscing mi,
+          nunc.
         </Subtitle>
       </div>
       <div className="mt-12">

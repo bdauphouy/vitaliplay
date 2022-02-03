@@ -9,7 +9,7 @@ const Sessions = () => {
 
   return (
     <div className="mt-20">
-      <header className="h-60 lg:h-96 relative">
+      <header className="relative h-60 lg:h-96">
         <Image
           src="/session-header.png"
           alt="sessions-header"
@@ -19,14 +19,15 @@ const Sessions = () => {
           objectFit="cover"
         />
       </header>
-      <div className="flex flex-col py-12 gap-12">
+      <div className="flex flex-col gap-12 py-12">
         <Row title="Toutes les séances" path="/toutes-les-seances">
           <Link
-            href={`/${router.route
+            href={`${router.route
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -43,7 +44,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -60,7 +62,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -77,7 +80,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -96,7 +100,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -113,7 +118,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -130,7 +136,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -147,7 +154,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -166,7 +174,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card title="Yoga" type="catégorie" bg="/bg-card.png" />
             </a>
@@ -176,7 +185,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card title="Fitness" type="catégorie" bg="/bg-card.png" />
             </a>
@@ -186,7 +196,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card title="Workout" type="catégorie" bg="/bg-card.png" />
             </a>
@@ -196,7 +207,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card title="Running" type="catégorie" bg="/bg-card.png" />
             </a>
@@ -208,7 +220,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 title="Programme 1"
@@ -223,7 +236,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 title="Programme 1"
@@ -238,7 +252,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 title="Programme 1"
@@ -253,7 +268,8 @@ const Sessions = () => {
               .split('/')
               .slice(2)
               .join('/')}/toutes-les-seances/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 title="Programme 1"

@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
       <Head>
         <title>Vitaliplay</title>
       </Head>
-      {getNavByPath(router.route) ? (
+      {getNavByPath(router.route) || router.route.includes('/profil') ? (
         <>
           <Nav navLinks={navLinks} isAuth={isAuth} />
           {children}

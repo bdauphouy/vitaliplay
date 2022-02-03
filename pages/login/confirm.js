@@ -6,14 +6,20 @@ import useButtonSize from '@/hooks/useButtonSize'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import { useContext } from 'react'
+import { Congrats } from '@/components/utils/Icons'
+import useCongratsSize from '@/hooks/useCongratsSize'
 
 const LoginConfirm = () => {
   const buttonSize = useButtonSize()
+  const congratsSize = useCongratsSize()
 
   const { getRewriteByPage } = useContext(LinksContext)
 
   return (
     <div className="absolute left-1/2 flex w-full -translate-x-1/2 transform flex-col items-center px-6 md:px-24 lg:max-w-3xl">
+      <div className="mb-6 lg:mb-10">
+        <Congrats size={congratsSize} />
+      </div>
       <Title center={true} type="3">
         Bon retour parmis nous !
       </Title>
@@ -23,7 +29,7 @@ const LoginConfirm = () => {
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>
       </div>
-      <div className="mt-12">
+      <div className="mt-10 lg:mt-12">
         <Link href={getRewriteByPage('Accueil')} passHref>
           <a>
             <Cta size={buttonSize} type="primary">

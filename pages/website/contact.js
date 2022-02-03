@@ -4,19 +4,11 @@ import Input from '@/components/utils/Input'
 import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import ContactSchema from '@/schemas/ContactSchema'
-
-// export const getServerSideProps = async ctx => {
-//   if (ctx.req.cookies.auth === 'false') {
-//     return {
-//       redirect: {
-//         destination: '/login',
-//         permanent: true,
-//       },
-//     }
-//   }
-
-//   return { props: { auth: ctx.req.cookies.auth } }
-// }
+import orangeGreen from '@/public/decoration-icons/orange-green.svg'
+import greenBlue from '@/public/decoration-icons/green-blue.svg'
+import blueOrange from '@/public/decoration-icons/blue-orange.svg'
+import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
+import Image from 'next/image'
 
 const Contact = () => {
   const formik = useFormik({
@@ -35,7 +27,19 @@ const Contact = () => {
 
   return (
     <>
-      <div className="mt-32 px-6 md:px-24 lg:mt-36">
+      <div className="relative mx-auto mt-32 max-w-screen-3xl px-6 md:px-24 lg:mt-36">
+        <div className="absolute top-0 left-20 hidden lg:block">
+          <Image src={orangeGreen} alt="orange-green" />
+        </div>
+        <div className="absolute top-12 right-20 hidden lg:block xl:right-48">
+          <Image src={blueOrange} alt="blue-orange" />
+        </div>
+        <div className="absolute bottom-0 left-36 hidden lg:block">
+          <Image src={greenBlue} alt="green-blue" />
+        </div>
+        <div className="absolute -bottom-10 right-40 hidden lg:block">
+          <Image src={yellowOrange} alt="yellow-orange" />
+        </div>
         <div className="flex justify-center">
           <div className="max-w-xl">
             <Title type="1" center={true}>
