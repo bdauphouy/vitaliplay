@@ -43,22 +43,24 @@ const Home = ({ home }) => {
   return (
     <div className="mt-32 lg:mt-0">
       <div className="mx-auto flex max-w-screen-3xl flex-col md:gap-20 lg:h-screen lg:flex-row lg:justify-between">
-        <div className="relative flex flex-col justify-center px-6 md:px-24 lg:w-2/3 xl:w-[55%] 2xl:max-w-3xl">
-          <div className="absolute top-36 left-9 hidden lg:block">
-            <Image src={orangeGreen} alt="orange-green" />
-          </div>
-          <div className="absolute top-60 right-20 hidden scale-50 transform lg:block 2xl:right-0">
-            <Image src={blueOrange} alt="blue-orange" />
-          </div>
-          <div className="absolute bottom-20 left-9 hidden lg:block">
-            <Image src={greenBlue} alt="green-blue" />
-          </div>
-          <div className="absolute right-20 bottom-40 hidden lg:block 2xl:right-0">
-            <Image src={yellowOrange} alt="yellow-orange" />
-          </div>
-          <Title type="1">{home.moto}</Title>
-          <div className="mt-4 md:mt-6">
-            <Subtitle>{home.moto_description}</Subtitle>
+        <div className="flex items-center justify-center px-6 md:px-24 lg:w-2/3 xl:w-[55%] 2xl:max-w-3xl">
+          <div className="relative">
+            <Title type="1">{home.moto}</Title>
+            <div className="mt-4 md:mt-6">
+              <Subtitle>{home.moto_description}</Subtitle>
+            </div>
+            <div className="absolute -top-32 -left-8 hidden lg:block">
+              <Image src={orangeGreen} alt="orange-green" />
+            </div>
+            <div className="absolute -bottom-20 right-20 hidden scale-50 transform lg:block 2xl:right-0">
+              <Image src={blueOrange} alt="blue-orange" />
+            </div>
+            <div className="absolute -bottom-40 -left-10 hidden lg:block">
+              <Image src={greenBlue} alt="green-blue" />
+            </div>
+            <div className="absolute right-20 -top-28 hidden lg:block 2xl:right-0">
+              <Image src={yellowOrange} alt="yellow-orange" />
+            </div>
           </div>
         </div>
 
@@ -122,7 +124,7 @@ const Home = ({ home }) => {
           })}
         </div>
       </div>
-      <div className="relative mt-16 items-center justify-center self-stretch md:flex md:flex-row-reverse lg:mt-36 lg:h-4/5-screen lg:justify-between lg:pl-24">
+      <div className="relative mt-16 items-center justify-center self-stretch overflow-hidden md:flex md:flex-row-reverse lg:mt-36 lg:h-4/5-screen lg:justify-between lg:pl-24">
         <div className="absolute bottom-16 -z-1 h-96 w-full bg-blue-50 lg:bottom-0 lg:top-0 lg:h-5/6"></div>
         <div className="mb-8 px-6 md:w-1/2 md:px-0 md:pl-10 lg:mb-24 lg:pl-0 lg:pr-24">
           <Title>{home.video.title}</Title>
