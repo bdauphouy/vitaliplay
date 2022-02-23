@@ -23,7 +23,7 @@ const AccountFooter = () => {
   }, [isSmallScreen])
 
   return (
-    <footer className="flex flex-wrap items-center justify-between gap-x-8 border-t-1 border-solid border-dark-50 px-6 md:px-24">
+    <footer className="z-20 flex flex-wrap items-center justify-between gap-x-8 border-t-1 border-solid border-dark-50 bg-light-100 px-6 md:px-24">
       <Link
         href={
           getRewriteByPage('Accueil')

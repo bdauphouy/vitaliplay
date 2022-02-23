@@ -11,7 +11,7 @@ import { useMediaQuery } from '@mui/material'
 
 const Layout = ({ children }) => {
   const { isAuth } = useContext(AuthContext)
-  const { getPathByPage, getNavByPath, authNavLinks, notAuthNavLinks } =
+  const { getNavByPath, authNavLinks, notAuthNavLinks } =
     useContext(LinksContext)
 
   const [navLinks, setNavLinks] = useState(

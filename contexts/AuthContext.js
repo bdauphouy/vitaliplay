@@ -4,8 +4,6 @@ import { useRouter } from 'next/router'
 export const AuthContext = createContext()
 
 export const AuthContextProvider = ({ children }) => {
-  const router = useRouter()
-
   const [isAuth, setIsAuth] = useState(false)
 
   useEffect(() => {
