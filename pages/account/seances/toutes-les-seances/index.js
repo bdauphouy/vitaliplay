@@ -12,21 +12,23 @@ const SessionsNewTrainings = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   return (
-    <div className="mt-20 py-5 md:py-16 min-h-[calc(100vh_-_165px)]">
+    <div className="mt-20 min-h-[calc(100vh_-_165px)] py-5 md:py-16">
       <div className="px-6 md:px-24" onClick={() => router.back()}>
         <Cta arrow="left" type="secondary" size={isMediumScreen ? 'l' : 'm'}>
           Retour
         </Cta>
       </div>
-      <div className="flex flex-col mt-6 gap-12">
+      <div className="mt-6 flex flex-col gap-12">
         <Row
           title="Toutes les séances"
           type="filter"
           mobile={true}
-          filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}>
+          filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}
+        >
           <Link
             href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -41,7 +43,8 @@ const SessionsNewTrainings = () => {
           </Link>
           <Link
             href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -56,7 +59,8 @@ const SessionsNewTrainings = () => {
           </Link>
           <Link
             href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"
@@ -71,7 +75,8 @@ const SessionsNewTrainings = () => {
           </Link>
           <Link
             href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
+            passHref
+          >
             <a>
               <Card
                 tagType="1"

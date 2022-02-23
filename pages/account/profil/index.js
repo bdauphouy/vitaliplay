@@ -25,8 +25,6 @@ export const Section = ({ id, icon, title, path = '/' }) => {
 }
 
 const Profile = () => {
-  const { getRewriteByPage } = useContext(LinksContext)
-
   return (
     <div className="mx-auto mt-20 h-[calc(100vh_-_165px)] max-w-4xl py-10 md:px-24 lg:py-20">
       <div className="flex flex-col items-center">
@@ -53,8 +51,13 @@ const Profile = () => {
           title="Informations de santé"
           path="/informations-de-sante"
         />
-        <Section id="3" title="Mes factures" path="/mes-factures" />
+        <Section
+          id="3"
+          title="Mes cartes et factures"
+          path="/mes-cartes-et-factures"
+        />
         <Section id="4" title="Historique" path="/historique" />
+        <Section id="5" title="Déconnexion" path="/deconnexion" />
       </div>
     </div>
   )

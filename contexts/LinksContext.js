@@ -1,18 +1,15 @@
-import { useMediaQuery } from '@mui/material'
 import { createContext, useEffect, useState, useContext } from 'react'
 import { AuthContext } from './AuthContext'
 
 export const LinksContext = createContext()
 
 export const LinksContextProvider = ({ children }) => {
-  const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
-
   const { isAuth } = useContext(AuthContext)
 
-  const getPathByPage = page => {
+  const getPathByPage = (page) => {
     let path = null
 
-    internalLinks.map(internalLinks => {
+    internalLinks.map((internalLinks) => {
       if (internalLinks.page === page) {
         path = internalLinks.path
       }
@@ -21,10 +18,10 @@ export const LinksContextProvider = ({ children }) => {
     return path
   }
 
-  const getRewriteByPage = page => {
+  const getRewriteByPage = (page) => {
     let rewrite = null
 
-    internalLinks.map(internalLinks => {
+    internalLinks.map((internalLinks) => {
       if (internalLinks.page === page) {
         rewrite = internalLinks.rewrite
       }
@@ -33,10 +30,10 @@ export const LinksContextProvider = ({ children }) => {
     return rewrite
   }
 
-  const getNavByPath = path => {
+  const getNavByPath = (path) => {
     let nav = false
 
-    internalLinks.map(internalLinks => {
+    internalLinks.map((internalLinks) => {
       if (internalLinks.path === path) {
         nav = internalLinks.nav
       }
@@ -160,6 +157,13 @@ export const LinksContextProvider = ({ children }) => {
       nav: false,
     },
     {
+      page: 'Ajouter un moyen de paiement',
+      path: '/account/profil/ajouter-un-moyen-de-paiement',
+      rewrite: '/profil/ajouter-un-moyen-de-paiement',
+      auth: true,
+      nav: false,
+    },
+    {
       page: 'Connexion',
       path: '/login',
       auth: false,
@@ -199,21 +203,21 @@ export const LinksContextProvider = ({ children }) => {
   })
 
   const [authNavLinks, setAuthNavLinks] = useState(
-    internalLinks.filter(internalLink => {
+    internalLinks.filter((internalLink) => {
       return (
         internalLink.auth !== false &&
         (internalLink.nav !== false || internalLink.mobileNav)
       )
-    }),
+    })
   )
 
   const [notAuthNavLinks, setNotAuthNavLinks] = useState(
-    internalLinks.filter(internalLink => {
+    internalLinks.filter((internalLink) => {
       return (
         internalLink.auth !== true &&
         (internalLink.nav !== false || internalLink.mobileNav)
       )
-    }),
+    })
   )
 
   return (
@@ -228,7 +232,8 @@ export const LinksContextProvider = ({ children }) => {
         getNavByPath,
         authNavLinks,
         notAuthNavLinks,
-      }}>
+      }}
+    >
       {children}
     </LinksContext.Provider>
   )

@@ -3,48 +3,22 @@ import { useState, useEffect, useContext } from 'react'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import Radio from '@/components/utils/Radio'
-import { Mastercard } from '@/components/utils/Icons'
-import { useMediaQuery } from '@mui/material'
+import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { useRouter } from 'next/router'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
+import CreditCardInfo from '@/components/pages/account/CreditCardInfo'
+import Link from 'next/link'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const CheckoutConfirm = () => {
   const [store, setStore] = useState()
   const [cardInfo, setCardInfo] = useState()
 
-  const isMediumScreen = useMediaQuery('(min-width: 768px)')
-
   const buttonSize = useButtonSize()
 
   const router = useRouter()
-
-  const formatCardNumber = (cardNumber) => {
-    let formatted = cardNumber
-
-    let i = 0
-
-    formatted = cardNumber?.split('').map((digit, p) => {
-      if (i < 3) {
-        i++
-        if (p < cardNumber.length - 2) {
-          return '*'
-        }
-        return digit
-      } else {
-        i = 0
-        if (p < cardNumber.length - 2) {
-          return '* '
-        }
-        return digit + ' '
-      }
-    })
-
-    formatted = formatted?.join('')
-
-    return formatted
-  }
 
   useEffect(() => {
     setStore(
@@ -59,7 +33,14 @@ const CheckoutConfirm = () => {
     )
   }, [store])
 
+  const formik = useFormik({
+    initialValues: {
+      selectedCard: '1',
+    },
+  })
+
   const { getPathByStep, prefix } = useContext(CheckoutContext)
+  const { getRewriteByPage } = useContext(LinksContext)
 
   return (
     <div className="mt-10 px-6 md:px-24 lg:mt-40">
@@ -71,35 +52,54 @@ const CheckoutConfirm = () => {
         </Subtitle>
       </div>
       <div className="mt-10">
-        <h3 className="font-body text-sm font-bold text-dark-900">
-          Informations de paiement
-        </h3>
-        <div className="mt-4 md:mt-3">
-          <Radio checked={true}>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex items-center gap-3 md:gap-6">
-                <Mastercard size={isMediumScreen ? '54px' : '36px'} />
-                <div>
-                  <h3 className="font-body text-sm font-bold text-blue-900 md:text-md">
-                    {formatCardNumber(cardInfo?.cardNumber)}
-                  </h3>
-                  <h4 className="mt-0.5 font-body text-xs font-normal text-dark-500 md:mt-0">
-                    {cardInfo?.name}
-                  </h4>
-                </div>
-              </div>
-              <span className="font-body text-sm font-bold text-blue-900 md:text-md">
-                {cardInfo?.expires}
-              </span>
-            </div>
-          </Radio>
+        <div className="flex flex-col flex-wrap justify-between sm:flex-row sm:items-center">
+          <h3 className="font-body text-sm font-bold text-dark-900">
+            Informations de paiement
+          </h3>
+          <Link
+            href={getRewriteByPage('Ajouter un moyen de paiement')}
+            passHref
+          >
+            <a>
+              <Cta type="link" size="s" arrow="right">
+                Ajouter un moyen de paiement
+              </Cta>
+            </a>
+          </Link>
+        </div>
+        <div className="mt-3 space-y-4 md:mt-2">
+          <CreditCardInfo
+            id="1"
+            name="selectedCard"
+            cardType={cardInfo?.way}
+            cardNumber={cardInfo?.cardNumber}
+            cardName={cardInfo?.name}
+            cardExpires={cardInfo?.expires}
+            checked={formik.values.selectedCard === '1'}
+            onChange={formik.handleChange}
+          />
+          <CreditCardInfo
+            id="2"
+            name="selectedCard"
+            cardType={cardInfo?.way}
+            cardNumber={cardInfo?.cardNumber}
+            cardName={cardInfo?.name}
+            cardExpires={cardInfo?.expires}
+            checked={formik.values.selectedCard === '2'}
+            onChange={formik.handleChange}
+          />
         </div>
       </div>
       <div className="mt-8">
-        <h3 className="font-body text-sm font-bold text-dark-900">
-          Détails de la commande
-        </h3>
-        <div className="mt-4 md:mt-3">
+        <div className="flex flex-col flex-wrap justify-between sm:flex-row sm:items-center">
+          <h3 className="font-body text-sm font-bold text-dark-900">
+            Détails de la commande
+          </h3>
+          <Cta type="link" size="s" arrow="right">
+            Ajouter une adresse de facturation
+          </Cta>
+        </div>
+        <div className="mt-3 md:mt-2">
           <Radio checked={true}>
             <div className="mr-6 flex flex-wrap justify-between gap-8">
               <div>
@@ -107,9 +107,9 @@ const CheckoutConfirm = () => {
                   Adresse de facturation
                 </h3>
                 <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                  {store?.billing.address}
+                  {store?.billing?.address}
                   <br />
-                  {store?.billing.city} {store?.billing.zipCode}
+                  {store?.billing?.city} {store?.billing?.zipCode}
                 </h4>
               </div>
               <div>

@@ -1,31 +1,18 @@
-import CheckoutLayout from '@/components/layouts/CheckoutLayout'
 import Title from '@/components/utils/Title'
-import Radio from '@/components/utils/Radio'
-import { useFormik } from 'formik'
-import { Mastercard, Visa } from '@/components/utils/Icons'
-import { useMediaQuery } from '@mui/material'
 import Subtitle from '@/components/utils/Subtitle'
+import Radio from '@/components/utils/Radio'
+import { Mastercard, Visa } from '@/components/utils/Icons'
 import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
+import { useFormik } from 'formik'
+import { useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
-import { useState, useEffect, useContext } from 'react'
-import { CheckoutContext } from '@/contexts/CheckoutContext'
 import useButtonSize from '@/hooks/useButtonSize'
+import { LinksContext } from '@/contexts/LinksContext'
+import { useContext } from 'react'
 
-const CheckoutCheckout = () => {
-  const isMediumScreen = useMediaQuery('(min-width: 768px)')
-
-  const [store, setStore] = useState()
-
-  const buttonSize = useButtonSize()
-
-  useEffect(() => {
-    setStore(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store'))
-    )
-  }, [])
-
-  const router = useRouter()
+const AddPaymentWay = () => {
+  const { getRewriteByPage } = useContext(LinksContext)
 
   const formik = useFormik({
     initialValues: {
@@ -36,28 +23,19 @@ const CheckoutCheckout = () => {
       cvv: '',
     },
     onSubmit: (values) => {
-      window.localStorage.setItem(
-        'vitaliplay.checkout.store',
-        JSON.stringify({
-          ...store,
-          cardInfo: Buffer.from(JSON.stringify(values)).toString('base64'),
-        })
-      )
-      router.push(`${prefix}${getPathByStep('Confirmation')}`)
+      console.log(values)
     },
   })
 
-  const { getPathByStep, prefix } = useContext(CheckoutContext)
+  const router = useRouter()
+
+  const isMediumScreen = useMediaQuery('max-width: 768px')
+
+  const buttonSize = useButtonSize()
 
   return (
-    <div className="mt-10 px-6 md:px-24 lg:mt-40">
-      <Title type="3">Procéder au paiement</Title>
-      <div className="mt-4">
-        <Subtitle type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
-      </div>
+    <div className="mx-auto mt-20 min-h-[calc(100vh_-_165px)] max-w-4xl px-6 py-10 md:px-24 lg:py-20">
+      <Title type="3">Ajouter un moyen de paiement</Title>
       <form onSubmit={formik.handleSubmit}>
         <div className="mt-8 flex flex-wrap gap-x-4 gap-y-4 md:gap-x-6">
           <Radio
@@ -120,9 +98,18 @@ const CheckoutCheckout = () => {
             </div>
           </div>
           <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
-            <Cta size={buttonSize} buttonType="submit">
-              Suivant
-            </Cta>
+            <div
+              onClick={() =>
+                router.push(
+                  `${getRewriteByPage('Profil')}/mes-cartes-et-factures`
+                )
+              }
+            >
+              <Cta size={buttonSize} buttonType="submit">
+                Enregistrer
+              </Cta>
+            </div>
+
             <div onClick={() => router.back()}>
               <Cta size={buttonSize} type="secondary">
                 Retour
@@ -135,6 +122,4 @@ const CheckoutCheckout = () => {
   )
 }
 
-CheckoutCheckout.Layout = CheckoutLayout
-
-export default CheckoutCheckout
+export default AddPaymentWay
