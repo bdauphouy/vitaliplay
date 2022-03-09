@@ -8,6 +8,7 @@ export const LinksContextProvider = ({ children }) => {
   const ACCOUNT_PREFIX = '/compte'
   const SURVEY_PREFIX = '/questionnaire'
   const CHECKUP_PREFIX = '/bilan'
+  const CHECKOUT_PREFIX = '/paiement'
 
   const getPage = (pages, attribute, value) => {
     return pages.find((page) => page[attribute] === value)
@@ -107,9 +108,38 @@ export const LinksContextProvider = ({ children }) => {
       pageName: "Conditions d'utilisation",
       path: '/conditions-d-utilisation',
     },
+  ])
+
+  const [checkoutPages] = useState([
     {
+      id: 0,
       pageName: 'Paiement',
-      path: '/paiement',
+      path: CHECKOUT_PREFIX,
+    },
+    {
+      id: 1,
+      pageName: 'Compte',
+      path: `${CHECKOUT_PREFIX}/compte`,
+    },
+    {
+      id: 2,
+      pageName: 'Informations',
+      path: `${CHECKOUT_PREFIX}/informations`,
+    },
+    {
+      id: 3,
+      pageName: 'Procéder au paiement',
+      path: `${CHECKOUT_PREFIX}/proceder-au-paiement`,
+    },
+    {
+      id: 4,
+      pageName: 'Confirmation',
+      path: `${CHECKOUT_PREFIX}/confirmation`,
+    },
+    {
+      id: 5,
+      pageName: 'Succès',
+      path: `${CHECKOUT_PREFIX}/succes`,
     },
   ])
 
@@ -248,11 +278,13 @@ export const LinksContextProvider = ({ children }) => {
         otherPages,
         surveyPages,
         checkupPages,
+        checkoutPages,
         externalPages,
         SITE_PREFIX,
         ACCOUNT_PREFIX,
         SURVEY_PREFIX,
         CHECKUP_PREFIX,
+        CHECKOUT_PREFIX,
       }}
     >
       {children}

@@ -10,12 +10,19 @@ import greenBlue from '@/public/decoration-icons/green-blue.svg'
 import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
+import { LinksContext } from '@/contexts/LinksContext'
+import { useContext } from 'react'
+import { useRouter } from 'next/router'
 
 const CheckoutSuccess = () => {
   const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const { getPage, accountPages } = useContext(LinksContext)
+
+  const router = useRouter()
 
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-6 md:px-24">
@@ -55,7 +62,12 @@ const CheckoutSuccess = () => {
             consectetur adipiscing elit.
           </Subtitle>
         </div>
-        <div className="mt-10 md:mt-12">
+        <div
+          className="mt-10 md:mt-12"
+          onClick={() =>
+            router.push(getPage(accountPages, 'pageName', 'Accueil').path)
+          }
+        >
           <Cta size={buttonSize}>Découvrir Vitaliplay</Cta>
         </div>
       </div>
