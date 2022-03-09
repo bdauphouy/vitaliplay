@@ -14,7 +14,7 @@ const InvitationStart = () => {
       code: '',
     },
     onSubmit: (values) => {
-      router.push(`${router.route}/confirm`)
+      router.push(`${router.asPath}/confirmation`)
     },
   })
 
