@@ -12,6 +12,7 @@ import {
 } from '@/components/utils/Icons'
 import { LinksContext } from '@/contexts/LinksContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { route } from 'next/dist/server/router'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -66,7 +67,7 @@ const SiteNav = () => {
       }
 
       if (
-        router.route.startsWith(
+        router.asPath.startsWith(
           getPage(sitePages, 'pageName', navItem.innerText).path
         )
       ) {
@@ -100,6 +101,11 @@ const SiteNav = () => {
             }}
           ></div>
           {sitePages.map((sitePage, i) => {
+            console.log(
+              router.asPath,
+              getPage(sitePages, 'pageName', 'Accueil').path,
+              sitePage.pageName
+            )
             return (
               <li
                 key={i}
@@ -108,12 +114,8 @@ const SiteNav = () => {
                 <Link href={sitePage.path}>
                   <a
                     className={`nav-item inline-flex h-full items-center px-6 font-head text-lg font-semibold ${
-                      sitePage.pageName === 'Accueil'
-                        ? router.asPath ===
-                          getPage(sitePages, 'pageName', 'Accueil').path
-                          ? 'text-blue-900'
-                          : 'text-dark-300'
-                        : router.asPath.startsWith(sitePage.path)
+                      router.route ===
+                      '/site' + (sitePage.path === '/' ? '' : sitePage.path)
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}

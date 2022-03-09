@@ -4,7 +4,7 @@ import { AuthContext } from './AuthContext'
 export const LinksContext = createContext()
 
 export const LinksContextProvider = ({ children }) => {
-  const SITE_PREFIX = '/site'
+  const SITE_PREFIX = ''
   const ACCOUNT_PREFIX = '/compte'
   const SURVEY_PREFIX = '/questionnaire'
   const CHECKUP_PREFIX = '/bilan'
@@ -17,7 +17,7 @@ export const LinksContextProvider = ({ children }) => {
   const [sitePages] = useState([
     {
       pageName: 'Accueil',
-      path: SITE_PREFIX,
+      path: SITE_PREFIX || '/',
     },
     {
       pageName: 'Notre solution',
@@ -36,7 +36,7 @@ export const LinksContextProvider = ({ children }) => {
   const [accountPages] = useState([
     {
       pageName: 'Accueil',
-      path: ACCOUNT_PREFIX,
+      path: ACCOUNT_PREFIX || '/',
     },
     {
       pageName: 'Le direct',
@@ -114,7 +114,7 @@ export const LinksContextProvider = ({ children }) => {
     {
       id: 0,
       pageName: 'Paiement',
-      path: CHECKOUT_PREFIX,
+      path: CHECKOUT_PREFIX || '/',
     },
     {
       id: 1,
@@ -147,7 +147,7 @@ export const LinksContextProvider = ({ children }) => {
     {
       id: 0,
       pageName: 'Questionnaire',
-      path: SURVEY_PREFIX,
+      path: SURVEY_PREFIX || '/',
     },
     {
       id: 1,
@@ -190,7 +190,7 @@ export const LinksContextProvider = ({ children }) => {
     {
       id: '0.0',
       pageName: 'Bilan',
-      path: CHECKUP_PREFIX,
+      path: CHECKUP_PREFIX || '/',
     },
     {
       id: '1.0',

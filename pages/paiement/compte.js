@@ -66,7 +66,6 @@ const CheckoutStart = () => {
   })
 
   useEffect(() => {
-    console.log(validationSchema)
     formik.validationSchema = validationSchema
   }, [validationSchema])
 
@@ -113,14 +112,12 @@ const CheckoutStart = () => {
 
   useEffect(() => {
     Object.keys(formik.initialValues).map((key) => {
-      console.log(key)
       if (key !== 'account') {
         formik.values[key] = ''
         delete formik.errors[key]
         formik.touched[key] = ''
       }
     })
-    console.log('entered')
   }, [formik.values.account])
 
   const router = useRouter()

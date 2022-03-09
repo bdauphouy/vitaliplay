@@ -12,12 +12,6 @@ import useCongratsSize from '@/hooks/useCongratsSize'
 const SurveySuccess = () => {
   const { getPage, accountPages } = useContext(LinksContext)
 
-  useEffect(() => {
-    console.log(
-      JSON.parse(window.localStorage.getItem('vitaliplay.survey.store'))
-    )
-  }, [])
-
   const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()
 

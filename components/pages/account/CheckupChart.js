@@ -21,10 +21,6 @@ for (let i = 0; i < 20; i++) {
 const CheckupChart = () => {
   const tooltip = useRef()
 
-  useEffect(() => {
-    console.log(tooltip)
-  }, [tooltip])
-
   return (
     <ResponsiveContainer width="100%" height={550}>
       <AreaChart data={data} margin={{ right: 0, left: -60, top: 30 }}>
