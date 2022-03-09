@@ -27,7 +27,7 @@ const SubscriptionCard = ({
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
-  const { sitePages, otherPages, getPage } = useContext(LinksContext)
+  const { sitePages, checkoutPages, getPage } = useContext(LinksContext)
 
   useEffect(() => {
     setStampSize(isMediumScreen ? 90 : 64)
@@ -69,7 +69,7 @@ const SubscriptionCard = ({
           <span
             className={`${
               variant === 'blue' ? 'text-light-100' : 'text-dark-900'
-            } font-head text-4xl font-bold text-light-100 ${
+            } font-head text-4xl font-bold ${
               size === 'big' && 'lg:text-5xl lg:font-extrabold'
             } pr-2`}
           >
@@ -119,7 +119,7 @@ const SubscriptionCard = ({
           href={
             subPage
               ? `${
-                  getPage(otherPages, 'pageName', 'Paiement').path
+                  getPage(checkoutPages, 'pageName', 'Paiement').path
                 }?abonnement=${title}`
               : getPage(sitePages, 'pageName', 'Abonnements').path
           }

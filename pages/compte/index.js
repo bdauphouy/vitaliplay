@@ -52,7 +52,7 @@ const Account = () => {
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
       <div className="flex-row-reverse justify-between lg:flex">
-        <div className="absolute top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
+        <div className="fixed top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
           Accès offert par : AG2R LA MONDIALE
         </div>
         <Title type="1" html={false}>
@@ -91,11 +91,9 @@ const Account = () => {
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link
                   // href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                  href={`${getPage(
-                    accountPages,
-                    'pageName',
-                    'Mon espace santé'
-                  )}/bilans/1`}
+                  href={`${
+                    getPage(accountPages, 'pageName', 'Mon espace santé').path
+                  }/bilans/1`}
                   passHref
                 >
                   <a className="flex-1">
@@ -103,11 +101,9 @@ const Account = () => {
                   </a>
                 </Link>
                 <Link
-                  href={`${getPage(
-                    accountPages,
-                    'pageName',
-                    'Mon espace santé'
-                  )}/bilans/1`}
+                  href={`${
+                    getPage(accountPages, 'pageName', 'Mon espace santé').path
+                  }/bilans/1`}
                   passHref
                 >
                   <a className="flex-1">
@@ -115,11 +111,9 @@ const Account = () => {
                   </a>
                 </Link>
                 <Link
-                  href={`${getPage(
-                    accountPages,
-                    'pageName',
-                    'Mon espace santé'
-                  )}/bilans/1`}
+                  href={`${
+                    getPage(accountPages, 'pageName', 'Mon espace santé').path
+                  }/bilans/1`}
                   passHref
                 >
                   <a className="flex-1">
@@ -182,11 +176,9 @@ const Account = () => {
           <Title type="5">Vos dernières séances</Title>
           <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
             <Link
-              href={`${getPage(
-                accountPages,
-                'pageName',
-                'Séances'
-              )}/toutes-les-seances/1`}
+              href={`${
+                getPage(accountPages, 'pageName', 'Séances').path
+              }/toutes-les-seances/1`}
               passHref
             >
               <a>
@@ -199,11 +191,9 @@ const Account = () => {
               </a>
             </Link>
             <Link
-              href={`${getPage(
-                accountPages,
-                'pageName',
-                'Séances'
-              )}/toutes-les-seances/1`}
+              href={`${
+                getPage(accountPages, 'pageName', 'Séances').path
+              }/toutes-les-seances/1`}
               passHref
             >
               <a>

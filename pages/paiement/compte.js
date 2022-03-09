@@ -8,12 +8,12 @@ import Input from '@/components/utils/Input'
 import Dropdown from '@/components/utils/Dropdown'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
-import { CheckoutContext } from '@/contexts/CheckoutContext'
 import {
   StartOfferSchema,
   StartLoginSchema,
   StartSignupSchema,
 } from '@/schemas/checkout/StartSchemas'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const CheckoutStart = () => {
   const [civility, setCivility] = useState('M')
@@ -60,15 +60,12 @@ const CheckoutStart = () => {
           'vitaliplay.checkout.store',
           JSON.stringify({ ...store, ...Object.fromEntries(filtered) })
         )
-        router.push(`${prefix}${getPathByStep('Informations')}`)
+        router.push(getPage(checkoutPages, 'pageName', 'Informations').path)
       }
     },
   })
 
-  console.log(formik.errors)
-
   useEffect(() => {
-    console.log(validationSchema)
     formik.validationSchema = validationSchema
   }, [validationSchema])
 
@@ -115,19 +112,17 @@ const CheckoutStart = () => {
 
   useEffect(() => {
     Object.keys(formik.initialValues).map((key) => {
-      console.log(key)
       if (key !== 'account') {
         formik.values[key] = ''
         delete formik.errors[key]
         formik.touched[key] = ''
       }
     })
-    console.log('entered')
   }, [formik.values.account])
 
   const router = useRouter()
 
-  const { getPathByStep, prefix } = useContext(CheckoutContext)
+  const { getPage, checkoutPages } = useContext(LinksContext)
 
   const buttonSize = useButtonSize()
 

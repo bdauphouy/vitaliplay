@@ -32,7 +32,7 @@ const Row = ({
 
   useEffect(() => {
     if (type === 'filter') {
-      router.replace(`${router.route}?filter=${filter}`)
+      router.replace(`${router.route}?filtre=${filter}`)
     }
   }, [filter])
 

@@ -7,7 +7,7 @@ import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { useRouter } from 'next/router'
 import { useContext, useState, useEffect } from 'react'
-import { CheckoutContext } from '@/contexts/CheckoutContext'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const CheckoutInfo = () => {
   const [store, setStore] = useState()
@@ -32,11 +32,13 @@ const CheckoutInfo = () => {
         'vitaliplay.checkout.store',
         JSON.stringify({ ...store, billing: { ...values } })
       )
-      router.push(`${prefix}${getPathByStep('Paiement')}`)
+      router.push(
+        getPage(checkoutPages, 'pageName', 'Procéder au paiement').path
+      )
     },
   })
 
-  const { getPathByStep, prefix } = useContext(CheckoutContext)
+  const { getPage, checkoutPages } = useContext(LinksContext)
 
   const router = useRouter()
 

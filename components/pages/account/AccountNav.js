@@ -44,8 +44,7 @@ const Burger = ({ menu, setMenu }) => {
 }
 
 const SiteNav = () => {
-  const { sitePages, externalPages, accountPages, getPage } =
-    useContext(LinksContext)
+  const { externalPages, accountPages, getPage } = useContext(LinksContext)
 
   const [menu, setMenu] = useState(false)
 
@@ -124,11 +123,11 @@ const SiteNav = () => {
                   <a
                     className={`nav-item inline-flex h-full items-center px-6 font-head text-lg font-semibold ${
                       accountPage.pageName === 'Accueil'
-                        ? router.asPath ===
+                        ? router.route.split('?')[0] ===
                           getPage(accountPages, 'pageName', 'Accueil').path
                           ? 'text-blue-900'
                           : 'text-dark-300'
-                        : router.asPath.startsWith(accountPage.path)
+                        : router.route.startsWith(accountPage.path)
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}
@@ -203,11 +202,11 @@ const SiteNav = () => {
                       <a
                         className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold ${
                           accountPage.pageName === 'Accueil'
-                            ? router.asPath ===
-                              getPage(sitePages, 'pageName', 'Accueil').path
+                            ? router.route ===
+                              getPage(accountPages, 'pageName', 'Accueil').path
                               ? 'text-blue-900'
                               : 'text-dark-300'
-                            : router.asPath.startsWith(accountPage.path)
+                            : router.route.startsWith(accountPage.path)
                             ? 'text-blue-900'
                             : 'text-dark-300'
                         }`}

@@ -12,7 +12,7 @@ export const AuthContextProvider = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    console.log(isAuth)
+    console.log({ isAuth })
   }, [isAuth])
 
   return (

@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import { useEffect, useContext } from 'react'
-import { CheckoutContext } from '@/contexts/CheckoutContext'
 import { fetchAPI } from '@/lib/api'
 import { useState } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-landing')
@@ -25,7 +25,7 @@ const Checkout = ({ subscriptions }) => {
     Mensuel: 'monthly',
   })
 
-  const { getPathById, prefix } = useContext(CheckoutContext)
+  const { getPage, checkoutPages } = useContext(LinksContext)
 
   useEffect(() => {
     let activeStep = window.localStorage.getItem(
@@ -56,7 +56,7 @@ const Checkout = ({ subscriptions }) => {
       )
     }
 
-    router.push(`${prefix}${getPathById(parseInt(activeStep))}`)
+    router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
   }, [])
 
   return <></>

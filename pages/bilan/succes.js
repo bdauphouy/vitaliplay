@@ -14,12 +14,6 @@ const SurveySuccess = () => {
 
   const congratsSize = useCongratsSize()
 
-  useEffect(() => {
-    console.log(
-      JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store'))
-    )
-  }, [])
-
   const buttonSize = useButtonSize()
 
   return (

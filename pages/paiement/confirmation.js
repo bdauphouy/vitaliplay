@@ -7,7 +7,6 @@ import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import { useRouter } from 'next/router'
-import { CheckoutContext } from '@/contexts/CheckoutContext'
 import CreditCardInfo from '@/components/pages/account/CreditCardInfo'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
@@ -39,8 +38,7 @@ const CheckoutConfirm = () => {
     },
   })
 
-  const { getPathByStep, prefix } = useContext(CheckoutContext)
-  const { getRewriteByPage } = useContext(LinksContext)
+  const { getPage, checkoutPages, accountPages } = useContext(LinksContext)
 
   return (
     <div className="mt-10 px-6 md:px-24 lg:mt-40">
@@ -57,7 +55,10 @@ const CheckoutConfirm = () => {
             Informations de paiement
           </h3>
           <Link
-            href={getRewriteByPage('Ajouter un moyen de paiement')}
+            href={
+              getPage(accountPages, 'pageName', 'Ajouter un moyen de paiement')
+                .path
+            }
             passHref
           >
             <a>
@@ -132,7 +133,9 @@ const CheckoutConfirm = () => {
           </Radio>
           <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
             <div
-              onClick={() => router.push(`${prefix}${getPathByStep('Succès')}`)}
+              onClick={() =>
+                router.push(getPage(checkoutPages, 'pageName', 'Succès').path)
+              }
             >
               <Cta size={buttonSize} buttonType="submit">
                 Procéder au paiement

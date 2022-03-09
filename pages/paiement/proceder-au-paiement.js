@@ -9,8 +9,8 @@ import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
 import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
-import { CheckoutContext } from '@/contexts/CheckoutContext'
 import useButtonSize from '@/hooks/useButtonSize'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const CheckoutCheckout = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -43,11 +43,11 @@ const CheckoutCheckout = () => {
           cardInfo: Buffer.from(JSON.stringify(values)).toString('base64'),
         })
       )
-      router.push(`${prefix}${getPathByStep('Confirmation')}`)
+      router.push(getPage(checkoutPages, 'pageName', 'Confirmation').path)
     },
   })
 
-  const { getPathByStep, prefix } = useContext(CheckoutContext)
+  const { getPage, checkoutPages } = useContext(LinksContext)
 
   return (
     <div className="mt-10 px-6 md:px-24 lg:mt-40">
