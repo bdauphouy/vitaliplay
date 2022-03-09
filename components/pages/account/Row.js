@@ -32,9 +32,7 @@ const Row = ({
 
   useEffect(() => {
     if (type === 'filter') {
-      router.replace(
-        `/${router.route.split('/').slice(2).join('/')}?filter=${filter}`
-      )
+      router.replace(`${router.route}?filter=${filter}`)
     }
   }, [filter])
 
@@ -102,7 +100,7 @@ const Row = ({
                 </div>
               </>
             ) : (
-              <div onClick={() => router.push(router.asPath + path)}>
+              <div onClick={() => router.push(path)}>
                 <Cta size={buttonSize} type="secondary">
                   Voir plus
                 </Cta>

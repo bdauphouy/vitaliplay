@@ -44,12 +44,13 @@ const Burger = ({ menu, setMenu }) => {
 }
 
 const SiteNav = () => {
-  const { sitePages, otherPages, externalPages, getPage } =
+  const { sitePages, externalPages, accountPages, getPage } =
     useContext(LinksContext)
 
   const [menu, setMenu] = useState(false)
 
   const isExtraLargeScreen = useMediaQuery('(min-width: 1280px)')
+  const [hiddenPages] = useState(['Profil', 'Ajouter un moyen de paiement'])
 
   const router = useRouter()
 
@@ -57,9 +58,22 @@ const SiteNav = () => {
 
   useEffect(() => {
     const navItems = document.querySelectorAll('.nav-item')
+
     navItems.forEach((navItem) => {
       const updateMarker = () => {
         if (!marker) return
+
+        if (
+          router.route.startsWith(
+            getPage(accountPages, 'pageName', 'Profil').path
+          ) ||
+          router.route.startsWith(
+            getPage(accountPages, 'pageName', 'Ajouter un moyen de paiement')
+              .path
+          )
+        ) {
+          return
+        }
 
         marker.current.style.left = `${navItem.offsetLeft}px`
         marker.current.style.width = `${navItem.offsetWidth}px`
@@ -67,7 +81,7 @@ const SiteNav = () => {
 
       if (
         router.route.startsWith(
-          getPage(sitePages, 'pageName', navItem.innerText).path
+          getPage(accountPages, 'pageName', navItem.innerText).path
         )
       ) {
         updateMarker()
@@ -81,7 +95,7 @@ const SiteNav = () => {
         className="fixed top-0 z-50 hidden h-20 w-full items-center justify-between bg-light-100 px-6 shadow-level1 md:px-24 xl:flex
     "
       >
-        <Link href={getPage(sitePages, 'pageName', 'Accueil').path} passHref>
+        <Link href={getPage(accountPages, 'pageName', 'Accueil').path} passHref>
           <div className="relative w-34 cursor-pointer self-stretch md:w-44">
             <Image
               src="/logo.svg"
@@ -99,26 +113,27 @@ const SiteNav = () => {
               transitionProperty: 'width, left',
             }}
           ></div>
-          {sitePages.map((sitePage, i) => {
+          {accountPages.map((accountPage, i) => {
+            if (hiddenPages.includes(accountPage.pageName)) return
             return (
               <li
                 key={i}
                 className="h-full transition-[background-color] duration-300 hover:bg-blue-50"
               >
-                <Link href={sitePage.path}>
+                <Link href={accountPage.path}>
                   <a
                     className={`nav-item inline-flex h-full items-center px-6 font-head text-lg font-semibold ${
-                      sitePage.pageName === 'Accueil'
+                      accountPage.pageName === 'Accueil'
                         ? router.asPath ===
-                          getPage(sitePages, 'pageName', 'Accueil').path
+                          getPage(accountPages, 'pageName', 'Accueil').path
                           ? 'text-blue-900'
                           : 'text-dark-300'
-                        : router.asPath.startsWith(sitePage.path)
+                        : router.asPath.startsWith(accountPage.path)
                         ? 'text-blue-900'
                         : 'text-dark-300'
                     }`}
                   >
-                    {sitePage.pageName}
+                    {accountPage.pageName}
                   </a>
                 </Link>
               </li>
@@ -126,12 +141,22 @@ const SiteNav = () => {
           })}
           <li className="ml-6">
             <Link
-              href={getPage(otherPages, 'pageName', 'Connexion').path}
+              href={getPage(accountPages, 'pageName', 'Profil').path}
               passHref
             >
-              <div>
-                <Cta size="l">Connexion</Cta>
-              </div>
+              <a>
+                <div
+                  className={`box-content flex h-12 w-12 cursor-pointer items-center justify-center rounded-full border-4 border-solid border-transparent bg-blue-900 transition-[border-color] duration-300 hover:border-blue-300 ${
+                    router.route.startsWith(
+                      getPage(accountPages, 'pageName', 'Profil').path
+                    )
+                      ? 'border-blue-300'
+                      : ''
+                  }`}
+                >
+                  <User color="#FFFFFF" size={24} />
+                </div>
+              </a>
             </Link>
           </li>
         </ul>
@@ -141,7 +166,10 @@ const SiteNav = () => {
     "
       >
         <div className="flex h-20 w-full items-center justify-between">
-          <Link href={getPage(sitePages, 'pageName', 'Accueil').path} passHref>
+          <Link
+            href={getPage(accountPages, 'pageName', 'Accueil').path}
+            passHref
+          >
             <div className="relative w-34 cursor-pointer self-stretch md:w-44">
               <Image
                 src="/logo.svg"
@@ -166,23 +194,25 @@ const SiteNav = () => {
         >
           <div className="mb-8 flex flex-col-reverse">
             <ul>
-              {sitePages.map((sitePage, i) => {
+              {accountPages.map((accountPage, i) => {
+                if (hiddenPages.includes(accountPage.pageName)) return
+
                 return (
                   <li key={i}>
-                    <Link href={sitePage.path}>
+                    <Link href={accountPage.path}>
                       <a
                         className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold ${
-                          sitePage.pageName === 'Accueil'
+                          accountPage.pageName === 'Accueil'
                             ? router.asPath ===
                               getPage(sitePages, 'pageName', 'Accueil').path
                               ? 'text-blue-900'
                               : 'text-dark-300'
-                            : router.asPath.startsWith(sitePage.path)
+                            : router.asPath.startsWith(accountPage.path)
                             ? 'text-blue-900'
                             : 'text-dark-300'
                         }`}
                       >
-                        {sitePage.pageName}
+                        {accountPage.pageName}
                       </a>
                     </Link>
                   </li>

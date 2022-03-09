@@ -1,5 +1,4 @@
 import Title from '@/components/utils/Title'
-import Subtitle from '@/components/utils/Subtitle'
 import Radio from '@/components/utils/Radio'
 import { Mastercard, Visa } from '@/components/utils/Icons'
 import Input from '@/components/utils/Input'
@@ -10,9 +9,10 @@ import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { LinksContext } from '@/contexts/LinksContext'
 import { useContext } from 'react'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
 const AddPaymentWay = () => {
-  const { getRewriteByPage } = useContext(LinksContext)
+  const { getPage, accountPages } = useContext(LinksContext)
 
   const formik = useFormik({
     initialValues: {
@@ -101,7 +101,9 @@ const AddPaymentWay = () => {
             <div
               onClick={() =>
                 router.push(
-                  `${getRewriteByPage('Profil')}/mes-cartes-et-factures`
+                  `${
+                    getPage(accountPages, 'pageName', 'Profil').path
+                  }/mes-cartes-et-factures`
                 )
               }
             >
@@ -121,5 +123,7 @@ const AddPaymentWay = () => {
     </div>
   )
 }
+
+AddPaymentWay.Layout = AccountLayout
 
 export default AddPaymentWay

@@ -6,10 +6,10 @@ import { useEffect } from 'react'
 const ProfileHealthInformation = () => {
   const router = useRouter()
 
-  const { getRewriteByPage } = useContext(LinksContext)
+  const { getPage, accountPages } = useContext(LinksContext)
 
   useEffect(() => {
-    router.push(getRewriteByPage('Mon espace santé'))
+    router.push(getPage(accountPages, 'pageName', 'Mon espace santé').path)
   }, [])
 
   return <></>

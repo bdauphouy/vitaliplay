@@ -3,13 +3,14 @@ import Row from '@/components/pages/account/Row'
 import Card from '@/components/pages/account/Card'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
 const HealthConferences = () => {
   const router = useRouter()
 
   return (
     <div className="mt-20">
-      <header className="h-60 lg:h-96 relative">
+      <header className="relative h-60 lg:h-96">
         <Image
           src="/session-header.png"
           alt="sessions-header"
@@ -29,101 +30,30 @@ const HealthConferences = () => {
             'Mes favoris',
           ]}
           type="filter"
-          mobile={true}>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref>
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
+          mobile={true}
+        >
+          {[...Array(4)].map((_, i) => {
+            return (
+              <Link key={i} href={`${router.route}/1`} passHref>
+                <a>
+                  <Card
+                    tagType="1"
+                    title="Exercices intensifs pour le bas du corps"
+                    type="séances"
+                    duration="27"
+                    level="Intermédiaire"
+                    bg="/bg-card.png"
+                  />
+                </a>
+              </Link>
+            )
+          })}
         </Row>
       </div>
     </div>
   )
 }
+
+HealthConferences.Layout = AccountLayout
 
 export default HealthConferences

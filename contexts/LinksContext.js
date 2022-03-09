@@ -38,8 +38,8 @@ export const LinksContextProvider = ({ children }) => {
       path: ACCOUNT_PREFIX,
     },
     {
-      pageName: 'En direct',
-      path: `${ACCOUNT_PREFIX}/en-direct`,
+      pageName: 'Le direct',
+      path: `${ACCOUNT_PREFIX}/le-direct`,
     },
     {
       pageName: 'Séances',
@@ -56,6 +56,10 @@ export const LinksContextProvider = ({ children }) => {
     {
       pageName: 'Profil',
       path: `${ACCOUNT_PREFIX}/profil`,
+    },
+    {
+      pageName: 'Ajouter un moyen de paiement',
+      path: `${ACCOUNT_PREFIX}/ajouter-un-moyen-de-paiement`,
     },
   ])
 

@@ -11,13 +11,14 @@ import greenBlue from '@/public/decoration-icons/green-blue.svg'
 import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
 const MyHealthSpaceCheckups = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
-  const { getRewriteByPage } = useContext(LinksContext)
+  const { getPage, checkupPages } = useContext(LinksContext)
 
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-5 md:py-16">
@@ -50,7 +51,10 @@ const MyHealthSpaceCheckups = () => {
                 Réaliser un nouveau bilan
               </h3>
 
-              <Link href={getRewriteByPage('Bilan')} passHref>
+              <Link
+                href={getPage(checkupPages, 'pageName', 'Bilan').path}
+                passHref
+              >
                 <a>
                   <div className="mt-0 md:mt-6">
                     <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
@@ -60,13 +64,9 @@ const MyHealthSpaceCheckups = () => {
                 </a>
               </Link>
             </div>
-            {[...Array(11)].map((_, i) => {
+            {[...Array(4)].map((_, i) => {
               return (
-                <Link
-                  key={i}
-                  href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                  passHref
-                >
+                <Link key={i} href={`${router.route}/1`} passHref>
                   <a>
                     <div className="flex h-auto md:h-64">
                       <CheckupPreview
@@ -85,5 +85,7 @@ const MyHealthSpaceCheckups = () => {
     </div>
   )
 }
+
+MyHealthSpaceCheckups.Layout = AccountLayout
 
 export default MyHealthSpaceCheckups

@@ -1,12 +1,13 @@
 import Cta from '@/components/utils/Cta'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
-const OnLive = () => {
+const TheLive = () => {
   return (
-    <div className="mt-20 py-10 md:py-20 px-6 md:px-24 ">
-      <div className="flex xl:justify-between items-center xl:flex-row flex-col-reverse">
-        <div className="xl:max-w-xl mt-10 xl:mt-0 xl:mr-24">
+    <div className="mt-20 py-10 px-6 md:py-20 md:px-24 ">
+      <div className="flex flex-col-reverse items-center xl:flex-row xl:justify-between">
+        <div className="mt-10 xl:mt-0 xl:mr-24 xl:max-w-xl">
           <Title type="1">Live : Remise en forme</Title>
           <div className="mt-4">
             <Subtitle>
@@ -17,29 +18,33 @@ const OnLive = () => {
         </div>
         <div
           style={{ backgroundImage: "url('/bg-card.png')" }}
-          className="xl:flex-[.8] w-full xl:w-auto xl:min-w-[500px] bg-cover h-36 lg:h-32 rounded-lg flex items-center md:items-end p-4">
-          <div className="flex justify-between items-start md:items-center flex-1 md:flex-row flex-col">
+          className="flex h-36 w-full items-center rounded-lg bg-cover p-4 md:items-end lg:h-32 xl:w-auto xl:min-w-[500px] xl:flex-[.8]"
+        >
+          <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
             <div>
-              <h3 className="font-head font-bold text-light-100 text-lg leading-6">
+              <h3 className="font-head text-lg font-bold leading-6 text-light-100">
                 Live Yoga : Sophie Martinez
               </h3>
               <span className="mt-2 text-sm text-light-100">16:00 - 17:00</span>
             </div>
-            <div className="md:mt-0 mt-6">
+            <div className="mt-6 md:mt-0">
               <Cta size="m">Mettre un rappel</Cta>
             </div>
           </div>
         </div>
       </div>
       <iframe
-        className="mt-12 w-full aspect-video"
+        className="mt-12 aspect-video w-full"
         src="https://www.youtube.com/embed/yR9Wpyf8gbk"
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen></iframe>
+        allowFullScreen
+      ></iframe>
     </div>
   )
 }
 
-export default OnLive
+TheLive.Layout = AccountLayout
+
+export default TheLive

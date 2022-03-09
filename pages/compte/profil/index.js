@@ -1,9 +1,6 @@
 import Subtitle from '@/components/utils/Subtitle'
-import Title from '@/components/utils/Title'
 import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
-import { LinksContext } from '@/contexts/LinksContext'
-import { useContext } from 'react'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 
 export const Section = ({ id, icon, title, path = '/' }) => {

@@ -76,9 +76,9 @@ const PhysicalStrength = () => {
         </div>
       ) : (
         <div>
-          <Title>Exercice 2 : Flexion de bras</Title>
+          <Title type="3">Exercice 2 : Flexion de bras</Title>
           <div className="mt-4">
-            <Subtitle>
+            <Subtitle type="2">
               Assis sur une chaise le but est de réaliser un maximum de
               flexion-extension de bras avec un poids d’environ 2kg en 30
               secondes.

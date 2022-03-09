@@ -14,11 +14,15 @@ import greenBlue from '@/public/decoration-icons/green-blue.svg'
 import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
+import AccountLayout from '@/components/layouts/AccountLayout'
+import { useRouter } from 'next/router'
 
 const MyHealthSpace = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
-  const { getRewriteByPage } = useContext(LinksContext)
+  const router = useRouter()
+
+  const { getPage, checkupPages } = useContext(LinksContext)
 
   return (
     <div className="mt-20 overflow-x-hidden py-10 md:py-20">
@@ -44,7 +48,7 @@ const MyHealthSpace = () => {
         </div>
       </div>
       <div className="mt-24">
-        <Row title="Mes derniers bilans" path="/bilans">
+        <Row title="Mes derniers bilans" path={`${router.asPath}/bilans`}>
           <div className="relative flex h-56 flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-16 px-10 shadow-level1 md:h-64">
             <div className="absolute top-0 -left-8 block scale-50 transform">
               <Image src={orangeGreen} alt="orange-green" />
@@ -63,7 +67,10 @@ const MyHealthSpace = () => {
             >
               Réaliser un nouveau bilan
             </h3>
-            <Link href={getRewriteByPage('Bilan')} passHref>
+            <Link
+              href={getPage(checkupPages, 'pageName', 'Bilan').path}
+              passHref
+            >
               <a>
                 <div className="mt-6">
                   <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
@@ -75,11 +82,7 @@ const MyHealthSpace = () => {
           </div>
           {[...Array(3)].map((_, i) => {
             return (
-              <Link
-                key={i}
-                href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
-                passHref
-              >
+              <Link key={i} href={`${router.asPath}/bilans/1`} passHref>
                 <a>
                   <div className="flex h-64 py-4 md:h-72">
                     <CheckupPreview date="01/02/2020" score="65" />
@@ -102,5 +105,7 @@ const MyHealthSpace = () => {
     </div>
   )
 }
+
+MyHealthSpace.Layout = AccountLayout
 
 export default MyHealthSpace
