@@ -1,23 +1,14 @@
 import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
-import { SurveyContext } from '@/contexts/SurveyContext'
+import { LinksContext } from '@/contexts/LinksContext'
 
 const SurveyLayout = ({ children }) => {
-  const { prefix, getPathById, getIdByPath, surveySteps } =
-    useContext(SurveyContext)
+  const { getPage, surveyPages } = useContext(LinksContext)
 
   const [achievedSteps, setAchievedSteps] = useState([])
-
-  const router = useRouter()
-
   const [currentPath, setCurrentPath] = useState()
-
-  const refreshLocalStorage = (id) => {
-    window.localStorage.setItem(
-      'vitaliplay.survey.activeStep',
-      (id && id.toString()) || '1'
-    )
-  }
+  const [hiddenPages] = useState(['Questionnaire', 'Succès'])
+  const router = useRouter()
 
   useEffect(() => {
     if (!window.localStorage.getItem('vitaliplay.survey.store')) {
@@ -26,17 +17,26 @@ const SurveyLayout = ({ children }) => {
   }, [])
 
   useEffect(() => {
-    setCurrentPath(`/${router.route.split('/')[2]}`)
+    setCurrentPath(router.asPath)
   }, [router])
 
   useEffect(() => {
-    setAchievedSteps(Array.from(Array(getIdByPath(currentPath)).keys()))
-    refreshLocalStorage(getIdByPath(currentPath))
+    setAchievedSteps(
+      Array.from(Array(getPage(surveyPages, 'path', currentPath)?.id).keys())
+    )
+    refreshLocalStorage(getPage(surveyPages, 'path', currentPath)?.id)
   }, [currentPath])
+
+  const refreshLocalStorage = (id) => {
+    window.localStorage.setItem(
+      'vitaliplay.survey.activeStep',
+      (id && id.toString()) || '1'
+    )
+  }
 
   const switchSurveyStep = (surveyId) => {
     refreshLocalStorage(surveyId)
-    router.push(`${prefix}${getPathById(surveyId)}`)
+    router.push(getPage(surveyPages, 'id', surveyId).path)
   }
 
   return (
@@ -47,37 +47,39 @@ const SurveyLayout = ({ children }) => {
       >
         <nav className="mt-40">
           <ul className="flex flex-col gap-8 pl-24">
-            {surveySteps.map((surveyStep) => {
-              if (surveyStep.hidden) return
+            {surveyPages.map((surveyPage) => {
+              if (hiddenPages.includes(surveyPage.pageName)) return
               return (
-                <li key={surveyStep.id}>
+                <li key={surveyPage.id}>
                   <div
-                    onClick={() => switchSurveyStep(surveyStep.id)}
+                    onClick={() => switchSurveyStep(surveyPage.id)}
                     className="flex cursor-pointer items-center"
                   >
                     <div
-                      style={{ transitionProperty: 'background-color, color' }}
+                      style={{
+                        transitionProperty: 'background-color, color',
+                      }}
                       className={`grid h-8 w-8 place-items-center rounded-full font-head font-bold transition ${
-                        achievedSteps.includes(surveyStep.id)
+                        achievedSteps.includes(surveyPage.id)
                           ? 'bg-blue-900 text-light-100'
-                          : currentPath === surveyStep.path
+                          : currentPath === surveyPage.path
                           ? 'bg-blue-50 text-blue-900'
                           : 'bg-gray-100 text-dark-300'
                       }`}
                     >
-                      {surveyStep.id}
+                      {surveyPage.id}
                     </div>
                     <span
                       style={{ transitionProperty: 'color' }}
                       className={`ml-4 font-body text-sm font-bold uppercase transition ${
-                        currentPath === surveyStep.path
+                        currentPath === surveyPage.path
                           ? 'text-blue-900'
-                          : achievedSteps.includes(surveyStep.id)
+                          : achievedSteps.includes(surveyPage.id)
                           ? 'text-blue-300'
                           : 'text-dark-300'
                       }`}
                     >
-                      {surveyStep.step}
+                      {surveyPage.pageName}
                     </span>
                   </div>
                 </li>
@@ -88,47 +90,47 @@ const SurveyLayout = ({ children }) => {
       </aside>
       <nav className="flex h-48 items-end justify-center px-6 pb-16 shadow-level1 md:px-24 lg:hidden">
         <ul className="relative flex md:w-full">
-          {surveySteps.map((surveyStep) => {
-            if (surveyStep.hidden) return
+          {surveyPages.map((surveyPage) => {
+            if (hiddenPages.includes(surveyPage.pageName)) return
             return (
               <li
-                key={surveyStep.id}
+                key={surveyPage.id}
                 className={`flex items-center ${
-                  surveyStep.id < surveySteps.length - 1 && 'md:w-full'
+                  surveyPage.id < surveyPages.length ? 'md:w-full' : ''
                 }`}
               >
                 <div className="relative flex flex-col items-center">
                   <div
-                    onClick={() => switchSurveyStep(surveyStep.id)}
+                    onClick={() => switchSurveyStep(surveyPage.id)}
                     style={{ transitionProperty: 'background-color, color' }}
                     className={`flex h-8 w-8 cursor-pointer items-center justify-center rounded-full font-head font-bold transition ${
-                      achievedSteps.includes(surveyStep.id)
+                      achievedSteps.includes(surveyPage.id)
                         ? 'bg-blue-900 text-light-100'
-                        : currentPath === surveyStep.path
+                        : currentPath === surveyPage.path
                         ? 'bg-blue-50 text-blue-900'
                         : 'bg-gray-100 text-dark-300'
                     }`}
                   >
-                    {surveyStep.id}
+                    {surveyPage.id}
                   </div>
                   <span
                     className={`absolute mt-10 w-24 text-center font-body text-sm font-bold uppercase text-blue-900 ${
-                      currentPath === surveyStep.path ? 'block' : 'hidden'
+                      currentPath === surveyPage.path ? 'block' : 'hidden'
                     }`}
                   >
-                    {surveyStep.step}
+                    {surveyPage.pageName}
                   </span>
                 </div>
 
-                {surveyStep.id < surveySteps.length - 1 && (
+                {surveyPage.id < surveyPages.length - 2 && (
                   <div
                     style={{ transitionProperty: 'width, background-color' }}
                     className={`separator mx-1 h-0.5 transition ${
-                      currentPath === surveyStep.path
+                      currentPath === surveyPage.path ||
+                      currentPath ===
+                        getPage(surveyPages, 'id', surveyPage.id + 1).path
                         ? 'w-2 bg-gray-100 xsm:w-4 md:w-full'
-                        : currentPath === getPathById(surveyStep.id + 1)
-                        ? 'w-2 bg-blue-900 xsm:w-4 md:w-full'
-                        : achievedSteps.includes(surveyStep.id)
+                        : achievedSteps.includes(surveyPage.id)
                         ? 'w-1 bg-blue-900 xsm:w-2 md:w-full'
                         : 'w-1 bg-gray-100 xsm:w-2 md:w-full'
                     }`}

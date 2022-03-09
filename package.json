@@ -4,15 +4,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start -p 80",
-    "lint": "next lint",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.7.0",
     "@emotion/styled": "^11.6.0",
     "@mui/material": "^5.2.2",
-    "@storybook/addon-docs": "^6.4.13",
     "chart.js": "^3.7.0",
     "formik": "^2.2.9",
     "hover-effect": "^1.1.0",
@@ -30,10 +27,6 @@
   "devDependencies": {
     "@babel/core": "^7.16.7",
     "@netlify/plugin-nextjs": "^4.0.0-rc.1",
-    "@storybook/addon-actions": "^6.4.13",
-    "@storybook/addon-essentials": "^6.4.13",
-    "@storybook/addon-links": "^6.4.13",
-    "@storybook/react": "^6.4.13",
     "autoprefixer": "^10.4.0",
     "babel-loader": "^8.2.3",
     "eslint": "7.32.0",
