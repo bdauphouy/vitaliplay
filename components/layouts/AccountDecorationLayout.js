@@ -3,24 +3,27 @@ import greenBlue from '@/public/decoration-icons/green-blue.svg'
 import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
 const AccountDecorationLayout = ({ children }) => {
   return (
-    <div>
-      {children}
-      <div className="absolute top-36 left-20 hidden lg:block">
-        <Image src={orangeGreen} alt="orange-green" />
+    <AccountLayout>
+      <div>
+        {children}
+        <div className="absolute top-36 left-20 hidden lg:block">
+          <Image src={orangeGreen} alt="orange-green" />
+        </div>
+        <div className="absolute top-48 right-20 hidden lg:block xl:right-48">
+          <Image src={blueOrange} alt="blue-orange" />
+        </div>
+        <div className="absolute bottom-48 left-36 hidden lg:block 2xl:left-72">
+          <Image src={greenBlue} alt="green-blue" />
+        </div>
+        <div className="absolute bottom-48 right-32 hidden lg:block">
+          <Image src={yellowOrange} alt="yellow-orange" />
+        </div>
       </div>
-      <div className="absolute top-48 right-20 hidden lg:block xl:right-48">
-        <Image src={blueOrange} alt="blue-orange" />
-      </div>
-      <div className="absolute bottom-48 left-36 hidden lg:block 2xl:left-72">
-        <Image src={greenBlue} alt="green-blue" />
-      </div>
-      <div className="absolute bottom-48 right-32 hidden lg:block">
-        <Image src={yellowOrange} alt="yellow-orange" />
-      </div>
-    </div>
+    </AccountLayout>
   )
 }
 

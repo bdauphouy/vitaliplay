@@ -5,6 +5,7 @@ import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useEffect } from 'react'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
 const SessionsNewTrainings = () => {
   const router = useRouter()
@@ -25,74 +26,28 @@ const SessionsNewTrainings = () => {
           mobile={true}
           filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}
         >
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref
-          >
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref
-          >
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref
-          >
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
-          <Link
-            href={`/${router.route.split('/').slice(2).join('/')}/1`}
-            passHref
-          >
-            <a>
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                mobile={true}
-              />
-            </a>
-          </Link>
+          {[...Array(4)].map((item, i) => {
+            return (
+              <Link key={i} href={`${router.route}/1`} passHref>
+                <a>
+                  <Card
+                    tagType="1"
+                    title="Exercices intensifs pour le bas du corps"
+                    type="séances"
+                    duration="27"
+                    level="Intermédiaire"
+                    bg="/bg-card.png"
+                  />
+                </a>
+              </Link>
+            )
+          })}
         </Row>
       </div>
     </div>
   )
 }
+
+SessionsNewTrainings.Layout = AccountLayout
 
 export default SessionsNewTrainings

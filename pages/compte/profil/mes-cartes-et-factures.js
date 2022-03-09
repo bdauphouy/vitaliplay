@@ -36,7 +36,7 @@ const ProfileMyCardsAndInvoices = () => {
     },
   })
 
-  const { getRewriteByPage } = useContext(LinksContext)
+  const { getPage, accountPages } = useContext(LinksContext)
 
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-10 px-6 md:px-24 lg:py-20">
@@ -49,7 +49,10 @@ const ProfileMyCardsAndInvoices = () => {
             Informations de paiement
           </h3>
           <Link
-            href={getRewriteByPage('Ajouter un moyen de paiement')}
+            href={
+              getPage(accountPages, 'pageName', 'Ajouter un moyen de paiement')
+                .path
+            }
             passHref
           >
             <a>

@@ -11,8 +11,7 @@ import Image from 'next/image'
 import { useMediaQuery } from '@mui/material'
 
 const AccountFooter = () => {
-  const { externalLinks, getPathByPage, getRewriteByPage } =
-    useContext(LinksContext)
+  const { externalPages, getPage, accountPages } = useContext(LinksContext)
 
   const [socialNetworkSize, setSocialNetworkSize] = useState()
 
@@ -24,14 +23,7 @@ const AccountFooter = () => {
 
   return (
     <footer className="z-20 flex flex-wrap items-center justify-between gap-x-8 border-t-1 border-solid border-dark-50 bg-light-100 px-6 md:px-24">
-      <Link
-        href={
-          getRewriteByPage('Accueil')
-            ? getRewriteByPage('Accueil')
-            : getPathByPage('Accueil')
-        }
-        passHref
-      >
+      <Link href={getPage(accountPages, 'pageName', 'Accueil').path} passHref>
         <div className="relative h-20 w-28 cursor-pointer md:w-36">
           <Image
             src="/logo.svg"
@@ -43,28 +35,40 @@ const AccountFooter = () => {
       </Link>
       <ul className="flex gap-4">
         <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link href={externalLinks.linkedin} passHref>
+          <Link
+            href={getPage(externalPages, 'pageName', 'Linkedin').path}
+            passHref
+          >
             <div className="cursor-pointer">
               <Linkedin color="#1778F2" size={socialNetworkSize} />
             </div>
           </Link>
         </li>
         <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link href={externalLinks.instagram} passHref>
+          <Link
+            href={getPage(externalPages, 'pageName', 'Instagram').path}
+            passHref
+          >
             <div className="cursor-pointer">
               <Instagram color="#1778F2" size={socialNetworkSize} />
             </div>
           </Link>
         </li>
         <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link href={externalLinks.facebook} passHref>
+          <Link
+            href={getPage(externalPages, 'pageName', 'Facebook').path}
+            passHref
+          >
             <div className="cursor-pointer">
               <Facebook color="#1778F2" size={socialNetworkSize} />
             </div>
           </Link>
         </li>
         <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link href={externalLinks.twitter} passHref>
+          <Link
+            href={getPage(externalPages, 'pageName', 'Twitter').path}
+            passHref
+          >
             <div className="cursor-pointer">
               <Twitter color="#1778F2" size={socialNetworkSize} />
             </div>
@@ -72,7 +76,7 @@ const AccountFooter = () => {
         </li>
       </ul>
       <p className="hidden font-body text-sm font-bold text-dark-300 sm:block">
-        Vitaliplay &copy; 2021
+        Vitaliplay &copy; 2022
       </p>
     </footer>
   )

@@ -1,9 +1,11 @@
 import Image from 'next/image'
 import login from '@/public/login.jpeg'
+import CloseNav from '@/components/utils/CloseNav'
 
 const LoginLayout = ({ children }) => {
   return (
     <>
+      <CloseNav />
       <div className="flex min-h-screen">
         <div className="relative min-h-screen xl:w-1/3">
           <Image

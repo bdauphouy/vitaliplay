@@ -6,12 +6,13 @@ import { useMediaQuery } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
+import AccountLayout from '@/components/layouts/AccountLayout'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
     return {
       redirect: {
-        destination: '/login',
+        destination: '/connexion',
         permanent: true,
       },
     }
@@ -40,7 +41,7 @@ const Account = () => {
 
   const [cardType] = useState('Le live du jour')
 
-  const { getPage, checkupPages } = useContext(LinksContext)
+  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
 
   const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
@@ -89,7 +90,12 @@ const Account = () => {
               </h3>
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link
-                  href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
+                  // href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
+                  href={`${getPage(
+                    accountPages,
+                    'pageName',
+                    'Mon espace santé'
+                  )}/bilans/1`}
                   passHref
                 >
                   <a className="flex-1">
@@ -97,7 +103,11 @@ const Account = () => {
                   </a>
                 </Link>
                 <Link
-                  href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
+                  href={`${getPage(
+                    accountPages,
+                    'pageName',
+                    'Mon espace santé'
+                  )}/bilans/1`}
                   passHref
                 >
                   <a className="flex-1">
@@ -105,7 +115,11 @@ const Account = () => {
                   </a>
                 </Link>
                 <Link
-                  href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
+                  href={`${getPage(
+                    accountPages,
+                    'pageName',
+                    'Mon espace santé'
+                  )}/bilans/1`}
                   passHref
                 >
                   <a className="flex-1">
@@ -168,7 +182,11 @@ const Account = () => {
           <Title type="5">Vos dernières séances</Title>
           <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
             <Link
-              href={`${getRewriteByPage('Séances')}/toutes-les-seances/1`}
+              href={`${getPage(
+                accountPages,
+                'pageName',
+                'Séances'
+              )}/toutes-les-seances/1`}
               passHref
             >
               <a>
@@ -181,7 +199,11 @@ const Account = () => {
               </a>
             </Link>
             <Link
-              href={`${getRewriteByPage('Séances')}/toutes-les-seances/1`}
+              href={`${getPage(
+                accountPages,
+                'pageName',
+                'Séances'
+              )}/toutes-les-seances/1`}
               passHref
             >
               <a>
@@ -199,5 +221,7 @@ const Account = () => {
     </div>
   )
 }
+
+Account.Layout = AccountLayout
 
 export default Account
