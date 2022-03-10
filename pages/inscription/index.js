@@ -14,6 +14,7 @@ import useButtonSize from '@/hooks/useButtonSize'
 import { v4 as uuidv4 } from 'uuid'
 import { postAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
+import Error from '@/components/utils/Error'
 
 const SignupStart = () => {
   const [civility, setCivility] = useState('M')
@@ -26,7 +27,13 @@ const SignupStart = () => {
 
   const { setIsAuth } = useContext(AuthContext)
 
-  const [serverSideErrors, setServerSideErrors] = useState()
+  const [loading, setLoading] = useState(false)
+
+  const [serverSideErrors] = useState({
+    'Email is already taken': 'Ce compte existe déja.',
+  })
+
+  const [serverSideError, setServerSideError] = useState()
 
   const formatDate = (date) => {
     const year = date.getFullYear()
@@ -51,6 +58,7 @@ const SignupStart = () => {
     validationSchema: SignupSchema,
 
     onSubmit: async (values) => {
+      setLoading(true)
       const res = await postAPI('/auth/local/register', {
         username: uuidv4(),
         email: values.email,
@@ -63,11 +71,14 @@ const SignupStart = () => {
         birthdate: values.birthday,
         phone: values.phoneNumber,
       })
+      setLoading(false)
       if (res.error) {
         console.log(res.error)
-        setServerSideErrors(res.error)
+        setServerSideError(
+          serverSideErrors[res.error.message] || 'Erreur inconnue.'
+        )
       } else {
-        document.cookie = `jwt_1=${res.jwt}`
+        document.cookie = `jwt=${res.jwt}`
         setIsAuth(true)
         router.push(`${router.asPath}/confirmation`)
       }
@@ -184,26 +195,35 @@ const SignupStart = () => {
             }
           />
         </div>
+
         <div
-          className="mt-4 flex flex-wrap gap-4 lg:mt-8 lg:gap-8"
+          className={serverSideError ? 'mt-2' : ''}
           style={{ gridArea: 'j' }}
         >
-          <div>
-            <Cta type="primary" buttonType="submit" size={buttonSize}>
-              S'inscrire
-            </Cta>
-          </div>
-
-          <Link
-            href={getPage(otherPages, 'pageName', 'Connexion').path}
-            passHref
-          >
-            <a>
-              <Cta type="secondary" size={buttonSize}>
-                Se connecter
+          {serverSideError && <Error>{serverSideError}</Error>}
+          <div className="mt-4 flex flex-wrap gap-4 lg:gap-8">
+            <div>
+              <Cta
+                loading={loading}
+                type="primary"
+                buttonType="submit"
+                size={buttonSize}
+              >
+                S'inscrire
               </Cta>
-            </a>
-          </Link>
+            </div>
+
+            <Link
+              href={getPage(otherPages, 'pageName', 'Connexion').path}
+              passHref
+            >
+              <a>
+                <Cta type="secondary" size={buttonSize}>
+                  Se connecter
+                </Cta>
+              </a>
+            </Link>
+          </div>
         </div>
       </form>
     </div>

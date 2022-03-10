@@ -119,9 +119,6 @@ const CheckupLayout = ({ children }) => {
                         )
                           return
 
-                        console.log(achievedSteps[1])
-                        console.log(subPage.id)
-
                         return (
                           <li
                             onClick={() => switchCheckupStep(subPage.id)}
@@ -234,7 +231,7 @@ const CheckupLayout = ({ children }) => {
           </ul>
         </nav>
         <div className="flex w-full flex-1 px-6 py-10 md:px-24 lg:py-40 xl:mr-24 2xl:mr-40">
-          <div className="w-full lg:w-11/12">{children}</div>
+          <div className="w-full max-w-4xl lg:w-11/12">{children}</div>
         </div>
       </div>
     </>

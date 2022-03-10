@@ -18,7 +18,7 @@ const Card = ({
         style={{ backgroundImage: `url('${bg}')` }}
         className={`${
           mobile ? 'hidden' : 'flex'
-        } h-full min-h-[304px] transition-[filter] duration-300 hover:brightness-150 ${height} drop-shadow-level1 h-[304px] min-w-[224px] flex-col items-start justify-center overflow-hidden rounded-lg bg-light-100 bg-cover bg-center font-body font-bold md:flex md:min-w-[288px] lg:w-full`}
+        } h-full min-h-[304px] transition-[filter] duration-300 hover:brightness-150 ${height} drop-shadow-level1 h-[304px] min-w-[224px] flex-col items-start justify-center overflow-hidden rounded-lg bg-light-100 bg-cover bg-center font-body font-bold md:flex md:min-w-[288px] lg:w-full xl:min-w-[224px] 2xl:min-w-[288px]`}
       >
         {type === 'séances' ? (
           <div className="flex h-full flex-col items-start justify-between p-4 md:p-6">

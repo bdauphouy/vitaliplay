@@ -63,7 +63,7 @@ const WellBeingEnergy = () => {
         Je me suis senti(e) plein(e) d’énergie et vigoureux(se)
       </Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
-        <div className="grid grid-cols-3 gap-x-4 gap-y-6 lg:flex lg:flex-wrap">
+        <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
           {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
             return (
               <div key={i}>

@@ -101,11 +101,6 @@ const SiteNav = () => {
             }}
           ></div>
           {sitePages.map((sitePage, i) => {
-            console.log(
-              router.asPath,
-              getPage(sitePages, 'pageName', 'Accueil').path,
-              sitePage.pageName
-            )
             return (
               <li
                 key={i}

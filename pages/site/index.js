@@ -67,9 +67,7 @@ const Home = ({ home }) => {
 
         <div className="relative mt-6 h-96 max-h-[1080px] w-72 self-end shadow-image-sm lg:mt-20 lg:h-4/5 lg:w-2/5 lg:self-stretch lg:shadow-image-lg">
           <Image
-            src={getStrapiMedia(
-              home.main_image.data.attributes.formats.thumbnail
-            )}
+            src={getStrapiMedia(home.main_image.data.attributes)}
             alt="homepage"
             layout="fill"
             placeholder="blur"
@@ -105,6 +103,7 @@ const Home = ({ home }) => {
             <Image src={yellowOrange} alt="yellow-orange" />
           </div>
           {home.solutions.map((solution, i) => {
+            // console.log(solution)
             return (
               <div
                 key={solution.id}
@@ -160,9 +159,9 @@ const Home = ({ home }) => {
               <div key={i} className="relative h-20 w-36 sm:h-28 sm:w-56">
                 <Image
                   src={getStrapiMedia(partner.attributes)}
-                  alt="cocacola"
+                  alt={partner.attributes.alternativeText}
                   layout="fill"
-                  objectFit="cover"
+                  objectFit="contain"
                 />
               </div>
             )
@@ -172,9 +171,9 @@ const Home = ({ home }) => {
               <div key={i} className="relative h-20 w-36 sm:h-28 sm:w-56">
                 <Image
                   src={getStrapiMedia(partner.attributes)}
-                  alt="cocacola"
+                  alt={partner.attributes.alternativeText}
                   layout="fill"
-                  objectFit="cover"
+                  objectFit="contain"
                 />
               </div>
             )

@@ -188,7 +188,7 @@ const WebsiteFooter = () => {
               </Link>
             </h4>
             <h4 className="mt-4 font-body text-sm font-semibold text-light-100">
-              Vitaliplay &copy; 2021
+              Vitaliplay &copy; 2022
             </h4>
           </div>
         </div>
@@ -303,7 +303,7 @@ const WebsiteFooter = () => {
               </Link>
             </h4>
             <h4 className="mt-4 font-body text-sm font-semibold text-light-100">
-              Vitaliplay &copy; 2021
+              Vitaliplay &copy; 2022
             </h4>
           </div>
         </div>

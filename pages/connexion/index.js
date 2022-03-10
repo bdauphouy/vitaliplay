@@ -12,9 +12,19 @@ import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { postAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
+import { useState } from 'react'
+import Error from '@/components/utils/Error'
 
 const LoginStart = () => {
   const router = useRouter()
+
+  const [loading, setLoading] = useState(false)
+
+  const [serverSideErrors] = useState({
+    'Invalid identifier or password': 'Vos identifiants sont invalides.',
+  })
+
+  const [serverSideError, setServerSideError] = useState()
 
   const formik = useFormik({
     initialValues: {
@@ -22,16 +32,21 @@ const LoginStart = () => {
       password: '',
     },
     validationSchema: LoginSchema,
+
     onSubmit: async (values) => {
+      setLoading(true)
       const res = await postAPI('/auth/local', {
         identifier: values.email,
         password: values.password,
       })
+      setLoading(false)
       if (res.error) {
         console.log(res.error)
-        setServerSideErrors(res.error)
+        setServerSideError(
+          serverSideErrors[res.error.message] || 'Erreur inconnue.'
+        )
       } else {
-        document.cookie = `jwt=${res.jwt}}`
+        document.cookie = `jwt=${res.jwt}`
         setIsAuth(true)
         router.push(`${router.asPath}/confirmation`)
       }
@@ -76,22 +91,30 @@ const LoginStart = () => {
             error={formik.touched.password && formik.errors.password}
           />
         </div>
-        <div className="mt-4 flex flex-wrap gap-4 lg:mt-8 lg:gap-8">
-          <div>
-            <Cta type="primary" buttonType="submit" size={buttonSize}>
-              Se connecter
-            </Cta>
-          </div>
-          <Link
-            href={getPage(otherPages, 'pageName', 'Inscription').path}
-            passHref
-          >
-            <a>
-              <Cta type="secondary" size={buttonSize}>
-                S'inscrire
+        <div className={serverSideError ? 'mt-2' : ''}>
+          {serverSideError && <Error>{serverSideError}</Error>}
+          <div className="mt-4 flex flex-wrap gap-4 lg:gap-8">
+            <div>
+              <Cta
+                loading={loading}
+                type="primary"
+                buttonType="submit"
+                size={buttonSize}
+              >
+                Se connecter
               </Cta>
-            </a>
-          </Link>
+            </div>
+            <Link
+              href={getPage(otherPages, 'pageName', 'Inscription').path}
+              passHref
+            >
+              <a>
+                <Cta type="secondary" size={buttonSize}>
+                  S'inscrire
+                </Cta>
+              </a>
+            </Link>
+          </div>
         </div>
       </form>
     </div>
