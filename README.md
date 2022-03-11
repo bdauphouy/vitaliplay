@@ -1,29 +1,25 @@
-# Next.js + Tailwind CSS Example
+![vitaliplay thumbnail](public/vitaliplay-thumbnail.png)
 
-This example shows how to use [Tailwind CSS](https://tailwindcss.com/) [(v2.2)](https://blog.tailwindcss.com/tailwindcss-2-2) with Next.js. It follows the steps outlined in the official [Tailwind docs](https://tailwindcss.com/docs/guides/nextjs).
+<div align="center">
+  <h3>Vitaliplay · <a target="_blank" href="http://vitaliplay.eltha.fr">vitaliplay.eltha.fr</a></h3>
+  <img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" alt="next js">
+  <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwind css">
+  <img src="https://img.shields.io/badge/strapi-%232E7EEA.svg?style=for-the-badge&logo=strapi&logoColor=white" alt="strapi">
+</div>
 
-It uses the new [`Just-in-Time Mode`](https://tailwindcss.com/docs/just-in-time-mode) for Tailwind CSS.
+<hr>
 
-## Preview
+Vitaliplay est une plateforme qui a pour but de permettre aux jeunes retraités et personnes agées d'assister à des séances de sport à distance.
 
-Preview the example live on [StackBlitz](http://stackblitz.com/):
+Les fondateurs Thomas et Guillaume RIOU voulaient permettre aux personnes agées, ou dites sénior, qui ont plus difficilement accès à de bonnes pratiques sportives adaptées à leurs conditions physiques, de pouvoir entretenir leur corps et leur santé dans le confort de leur maison.
 
-[![Open in StackBlitz](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/vercel/next.js/tree/canary/examples/with-tailwindcss)
+### Equipe
 
-## Deploy your own
+- Damien JOUVE - Chef de projet
+- Canan YESILALTAY - Responsable projet
+- Théa DOS SANTOS - Lead dev
+- Baptiste DAUPHOUY - Frontend dev
 
-Deploy the example using [Vercel](https://vercel.com?utm_source=github&utm_medium=readme&utm_campaign=next-example):
+<br>
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/git/external?repository-url=https://github.com/vercel/next.js/tree/canary/examples/with-tailwindcss&project-name=with-tailwindcss&repository-name=with-tailwindcss)
-
-## How to use
-
-Execute [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app) with [npm](https://docs.npmjs.com/cli/init) or [Yarn](https://yarnpkg.com/lang/en/docs/cli/create/) to bootstrap the example:
-
-```bash
-npx create-next-app --example with-tailwindcss with-tailwindcss-app
-# or
-yarn create next-app --example with-tailwindcss with-tailwindcss-app
-```
-
-Deploy it to the cloud with [Vercel](https://vercel.com/new?utm_source=github&utm_medium=readme&utm_campaign=next-example) ([Documentation](https://nextjs.org/docs/deployment)).
+<p align="center">3 novembre 2021 - 7 mars 2022<p>
