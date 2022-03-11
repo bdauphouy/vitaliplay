@@ -12,6 +12,7 @@ import {
 } from '@/components/utils/Icons'
 import { LinksContext } from '@/contexts/LinksContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import Title from '@/components/utils/Title'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -104,6 +105,7 @@ const SiteNav = () => {
             />
           </div>
         </Link>
+
         <ul className="relative flex h-full items-center">
           <div
             className="absolute bottom-0 h-1 bg-blue-900 transition"
@@ -181,6 +183,7 @@ const SiteNav = () => {
 
           <Burger menu={menu} setMenu={setMenu} />
         </div>
+
         <div
           className={`${
             menu
@@ -191,8 +194,29 @@ const SiteNav = () => {
           } absolute top-full left-0 w-full overflow-hidden bg-white px-6 transition duration-500 md:px-24`}
           style={{ transitionProperty: 'max-height' }}
         >
-          <div className="mb-8 flex flex-col-reverse">
-            <ul>
+          <div className="mb-8 flex flex-col">
+            <div className="flex items-center gap-6 border-b-1 border-solid pb-6 xl:hidden">
+              <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover sm:min-h-[96px] sm:min-w-[96px]"></div>
+              <div>
+                <Title type="5">Guillaume Clerisseau</Title>
+                <Link
+                  href={getPage(accountPages, 'pageName', 'Profil').path}
+                  passHref
+                >
+                  <a>
+                    <Cta
+                      size="m"
+                      type="link"
+                      arrow="right"
+                      textColor="text-blue-900"
+                    >
+                      Accéder à mon profil
+                    </Cta>
+                  </a>
+                </Link>
+              </div>
+            </div>
+            <ul className="mt-2">
               {accountPages.map((accountPage, i) => {
                 if (hiddenPages.includes(accountPage.pageName)) return
 

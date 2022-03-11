@@ -14,7 +14,9 @@ const ProfileLogout = () => {
     setIsAuth(false)
   }, [])
 
-  return 'Déconnexion...'
+  return (
+    <div className="p-6 font-body text-base text-dark-900">Déconnexion...</div>
+  )
 }
 
 export default ProfileLogout

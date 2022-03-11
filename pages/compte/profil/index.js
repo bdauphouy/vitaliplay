@@ -2,6 +2,11 @@ import Subtitle from '@/components/utils/Subtitle'
 import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
+import { UploadProfilePicture } from '@/components/utils/Icons'
+import { useRef } from 'react'
+import { useEffect } from 'react'
+import { useCallback } from 'react'
+import { useState } from 'react'
 
 export const Section = ({ id, icon, title, path = '/' }) => {
   const router = useRouter()
@@ -22,10 +27,42 @@ export const Section = ({ id, icon, title, path = '/' }) => {
 }
 
 const Profile = () => {
+  const updateProfilePictureInput = useRef()
+
+  const getImage = () => {
+    console.log(updateProfilePictureInput.current.files[0])
+  }
+
+  const handleProfilePictureUpdate = () => {
+    updateProfilePictureInput.current.addEventListener('input', getImage)
+  }
+
+  useEffect(() => {
+    return (
+      () => updateProfilePictureInput.current,
+      removeEventListener('input', getImage)
+    )
+  }, [])
+
   return (
-    <div className="mx-auto mt-20 h-[calc(100vh_-_165px)] max-w-4xl py-10 md:px-24 lg:py-20">
+    <div className="mx-auto mt-20 min-h-[calc(100vh-165px)] max-w-4xl py-10 md:px-24 lg:pt-20">
       <div className="flex flex-col items-center">
-        <div className="mb-6 h-36 w-36 rounded-full bg-dark-100 lg:mb-8"></div>
+        <label
+          htmlFor="update-profile-picture"
+          onClick={handleProfilePictureUpdate}
+          className="group relative mb-6 h-36 w-36 cursor-pointer rounded-full bg-dark-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover lg:mb-8"
+        >
+          <button className="absolute right-0 bottom-0 rounded-full border-2 border-solid border-transparent bg-blue-100 p-2 transition-[border-color] duration-200 group-hover:border-blue-900">
+            <UploadProfilePicture />
+          </button>
+        </label>
+        <input
+          id="update-profile-picture"
+          ref={updateProfilePictureInput}
+          accept="image/png, image/jpeg"
+          type="file"
+          className="hidden"
+        />
         <h2 className="text-center font-head text-lg font-bold text-dark-900 md:text-xl">
           Guillaume Clerisseau
         </h2>

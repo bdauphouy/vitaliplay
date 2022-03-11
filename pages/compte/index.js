@@ -64,11 +64,11 @@ const Account = () => {
           <Title type="5">Votre récapitulatif</Title>
           <div className="mt-6 rounded-lg px-6 py-8 shadow-level1">
             <div className="flex items-center gap-6">
-              <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 sm:min-h-[96px] sm:min-w-[96px]"></div>
+              <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover sm:min-h-[96px] sm:min-w-[96px]"></div>
               <div>
                 <Title type="5">Guillaume Clerisseau</Title>
                 <Link
-                  href={getPage(checkupPages, 'pageName', 'Bilan')}
+                  href={getPage(checkupPages, 'pageName', 'Bilan').path}
                   passHref
                 >
                   <a>
@@ -90,7 +90,6 @@ const Account = () => {
               </h3>
               <div className="mt-4 flex flex-wrap gap-4">
                 <Link
-                  // href={`${getRewriteByPage('Mon espace santé')}/bilans/1`}
                   href={`${
                     getPage(accountPages, 'pageName', 'Mon espace santé').path
                   }/bilans/1`}
