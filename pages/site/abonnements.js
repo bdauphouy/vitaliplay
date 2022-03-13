@@ -133,12 +133,12 @@ const Subscription = ({ subscriptions, home }) => {
               FAQ
             </Title>
             <div className="mt-12">
-              {subscriptions.faq?.map((item) => {
+              {subscriptions.faqs?.data.map((item) => {
                 return (
                   <Faq
                     key={item.id}
-                    question={item.question}
-                    answer={item.answer}
+                    question={item.attributes.question}
+                    answer={item.attributes.answer}
                   />
                 )
               })}

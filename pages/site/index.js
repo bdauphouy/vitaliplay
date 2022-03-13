@@ -103,7 +103,6 @@ const Home = ({ home }) => {
             <Image src={yellowOrange} alt="yellow-orange" />
           </div>
           {home.solutions.map((solution, i) => {
-            // console.log(solution)
             return (
               <div
                 key={solution.id}
