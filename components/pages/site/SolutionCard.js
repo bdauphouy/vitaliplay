@@ -28,7 +28,10 @@ const SolutionCard = ({
         {description}
       </p>
       <div className="mt-8">
-        <Link href={getPage(sitePages, 'pageName', 'Notre solution')}>
+        <Link
+          href={getPage(sitePages, 'pageName', 'Notre solution').path}
+          passHref
+        >
           <a>
             <Cta size="m" type="link" arrow="right" textColor="text-dark-500">
               En savoir plus

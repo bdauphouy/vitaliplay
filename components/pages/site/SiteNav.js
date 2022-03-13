@@ -12,7 +12,6 @@ import {
 } from '@/components/utils/Icons'
 import { LinksContext } from '@/contexts/LinksContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { route } from 'next/dist/server/router'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -78,10 +77,7 @@ const SiteNav = () => {
 
   return (
     <>
-      <nav
-        className="fixed top-0 z-50 hidden h-20 w-full items-center justify-between bg-light-100 px-6 shadow-level1 md:px-24 xl:flex
-    "
-      >
+      <nav className="fixed top-0 z-50 hidden h-20 w-full items-center justify-between bg-light-100 px-6 shadow-level1 md:px-24 xl:flex">
         <Link href={getPage(sitePages, 'pageName', 'Accueil').path} passHref>
           <div className="relative w-34 cursor-pointer self-stretch md:w-44">
             <Image
@@ -133,10 +129,7 @@ const SiteNav = () => {
           </li>
         </ul>
       </nav>
-      <nav
-        className="fixed top-0 z-50 flex w-full flex-col bg-light-100 px-6 shadow-level1 md:px-24 xl:hidden
-    "
-      >
+      <nav className="fixed top-0 z-50 flex w-full flex-col bg-light-100 px-6 shadow-level1 md:px-24 xl:hidden">
         <div className="flex h-20 w-full items-center justify-between">
           <Link href={getPage(sitePages, 'pageName', 'Accueil').path} passHref>
             <div className="relative w-34 cursor-pointer self-stretch md:w-44">
@@ -169,12 +162,8 @@ const SiteNav = () => {
                     <Link href={sitePage.path}>
                       <a
                         className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold ${
-                          sitePage.pageName === 'Accueil'
-                            ? router.asPath ===
-                              getPage(sitePages, 'pageName', 'Accueil').path
-                              ? 'text-blue-900'
-                              : 'text-dark-300'
-                            : router.asPath.startsWith(sitePage.path)
+                          router.route ===
+                          '/site' + (sitePage.path === '/' ? '' : sitePage.path)
                             ? 'text-blue-900'
                             : 'text-dark-300'
                         }`}
