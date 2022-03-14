@@ -102,11 +102,15 @@ export const LinksContextProvider = ({ children }) => {
     },
     {
       pageName: 'Mentions légales',
-      path: '/mentions-legales',
+      path: '/mentions-legales.pdf',
     },
     {
-      pageName: "Conditions d'utilisation",
-      path: '/conditions-d-utilisation',
+      pageName: 'Conditions générales de vente',
+      path: '/cgv.pdf',
+    },
+    {
+      pageName: 'Politique de protection des données',
+      path: '/protection-donnees.pdf',
     },
   ])
 

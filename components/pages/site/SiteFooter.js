@@ -64,7 +64,7 @@ const WebsiteFooter = () => {
           </div>
         </div>
         <div className="-mt-40 bg-blue-900 px-24 pb-7 pt-56">
-          <div className="mx-auto flex max-w-screen-3xl flex-wrap justify-between">
+          <div className="mx-auto flex max-w-screen-3xl flex-wrap justify-between gap-4">
             <div className="self-start">
               <Link
                 href={getPage(sitePages, 'pageName', 'Accueil').path}
@@ -81,7 +81,7 @@ const WebsiteFooter = () => {
                 </a>
               </Link>
             </div>
-            <ul className="-mt-2 pl-8">
+            <ul className="ml-8 -mt-2">
               {sitePages.map((sitePage, i) => {
                 if (
                   ![
@@ -102,7 +102,7 @@ const WebsiteFooter = () => {
                 }
               })}
             </ul>
-            <ul className="-mt-2 px-8">
+            <ul className="-mt-2">
               <li>
                 <Link
                   href={
@@ -117,12 +117,30 @@ const WebsiteFooter = () => {
               <li>
                 <Link
                   href={
-                    getPage(otherPages, 'pageName', "Conditions d'utilisation")
-                      .path
+                    getPage(
+                      otherPages,
+                      'pageName',
+                      'Conditions générales de vente'
+                    ).path
                   }
                 >
                   <a className="inline-block py-2 font-body text-base font-semibold text-light-100 transition-[color] duration-300 hover:text-light-80">
-                    Conditions d'utilisation
+                    Conditions générales de vente
+                  </a>
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href={
+                    getPage(
+                      otherPages,
+                      'pageName',
+                      'Politique de protection des données'
+                    ).path
+                  }
+                >
+                  <a className="inline-block py-2 font-body text-base font-semibold text-light-100 transition-[color] duration-300 hover:text-light-80">
+                    Politique de protection des données
                   </a>
                 </Link>
               </li>
@@ -232,10 +250,7 @@ const WebsiteFooter = () => {
                   <li key={i}>
                     <Link href={sitePage.path}>
                       <a
-                        className={`${
-                          // To see later, but it doesn't work
-                          sitePage.pageName === 'Mentions légales' ? 'mt-8' : ''
-                        } inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
+                        className={`inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
                       >
                         {sitePage.pageName}
                       </a>
@@ -244,6 +259,34 @@ const WebsiteFooter = () => {
                 )
               }
             })}
+            <li className="mt-8">
+              <Link
+                href={getPage(otherPages, 'pageName', 'Mentions légales').path}
+              >
+                <a
+                  className={`inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
+                >
+                  Mentions légales
+                </a>
+              </Link>
+            </li>
+            <li>
+              <Link
+                href={
+                  getPage(
+                    otherPages,
+                    'pageName',
+                    'Conditions générales de vente'
+                  ).path
+                }
+              >
+                <a
+                  className={`inline-flex h-full w-full items-center py-2 font-body text-base font-semibold text-light-100`}
+                >
+                  Conditions générales de vente
+                </a>
+              </Link>
+            </li>
           </ul>
           <h3 className="mt-8 py-2 font-body text-base font-semibold text-light-100">
             Nous retrouver :
