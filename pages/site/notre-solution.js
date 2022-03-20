@@ -9,6 +9,8 @@ import SiteLayout from '@/components/layouts/SiteLayout'
 export const getStaticProps = async () => {
   const ourSolution = await fetchAPI('/home-solution')
 
+  console.log(ourSolution)
+
   return { props: { ourSolution }, revalidate: 10 }
 }
 

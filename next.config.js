@@ -1,6 +1,6 @@
 module.exports = {
   images: {
-    domains: ['54.36.101.23'],
+    domains: ['test.vitaliplay.eltha.fr'],
   },
   async rewrites() {
     return [
