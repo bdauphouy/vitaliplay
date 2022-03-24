@@ -10,6 +10,7 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import SiteLayout from '@/components/layouts/SiteLayout'
+import { postAPI } from '@/lib/api'
 
 const Contact = () => {
   const formik = useFormik({
@@ -21,8 +22,16 @@ const Contact = () => {
       message: '',
     },
     validationSchema: ContactSchema,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: (values, { resetForm }) => {
+      postAPI("/contacts", {
+          name: values.firstName,
+          firstname: values.lastName,
+          email: values.email,
+          phone: values.phoneNumber,
+          message: values.message
+      })
+      // Todo confirm to the user if the message was sended correctly
+      resetForm()
     },
   })
 
