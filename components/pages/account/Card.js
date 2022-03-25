@@ -1,5 +1,4 @@
 import Tag from './Tag'
-import PropTypes from 'prop-types'
 
 const Card = ({
   tagType = '1',
@@ -68,18 +67,6 @@ const Card = ({
       )}
     </>
   )
-}
-
-Card.propTypes = {
-  tagType: PropTypes.oneOf(['1', '2', '3', '4']),
-  type: PropTypes.oneOf(['catégorie', 'séances', 'programme']),
-  title: PropTypes.string,
-  subtitle: PropTypes.string,
-  duration: PropTypes.string,
-  level: PropTypes.string,
-  bg: PropTypes.string,
-  height: PropTypes.string,
-  mobile: PropTypes.bool,
 }
 
 export default Card

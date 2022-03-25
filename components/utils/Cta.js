@@ -1,6 +1,5 @@
 import { ArrowLeft, ArrowRight } from './Icons'
 import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 
 const Spin = () => {
   return (
@@ -129,16 +128,6 @@ const Cta = ({
       {arrow === 'right' && <ArrowRight color={arrowColor} size={arrowSize} />}
     </button>
   )
-}
-
-Cta.propTypes = {
-  children: PropTypes.string,
-  size: PropTypes.oneOf(['s', 'm', 'l', 'xl']),
-  buttonType: PropTypes.string,
-  type: PropTypes.oneOf(['primary', 'secondary', 'disabled', 'link']),
-  arrow: PropTypes.oneOf(['left', 'right']),
-  invert: PropTypes.bool,
-  textColor: PropTypes.string,
 }
 
 export default Cta

@@ -1,5 +1,4 @@
 import { CheckMark } from './Icons'
-import PropTypes from 'prop-types'
 
 const Checkbox = ({
   children = 'Choice',
@@ -26,19 +25,22 @@ const Checkbox = ({
           }}
           className={`${
             checked
-              ? 'bg-blue-50 border-blue-900 text-blue-900'
-              : 'bg-light-100 border-dark-300 text-dark-500'
-          } flex items-center gap-4 px-5 py-3 text-md font-body transition cursor-pointer rounded-lg shadow-level1 font-bold border-solid border-1`}>
+              ? 'border-blue-900 bg-blue-50 text-blue-900'
+              : 'border-dark-300 bg-light-100 text-dark-500'
+          } flex cursor-pointer items-center gap-4 rounded-lg border-1 border-solid px-5 py-3 font-body text-md font-bold shadow-level1 transition`}
+        >
           <div
             style={{ transitionProperty: 'background-color, border-color' }}
-            className={`max-w-5 max-h-5 flex justify-center items-center rounded-full border-solid border-2 transition relative check-mark ${
+            className={`max-w-5 check-mark relative flex max-h-5 items-center justify-center rounded-full border-2 border-solid transition ${
               checked
                 ? 'border-blue-900 bg-blue-900'
                 : 'border-dark-500 bg-transparent'
-            }`}>
+            }`}
+          >
             <div
               style={{ transitionProperty: 'opacity' }}
-              className={`transition ${checked ? 'opacity-100' : 'opacity-0'}`}>
+              className={`transition ${checked ? 'opacity-100' : 'opacity-0'}`}
+            >
               <CheckMark color="#FFFFFF" size={12} />
             </div>
           </div>
@@ -47,14 +49,6 @@ const Checkbox = ({
       </label>
     </div>
   )
-}
-
-Checkbox.propTypes = {
-  children: PropTypes.string,
-  id: PropTypes.string,
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  checked: PropTypes.bool,
 }
 
 export default Checkbox

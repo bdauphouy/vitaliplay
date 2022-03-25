@@ -1,6 +1,5 @@
 import { ChevronDown } from './Icons'
 import { useState, useEffect } from 'react'
-import PropTypes from 'prop-types'
 
 const Dropdown = ({
   options = ['Option 1', 'Option 2', 'Option 3'],
@@ -64,13 +63,6 @@ const Dropdown = ({
       </div>
     </>
   )
-}
-
-Dropdown.propTypes = {
-  options: PropTypes.array,
-  defaultOption: PropTypes.string,
-  getOption: PropTypes.func,
-  label: PropTypes.string,
 }
 
 export default Dropdown

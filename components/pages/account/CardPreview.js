@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'
 import { ChevronRight } from '../../utils/Icons'
-import PropTypes from 'prop-types'
 
 const CardPreview = ({
   title = 'This is a card preview',
@@ -44,13 +43,6 @@ const CardPreview = ({
       </div>
     </div>
   )
-}
-
-CardPreview.propTypes = {
-  title: PropTypes.string,
-  duration: PropTypes.string,
-  level: PropTypes.string,
-  type: PropTypes.oneOf(['1', '2', '3', '4']),
 }
 
 export default CardPreview

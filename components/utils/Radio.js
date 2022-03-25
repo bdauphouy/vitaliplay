@@ -1,5 +1,4 @@
 import { useMediaQuery } from '@mui/material'
-import PropTypes from 'prop-types'
 import { CheckMark } from './Icons'
 
 const Radio = ({
@@ -71,23 +70,6 @@ const Radio = ({
       )}
     </div>
   )
-}
-
-Radio.propTypes = {
-  children: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.element,
-    PropTypes.number,
-  ]),
-  id: PropTypes.string,
-  name: PropTypes.string,
-  onChange: PropTypes.func,
-  checked: PropTypes.bool,
-  number: PropTypes.bool,
-  label: PropTypes.string,
-  center: PropTypes.bool,
-  padding: PropTypes.string,
-  type: PropTypes.string,
 }
 
 export default Radio

@@ -1,6 +1,5 @@
 import showdown from 'showdown'
 import { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 
 const Title = ({
   children = 'This is a title',
@@ -42,7 +41,8 @@ const Title = ({
                 .split('<strong>')
                 .join('<strong class="type-2">')
             : converter?.makeHtml(children),
-      }}></TitleTag>
+      }}
+    ></TitleTag>
   ) : (
     <TitleTag
       className={`font-head font-bold
@@ -58,19 +58,11 @@ const Title = ({
         : type === '5'
         ? 'text-[1.25rem] md:text-xl'
         : 'text-base'
-    } ${center && 'text-center'} ${color}`}>
+    } ${center && 'text-center'} ${color}`}
+    >
       {children}
     </TitleTag>
   )
-}
-
-Title.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  color: PropTypes.string,
-  center: PropTypes.bool,
-  type: PropTypes.oneOf(['1', '2', '3', '4', '5']),
-  html: PropTypes.bool,
-  as: PropTypes.oneOf(['h2', 'h3', 'h4', 'h5', 'h6']),
 }
 
 export default Title
