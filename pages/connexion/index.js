@@ -43,7 +43,8 @@ const LoginStart = () => {
       if (res.error) {
         console.log(res.error)
         setServerSideError(
-          serverSideErrors[res.error.message] || 'Erreur inconnue.'
+          serverSideErrors[res.error.message] ||
+            'Erreur lors de la soumission du formulaire'
         )
       } else {
         document.cookie = `jwt=${res.jwt}`
