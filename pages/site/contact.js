@@ -10,8 +10,17 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import SiteLayout from '@/components/layouts/SiteLayout'
+import { postAPI } from '@/lib/api'
+import { useState } from 'react'
+import Error from '@/components/utils/Error'
+import useConfetti from '@/hooks/useConfetti'
 
 const Contact = () => {
+  const [loading, setLoading] = useState(false)
+  const [serverSideError, setServerSideError] = useState()
+
+  const confetti = useConfetti()
+
   const formik = useFormik({
     initialValues: {
       lastName: '',
@@ -21,8 +30,22 @@ const Contact = () => {
       message: '',
     },
     validationSchema: ContactSchema,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values, { resetForm }) => {
+      setLoading(true)
+      const res = await postAPI('/contacts', {
+        name: values.firstName,
+        firstname: values.lastName,
+        email: values.email,
+        phone: values.phoneNumber,
+        message: values.message,
+      })
+      setLoading(false)
+      if (res.error) {
+        setServerSideError('Erreur lors de la soumission du formulaire.')
+      } else {
+        confetti()
+        resetForm()
+      }
     },
   })
 
@@ -99,8 +122,9 @@ const Contact = () => {
               error={formik.touched.message && formik.errors.message}
             />
           </div>
+          {serverSideError && <Error>{serverSideError}</Error>}
           <div className="mt-3 flex justify-center lg:col-span-2 lg:mt-4">
-            <Cta buttonType="submit" size="l" type="primary">
+            <Cta buttonType="submit" size="l" type="primary" loading={loading}>
               Envoyer
             </Cta>
           </div>

@@ -4,16 +4,23 @@ import LoginLayout from '@/components/layouts/LoginLayout'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
+import useConfetti from '@/hooks/useConfetti'
 
 const InvitationConfirm = () => {
-  const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()
 
   const { getPage, surveyPages } = useContext(LinksContext)
+
+  const confetti = useConfetti()
+  const buttonSize = useButtonSize()
+
+  useEffect(() => {
+    confetti()
+  }, [confetti])
 
   return (
     <div className="absolute left-1/2 flex w-full -translate-x-1/2 transform flex-col items-center px-6 md:px-24 lg:max-w-3xl">

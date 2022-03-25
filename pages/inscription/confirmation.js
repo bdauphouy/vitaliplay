@@ -2,18 +2,24 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import Cta from '@/components/utils/Cta'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import useButtonSize from '@/hooks/useButtonSize'
 import Link from 'next/link'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
+import useConfetti from '@/hooks/useConfetti'
 
 const SignupConfirm = () => {
   const { getPage, sitePages, otherPages } = useContext(LinksContext)
   const congratsSize = useCongratsSize()
 
+  const confetti = useConfetti()
   const buttonSize = useButtonSize()
+
+  useEffect(() => {
+    confetti()
+  }, [confetti])
 
   return (
     <div className="absolute left-1/2 flex w-full -translate-x-1/2 transform flex-col items-center px-6 md:px-24 lg:max-w-3xl">
