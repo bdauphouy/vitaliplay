@@ -109,7 +109,7 @@ const Home = ({ home }) => {
                 className={`lg:max-w-lg ${(i + 2) % 2 !== 0 ? 'lg:mt-16' : ''}`}
               >
                 <SolutionCard
-                  icon={getStrapiMedia(solution?.icon)}
+                  icon={getStrapiMedia(solution?.image.data.attributes)}
                   title={solution.title}
                   description={solution.description}
                   variant={
@@ -132,18 +132,16 @@ const Home = ({ home }) => {
           </div>
         </div>
         <div className="relative mt-10 h-112 w-80 self-end lg:mt-0 lg:h-full lg:w-2/5 lg:self-stretch">
-          {home.video.data && (
-            <Image
-              src={getStrapiMedia(home.video?.data?.attributes.formats.medium)}
-              alt="homepage"
-              layout="fill"
-              placeholder="blur"
-              blurDataURL={getStrapiMedia(
-                home.video?.data?.attributes.thumbnail
-              )}
-              objectFit="cover"
-            />
-          )}
+          <Image
+            src={getStrapiMedia(home.video.video?.data.attributes)}
+            alt="homepage"
+            layout="fill"
+            placeholder="blur"
+            blurDataURL={getStrapiMedia(
+              home.video.video?.data.attributes.formats.thumbnail
+            )}
+            objectFit="cover"
+          />
         </div>
       </div>
       <div className="mx-auto mt-16 max-w-screen-3xl px-6 md:px-24 lg:mt-36">

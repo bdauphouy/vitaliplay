@@ -44,7 +44,7 @@ const Subscription = ({ subscriptions, home }) => {
               size="big"
               stamp={true}
               subPage={true}
-              // program={subscriptions.prices[1].price_points}
+              program={subscriptions.prices[1].price_points}
             />
           </div>
           <div className="w-full lg:order-1 lg:w-96 lg:py-8">
@@ -55,7 +55,7 @@ const Subscription = ({ subscriptions, home }) => {
               description={home.prices.data[1].attributes.description}
               size="small"
               subPage={true}
-              // program={subscriptions.prices[0].price_points}
+              program={subscriptions.prices[0].price_points}
             />
           </div>
           <div className="w-full self-stretch lg:order-3 lg:w-96 lg:py-8">

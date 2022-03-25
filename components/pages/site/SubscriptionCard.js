@@ -16,12 +16,7 @@ const SubscriptionCard = ({
   stamp = false,
   stampValue = 32,
   subPage = false,
-  program = [
-    { point: 'Lorem ipsum ut dolor' },
-    { point: 'Lorem ipsum ut dolor' },
-    { point: 'Lorem ipsum ut dolor' },
-    { point: 'Lorem ipsum ut dolor' },
-  ],
+  program = [],
 }) => {
   const [stampSize, setStampSize] = useState()
 

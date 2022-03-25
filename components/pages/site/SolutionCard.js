@@ -14,7 +14,7 @@ const SolutionCard = ({
 
   return (
     <div
-      className={`flex min-h-72 w-full flex-col items-start justify-between rounded-lg px-4 py-4 pt-7 sm:px-8 sm:pt-11 ${
+      className={`flex min-h-72 w-full flex-col items-start justify-between rounded-lg px-4 py-4 sm:px-8 sm:pt-8 ${
         variant === 'blue'
           ? 'bg-blue-50'
           : 'border-1 border-solid border-gray-200 bg-light-100'

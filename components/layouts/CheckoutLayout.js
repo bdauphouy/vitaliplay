@@ -52,12 +52,17 @@ const CheckoutLayout = ({ children }) => {
         <div className="lg:flex-[3]">
           {children}
           <p className="my-14 block px-6 font-body text-sm text-dark-300 md:px-24 lg:hidden">
-            *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eleifend
-            sapien vitae aenean malesuada scelerisque. Sagittis in in habitant
-            venenatis iaculis pellentesque quis justo nisi. Hac enim in nisi,
-            consectetur morbi lacinia libero. Ac arcu ac metus, nulla est
-            ultricies netus malesuada. Est est, sit neque, dui mattis. Ut sed
-            diam, morbi parturient imperdiet potenti libero.
+            *En procédant au paiement, vous confirmez accepter les{' '}
+            <a
+              className="text-blue-900 transition-[color] hover:text-blue-500"
+              href={
+                getPage(otherPages, 'pageName', 'Conditions générales de vente')
+                  .path
+              }
+            >
+              conditions générales de vente
+            </a>
+            .
           </p>
         </div>
         <aside className="flex flex-col justify-between bg-light-100 px-6 pt-24 pb-6 shadow-level1 md:px-24 lg:min-w-[400px] lg:flex-[2] lg:px-14 lg:pt-36 lg:pb-10">
