@@ -11,8 +11,9 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import { LinksContext } from '@/contexts/LinksContext'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
+import useConfetti from '@/hooks/useConfetti'
 
 const CheckoutSuccess = () => {
   const buttonSize = useButtonSize()
@@ -21,6 +22,11 @@ const CheckoutSuccess = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   const { getPage, accountPages } = useContext(LinksContext)
+  const confetti = useConfetti()
+
+  useEffect(() => {
+    confetti()
+  }, [confetti])
 
   const router = useRouter()
 

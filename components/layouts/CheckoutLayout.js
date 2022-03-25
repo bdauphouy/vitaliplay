@@ -4,7 +4,7 @@ import { useFormik } from 'formik'
 import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { useState, useEffect } from 'react'
-import CloseNav from '../utils/CloseNav'
+import CloseNav from '@/components/utils/CloseNav'
 
 const CheckoutLayout = ({ children }) => {
   const formik = useFormik({
@@ -17,7 +17,7 @@ const CheckoutLayout = ({ children }) => {
   })
 
   const router = useRouter()
-  const { getPage, checkoutPages } = useContext(LinksContext)
+  const { getPage, checkoutPages, otherPages } = useContext(LinksContext)
 
   const [currentPath, setCurrentPath] = useState()
 
@@ -112,12 +112,17 @@ const CheckoutLayout = ({ children }) => {
             </div>
           </div>
           <p className="hidden font-body text-sm text-dark-300 lg:block">
-            *Lorem ipsum dolor sit amet, consectetur adipiscing elit. Eleifend
-            sapien vitae aenean malesuada scelerisque. Sagittis in in habitant
-            venenatis iaculis pellentesque quis justo nisi. Hac enim in nisi,
-            consectetur morbi lacinia libero. Ac arcu ac metus, nulla est
-            ultricies netus malesuada. Est est, sit neque, dui mattis. Ut sed
-            diam, morbi parturient imperdiet potenti libero.
+            *En procédant au paiement, vous confirmez accepter les{' '}
+            <a
+              className="text-blue-900 transition-[color] hover:text-blue-500"
+              href={
+                getPage(otherPages, 'pageName', 'Conditions générales de vente')
+                  .path
+              }
+            >
+              conditions générales de vente
+            </a>
+            .
           </p>
         </aside>
       </div>

@@ -26,10 +26,13 @@ const CheckoutConfirm = () => {
   }, [])
 
   useEffect(() => {
-    setCardInfo(
-      store &&
-        JSON.parse(Buffer.from(store?.cardInfo, 'base64').toString('ascii'))
-    )
+    if (store) {
+      if (Object.keys(store).includes('cardInfo')) {
+        setCardInfo(
+          JSON.parse(Buffer.from(store.cardInfo, 'base64').toString('ascii'))
+        )
+      }
+    }
   }, [store])
 
   const formik = useFormik({
@@ -138,7 +141,7 @@ const CheckoutConfirm = () => {
               }
             >
               <Cta size={buttonSize} buttonType="submit">
-                Procéder au paiement
+                Procéder au paiement*
               </Cta>
             </div>
             <div onClick={() => router.back()}>
