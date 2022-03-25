@@ -1,8 +1,6 @@
 import AddButton from '../../utils/AddButton'
 import useMediaQuery from '@mui/material/useMediaQuery'
-import { useEffect, useState, useRef, useMemo } from 'react'
-import PropTypes from 'prop-types'
-import gsap from 'gsap'
+import { useEffect, useState, useRef } from 'react'
 
 const Faq = ({
   question = 'This is question',
@@ -29,7 +27,7 @@ const Faq = ({
 
   return (
     <div>
-      <div className="flex items-center justify-between border-b-1 border-solid px-2 py-4 md:px-6">
+      <div className="flex items-center justify-between px-2 pt-4 md:px-6">
         <p className="pr-8 font-body font-normal text-dark-500">{question}</p>
         <div
           onClick={openDropdown}
@@ -41,20 +39,15 @@ const Faq = ({
       </div>
       <div
         ref={answerSection}
-        className="mt-4 max-h-0 overflow-y-auto duration-700"
+        className="mt-4 mb-4 max-h-0 overflow-y-auto border-b-1 border-solid duration-700"
         style={{ transitionProperty: 'max-height' }}
       >
-        <p className="text-ellipsis pr-8 font-body font-normal text-dark-500">
+        <p className="mb-4 text-ellipsis px-2 pr-8 font-body font-normal text-dark-500 md:px-6">
           {answer}
         </p>
       </div>
     </div>
   )
-}
-
-Faq.propTypes = {
-  question: PropTypes.string,
-  answer: PropTypes.string,
 }
 
 export default Faq
