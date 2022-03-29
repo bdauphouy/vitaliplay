@@ -5,15 +5,15 @@ import Subtitle from '@/components/utils/Subtitle'
 import Cta from '@/components/utils/Cta'
 import { useFormik } from 'formik'
 import LoginSchema from '@/schemas/LoginSchema'
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { postAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
-import { useState } from 'react'
 import Error from '@/components/utils/Error'
+import Success from '@/components/utils/Success'
 
 const LoginStart = () => {
   const router = useRouter()
@@ -25,6 +25,8 @@ const LoginStart = () => {
   })
 
   const [serverSideError, setServerSideError] = useState()
+
+  const [showPasswordMessage, setShowPasswordMessage] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -60,8 +62,23 @@ const LoginStart = () => {
 
   const buttonSize = useButtonSize()
 
+  useEffect(() => {
+    const mdpOublie = router.query['mdp-oublie']
+
+    setShowPasswordMessage(mdpOublie === 'true')
+
+    router.replace(router.route, undefined)
+  }, [])
+
   return (
     <div className="h-full lg:pt-32 xl:mr-20 xl:max-w-3xl">
+      {!showPasswordMessage && (
+        <div className="mb-8">
+          <Success>
+            Un lien pour réinitialiser votre mot de passe vous a été envoyé.
+          </Success>
+        </div>
+      )}
       <Title type="3">Connexion</Title>
       <div className="mt-4">
         <Subtitle>
@@ -104,6 +121,13 @@ const LoginStart = () => {
               >
                 Se connecter
               </Cta>
+              <Link href={`${router.asPath}/mot-de-passe-oublie`}>
+                <a className="mt-4 inline-block">
+                  <Cta type="link" arrow="right">
+                    Mot de passe oublié ?
+                  </Cta>
+                </a>
+              </Link>
             </div>
             <Link
               href={getPage(otherPages, 'pageName', 'Inscription').path}
