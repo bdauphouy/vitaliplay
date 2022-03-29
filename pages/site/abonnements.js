@@ -137,8 +137,8 @@ const Subscription = ({ subscriptions, home }) => {
                 return (
                   <Faq
                     key={item.id}
-                    question={item.attributes.question}
-                    answer={item.attributes.answer}
+                    question={item.question}
+                    answer={item.answer}
                   />
                 )
               })}

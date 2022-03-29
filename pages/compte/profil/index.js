@@ -3,10 +3,7 @@ import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 import { UploadProfilePicture } from '@/components/utils/Icons'
-import { useRef } from 'react'
-import { useEffect } from 'react'
-import { useCallback } from 'react'
-import { useState } from 'react'
+import { useRef, useEffect } from 'react'
 
 export const Section = ({ id, icon, title, path = '/' }) => {
   const router = useRouter()
@@ -33,15 +30,10 @@ const Profile = () => {
     console.log(updateProfilePictureInput.current.files[0])
   }
 
-  const handleProfilePictureUpdate = () => {
-    updateProfilePictureInput.current.addEventListener('input', getImage)
-  }
-
   useEffect(() => {
-    return (
-      () => updateProfilePictureInput.current,
-      removeEventListener('input', getImage)
-    )
+    updateProfilePictureInput.current.addEventListener('input', getImage)
+    // return () =>
+    //   updateProfilePictureInput.current.removeEventListener('input', getImage)
   }, [])
 
   return (
@@ -49,7 +41,6 @@ const Profile = () => {
       <div className="flex flex-col items-center">
         <label
           htmlFor="update-profile-picture"
-          onClick={handleProfilePictureUpdate}
           className="group relative mb-6 h-36 w-36 cursor-pointer rounded-full bg-dark-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover lg:mb-8"
         >
           <button className="absolute right-0 bottom-0 rounded-full border-2 border-solid border-transparent bg-blue-100 p-2 transition-[border-color] duration-200 group-hover:border-blue-900">

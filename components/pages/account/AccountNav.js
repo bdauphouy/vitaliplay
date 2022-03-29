@@ -89,6 +89,8 @@ const SiteNav = () => {
     })
   }, [router, isExtraLargeScreen])
 
+  const closeNav = () => setMenu(false)
+
   return (
     <>
       <nav
@@ -203,7 +205,7 @@ const SiteNav = () => {
                   href={getPage(accountPages, 'pageName', 'Profil').path}
                   passHref
                 >
-                  <a>
+                  <a onClick={closeNav}>
                     <Cta
                       size="m"
                       type="link"
@@ -221,7 +223,7 @@ const SiteNav = () => {
                 if (hiddenPages.includes(accountPage.pageName)) return
 
                 return (
-                  <li key={i}>
+                  <li onClick={closeNav} key={i}>
                     <Link href={accountPage.path}>
                       <a
                         className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold ${
