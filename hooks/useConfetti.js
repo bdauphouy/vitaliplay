@@ -8,7 +8,10 @@ const useConfetti = () => {
     setJsConfetti(new JSConfetti())
   }, [])
 
-  return () => jsConfetti?.addConfetti()
+  return () =>
+    jsConfetti?.addConfetti({
+      confettiColors: ['#1778f2', '#26c196', '#ff917f', '#f9f871'],
+    })
 }
 
 export default useConfetti
