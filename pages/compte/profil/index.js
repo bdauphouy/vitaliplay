@@ -73,7 +73,7 @@ const Profile = () => {
           </Subtitle>
         </div>
       </div>
-      <div className="mt-10 border-1 border-dark-100 md:rounded-lg">
+      <div className="mt-10 overflow-hidden border-1 border-dark-100 md:rounded-lg">
         <Section
           id="0"
           title="Informations personnelles"

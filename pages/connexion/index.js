@@ -72,7 +72,7 @@ const LoginStart = () => {
 
   return (
     <div className="h-full lg:pt-32 xl:mr-20 xl:max-w-3xl">
-      {!showPasswordMessage && (
+      {showPasswordMessage && (
         <div className="mb-8">
           <Success>
             Un lien pour réinitialiser votre mot de passe vous a été envoyé.

@@ -287,6 +287,21 @@ const WebsiteFooter = () => {
                 </a>
               </Link>
             </li>
+            <li>
+              <Link
+                href={
+                  getPage(
+                    otherPages,
+                    'pageName',
+                    'Politique de protection des données'
+                  ).path
+                }
+              >
+                <a className="inline-block py-2 font-body text-base font-semibold text-light-100 transition-[color] duration-300 hover:text-light-80">
+                  Politique de protection des données
+                </a>
+              </Link>
+            </li>
           </ul>
           <h3 className="mt-8 py-2 font-body text-base font-semibold text-light-100">
             Nous retrouver :

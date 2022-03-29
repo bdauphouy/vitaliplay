@@ -5,7 +5,7 @@ import CloseNav from '@/components/utils/CloseNav'
 
 const CheckupLayout = ({ children }) => {
   const [achievedSteps, setAchievedSteps] = useState([[0, 1, 2], [0]])
-  const { getPage, checkupPages } = useContext(LinksContext)
+  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
   const [currentPath, setCurrentPath] = useState('/bilan')
   const router = useRouter()
 
@@ -48,7 +48,7 @@ const CheckupLayout = ({ children }) => {
 
   return (
     <>
-      <CloseNav />
+      <CloseNav target={getPage(accountPages, 'pageName', 'Accueil').path} />
       <div className="flex min-h-screen flex-col lg:flex-row">
         <aside
           style={{ minWidth: '400px' }}

@@ -174,6 +174,15 @@ const SiteNav = () => {
                   </li>
                 )
               })}
+              <li>
+                <Link href={getPage(otherPages, 'pageName', 'Connexion').path}>
+                  <a
+                    className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold text-dark-300`}
+                  >
+                    Se connecter
+                  </a>
+                </Link>
+              </li>
             </ul>
           </div>
 
