@@ -101,6 +101,10 @@ export const LinksContextProvider = ({ children }) => {
       path: '/inscription',
     },
     {
+      pageName: 'Réinitialiser votre mot de passe',
+      path: '/reinitialiser-mot-de-passe',
+    },
+    {
       pageName: 'Mentions légales',
       path: '/mentions-legales.pdf',
     },

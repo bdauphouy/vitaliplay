@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import CloseNav from '@/components/utils/CloseNav'
+import Link from 'next/link'
 
 const CheckoutLayout = ({ children }) => {
   const formik = useFormik({
@@ -53,15 +54,16 @@ const CheckoutLayout = ({ children }) => {
           {children}
           <p className="my-14 block px-6 font-body text-sm text-dark-300 md:px-24 lg:hidden">
             *En procédant au paiement, vous confirmez accepter les{' '}
-            <a
-              className="text-blue-900 transition-[color] hover:text-blue-500"
+            <Link
               href={
                 getPage(otherPages, 'pageName', 'Conditions générales de vente')
                   .path
               }
             >
-              conditions générales de vente
-            </a>
+              <a className="text-blue-900 transition-[color] hover:text-blue-500">
+                conditions générales de vente
+              </a>
+            </Link>
             .
           </p>
         </div>
@@ -118,15 +120,16 @@ const CheckoutLayout = ({ children }) => {
           </div>
           <p className="hidden font-body text-sm text-dark-300 lg:block">
             *En procédant au paiement, vous confirmez accepter les{' '}
-            <a
-              className="text-blue-900 transition-[color] hover:text-blue-500"
+            <Link
               href={
                 getPage(otherPages, 'pageName', 'Conditions générales de vente')
                   .path
               }
             >
-              conditions générales de vente
-            </a>
+              <a className="text-blue-900 transition-[color] hover:text-blue-500">
+                conditions générales de vente
+              </a>
+            </Link>
             .
           </p>
         </aside>

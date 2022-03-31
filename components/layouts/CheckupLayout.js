@@ -6,7 +6,7 @@ import { CheckupContextProvider } from '@/contexts/CheckupContext'
 
 const CheckupLayout = ({ children }) => {
   const [achievedSteps, setAchievedSteps] = useState([[0, 1, 2], [0]])
-  const { getPage, checkupPages } = useContext(LinksContext)
+  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
   const [currentPath, setCurrentPath] = useState('/bilan')
   const router = useRouter()
 

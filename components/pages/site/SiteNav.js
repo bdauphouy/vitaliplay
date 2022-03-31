@@ -4,7 +4,6 @@ import Cta from '@/components/utils/Cta'
 import { useEffect, useRef, useContext, useState } from 'react'
 import { useRouter } from 'next/router'
 import {
-  User,
   Instagram,
   Linkedin,
   Facebook,
@@ -12,6 +11,7 @@ import {
 } from '@/components/utils/Icons'
 import { LinksContext } from '@/contexts/LinksContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { AuthContext } from '@/contexts/AuthContext'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -44,7 +44,7 @@ const Burger = ({ menu, setMenu }) => {
 }
 
 const SiteNav = () => {
-  const { sitePages, otherPages, externalPages, getPage } =
+  const { sitePages, otherPages, accountPages, externalPages, getPage } =
     useContext(LinksContext)
 
   const [menu, setMenu] = useState(false)
@@ -54,6 +54,8 @@ const SiteNav = () => {
   const router = useRouter()
 
   const marker = useRef()
+
+  const { isAuth } = useContext(AuthContext)
 
   useEffect(() => {
     const navItems = document.querySelectorAll('.nav-item')
@@ -74,6 +76,8 @@ const SiteNav = () => {
       }
     })
   }, [router, isExtraLargeScreen])
+
+  const closeNav = () => setMenu(false)
 
   return (
     <>
@@ -158,7 +162,7 @@ const SiteNav = () => {
             <ul>
               {sitePages.map((sitePage, i) => {
                 return (
-                  <li key={i}>
+                  <li key={i} onClick={closeNav}>
                     <Link href={sitePage.path}>
                       <a
                         className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold ${
@@ -174,6 +178,29 @@ const SiteNav = () => {
                   </li>
                 )
               })}
+              <li onClick={closeNav}>
+                {isAuth ? (
+                  <Link
+                    href={getPage(accountPages, 'pageName', 'Accueil').path}
+                  >
+                    <a
+                      className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold text-dark-300`}
+                    >
+                      Compte
+                    </a>
+                  </Link>
+                ) : (
+                  <Link
+                    href={getPage(otherPages, 'pageName', 'Connexion').path}
+                  >
+                    <a
+                      className={`inline-flex h-full w-full items-center py-4 font-head text-lg font-semibold text-dark-300`}
+                    >
+                      Se connecter
+                    </a>
+                  </Link>
+                )}
+              </li>
             </ul>
           </div>
 
