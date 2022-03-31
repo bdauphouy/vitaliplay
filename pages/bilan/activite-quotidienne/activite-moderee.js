@@ -11,10 +11,13 @@ import ActivitySchema from '@/schemas/checkup/daily-activity/ActivitySchema'
 import Error from '@/components/utils/Error'
 import Subtitle from '@/components/utils/Subtitle'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
+import { getToken, postAPIWithToken } from '@/lib/api'
 
 const DailyActivityModerateActivity = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -34,7 +37,7 @@ const DailyActivityModerateActivity = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      frequency: store?.dailyActivity?.moderateActivity?.frequency || '',
+      frequency: store?.dailyActivity?.moderateActivity || '',
     },
     validationSchema: ActivitySchema,
     onSubmit: (values) => {
@@ -44,13 +47,34 @@ const DailyActivityModerateActivity = () => {
           ...store,
           dailyActivity: {
             ...store?.dailyActivity,
-            moderateActivity: {
-              frequency: values.frequency,
-            },
+            moderateActivity: values.frequency,
           },
         })
       )
-      router.push(getPage(checkupPages, 'pageName', 'Succès').path)
+
+      const checkupData = window.localStorage.getItem(
+        'vitaliplay.checkup.store'
+      )
+
+      const fetchCheckup = async () => {
+        const data = await postAPIWithToken(
+          '/bilan-reponses',
+          {
+            data: JSON.parse(checkupData),
+          },
+          getToken()
+        )
+
+        if (data) {
+          router.push(getPage(checkupPages, 'pageName', 'Succès').path)
+        } else {
+          router.push(getPage(checkupPages, 'pageName', 'Bilan').path)
+        }
+      }
+
+      if (checkupData) {
+        fetchCheckup()
+      }
     },
   })
 
@@ -58,15 +82,10 @@ const DailyActivityModerateActivity = () => {
 
   return (
     <div>
-      <Title type="3">
-        Combien de fois par semaine faites-vous 30 minutes d’activité physique
-        modérée ou de la marche, qui augmente votre fréquence cardiaque ou qui
-        vous font respirer plus fort que normalement ?
-      </Title>
+      <Title type="3">{checkup.etape3_content?.moderate_activity.title}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          Par exemple : jogging, port de charge lourde, aérobic ou cyclisme à
-          allure rapide
+          {checkup.etape3_content?.moderate_activity.description}
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">

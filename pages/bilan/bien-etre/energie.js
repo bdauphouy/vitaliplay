@@ -10,10 +10,12 @@ import Radio from '@/components/utils/Radio'
 import EnergySchema from '@/schemas/checkup/well-being/Energy'
 import Error from '@/components/utils/Error'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const WellBeingEnergy = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const [labels] = useState([
     'Tout le temps',
@@ -35,7 +37,7 @@ const WellBeingEnergy = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      energyScale: store?.wellBeing?.energy?.energyScale || '',
+      energyScale: store?.wellBeing?.energy || '',
     },
     validationSchema: EnergySchema,
     onSubmit: (values) => {
@@ -45,9 +47,7 @@ const WellBeingEnergy = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            energy: {
-              energyScale: values.energyScale,
-            },
+            energy: values.energyScale,
           },
         })
       )
@@ -59,9 +59,7 @@ const WellBeingEnergy = () => {
 
   return (
     <div>
-      <Title type="3">
-        Je me suis senti(e) plein(e) d’énergie et vigoureux(se)
-      </Title>
+      <Title type="3">{checkup.etape2_content?.energie_title}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
           {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {

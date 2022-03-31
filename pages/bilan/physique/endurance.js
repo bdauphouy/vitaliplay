@@ -10,10 +10,12 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import EnduranceSchema from '@/schemas/checkup/physical/Endurance'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const PhysicalEndurance = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -26,7 +28,7 @@ const PhysicalEndurance = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      reps: store?.physical?.endurance?.reps || '15',
+      reps: store?.physical?.endurance?.exo5 || '15',
     },
     validationSchema: EnduranceSchema,
     onSubmit: (values) => {
@@ -38,7 +40,7 @@ const PhysicalEndurance = () => {
           physical: {
             ...store?.physical,
             endurance: {
-              reps: values.reps.toString(),
+              exo5: values.reps.toString(),
             },
           },
         })
@@ -55,14 +57,12 @@ const PhysicalEndurance = () => {
         <Title type="3">Exercice 5 : Montée genoux</Title>
         <div className="mt-4">
           <Subtitle type="2">
-            Nombre de montées de genoux (à mi-distance entre la rotule et la
-            crête de l’os iliaque) pendant 2 minutes. on compte le nombre de
-            monté de un genou (pas les 2)
+            {checkup.etape1_exercices?.exercice5.description}
           </Subtitle>
         </div>
         <iframe
           className="mt-6 aspect-video w-full"
-          src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+          src={checkup.etape1_exercices?.exercice5.video}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

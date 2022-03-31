@@ -10,10 +10,12 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import BalanceSchema from '@/schemas/checkup/physical/Balance'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const PhysicalBalance = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -59,13 +61,12 @@ const PhysicalBalance = () => {
         </Title>
         <div className="mt-4">
           <Subtitle type="2">
-            Le but du test est de tenir au moins 30 secondes en équilibre sur
-            une jambe sans se tenir. L’exercice est à réaliser de chaque côté.
+            {checkup.etape1_exercices?.exercice6.description}
           </Subtitle>
         </div>
         <iframe
           className="mt-6 aspect-video w-full"
-          src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+          src={checkup.etape1_exercices?.exercice6.video}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

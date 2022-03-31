@@ -11,10 +11,12 @@ import ActivitySchema from '@/schemas/checkup/daily-activity/ActivitySchema'
 import Error from '@/components/utils/Error'
 import Subtitle from '@/components/utils/Subtitle'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const DailyActivityIntenseActivity = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -33,7 +35,7 @@ const DailyActivityIntenseActivity = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      frequency: store?.dailyActivity?.intenseActivity?.frequency || '',
+      frequency: store?.dailyActivity?.intenseActivity || '',
     },
     validationSchema: ActivitySchema,
     onSubmit: (values) => {
@@ -43,9 +45,7 @@ const DailyActivityIntenseActivity = () => {
           ...store,
           dailyActivity: {
             ...store?.dailyActivity,
-            intenseActivity: {
-              frequency: values.frequency,
-            },
+            intenseActivity: values.frequency,
           },
         })
       )
@@ -57,14 +57,10 @@ const DailyActivityIntenseActivity = () => {
 
   return (
     <div>
-      <Title type="3">
-        Combien de fois par semaine faites-vous 20 minutes d’activité physique
-        intense au point de transpirer ou de haleter ?
-      </Title>
+      <Title type="3">{checkup.etape3_content?.intense_activity.title}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          Par exemple : jogging, port de charge lourde, aérobic ou cyclisme à
-          allure rapide
+          {checkup.etape3_content?.intense_activity.description}
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">

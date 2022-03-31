@@ -56,7 +56,6 @@ const SignupStart = () => {
       confirmPassword: '',
     },
     validationSchema: SignupSchema,
-
     onSubmit: async (values) => {
       setLoading(true)
       const res = await postAPI('/auth/local/register', {
@@ -75,7 +74,7 @@ const SignupStart = () => {
       if (res.error) {
         setServerSideError(
           serverSideErrors[res.error.message] ||
-            'Erreur lors de la soumission du formulaire'
+            'Erreur lors de la soumission du formulaire.'
         )
       } else {
         document.cookie = `jwt=${res.jwt}`

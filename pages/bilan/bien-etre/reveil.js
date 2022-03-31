@@ -10,10 +10,12 @@ import Radio from '@/components/utils/Radio'
 import AwakeningSchema from '@/schemas/checkup/well-being/Awakening'
 import Error from '@/components/utils/Error'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const WellBeingAwakening = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const [labels] = useState([
     'Tout le temps',
@@ -35,7 +37,7 @@ const WellBeingAwakening = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      awakeningScale: store?.wellBeing?.awakening?.awakeningScale || '',
+      awakeningScale: store?.wellBeing?.awakening || '',
     },
     validationSchema: AwakeningSchema,
     onSubmit: (values) => {
@@ -45,9 +47,7 @@ const WellBeingAwakening = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            awakening: {
-              awakeningScale: values.awakeningScale,
-            },
+            awakening: values.awakeningScale,
           },
         })
       )
@@ -59,9 +59,7 @@ const WellBeingAwakening = () => {
 
   return (
     <div>
-      <Title type="3">
-        Je me suis réveillé(e) en me sentant frais(che) et dispos(e)
-      </Title>
+      <Title type="3">{checkup.etape2_content?.reveil_title}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
           {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {

@@ -10,11 +10,13 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import FlexibilitySchema from '@/schemas/checkup/physical/Flexibility'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const PhysicalFlexibility = () => {
   const [store, setStore] = useState()
   const [currentExercise, setCurrentExercise] = useState(1)
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -27,8 +29,8 @@ const PhysicalFlexibility = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstDistance: store?.physical?.flexibility?.firstDistance || '35',
-      secondDistance: store?.physical?.flexibility?.secondDistance || '35',
+      firstDistance: store?.physical?.flexibility?.exo3 || '35',
+      secondDistance: store?.physical?.flexibility?.exo4 || '35',
     },
     validationSchema: FlexibilitySchema,
     onSubmit: (values) => {
@@ -40,8 +42,8 @@ const PhysicalFlexibility = () => {
           physical: {
             ...store?.physical,
             flexibility: {
-              firstDistance: values.firstDistance.toString(),
-              secondDistance: values.secondDistance.toString(),
+              exo3: values.firstDistance.toString(),
+              exo4: values.secondDistance.toString(),
             },
           },
         })
@@ -61,14 +63,12 @@ const PhysicalFlexibility = () => {
           <Title type="3">Exercice 3 : Souplesse de tronc</Title>
           <div className="mt-4">
             <Subtitle type="2">
-              Assis sur le rebord d’une chaise, une jambe tendue, les mains
-              cherchent à atteindre le pied, la distance entre le bout des
-              doigts et le pied est mesuré
+              {checkup.etape1_exercices?.exercice3.description}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+            src={checkup.etape1_exercices?.exercice3.video}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -80,14 +80,12 @@ const PhysicalFlexibility = () => {
           <Title type="3">Exercice 4 : Gratte dos (dès 2 côtés)</Title>
           <div className="mt-4">
             <Subtitle>
-              Une main au-dessus de l’épaule, paume contre le dos et l’autre
-              atteint le milieu du dos, paume vers l’extérieur, mesurer la
-              distance entre les majeurs.
+              {checkup.etape1_exercices?.exercice4.description}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+            src={checkup.etape1_exercices?.exercice4.video}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -10,11 +10,13 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import StrengthSchema from '@/schemas/checkup/physical/Strength'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const PhysicalStrength = () => {
   const [store, setStore] = useState()
   const [currentExercise, setCurrentExercise] = useState(1)
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -22,13 +24,15 @@ const PhysicalStrength = () => {
     setStore(
       JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store'))
     )
+
+    console.log(checkup)
   }, [])
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstReps: store?.physical?.strength.firstReps || '15',
-      secondReps: store?.physical?.strength.secondReps || '15',
+      firstReps: store?.physical?.strength.exo1 || '15',
+      secondReps: store?.physical?.strength.exo2 || '15',
     },
     validationSchema: StrengthSchema,
     onSubmit: (values) => {
@@ -40,8 +44,8 @@ const PhysicalStrength = () => {
           physical: {
             ...store?.physical,
             strength: {
-              firstReps: values.firstReps.toString(),
-              secondReps: values.secondReps.toString(),
+              exo1: values.firstReps.toString(),
+              exo2: values.secondReps.toString(),
             },
           },
         })
@@ -61,13 +65,12 @@ const PhysicalStrength = () => {
           <Title type="3">Exercice 1 : Assis-debout</Title>
           <div className="mt-4">
             <Subtitle type="2">
-              Le but est de se lever et s’assoir sur une chaise le plus de fois
-              possibles en 30 secondes.
+              {checkup.etape1_exercices?.exercice1.description}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+            src={checkup.etape1_exercices?.exercice1.video}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -79,14 +82,12 @@ const PhysicalStrength = () => {
           <Title type="3">Exercice 2 : Flexion de bras</Title>
           <div className="mt-4">
             <Subtitle type="2">
-              Assis sur une chaise le but est de réaliser un maximum de
-              flexion-extension de bras avec un poids d’environ 2kg en 30
-              secondes.
+              {checkup.etape1_exercices?.exercice2.description}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+            src={checkup.etape1_exercices?.exercice2.video}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
