@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
 import CloseNav from '@/components/utils/CloseNav'
+import { SurveyContextProvider } from '@/contexts/SurveyContext'
 
 const SurveyLayout = ({ children }) => {
   const { getPage, surveyPages } = useContext(LinksContext)
@@ -41,7 +42,7 @@ const SurveyLayout = ({ children }) => {
   }
 
   return (
-    <>
+    <SurveyContextProvider>
       <CloseNav />
       <div className="flex min-h-screen flex-col lg:flex-row">
         <aside
@@ -148,7 +149,7 @@ const SurveyLayout = ({ children }) => {
           <div className="w-full lg:w-11/12">{children}</div>
         </div>
       </div>
-    </>
+    </SurveyContextProvider>
   )
 }
 

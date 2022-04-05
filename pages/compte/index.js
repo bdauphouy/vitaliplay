@@ -19,9 +19,6 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const home = await fetchAPIWithToken('/pwa/home', req.cookies.jwt, false)
-  console.log(home)
-
   const user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
 
   return { props: { user } }

@@ -11,17 +11,18 @@ import { useRouter } from 'next/router'
 import Error from '@/components/utils/Error'
 import ProsthesisSchema from '@/schemas/survey/Prosthesis'
 import { LinksContext } from '@/contexts/LinksContext'
+import { SurveyContext } from '@/contexts/SurveyContext'
+import { postAPIWithToken, getToken } from '@/lib/api'
 
 const SurveyProsthesis = () => {
   const { getPage, surveyPages } = useContext(LinksContext)
+  const { survey } = useContext(SurveyContext)
 
   const [store, setStore] = useState()
 
   useEffect(() => {
     setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
   }, [])
-
-  const [prosthesisLocations] = useState(['Epaule', 'Hanche', 'Genou', 'Autre'])
 
   const router = useRouter()
 
@@ -37,7 +38,62 @@ const SurveyProsthesis = () => {
         'vitaliplay.survey.store',
         JSON.stringify({ ...store, ...values })
       )
-      router.push(getPage(surveyPages, 'pageName', 'Succès').path)
+
+      const surveyData = window.localStorage.getItem('vitaliplay.survey.store')
+
+      const {
+        height,
+        weight,
+        smoker,
+        number,
+        forDate,
+        pain,
+        painList,
+        painScale,
+        affection,
+        affectionList,
+        prosthesis,
+        prosthesisLocations,
+      } = JSON.parse(surveyData)
+
+      const sortedData = {
+        height: parseInt(height),
+        weight: parseInt(weight),
+        smoker: smoker === 'smoker',
+        smokerNumber: parseInt(number),
+        smokerDate: parseInt(forDate),
+        pain: pain === 'yes',
+        painList: painList.map((pain) => parseInt(pain.slice(-1))),
+        painScale: parseInt(painScale),
+        affection: affection === 'yes',
+        affectionList: affectionList.map((affection) =>
+          parseInt(affection.slice(-1))
+        ),
+        prosthesis: prosthesis === 'yes',
+        prosthesisLocations: prosthesisLocations.map((prosthesisLocation) =>
+          parseInt(prosthesisLocation.slice(-1))
+        ),
+      }
+
+      const fetchSurvey = async () => {
+        const data = await postAPIWithToken(
+          '/questionnaire',
+          {
+            data: sortedData,
+          },
+          getToken()
+        )
+
+        if (data) {
+          router.push(getPage(surveyPages, 'pageName', 'Succès').path)
+        } else {
+          router.push(getPage(surveyPages, 'pageName', 'Questionnaire').path)
+        }
+      }
+
+      if (surveyData) {
+        fetchSurvey()
+      }
     },
   })
 
@@ -48,7 +104,7 @@ const SurveyProsthesis = () => {
       <div className="xl:max-w-3xl">
         <Title type="3">Avez-vous une prothèse articulaire ?</Title>
         <div className="mt-4">
-          <Subtitle type="2">Si oui, à quel(s) endroit ?</Subtitle>
+          <Subtitle type="2">{survey.prothese_description}</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -81,18 +137,18 @@ const SurveyProsthesis = () => {
                   : 'h-0 overflow-hidden opacity-0'
               } grid grid-cols-1 gap-4 transition duration-300 ease-linear md:col-span-2 md:grid-cols-2`}
             >
-              {prosthesisLocations.map((prosthesisLocation, i) => {
+              {survey.prothese_list?.map((prosthesisLocation, i) => {
                 return (
                   <Checkbox
                     key={i}
-                    id={prosthesisLocation}
+                    id={`prosthesis-${prosthesisLocation.id}`}
                     name="prosthesisLocations"
                     checked={formik.values.prosthesisLocations.includes(
-                      prosthesisLocation
+                      `prosthesis-${prosthesisLocation.id}`
                     )}
                     onChange={formik.handleChange}
                   >
-                    {prosthesisLocation}
+                    {prosthesisLocation.name}
                   </Checkbox>
                 )
               })}

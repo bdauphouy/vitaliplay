@@ -11,27 +11,14 @@ import AffectionSchema from '@/schemas/survey/Affection'
 import Error from '@/components/utils/Error'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
+import { SurveyContext } from '@/contexts/SurveyContext'
 
 const SurveyAffection = () => {
   const { getPage, surveyPages } = useContext(LinksContext)
 
-  const [store, setStore] = useState()
+  const { survey } = useContext(SurveyContext)
 
-  const [affectionList] = useState([
-    'Diabète de type 1 / type 2',
-    'Insuffisance cardiaque grave, troubles du rythme graves, cardiopathies valvulaires graves, cardiopathies congénitales graves ',
-    'Hypertension artérielle sévère',
-    'Accident vasculaire cérébral invalidant',
-    'Tumeur maligne, affection maligne du tissu lymphatique ou hématopoïétique',
-    'Artériopathies chroniques avec manifestations ischémiques',
-    'Maladie coronaire',
-    'Polyarthrite rhumatoïde évolutive',
-    'Insuffisance respiratoire chronique grave',
-    'Traitement d’une durée prévisible supérieure à 6 mois',
-    'Sclérose en plaques',
-    'Maladie de Parkinson',
-    'Autres',
-  ])
+  const [store, setStore] = useState()
 
   useEffect(() => {
     setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
@@ -64,7 +51,7 @@ const SurveyAffection = () => {
           Êtes vous atteints d’une affection longue durée ?
         </Title>
         <div className="mt-4">
-          <Subtitle type="2">Si oui, laquelle ?</Subtitle>
+          <Subtitle type="2">{survey.ald_description}</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -97,16 +84,18 @@ const SurveyAffection = () => {
                   : 'h-0 overflow-hidden opacity-0'
               } flex flex-col gap-4 transition duration-300 ease-linear md:col-span-2`}
             >
-              {affectionList.map((affection, i) => {
+              {survey.ald_list?.map((affection, i) => {
                 return (
                   <Checkbox
                     key={i}
-                    id={affection}
+                    id={`affection-${affection.id}`}
                     name="affectionList"
-                    checked={formik.values.affectionList.includes(affection)}
+                    checked={formik.values.affectionList.includes(
+                      `affection-${affection.id}`
+                    )}
                     onChange={formik.handleChange}
                   >
-                    {affection}
+                    {affection.name}
                   </Checkbox>
                 )
               })}

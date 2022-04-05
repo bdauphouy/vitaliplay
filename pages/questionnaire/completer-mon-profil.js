@@ -6,9 +6,12 @@ import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import SurveyLayout from '@/components/layouts/SurveyLayout'
+import { SurveyContext } from '@/contexts/SurveyContext'
 
 const SurveySignup = () => {
   const buttonSize = useButtonSize()
+
+  const { survey } = useContext(SurveyContext)
 
   const { getPage, surveyPages } = useContext(LinksContext)
 
@@ -16,10 +19,7 @@ const SurveySignup = () => {
     <div>
       <Title type="3">Compléter votre profil</Title>
       <div className="mt-4">
-        <Subtitle type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
+        <Subtitle type="2">{survey.questionnaire_description}</Subtitle>
       </div>
       <div className="mt-10 flex flex-wrap items-start gap-4 lg:gap-6">
         <Link

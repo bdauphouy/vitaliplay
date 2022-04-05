@@ -3,14 +3,17 @@ import Subtitle from '@/components/utils/Subtitle'
 import SurveyLayout from '@/components/layouts/SurveyLayout'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
+import { SurveyContext } from '@/contexts/SurveyContext'
 
 const SurveySuccess = () => {
   const { getPage, accountPages } = useContext(LinksContext)
+
+  const { survey } = useContext(SurveyContext)
 
   const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()
@@ -25,8 +28,7 @@ const SurveySuccess = () => {
       </Title>
       <div className="mt-4">
         <Subtitle center={true} type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+          {survey.questionnaire_success}
         </Subtitle>
       </div>
       <div className="mt-12">
