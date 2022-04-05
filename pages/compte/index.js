@@ -7,6 +7,7 @@ import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -18,7 +19,12 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  return { props: {} }
+  const home = await fetchAPIWithToken('/pwa/home', req.cookies.jwt, false)
+  console.log(home)
+
+  const user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
+
+  return { props: { user } }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -36,7 +42,7 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = () => {
+const Account = ({ user }) => {
   const [linkSize, setLinkSize] = useState('m')
 
   const [cardType] = useState('Le live du jour')
@@ -56,7 +62,7 @@ const Account = () => {
           Accès offert par : AG2R LA MONDIALE
         </div>
         <Title type="1" html={false}>
-          Bonjour, <strong className="type-1">Guillaume</strong>
+          Bonjour, <strong className="type-1">{user.firstname}</strong>
         </Title>
       </div>
       <div className="mt-14 flex flex-wrap gap-8">
@@ -66,7 +72,9 @@ const Account = () => {
             <div className="flex items-center gap-6">
               <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover sm:min-h-[96px] sm:min-w-[96px]"></div>
               <div>
-                <Title type="5">Guillaume Clerisseau</Title>
+                <Title type="5" html={false}>
+                  {user.firstname} {user.lastname}
+                </Title>
                 <Link
                   href={getPage(checkupPages, 'pageName', 'Bilan').path}
                   passHref

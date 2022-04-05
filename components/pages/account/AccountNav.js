@@ -13,6 +13,7 @@ import {
 import { LinksContext } from '@/contexts/LinksContext'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import Title from '@/components/utils/Title'
+import { fetchAPIWithToken, getToken } from '@/lib/api'
 
 const Burger = ({ menu, setMenu }) => {
   return (
@@ -46,6 +47,8 @@ const Burger = ({ menu, setMenu }) => {
 
 const SiteNav = () => {
   const { externalPages, accountPages, getPage } = useContext(LinksContext)
+
+  const [fullName, setFullName] = useState()
 
   const [menu, setMenu] = useState(false)
 
@@ -88,6 +91,15 @@ const SiteNav = () => {
       }
     })
   }, [router, isExtraLargeScreen])
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const user = await fetchAPIWithToken('/users/me', getToken(), false)
+      setFullName(`${user.firstname} ${user.lastname}`)
+    }
+
+    fetchUser()
+  }, [])
 
   const closeNav = () => setMenu(false)
 
@@ -200,7 +212,7 @@ const SiteNav = () => {
             <div className="flex items-center gap-6 border-b-1 border-solid pb-6 xl:hidden">
               <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover sm:min-h-[96px] sm:min-w-[96px]"></div>
               <div>
-                <Title type="5">Guillaume Clerisseau</Title>
+                <Title type="5">{fullName}</Title>
                 <Link
                   href={getPage(accountPages, 'pageName', 'Profil').path}
                   passHref
@@ -306,7 +318,7 @@ const SiteNav = () => {
               </Link>
             </h4>
             <h4 className="mt-4 font-body text-sm font-semibold text-dark-500">
-              Vitaliplay &copy; 2021
+              Vitaliplay &copy; 2022
             </h4>
           </div>
         </div>

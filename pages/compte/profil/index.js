@@ -4,6 +4,22 @@ import { useRouter } from 'next/router'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 import { UploadProfilePicture } from '@/components/utils/Icons'
 import { useRef, useEffect } from 'react'
+import { fetchAPIWithToken } from '@/lib/api'
+
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
+
+  return { props: { user } }
+}
 
 export const Section = ({ id, icon, title, path = '/' }) => {
   const router = useRouter()
@@ -23,7 +39,7 @@ export const Section = ({ id, icon, title, path = '/' }) => {
   )
 }
 
-const Profile = () => {
+const Profile = ({ user }) => {
   const updateProfilePictureInput = useRef()
 
   const getImage = () => {
@@ -31,6 +47,7 @@ const Profile = () => {
   }
 
   useEffect(() => {
+    console.log(user)
     updateProfilePictureInput.current.addEventListener('input', getImage)
     // return () =>
     //   updateProfilePictureInput.current.removeEventListener('input', getImage)
@@ -55,7 +72,7 @@ const Profile = () => {
           className="hidden"
         />
         <h2 className="text-center font-head text-lg font-bold text-dark-900 md:text-xl">
-          Guillaume Clerisseau
+          {user.firstname} {user.lastname}
         </h2>
 
         <div className="mt-2 lg:mt-3">
