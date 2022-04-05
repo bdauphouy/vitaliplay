@@ -62,7 +62,7 @@ const SignupStart = () => {
         username: uuidv4(),
         email: values.email,
         password: values.password,
-        civilite: values.civility,
+        civilite: civility,
         firstname: values.firstName,
         lastname: values.lastName,
         address: values.address,
