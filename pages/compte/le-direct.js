@@ -5,14 +5,20 @@ import Subtitle from '@/components/utils/Subtitle'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
 
+function formatTime(str){
+    const splited = str.split(":")
+
+    return `${splited[0]}:${splited[1]}`
+}
+
 export const getServerSideProps = async ({ req }) => {
   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt)
 
+  console.log(lives)
   return { props: { lives } }
 }
 
 const TheLive = ({ lives }) => {
-  const newLive = true
   return (
     <div>
       {lives ? (
@@ -28,7 +34,7 @@ const TheLive = ({ lives }) => {
                 </Subtitle>
               </div>
             </div>
-            {newLive && (
+            {lives?.nextLive?.id ? (
               <div
                 style={{ backgroundImage: "url('/bg-card.png')" }}
                 className="flex h-36 w-full items-center rounded-lg bg-cover p-4 md:items-end lg:h-32 xl:w-auto xl:min-w-[500px] xl:flex-[.8]"
@@ -36,10 +42,10 @@ const TheLive = ({ lives }) => {
                 <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
                   <div>
                     <h3 className="font-head text-lg font-bold leading-6 text-light-100">
-                      Live Yoga : Sophie Martinez
+                      Live Yoga : {lives?.nextLive?.attributes.name}
                     </h3>
                     <span className="mt-2 text-sm text-light-100">
-                      16:00 - 17:00
+                    {lives?.nextLive?.attributes.date} : {formatTime(lives?.nextLive?.attributes.startTime)} - {formatTime(lives?.nextLive?.attributes.endTime)}
                     </span>
                   </div>
                   <div className="mt-6 md:mt-0">
@@ -47,7 +53,7 @@ const TheLive = ({ lives }) => {
                   </div>
                 </div>
               </div>
-            )}
+            ): null}
           </div>
           <iframe
             className="mt-12 aspect-video w-full bg-dark-900"
