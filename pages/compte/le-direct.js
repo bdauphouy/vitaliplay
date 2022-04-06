@@ -14,7 +14,6 @@ function formatTime(str){
 export const getServerSideProps = async ({ req }) => {
   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt)
 
-  console.log(lives)
   return { props: { lives } }
 }
 

@@ -19,8 +19,13 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
-
+  const response = await fetchAPIWithToken('/pwa/home', req.cookies.jwt)
+  let user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
+  // test why 500
+  user = {
+      ...user,
+      test: {...response}
+  }
   return { props: { user } }
 }
 
@@ -40,6 +45,7 @@ export const CheckupBox = ({ date, score }) => {
 }
 
 const Account = ({ user }) => {
+    console.log(user)
   const [linkSize, setLinkSize] = useState('m')
 
   const [cardType] = useState('Le live du jour')

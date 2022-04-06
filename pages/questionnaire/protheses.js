@@ -77,7 +77,7 @@ const SurveyProsthesis = () => {
 
       const fetchSurvey = async () => {
         const data = await postAPIWithToken(
-          '/questionnaire',
+          '/questionnaire-reponses',
           {
             data: sortedData,
           },
