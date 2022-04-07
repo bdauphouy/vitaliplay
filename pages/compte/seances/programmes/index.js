@@ -5,23 +5,8 @@ import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
-import { fetchAPIWithToken } from '@/lib/api'
 
-export const getServerSideProps = async ({ req }) => {
-  if (!req.cookies.jwt) {
-    return {
-      redirect: {
-        destination: '/connexion',
-        permanent: true,
-      },
-    }
-  }
-
-  const seances = await fetchAPIWithToken('/exercices', req.cookies.jwt)
-
-  return { props: { exercices: seances.exercices, tags: seances.exerciceTags } }
-}
-const SessionsNewTrainings = ({ exercices, tags }) => {
+const SessionsNewTrainings = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -38,24 +23,19 @@ const SessionsNewTrainings = ({ exercices, tags }) => {
           title="Toutes les séances"
           type="filter"
           mobile={true}
-          filterOptions={tags.map((tag) => tag.name)}
+          filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}
         >
-          {exercices.map((item) => {
+          {[...Array(4)].map((item, i) => {
             return (
-              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
+              <Link key={i} href={`${router.route}/1`} passHref>
                 <a>
                   <Card
-                    tagType={item?.attributes?.data?.tags[0]?.id}
-                    title={item?.attributes?.name}
+                    tagType="1"
+                    title="Exercices intensifs pour le bas du corps"
                     type="séances"
-                    duration={item?.attributes?.duration}
-                    level={item?.attributes?.level}
-                    bg={
-                      item?.attributes?.image?.data?.url
-                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item?.attributes?.image?.data?.url
-                        : '/bg-card.png'
-                    }
+                    duration="27"
+                    level="Intermédiaire"
+                    bg="/bg-card.png"
                   />
                 </a>
               </Link>

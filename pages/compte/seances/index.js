@@ -30,6 +30,18 @@ function getCardType(entryName) {
       return 'séances'
   }
 }
+function getRowPath(entryName) {
+  switch (entryName) {
+    case 'disciplines':
+      return '/disciplines'
+    case 'exercices':
+      return '/toutes-les-seances'
+    case 'programmes':
+      return '/programmes'
+    case 'recommandedExercices':
+      return '/mes-seances-recommande'
+  }
+}
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -42,12 +54,10 @@ export const getServerSideProps = async ({ req }) => {
   }
 
   const seanceData = await fetchAPIWithToken('/pwa/seance', req.cookies.jwt)
-  console.log(seanceData)
   return { props: { seanceData } }
 }
 
 const Sessions = ({ seanceData }) => {
-  console.log('seance  data', seanceData)
   const router = useRouter()
 
   return (
@@ -68,13 +78,13 @@ const Sessions = ({ seanceData }) => {
           return (
             <Row
               title={getRowTitle(entryName)}
-              path={`${router.asPath}/toutes-les-seances`}
+              path={`${router.asPath}${getRowPath(entryName)}`}
             >
               {data.map((exo) => {
                 return (
                   <Link
                     key={exo.id}
-                    href={`${router.asPath}/toutes-les-seances/${exo.id}`}
+                    href={`${router.asPath}${getRowPath(entryName)}/${exo.id}`}
                     passHref
                   >
                     <a>
@@ -84,6 +94,7 @@ const Sessions = ({ seanceData }) => {
                         type={getCardType(entryName)}
                         duration={exo?.duration || ''}
                         level={exo?.level || ''}
+                        subtitle={exo?.description || ''}
                         bg={
                           exo?.image?.url
                             ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
