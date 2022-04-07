@@ -5,8 +5,24 @@ import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const SessionsNewTrainings = () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const seances = await fetchAPIWithToken('/exercices/mine', req.cookies.jwt)
+
+  return { props: { exercices: seances.exercices, tags: seances.exerciceTags } }
+}
+const SessionsNewTrainings = ({ exercices, tags }) => {
+    console.log(exercices)
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -20,22 +36,27 @@ const SessionsNewTrainings = () => {
       </div>
       <div className="mt-6 flex flex-col gap-12">
         <Row
-          title="Toutes les séances"
+          title="Mes séances recomandés"
           type="filter"
           mobile={true}
-          filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}
+          filterOptions={tags.map((tag) => tag.name)}
         >
-          {[...Array(4)].map((item, i) => {
+          {exercices.map((item) => {
             return (
-              <Link key={i} href={`${router.route}/1`} passHref>
+              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
                 <a>
                   <Card
-                    tagType="1"
-                    title="Exercices intensifs pour le bas du corps"
+                    tagType={item?.data?.tags[0]?.id}
+                    title={item?.name}
                     type="séances"
-                    duration="27"
-                    level="Intermédiaire"
-                    bg="/bg-card.png"
+                    duration={item?.duration}
+                    level={item?.level}
+                    bg={
+                      item?.image?.data?.url
+                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                          item?.image?.data?.url
+                        : '/bg-card.png'
+                    }
                   />
                 </a>
               </Link>

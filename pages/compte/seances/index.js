@@ -73,10 +73,11 @@ const Sessions = ({ seanceData }) => {
         />
       </header>
       <div className="flex flex-col gap-12 py-12">
-        {Object.entries(seanceData).map(([entryName, data]) => {
+        {Object.entries(seanceData).map(([entryName, data],i) => {
           if (data.length === 0) return <></>
           return (
             <Row
+              key={i}
               title={getRowTitle(entryName)}
               path={`${router.asPath}${getRowPath(entryName)}`}
             >
