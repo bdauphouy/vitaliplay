@@ -5,10 +5,10 @@ import Subtitle from '@/components/utils/Subtitle'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
 
-function formatTime(str){
-    const splited = str.split(":")
+function formatTime(str) {
+  const splited = str.split(':')
 
-    return `${splited[0]}:${splited[1]}`
+  return `${splited[0]}:${splited[1]}`
 }
 
 export const getServerSideProps = async ({ req }) => {
@@ -41,10 +41,12 @@ const TheLive = ({ lives }) => {
                 <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
                   <div>
                     <h3 className="font-head text-lg font-bold leading-6 text-light-100">
-                      Live Yoga : {lives?.nextLive?.attributes.name}
+                      {lives?.nextLive?.attributes.name}
                     </h3>
                     <span className="mt-2 text-sm text-light-100">
-                    {lives?.nextLive?.attributes.date} : {formatTime(lives?.nextLive?.attributes.startTime)} - {formatTime(lives?.nextLive?.attributes.endTime)}
+                      {lives?.nextLive?.attributes.date} :{' '}
+                      {formatTime(lives?.nextLive?.attributes.startTime)} -{' '}
+                      {formatTime(lives?.nextLive?.attributes.endTime)}
                     </span>
                   </div>
                   <div className="mt-6 md:mt-0">
@@ -52,7 +54,7 @@ const TheLive = ({ lives }) => {
                   </div>
                 </div>
               </div>
-            ): null}
+            ) : null}
           </div>
           <iframe
             className="mt-12 aspect-video w-full bg-dark-900"
