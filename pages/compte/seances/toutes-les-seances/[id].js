@@ -34,6 +34,7 @@ export const getServerSideProps = async ({ req }) => {
         },
       }
     }
+    console.log(req.query)
     const exercice = await fetchAPIWithToken(`/exercices`, req.cookies.jwt)
     return { props: { exercice } }
   }

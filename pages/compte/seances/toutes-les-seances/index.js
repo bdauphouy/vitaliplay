@@ -43,7 +43,12 @@ const SessionsNewTrainings = ({ exercices, tags }) => {
           {exercices.map((item) => {
               console.log(item.attributes)
             return (
-              <Link key={item.id} href={`${router.route}/[id]`} passHref>
+              <Link 
+                key={item.id} 
+                href={`${router.route}/[id]`} 
+                as={`${router.route}/${item.id}`} 
+                passHref
+              >
                 <a>
                   <Card
                     tagType={item?.attributes?.tags?.data?.id}
@@ -52,9 +57,9 @@ const SessionsNewTrainings = ({ exercices, tags }) => {
                     duration={item?.attributes?.duration}
                     level={item?.attributes?.level}
                     bg={
-                      item?.attributes?.image?.data?.url
+                      item?.attributes?.image?.data?.attributes?.url
                         ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item?.attributes?.image?.data?.url
+                          item?.attributes?.image?.data?.attributes?.url
                         : '/bg-card.png'
                     }
                   />

@@ -82,10 +82,12 @@ const Sessions = ({ seanceData }) => {
               path={`${router.asPath}${getRowPath(entryName)}`}
             >
               {data.map((exo) => {
+                  console.log(`${router.asPath}${getRowPath(entryName)}/${exo.id}`)
                 return (
                   <Link
                     key={exo.id}
                     href={`${router.asPath}${getRowPath(entryName)}/${exo.id}`}
+                    as={`${router.asPath}${getRowPath(entryName)}/${exo.id}`}
                     passHref
                   >
                     <a>

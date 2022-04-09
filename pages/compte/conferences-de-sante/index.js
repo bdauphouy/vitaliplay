@@ -44,7 +44,12 @@ const HealthConferences = ({ conferences, tags }) => {
         >
           {conferences.map((item) => {
             return (
-              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
+              <Link 
+                key={item.id} 
+                href={`${router.route}/[id]`} 
+                as={`${router.route}/${item.id}`} 
+                passHref
+              >
                 <a>
                   <Card
                     title={item.attributes.name}
