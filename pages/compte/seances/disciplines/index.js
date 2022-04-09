@@ -5,8 +5,26 @@ import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const SessionsNewTrainings = () => {
+export const getServerSideProps = async ({ req }) => {
+    if (!req.cookies.jwt) {
+      return {
+        redirect: {
+          destination: '/connexion',
+          permanent: true,
+        },
+      }
+    }
+  
+    const disciplines = await fetchAPIWithToken('/disciplines', req.cookies.jwt)
+    return { props: { disciplines } }
+  }
+
+
+
+
+const SessionsNewTrainings = ({disciplines}) => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -20,22 +38,20 @@ const SessionsNewTrainings = () => {
       </div>
       <div className="mt-6 flex flex-col gap-12">
         <Row
-          title="Toutes les séances"
-          type="filter"
+          type="none"
+          title="Toutes les disciplines"
           mobile={true}
-          filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}
         >
-          {[...Array(4)].map((item, i) => {
+          {disciplines.map((item) => {
             return (
-              <Link key={i} href={`${router.route}/1`} passHref>
+              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
                 <a>
                   <Card
-                    tagType="1"
-                    title="Exercices intensifs pour le bas du corps"
-                    type="séances"
-                    duration="27"
-                    level="Intermédiaire"
-                    bg="/bg-card.png"
+                    title={item.attributes?.name}
+                    type="disciplines"
+                    bg={ item.attributes?.image ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        item.attributes?.image.data.attributes.url
+                      : '/bg-card.png'}
                   />
                 </a>
               </Link>

@@ -99,7 +99,7 @@ const Row = ({
                   )}
                 </div>
               </>
-            ) : (
+            ) : type === 'none' ? null :(
               <div onClick={() => router.push(path)}>
                 <Cta size={buttonSize} type="secondary">
                   Voir plus

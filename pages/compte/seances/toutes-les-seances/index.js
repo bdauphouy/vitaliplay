@@ -41,11 +41,12 @@ const SessionsNewTrainings = ({ exercices, tags }) => {
           filterOptions={tags.map((tag) => tag.name)}
         >
           {exercices.map((item) => {
+              console.log(item.attributes)
             return (
-              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
+              <Link key={item.id} href={`${router.route}/[id]`} passHref>
                 <a>
                   <Card
-                    tagType={item?.attributes?.data?.tags[0]?.id}
+                    tagType={item?.attributes?.tags?.data?.id}
                     title={item?.attributes?.name}
                     type="séances"
                     duration={item?.attributes?.duration}

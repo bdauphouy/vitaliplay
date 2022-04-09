@@ -7,6 +7,7 @@ import { useRouter } from 'next/router'
 import Subtitle from '@/components/utils/Subtitle'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const Exercice = ({ title, time, image }) => {
   return (
@@ -24,7 +25,20 @@ export const Exercice = ({ title, time, image }) => {
   )
 }
 
-const SessionsNewTrainings1 = () => {
+export const getServerSideProps = async ({ req }) => {
+    if (!req.cookies.jwt) {
+      return {
+        redirect: {
+          destination: '/connexion',
+          permanent: true,
+        },
+      }
+    }
+    const exercice = await fetchAPIWithToken(`/exercices`, req.cookies.jwt)
+    return { props: { exercice } }
+  }
+
+const SessionsNewTrainings1 = ({exercice}) => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')

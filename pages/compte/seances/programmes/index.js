@@ -18,11 +18,11 @@ export const getServerSideProps = async ({ req }) => {
     }
   
     const programmes = await fetchAPIWithToken('/programmes', req.cookies.jwt, false)
+    console.log(programmes)
     return { props: { programmes: programmes.data } }
   }
 
 const SessionsNewTrainings = ({programmes}) => {
-    console.log(programmes)
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -36,6 +36,7 @@ const SessionsNewTrainings = ({programmes}) => {
       </div>
       <div className="mt-6 flex flex-col gap-12">
         <Row
+        type="none"
           title="Tous les programmes"
           mobile={true}
         >

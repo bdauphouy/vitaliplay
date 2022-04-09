@@ -1,6 +1,5 @@
 import Cta from '@/components/utils/Cta'
 import Title from '@/components/utils/Title'
-import { useEffect, useState } from 'react'
 import Subtitle from '@/components/utils/Subtitle'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
@@ -10,7 +9,12 @@ function formatTime(str) {
 
   return `${splited[0]}:${splited[1]}`
 }
+function formatDate(str){
+    const split1 = str.split("T")[0]
+    const split2 = split1.split("-")
 
+    return `${split2[2]}/${split2[1]}/${split2[0]}`
+}
 export const getServerSideProps = async ({ req }) => {
   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt)
 
@@ -44,7 +48,7 @@ const TheLive = ({ lives }) => {
                       {lives?.nextLive?.attributes.name}
                     </h3>
                     <span className="mt-2 text-sm text-light-100">
-                      {lives?.nextLive?.attributes.date} :{' '}
+                      {formatDate(lives?.nextLive?.attributes.date)} :{' '}
                       {formatTime(lives?.nextLive?.attributes.startTime)} -{' '}
                       {formatTime(lives?.nextLive?.attributes.endTime)}
                     </span>

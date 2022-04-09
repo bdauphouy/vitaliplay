@@ -15,6 +15,11 @@ function formatDate(str){
 
     return `${split2[2]}/${split2[1]}/${split2[0]}`
 }
+function formatTime(str) {
+    const splited = str.split(':')
+  
+    return `${splited[0]}:${splited[1]}`
+  }
 function getMidleCardTitle(data){
 
     if(!data.isQuestionnaireCompleted) return "Compléter votre profil"
@@ -147,7 +152,7 @@ const Account = ({ user, homeData }) => {
               
               :
               homeData.todayExercice?.id ? (<Card
-                tagType={homeData.todayExercice.tags[0].id}
+                tagType={homeData.todayExercice.tags?.id}
                 title={homeData.todayExercice.name}
                 type="séances"
                 duration={homeData.todayExercice.duration}
@@ -155,7 +160,7 @@ const Account = ({ user, homeData }) => {
                 bg="/bg-card.png"
                 height="h-full"
               />
-            ) :(
+            ) : homeData.todayLive.id ?(
                 <div
                   style={{
                     backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
@@ -163,18 +168,16 @@ const Account = ({ user, homeData }) => {
                   className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
                 >
                   <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
-                    Live Yoga:
-                    <br />
-                    Sophie Martinez
+                    {homeData.todayLive?.name}
                   </h3>
                   <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
-                    16:00 - 17:00
+                    {formatTime(homeData.todayLive.startTime)} - {formatTime(homeData.todayLive.endTime)}
                   </span>
                   <Cta size="m" type="primary">
                     Mettre un rappel
                   </Cta>
                 </div>
-              )}
+              ): null}
           </div>
         </div>
         <div className="flex-[1.5] self-end">
@@ -193,7 +196,7 @@ const Account = ({ user, homeData }) => {
                     title={exercice.name}
                     duration={exercice.duration}
                     level={exercice.level}
-                    type={exercice.tags[0]?.id}
+                    type={exercice.tags?.id}
                     />
                 </a>
                 </Link>

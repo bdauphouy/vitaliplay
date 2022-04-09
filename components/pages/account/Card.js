@@ -40,7 +40,18 @@ const Card = ({
               {subtitle}
             </p>
           </div>
-        ) : (
+        ) : type === "conference" ?
+        (
+            <div className="flex h-full w-full flex-col justify-end p-3 md:p-6">
+                <h3 className="font-head text-lg font-bold text-light-100 lg:text-xl">
+                {title}
+                </h3>
+                <p className="text-light mt-1 font-body text-xs text-dark-500">
+                {subtitle}
+                </p>
+            </div>
+          )
+         : (
           <div className="flex h-full w-full flex-col items-center justify-center p-4 text-center md:p-6">
             <h3 className="font-head text-2xl font-bold text-light-100 md:text-4xl">
               {title}
