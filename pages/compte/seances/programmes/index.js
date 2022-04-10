@@ -42,16 +42,21 @@ const SessionsNewTrainings = ({programmes}) => {
         >
           {programmes.map((item ) => {
             return (
-              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
+              <Link 
+              key={item.id} 
+              href={`${router.route}/[programme]`} 
+              as={`${router.route}/${item.id}`} 
+              passHref
+              >
                 <a>
                   <Card
                     title={item?.attributes?.name}
                     subtitle={item?.attributes?.description}
                     type="programme"
                     bg={
-                        item?.attributes?.image?.url
+                        item?.attributes?.image?.data?.attributes.url
                           ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item?.attributes?.image?.url
+                          item?.attributes?.image?.data?.attributes.url
                           : '/bg-card.png'
                       }
                   />
