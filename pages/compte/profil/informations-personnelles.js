@@ -4,37 +4,52 @@ import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
-import { fetchAPIWithToken } from '@/lib/api'
+import { fetchAPIWithToken, updateAPIWithToken, getToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req }) => {
-  if (!req.cookies.jwt) {
-    return {
-      redirect: {
-        destination: '/connexion',
-        permanent: true,
-      },
+    if (!req.cookies.jwt) {
+      return {
+        redirect: {
+          destination: '/connexion',
+          permanent: true,
+        },
+      }
     }
+  
+    
+    const {user,history, billing} = await fetchAPIWithToken('/pwa/account', req.cookies.jwt)
+  
+  
+    return { props: { user } }
   }
-
-  const user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
-
-  return { props: { user } }
-}
 
 const ProfilePersonalInformation = ({ user }) => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 
   const formik = useFormik({
     initialValues: {
-      fullName: `${user.firstname} ${user.lastname}`,
-      birthday: user.birthdate,
-      zipCode: user.postal_code,
+        id: user.id,
+      firstname:user.firstname,
+      lastname:user.lastname,
+      birthdate: user.birthdate,
+      postal_code: user.postal_code,
       email: user.email,
-      phoneNumber: user.phone,
+      phone: user.phone,
     },
 
     onSubmit: (values) => {
-      console.log(values)
+      
+
+        const updateAccount = async () => {
+            const data = await updateAPIWithToken(
+              `/users/${user.id}`,
+              { data: values },
+              getToken()
+            )
+            console.log(data)
+          } 
+
+         updateAccount() 
     },
   })
 
@@ -49,30 +64,37 @@ const ProfilePersonalInformation = ({ user }) => {
       >
         <div style={{ gridArea: 'a' }}>
           <Input
-            label="Nom & prénom"
-            name="fullName"
+            label="Nom "
+            name="lastname"
             onChange={formik.handleChange}
-            value={formik.values.fullName}
-            error={formik.touched.fullName && formik.errors.fullName}
+            value={formik.values.lastname}
+            error={formik.touched.lastname && formik.errors.lastname}
           />
+          {/* <Input
+            label="Prénom"
+            name="firstname"
+            onChange={formik.handleChange}
+            value={formik.values.firstname}
+            error={formik.touched.firstname && formik.errors.firstname}
+          /> */}
         </div>
         <div style={{ gridArea: 'b' }}>
           <Input
             label="Date de naissance"
-            name="birthday"
+            name="birthdate"
             type="date"
             onChange={formik.handleChange}
-            value={formik.values.birthday}
-            error={formik.touched.birthday && formik.errors.birthday}
+            value={formik.values.birthdate}
+            error={formik.touched.birthdate && formik.errors.birthdate}
           />
         </div>
         <div style={{ gridArea: 'c' }}>
           <Input
             label="Code postal"
-            name="zipCode"
+            name="postal_code"
             onChange={formik.handleChange}
-            value={formik.values.zipCode}
-            error={formik.touched.zipCode && formik.errors.zipCode}
+            value={formik.values.postal_code}
+            error={formik.touched.postal_code && formik.errors.postal_code}
           />
         </div>
         <div style={{ gridArea: 'd' }}>
@@ -87,11 +109,11 @@ const ProfilePersonalInformation = ({ user }) => {
         <div style={{ gridArea: 'e' }}>
           <Input
             label="Téléphone"
-            name="phoneNumber"
+            name="phone"
             prefix="(+33)"
             onChange={formik.handleChange}
-            value={formik.values.phoneNumber}
-            error={formik.touched.phoneNumber && formik.errors.phoneNumber}
+            value={formik.values.phone}
+            error={formik.touched.phone && formik.errors.phone}
           />
         </div>
         <div

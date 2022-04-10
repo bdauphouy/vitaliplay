@@ -12,8 +12,31 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const MyHealthSpaceCheckups = () => {
+function formatDate(str){
+    const split1 = str.split("T")[0]
+    const split2 = split1.split("-")
+
+    return `${split2[2]}/${split2[1]}/${split2[0]}`
+}
+
+export const getServerSideProps = async ({ req }) => {
+    if (!req.cookies.jwt) {
+      return {
+        redirect: {
+          destination: '/connexion',
+          permanent: true,
+        },
+      }
+    }
+  
+    const bilans = await fetchAPIWithToken('/bilan-reponses', req.cookies.jwt, false)
+    return { props: { bilans: bilans.data } }
+}
+
+
+const MyHealthSpaceCheckups = ({bilans}) => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -64,15 +87,20 @@ const MyHealthSpaceCheckups = () => {
                 </a>
               </Link>
             </div>
-            {[...Array(4)].map((_, i) => {
+            {bilans.map(item => {
               return (
-                <Link key={i} href={`${router.route}/1`} passHref>
+                <Link 
+                    key={item.id} 
+                    href={`${router.route}/[id]`} 
+                    as={`${router.route}/${item.id}`} 
+                    passHref
+                >
                   <a>
                     <div className="flex h-auto md:h-64">
                       <CheckupPreview
                         mobile={true}
-                        date="01/02/2020"
-                        score="65"
+                        date={formatDate(item?.attributes.createdAt)}
+                        score={item?.attributes.note_global}
                       />
                     </div>
                   </a>

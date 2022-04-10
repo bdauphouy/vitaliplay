@@ -43,7 +43,7 @@ export const getServerSideProps = async ({ req }) => {
 
 export const CheckupBox = ({ date, score }) => {
   return (
-    <div className="flex flex-col items-center rounded bg-blue-50 p-4 transition-[background-color] duration-300 hover:bg-blue-100 sm:items-start" style={{maxWidth: "20%"}}>
+    <div className="flex flex-col items-center rounded bg-blue-50 p-4 transition-[background-color] duration-300 hover:bg-blue-100 sm:items-start">
       <span className="font-body text-xs font-normal text-dark-700">
         <span className="hidden sm:inline">Bilan : </span>
         {date}
@@ -123,7 +123,7 @@ const Account = ({ user, homeData }) => {
                     }/bilans/${bilan.id}`}
                     passHref
                     >
-                    <a className="flex-1">
+                    <a className="flex-1" style={{maxWidth: homeData.bilan_reponses.length < 3 ? "30%" : ""}}>
                         <CheckupBox date={formatDate(bilan.createdAt)} score={bilan.note_global} />
                     </a>
                     </Link>

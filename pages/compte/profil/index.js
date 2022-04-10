@@ -6,6 +6,28 @@ import { UploadProfilePicture } from '@/components/utils/Icons'
 import { useRef, useEffect } from 'react'
 import { fetchAPIWithToken } from '@/lib/api'
 
+const months = [
+  'Janvier',
+  'Février',
+  'Mars',
+  'Avril',
+  'Mai',
+  'Juin',
+  'Juillet',
+  'Aout',
+  'Septembre',
+  'Octobre',
+  'Novembre',
+  'Décembre',
+]
+
+function formatDate(str) {
+  const split1 = str.split('T')[0]
+  const split2 = split1.split('-')
+
+  return `${split2[2]} ${months[parseInt(split2[1])]} ${split2[0]}`
+}
+
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
     return {
@@ -16,7 +38,10 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const user = await fetchAPIWithToken('/users/me', req.cookies.jwt, false)
+  const { user, history, billing } = await fetchAPIWithToken(
+    '/pwa/account',
+    req.cookies.jwt
+  )
 
   return { props: { user } }
 }
@@ -40,6 +65,7 @@ export const Section = ({ id, icon, title, path = '/' }) => {
 }
 
 const Profile = ({ user }) => {
+  console.log(user)
   const updateProfilePictureInput = useRef()
 
   const getImage = () => {
@@ -47,7 +73,6 @@ const Profile = ({ user }) => {
   }
 
   useEffect(() => {
-    console.log(user)
     updateProfilePictureInput.current.addEventListener('input', getImage)
     // return () =>
     //   updateProfilePictureInput.current.removeEventListener('input', getImage)
@@ -58,9 +83,20 @@ const Profile = ({ user }) => {
       <div className="flex flex-col items-center">
         <label
           htmlFor="update-profile-picture"
-          className="group relative mb-6 h-36 w-36 cursor-pointer rounded-full bg-dark-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover lg:mb-8"
+          className="group relative mb-6 h-36 w-36 cursor-pointer rounded-full bg-dark-100 bg-cover lg:mb-8"
+          style={{
+            backgroundImage: `url(${
+              user?.profil_picture?.url
+                ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                  user?.profil_picture?.url
+                : 'https://thispersondoesnotexist.com/image'
+            })`,
+          }}
         >
-          <button className="absolute right-0 bottom-0 rounded-full border-2 border-solid border-transparent bg-blue-100 p-2 transition-[border-color] duration-200 group-hover:border-blue-900">
+          <button
+            onClick={() => updateProfilePictureInput.current.click()}
+            className="absolute right-0 bottom-0 rounded-full border-2 border-solid border-transparent bg-blue-100 p-2 transition-[border-color] duration-200 group-hover:border-blue-900"
+          >
             <UploadProfilePicture />
           </button>
         </label>

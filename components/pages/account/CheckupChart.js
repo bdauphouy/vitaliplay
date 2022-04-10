@@ -9,21 +9,12 @@ import {
   CartesianGrid,
 } from 'recharts'
 
-const data = []
-for (let i = 0; i < 20; i++) {
-  data.push({
-    id: i,
-    date: '23/09/21',
-    score: Math.round(Math.random() * 40 + 70),
-  })
-}
-
-const CheckupChart = () => {
+const CheckupChart = ({notes= []}) => {
   const tooltip = useRef()
 
   return (
     <ResponsiveContainer width="100%" height={550}>
-      <AreaChart data={data} margin={{ right: 0, left: -60, top: 30 }}>
+      <AreaChart data={notes} margin={{ right: 0, left: -60, top: 30 }}>
         <defs>
           <linearGradient id="color" x1="0" y1="0" x2="0" y2="1">
             <stop offset="30%" stopColor="#1778F2" stopOpacity={1} />
