@@ -18,7 +18,7 @@ export const getServerSideProps = async ({ req }) => {
   }
 
   const seances = await fetchAPIWithToken('/exercices/mine', req.cookies.jwt)
-
+  console.log( seances)
   return { props: { exercices: seances.exercices, tags: seances.exerciceTags } }
 }
 const SessionsNewTrainings = ({ exercices, tags }) => {
@@ -42,19 +42,25 @@ const SessionsNewTrainings = ({ exercices, tags }) => {
           filterOptions={tags.map((tag) => tag.name)}
         >
           {exercices.map((item) => {
+              console.log(item)
             return (
-              <Link key={item.id} href={`${router.route}/${item.id}`} passHref>
+              <Link 
+                key={item.id} 
+                href={`${router.route}/[id]`} 
+                as={`${router.route}/${item.id}`} 
+                passHref
+              >
                 <a>
                   <Card
-                    tagType={item?.data?.tags[0]?.id}
+                    tagType={item?.tags?.id}
                     title={item?.name}
                     type="séances"
                     duration={item?.duration}
                     level={item?.level}
                     bg={
-                      item?.image?.data?.url
+                      item?.image?.url
                         ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item?.image?.data?.url
+                          item?.image?.url
                         : '/bg-card.png'
                     }
                   />

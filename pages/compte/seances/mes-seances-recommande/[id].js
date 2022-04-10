@@ -108,8 +108,8 @@ const SessionsNewTrainings1 = ({exercice , otherExercices}) => {
                 return (
                 <Link 
                     key={item.id} 
-                    href={`/compte/seances/toutes-les-seances/[id]`} 
-                    as={`/compte/seances/toutes-les-seances/${item.id}`} 
+                    href={`/compte/seances/mes-seances-recommande/[id]`} 
+                    as={`/compte/seances/mes-seances-recommande/${item.id}`} 
                     passHref
                 >
                     <a>

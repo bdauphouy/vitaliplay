@@ -86,7 +86,7 @@ const Sessions = ({ seanceData }) => {
                 return (
                   <Link
                     key={exo.id}
-                    href={`${router.asPath}${getRowPath(entryName)}/${exo.id}`}
+                    href={`${router.asPath}${getRowPath(entryName)}/[id]`}
                     as={`${router.asPath}${getRowPath(entryName)}/${exo.id}`}
                     passHref
                   >
