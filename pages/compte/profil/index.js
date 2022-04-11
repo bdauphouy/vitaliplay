@@ -88,7 +88,10 @@ const Profile = ({ user }) => {
               backgroundImage: `url(${ user?.profil_picture?.url ? process.env.NEXT_PUBLIC_STRAPI_API_URL+user?.profil_picture?.url : 'https://thispersondoesnotexist.com/image' })`
           }}
         >
-          <button className="absolute right-0 bottom-0 rounded-full border-2 border-solid border-transparent bg-blue-100 p-2 transition-[border-color] duration-200 group-hover:border-blue-900">
+          <button
+            onClick={() => updateProfilePictureInput.current.click()}
+            className="absolute right-0 bottom-0 rounded-full border-2 border-solid border-transparent bg-blue-100 p-2 transition-[border-color] duration-200 group-hover:border-blue-900"
+          >
             <UploadProfilePicture />
           </button>
         </label>

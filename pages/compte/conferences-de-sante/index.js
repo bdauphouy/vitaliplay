@@ -7,18 +7,21 @@ import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req }) => {
-    if (!req.cookies.jwt) {
-      return {
-        redirect: {
-          destination: '/connexion',
-          permanent: true,
-        },
-      }
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
     }
-  
-    const {conferences, tags} = await fetchAPIWithToken('/conference-santes', req.cookies.jwt)
-    return { props: { conferences, tags } }
   }
+
+  const { conferences, tags } = await fetchAPIWithToken(
+    '/conference-santes',
+    req.cookies.jwt
+  )
+  return { props: { conferences, tags } }
+}
 
 const HealthConferences = ({ conferences, tags }) => {
   const router = useRouter()
@@ -39,28 +42,28 @@ const HealthConferences = ({ conferences, tags }) => {
         <Row
           title="Conférences de santé"
           filterOptions={tags.map((tag) => tag.name)}
-          type={tags.length > 0 ? "filter": "none"}
+          type={tags.length > 0 ? 'filter' : 'none'}
           mobile={true}
         >
           {conferences.map((item) => {
             return (
-              <Link 
-                key={item.id} 
-                href={`${router.route}/[id]`} 
-                as={`${router.route}/${item.id}`} 
+              <Link
+                key={item.id}
+                href={`${router.route}/[id]`}
+                as={`${router.route}/${item.id}`}
                 passHref
               >
                 <a>
                   <Card
                     title={item.attributes.name}
                     subtitle={item.attributes.description}
-                    type="conference"
+                    type="conférence"
                     bg={
-                        item.attributes?.image?.data?.attributes?.url
-                          ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                      item.attributes?.image?.data?.attributes?.url
+                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
                           item.attributes?.image?.data?.attributes?.url
-                          : '/bg-card.png'
-                      }
+                        : '/bg-card.png'
+                    }
                     mobile={true}
                   />
                 </a>
