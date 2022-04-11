@@ -3,8 +3,9 @@ import { ChevronRight } from '@/components/utils/Icons'
 import { useRouter } from 'next/router'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 import { UploadProfilePicture } from '@/components/utils/Icons'
-import { useRef, useEffect } from 'react'
-import { fetchAPIWithToken } from '@/lib/api'
+import { useRef, useEffect, useState } from 'react'
+import { fetchAPIWithToken, sendAvatar, getToken } from '@/lib/api'
+
 
 const months = [
     "Janvier",
@@ -68,14 +69,19 @@ const Profile = ({ user }) => {
     console.log(user)
   const updateProfilePictureInput = useRef()
 
-  const getImage = () => {
-    console.log(updateProfilePictureInput.current.files[0])
+  const [userImage, setUserImage] = useState(process.env.NEXT_PUBLIC_STRAPI_API_URL+user?.profil_picture?.url)
+
+  const updateImage = () => {
+    console.warn(updateProfilePictureInput.current.files[0])
+    sendAvatar(updateProfilePictureInput.current.files[0], user.id, getToken())
+    setUserImage(updateProfilePictureInput.current.files[0])
   }
 
   useEffect(() => {
-    updateProfilePictureInput.current.addEventListener('input', getImage)
-    // return () =>
-    //   updateProfilePictureInput.current.removeEventListener('input', getImage)
+      updateProfilePictureInput.current?.removeEventListener('input', updateImage)
+    updateProfilePictureInput.current.addEventListener('input', updateImage)
+    return () =>
+      updateProfilePictureInput.current?.removeEventListener('input', updateImage)
   }, [])
 
   return (
@@ -85,7 +91,7 @@ const Profile = ({ user }) => {
           htmlFor="update-profile-picture"
           className="group relative mb-6 h-36 w-36 cursor-pointer rounded-full bg-dark-100 bg-cover lg:mb-8"
           style={{
-              backgroundImage: `url(${ user?.profil_picture?.url ? process.env.NEXT_PUBLIC_STRAPI_API_URL+user?.profil_picture?.url : 'https://thispersondoesnotexist.com/image' })`
+              backgroundImage: `url(${ user?.profil_picture?.url ? userImage : 'https://thispersondoesnotexist.com/image' })`
           }}
         >
           <button

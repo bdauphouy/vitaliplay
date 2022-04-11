@@ -5,8 +5,11 @@ import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 import { fetchAPIWithToken, updateAPIWithToken, getToken } from '@/lib/api'
+import Dropdown from '@/components/utils/Dropdown'
+import { useState } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
+    
     if (!req.cookies.jwt) {
       return {
         redirect: {
@@ -25,6 +28,7 @@ export const getServerSideProps = async ({ req }) => {
 
 const ProfilePersonalInformation = ({ user }) => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
+  const [civility, setCivility] = useState('M')
 
   const formik = useFormik({
     initialValues: {
@@ -34,22 +38,26 @@ const ProfilePersonalInformation = ({ user }) => {
       birthdate: user.birthdate,
       postal_code: user.postal_code,
       email: user.email,
-      phone: user.phone,
+      phone: user.phone
     },
 
     onSubmit: (values) => {
-      
+        const finalData = {
+            ...values,
+            civility
+        }
+        console.log(finalData)
 
-        const updateAccount = async () => {
-            const data = await updateAPIWithToken(
-              `/users/${user.id}`,
-              { data: values },
-              getToken()
-            )
-            console.log(data)
-          } 
+        // const updateAccount = async () => {
+        //     const data = await updateAPIWithToken(
+        //       `/users/${user.id}`,
+        //       { data: values },
+        //       getToken()
+        //     )
+        //     console.log(data)
+        //   } 
 
-         updateAccount() 
+        //  updateAccount() 
     },
   })
 
@@ -62,7 +70,13 @@ const ProfilePersonalInformation = ({ user }) => {
         onSubmit={formik.handleSubmit}
         className="grid-area-profile-personal-information lg:grid-area-profile-personal-information mx-auto mt-12 grid max-w-4xl gap-3 lg:mt-16 lg:gap-4"
       >
-        <div style={{ gridArea: 'a' }}>
+        <div style={{ gridArea: 'a' }} class="flex gap-3 lg:gap-4">
+        <Dropdown
+            options={['M', 'Mme']}
+            label="Civilité"
+            defaultOption={civility}
+            getOption={setCivility}
+          />
           <Input
             label="Nom "
             name="lastname"
@@ -70,13 +84,13 @@ const ProfilePersonalInformation = ({ user }) => {
             value={formik.values.lastname}
             error={formik.touched.lastname && formik.errors.lastname}
           />
-          {/* <Input
+          <Input
             label="Prénom"
             name="firstname"
             onChange={formik.handleChange}
             value={formik.values.firstname}
             error={formik.touched.firstname && formik.errors.firstname}
-          /> */}
+          />
         </div>
         <div style={{ gridArea: 'b' }}>
           <Input
