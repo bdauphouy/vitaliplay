@@ -8,8 +8,15 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { useContext } from 'react'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
+import { fetchAPI } from '@/lib/api'
 
-const LoginConfirm = () => {
+export const getStaticProps = async () => {
+  const login = await fetchAPI('/inscription-connexion')
+
+  return { props: { login }, revalidate: 10 }
+}
+
+const LoginConfirm = ({ login }) => {
   const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()
 
@@ -24,9 +31,8 @@ const LoginConfirm = () => {
         Bon retour parmis nous !
       </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+        <Subtitle type="2" center={true}>
+          {login.connexion_success}
         </Subtitle>
       </div>
       <div className="mt-10 lg:mt-12">

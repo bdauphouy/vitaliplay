@@ -133,15 +133,17 @@ const Subscription = ({ subscriptions, home }) => {
               FAQ
             </Title>
             <div className="mt-12">
-              {subscriptions.faqs?.data.map((item) => {
-                return (
-                  <Faq
-                    key={item.id}
-                    question={item.question}
-                    answer={item.answer}
-                  />
-                )
-              })}
+              {subscriptions.faqs?.data
+                .sort((i1, i2) => (i1.question < i2.question ? -1 : 1))
+                .map((item) => {
+                  return (
+                    <Faq
+                      key={item.id}
+                      question={item.question}
+                      answer={item.answer}
+                    />
+                  )
+                })}
             </div>
           </div>
         </div>

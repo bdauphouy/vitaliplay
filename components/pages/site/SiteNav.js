@@ -122,14 +122,25 @@ const SiteNav = () => {
             )
           })}
           <li className="ml-6">
-            <Link
-              href={getPage(otherPages, 'pageName', 'Connexion').path}
-              passHref
-            >
-              <div>
-                <Cta size="l">Connexion</Cta>
-              </div>
-            </Link>
+            {isAuth ? (
+              <Link
+                href={getPage(accountPages, 'pageName', 'Accueil').path}
+                passHref
+              >
+                <div>
+                  <Cta size="l">Compte</Cta>
+                </div>
+              </Link>
+            ) : (
+              <Link
+                href={getPage(otherPages, 'pageName', 'Connexion').path}
+                passHref
+              >
+                <div>
+                  <Cta size="l">Connexion</Cta>
+                </div>
+              </Link>
+            )}
           </li>
         </ul>
       </nav>

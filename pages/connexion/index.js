@@ -10,12 +10,18 @@ import { LinksContext } from '@/contexts/LinksContext'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
-import { postAPI } from '@/lib/api'
+import { postAPI, fetchAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
 import Error from '@/components/utils/Error'
 import Success from '@/components/utils/Success'
 
-const LoginStart = () => {
+export const getStaticProps = async () => {
+  const login = await fetchAPI('/inscription-connexion')
+
+  return { props: { login }, revalidate: 10 }
+}
+
+const LoginStart = ({ login }) => {
   const router = useRouter()
 
   const [loading, setLoading] = useState(false)
@@ -81,10 +87,7 @@ const LoginStart = () => {
       )}
       <Title type="3">Connexion</Title>
       <div className="mt-4">
-        <Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
+        <Subtitle type="2">{login.connexion_description}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}

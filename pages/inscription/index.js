@@ -12,11 +12,17 @@ import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { v4 as uuidv4 } from 'uuid'
-import { postAPI } from '@/lib/api'
+import { postAPI, fetchAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
 import Error from '@/components/utils/Error'
 
-const SignupStart = () => {
+export const getStaticProps = async () => {
+  const signup = await fetchAPI('/inscription-connexion')
+
+  return { props: { signup }, revalidate: 10 }
+}
+
+const SignupStart = ({ signup }) => {
   const [civility, setCivility] = useState('M')
 
   const { getPage, otherPages } = useContext(LinksContext)
@@ -88,10 +94,7 @@ const SignupStart = () => {
     <div className="h-full lg:pt-32 xl:mr-20">
       <Title type="3">Inscription</Title>
       <div className="mt-4">
-        <Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
+        <Subtitle type="2">{signup.inscription_description}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}

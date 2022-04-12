@@ -10,7 +10,13 @@ import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 import useConfetti from '@/hooks/useConfetti'
 
-const InvitationConfirm = () => {
+export const getStaticProps = async () => {
+  const invitation = await fetchAPI('/inscription-connexion')
+
+  return { props: { invitation }, revalidate: 10 }
+}
+
+const InvitationConfirm = ({ invitation }) => {
   const congratsSize = useCongratsSize()
 
   const { getPage, surveyPages } = useContext(LinksContext)
@@ -31,9 +37,8 @@ const InvitationConfirm = () => {
         Bienvenue parmis nous !
       </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+        <Subtitle center={true} type="2">
+          {invitation.inscription_wellcome}
         </Subtitle>
       </div>
       <div className="mt-8 lg:mt-12">

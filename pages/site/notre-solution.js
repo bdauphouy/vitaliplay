@@ -144,7 +144,9 @@ const OurSolution = ({ ourSolution }) => {
                   <Title>{getSectionById(currentSection).title}</Title>
                 </div>
                 <div className="mt-8">
-                  <Subtitle>{getSectionById(currentSection).subtitle}</Subtitle>
+                  <Subtitle type="2">
+                    {getSectionById(currentSection).subtitle}
+                  </Subtitle>
                 </div>
               </div>
             </div>

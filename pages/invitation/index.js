@@ -7,8 +7,15 @@ import { useFormik } from 'formik'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
+import { fetchAPI } from '@/lib/api'
 
-const InvitationStart = () => {
+export const getStaticProps = async () => {
+  const invitation = await fetchAPI('/inscription-connexion')
+
+  return { props: { invitation }, revalidate: 10 }
+}
+
+const InvitationStart = ({ invitation }) => {
   const formik = useFormik({
     initialValues: {
       code: '',
@@ -26,10 +33,7 @@ const InvitationStart = () => {
     <div className="max-w-3xl">
       <Title type="3">Renseignez votre code d'invitation</Title>
       <div className="mt-4">
-        <Subtitle type="2">
-          Un code invitation vous a été offert? Renseignez-le pour bénéficier
-          d'un accès gratuit à la plateforme.
-        </Subtitle>
+        <Subtitle type="2">{invitation.inscription_invitation_code}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}
