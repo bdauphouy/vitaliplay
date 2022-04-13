@@ -177,7 +177,7 @@ const OurSolution = ({ ourSolution }) => {
                   i % 2 === 0 ? 'flex-row-reverse lg:pl-24' : 'lg:pr-24'
                 }`}
               >
-                <div className="relative mt-16 h-96 lg:mt-0 lg:h-auto lg:w-2/5 lg:self-stretch xl:mt-16 xl:h-96">
+                <div className="relative mt-16 h-48 lg:mt-0 lg:h-auto lg:w-2/5 lg:self-stretch xl:mt-16 xl:h-96">
                   <Image
                     src={section.image}
                     alt="notre solution"

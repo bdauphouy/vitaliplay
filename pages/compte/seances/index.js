@@ -54,7 +54,10 @@ export const getServerSideProps = async ({ req }) => {
   }
 
   const seanceData = await fetchAPIWithToken('/pwa/seance', req.cookies.jwt)
-  return { props: { seanceData } }
+
+  console.log(seanceData)
+
+  return { props: { seanceData: null } }
 }
 
 const Sessions = ({ seanceData }) => {
@@ -73,7 +76,7 @@ const Sessions = ({ seanceData }) => {
         />
       </header>
       <div className="flex flex-col gap-12 py-12">
-        {Object.entries(seanceData).map(([entryName, data],i) => {
+        {Object.entries(seanceData).map(([entryName, data], i) => {
           if (data.length === 0) return <></>
           return (
             <Row
@@ -82,7 +85,9 @@ const Sessions = ({ seanceData }) => {
               path={`${router.asPath}${getRowPath(entryName)}`}
             >
               {data.map((exo) => {
-                  console.log(`${router.asPath}${getRowPath(entryName)}/${exo.id}`)
+                console.log(
+                  `${router.asPath}${getRowPath(entryName)}/${exo.id}`
+                )
                 return (
                   <Link
                     key={exo.id}

@@ -16,8 +16,8 @@ export const StartSignupSchema = yup.object().shape({
     .required('Veuillez renseigner un nom.'),
   firstName: yup
     .string()
-    .min(2, 'Veuillez renseigner un nom valide.')
-    .max(50, 'Veuillez renseigner un nom valide.')
+    .min(2, 'Veuillez renseigner un prénom valide.')
+    .max(50, 'Veuillez renseigner un prénom valide.')
     .required('Veuillez renseigner un prénom.'),
   address: yup
     .string()

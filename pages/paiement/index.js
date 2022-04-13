@@ -3,6 +3,7 @@ import { useEffect, useContext } from 'react'
 import { fetchAPI } from '@/lib/api'
 import { useState } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/home-landing')
@@ -19,6 +20,8 @@ export const getStaticProps = async () => {
 
 const Checkout = ({ subscriptions }) => {
   const router = useRouter()
+
+  const { isAuth } = useContext(AuthContext)
 
   const [types] = useState({
     Annuel: 'annual',
@@ -56,7 +59,11 @@ const Checkout = ({ subscriptions }) => {
       )
     }
 
-    router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
+    if (parseInt(activeStep) === 1 && isAuth) {
+      router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
+    } else {
+      router.push(getPage(checkoutPages, 'id', 2).path)
+    }
   }, [])
 
   return <></>

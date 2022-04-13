@@ -1,4 +1,3 @@
-import Link from 'next/link'
 import Input from '@/components/utils/Input'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
@@ -8,6 +7,9 @@ import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { fetchAPI } from '@/lib/api'
+import Error from '@/components/utils/Error'
+import { useState } from 'react'
+import InvitationSchema from '@/schemas/InvitationSchema'
 
 export const getStaticProps = async () => {
   const invitation = await fetchAPI('/inscription-connexion')
@@ -20,10 +22,13 @@ const InvitationStart = ({ invitation }) => {
     initialValues: {
       code: '',
     },
+    validationSchema: InvitationSchema,
     onSubmit: (values) => {
       router.push(`${router.asPath}/confirmation`)
     },
   })
+
+  const [serverSideError, setServerSideError] = useState()
 
   const router = useRouter()
 
@@ -47,6 +52,7 @@ const InvitationStart = ({ invitation }) => {
             value={formik.values.code}
             error={formik.touched.code && formik.errors.code}
           />
+          {serverSideError && <Error>{serverSideError}</Error>}
         </div>
 
         <div className="mt-4 lg:mt-8">

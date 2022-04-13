@@ -11,6 +11,7 @@ import { useRouter } from 'next/router'
 import { useState, useEffect, useContext } from 'react'
 import useButtonSize from '@/hooks/useButtonSize'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckoutSchema } from '@/schemas/checkout/CheckoutSchema'
 
 const CheckoutCheckout = () => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -35,6 +36,7 @@ const CheckoutCheckout = () => {
       expires: '',
       cvv: '',
     },
+    validationSchema: CheckoutSchema,
     onSubmit: (values) => {
       window.localStorage.setItem(
         'vitaliplay.checkout.store',
@@ -91,6 +93,7 @@ const CheckoutCheckout = () => {
                 name="name"
                 value={formik.values.name}
                 onChange={formik.handleChange}
+                error={formik.touched.name && formik.errors.name}
               />
             </div>
             <div style={{ gridArea: 'b' }}>
@@ -99,6 +102,7 @@ const CheckoutCheckout = () => {
                 name="cardNumber"
                 value={formik.values.cardNumber}
                 onChange={formik.handleChange}
+                error={formik.touched.cardNumber && formik.errors.cardNumber}
               />
             </div>
             <div style={{ gridArea: 'c' }}>
@@ -107,6 +111,7 @@ const CheckoutCheckout = () => {
                 name="expires"
                 value={formik.values.expires}
                 onChange={formik.handleChange}
+                error={formik.touched.expires && formik.errors.expires}
                 placeholder="ex. 07/23"
               />
             </div>
@@ -116,6 +121,7 @@ const CheckoutCheckout = () => {
                 name="cvv"
                 value={formik.values.cvv}
                 onChange={formik.handleChange}
+                error={formik.touched.cvv && formik.errors.cvv}
               />
             </div>
           </div>
