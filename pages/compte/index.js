@@ -133,6 +133,10 @@ const Account = ({ user, homeData }) => {
                       href={`${
                         getPage(accountPages, 'pageName', 'Mon espace santé')
                           .path
+                      }/bilans/[id]`}
+                      as={`${
+                        getPage(accountPages, 'pageName', 'Mon espace santé')
+                          .path
                       }/bilans/${bilan.id}`}
                       passHref
                     >
@@ -212,6 +216,9 @@ const Account = ({ user, homeData }) => {
                 <Link
                   key={exercice.id}
                   href={`${
+                    getPage(accountPages, 'pageName', 'Séances').path
+                  }/toutes-les-seances/[id]`}
+                  as={`${
                     getPage(accountPages, 'pageName', 'Séances').path
                   }/toutes-les-seances/${exercice.id}`}
                   passHref

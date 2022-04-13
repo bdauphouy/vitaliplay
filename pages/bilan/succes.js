@@ -10,6 +10,8 @@ import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 
 const SurveySuccess = () => {
+  const successData = JSON.parse(window.localStorage.getItem('bilanSuccess'))
+  console.log(successData)
   const { getPage, accountPages } = useContext(LinksContext)
 
   const congratsSize = useCongratsSize()
@@ -23,18 +25,19 @@ const SurveySuccess = () => {
       </div>
       <Title center={true} type="3" html={false}>
         Bilan fini !<br />
-        Votre score est de : 66
+        Votre score est de : {successData.noteGlobal}
       </Title>
       <div className="mt-4">
         <Subtitle center={true} type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fringilla
-          viverra tellus adipiscing mi, nunc. Lorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Fringilla viverra tellus adipiscing mi,
-          nunc.
+          {successData.conseil}
         </Subtitle>
       </div>
       <div className="mt-12">
-        <Link href={getPage(accountPages, 'pageName', 'Accueil').path} passHref>
+        <Link
+          href={`/compte/mon-espace-sante/bilans/[id]`}
+          as={`/compte/mon-espace-sante/bilans/${successData.id}`}
+          passHref
+        >
           <a>
             <Cta size={buttonSize} type="primary">
               Voir mon bilan

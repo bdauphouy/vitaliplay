@@ -64,8 +64,11 @@ const DailyActivityModerateActivity = () => {
           },
           getToken()
         )
-
         if (data) {
+          window.localStorage.setItem(
+            'bilanSuccess',
+            JSON.stringify(data.data.attributes)
+          )
           router.push(getPage(checkupPages, 'pageName', 'Succès').path)
         } else {
           router.push(getPage(checkupPages, 'pageName', 'Bilan').path)
