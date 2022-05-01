@@ -12,7 +12,7 @@ import { useState } from 'react'
 import InvitationSchema from '@/schemas/InvitationSchema'
 
 export const getStaticProps = async () => {
-  const invitation = await fetchAPI('/inscription-connexion')
+  const invitation = await fetchAPI('/content/invitation')
 
   return { props: { invitation }, revalidate: 10 }
 }
@@ -36,9 +36,9 @@ const InvitationStart = ({ invitation }) => {
 
   return (
     <div className="max-w-3xl">
-      <Title type="3">Renseignez votre code d'invitation</Title>
+      <Title type="3">{invitation.invitationTitle}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{invitation.inscription_invitation_code}</Subtitle>
+        <Subtitle type="2">{invitation.invitationDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}

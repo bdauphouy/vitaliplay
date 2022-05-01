@@ -12,7 +12,7 @@ import useConfetti from '@/hooks/useConfetti'
 import { fetchAPI } from '@/lib/api'
 
 export const getStaticProps = async () => {
-  const signup = await fetchAPI('/inscription-connexion')
+  const signup = await fetchAPI('/content/signup')
 
   return { props: { signup }, revalidate: 10 }
 }
@@ -34,11 +34,11 @@ const SignupConfirm = ({ signup }) => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        Félicitations, vous êtes bien inscrit sur Vitaliplay
+        {signup.signupSuccessTitle}
       </Title>
       <div className="mt-4">
         <Subtitle type="2" center={true}>
-          {signup.inscription_success}
+          {signup.signupSuccessDescription}
         </Subtitle>
       </div>
       <div className="mt-10 flex flex-wrap justify-center gap-6 lg:mt-12">

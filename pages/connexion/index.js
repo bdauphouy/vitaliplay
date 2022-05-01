@@ -16,7 +16,7 @@ import Error from '@/components/utils/Error'
 import Success from '@/components/utils/Success'
 
 export const getStaticProps = async () => {
-  const login = await fetchAPI('/inscription-connexion')
+  const login = await fetchAPI('/content/login')
 
   return { props: { login }, revalidate: 10 }
 }
@@ -49,7 +49,6 @@ const LoginStart = ({ login }) => {
       })
       setLoading(false)
       if (res.error) {
-        console.log(res.error)
         setServerSideError(
           serverSideErrors[res.error.message] ||
             'Erreur lors de la soumission du formulaire.'
@@ -85,9 +84,9 @@ const LoginStart = ({ login }) => {
           </Success>
         </div>
       )}
-      <Title type="3">Connexion</Title>
+      <Title type="3">{login.loginTitle}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{login.connexion_description}</Subtitle>
+        <Subtitle type="2">{login.loginDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}

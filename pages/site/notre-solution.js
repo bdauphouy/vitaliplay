@@ -159,7 +159,6 @@ const OurSolution = ({ ourSolution }) => {
             ref={imageRef}
             style={{ transitionProperty: 'opacity' }}
           >
-            {console.log(getSectionById(currentSection))}
             <Image
               src={getStrapiMedia(getSectionById(currentSection).image)}
               alt="notre solution"

@@ -9,9 +9,10 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 import useConfetti from '@/hooks/useConfetti'
+import { fetchAPI } from '@/lib/api'
 
 export const getStaticProps = async () => {
-  const invitation = await fetchAPI('/inscription-connexion')
+  const invitation = await fetchAPI('/content/invitation')
 
   return { props: { invitation }, revalidate: 10 }
 }
@@ -34,11 +35,11 @@ const InvitationConfirm = ({ invitation }) => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        Bienvenue parmis nous !
+        {invitation.invitationTitle}
       </Title>
       <div className="mt-4">
         <Subtitle center={true} type="2">
-          {invitation.inscription_wellcome}
+          {invitation.invitationDescription}
         </Subtitle>
       </div>
       <div className="mt-8 lg:mt-12">

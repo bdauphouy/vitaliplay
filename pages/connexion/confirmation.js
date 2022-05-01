@@ -11,7 +11,7 @@ import useCongratsSize from '@/hooks/useCongratsSize'
 import { fetchAPI } from '@/lib/api'
 
 export const getStaticProps = async () => {
-  const login = await fetchAPI('/inscription-connexion')
+  const login = await fetchAPI('/content/login')
 
   return { props: { login }, revalidate: 10 }
 }
@@ -28,11 +28,11 @@ const LoginConfirm = ({ login }) => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        Bon retour parmis nous !
+        {login.loginSuccessTitle}
       </Title>
       <div className="mt-4">
         <Subtitle type="2" center={true}>
-          {login.connexion_success}
+          {login.loginSuccessDescription}
         </Subtitle>
       </div>
       <div className="mt-10 lg:mt-12">

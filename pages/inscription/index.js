@@ -17,7 +17,7 @@ import { AuthContext } from '@/contexts/AuthContext'
 import Error from '@/components/utils/Error'
 
 export const getStaticProps = async () => {
-  const signup = await fetchAPI('/inscription-connexion')
+  const signup = await fetchAPI('/content/signup')
 
   return { props: { signup }, revalidate: 10 }
 }
@@ -92,9 +92,9 @@ const SignupStart = ({ signup }) => {
 
   return (
     <div className="h-full lg:pt-32 xl:mr-20">
-      <Title type="3">Inscription</Title>
+      <Title type="3">{signup.signupTitle}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{signup.inscription_description}</Subtitle>
+        <Subtitle type="2">{signup.signupDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}
