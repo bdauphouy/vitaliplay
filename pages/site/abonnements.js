@@ -15,47 +15,69 @@ import Image from 'next/image'
 import SiteLayout from '@/components/layouts/SiteLayout'
 
 export const getStaticProps = async () => {
-  const subscriptions = await fetchAPI('/home-about')
-  const home = await fetchAPI('/home-landing')
+  const subscriptions = await fetchAPI('/content/subscriptions', [
+    'subscriptions',
+    'faq',
+  ])
 
-  return { props: { subscriptions, home }, revalidate: 10 }
+  return { props: { subscriptions }, revalidate: 10 }
 }
 
-const Subscription = ({ subscriptions, home }) => {
+const Subscription = ({ subscriptions }) => {
   const { otherPages, getPage } = useContext(LinksContext)
 
   return (
     <>
       <div className="mt-32 overflow-x-hidden px-6 md:px-24 lg:mt-36 lg:overflow-x-visible">
         <Title type="1" center={true}>
-          {subscriptions.title}
+          {subscriptions.subscriptionsTitle}
         </Title>
         <div className="mt-4">
-          <Subtitle center={true}>{subscriptions.description}</Subtitle>
+          <Subtitle center={true}>
+            {subscriptions.subscriptionsDescription}
+          </Subtitle>
         </div>
         <div className="mt-10 flex flex-col gap-6 lg:mt-16 lg:flex-row lg:justify-center lg:gap-0">
           <div className="z-10 w-full lg:order-2 lg:w-96">
             <SubscriptionCard
-              title="Annuel"
-              price={home.prices.data[0].attributes.price}
+              title={subscriptions.subscriptions?.[1].subscriptionType}
+              price={subscriptions.subscriptions?.[1].subscriptionPrice}
               suffix="/par an"
-              description={home.prices.data[0].attributes.description}
+              description={
+                subscriptions.subscriptions?.[1].subscriptionDescription
+              }
               variant="blue"
-              size="big"
-              stamp={true}
+              stamp={
+                subscriptions.subscriptions?.[1]?.subscriptionReduction
+                  ? true
+                  : false
+              }
+              stampValue={
+                subscriptions.subscriptions?.[1].subscriptionReduction
+              }
               subPage={true}
-              program={subscriptions.prices[1].price_points}
+              program={subscriptions.subscriptions?.[1].subscriptionBenefits}
             />
           </div>
+
           <div className="w-full lg:order-1 lg:w-96 lg:py-8">
             <SubscriptionCard
-              title="Mensuel"
-              price={home.prices.data[1].attributes.price}
+              title={subscriptions.subscriptions?.[0].subscriptionType}
+              price={subscriptions.subscriptions?.[0].subscriptionPrice}
               suffix="/par mois"
-              description={home.prices.data[1].attributes.description}
-              size="small"
+              description={
+                subscriptions.subscriptions?.[0].subscriptionDescription
+              }
+              stamp={
+                subscriptions.subscriptions?.[0]?.subscriptionReduction
+                  ? true
+                  : false
+              }
+              stampValue={
+                subscriptions.subscriptions?.[0]?.subscriptionReduction
+              }
               subPage={true}
-              program={subscriptions.prices[0].price_points}
+              program={subscriptions.subscriptions?.[0].subscriptionBenefits}
             />
           </div>
           <div className="w-full self-stretch lg:order-3 lg:w-96 lg:py-8">
@@ -73,11 +95,12 @@ const Subscription = ({ subscriptions, home }) => {
                 <Image src={yellowOrange} alt="yellow-orange" />
               </div>
               <h3 className="text-center font-head text-2xl font-bold">
-                {subscriptions.code_reduc_title}
+                Vous possédez déjà d'un VitaliPass?
               </h3>
               <div className="mt-4">
                 <Subtitle center={true} type="2">
-                  {subscriptions.code_reduc_description}
+                  Si un VitaliPass vous a été offert, profitez dès aujourd’hui
+                  d’un accès gratuit à Vitaliplay
                 </Subtitle>
               </div>
               <div className="mt-6 lg:mt-8">
@@ -114,17 +137,17 @@ const Subscription = ({ subscriptions, home }) => {
                 style={{ fontSize: 20 }}
                 className="font-head font-bold text-blue-900 lg:text-xl"
               >
-                {subscriptions.offer_sub_title}
+                {subscriptions.giftSubscriptionTitle}
               </h3>
               <div className="mt-3">
                 <Subtitle type="3">
-                  {subscriptions.offer_sub_decription}
+                  {subscriptions.giftSubscriptionDescription}
                 </Subtitle>
               </div>
             </div>
             <div className="mt-6 lg:mt-0">
               <Cta size="l" type="primary" arrow="right">
-                Offrir un Abonnement
+                {subscriptions.giftSubscriptionButtonText}
               </Cta>
             </div>
           </div>
@@ -133,7 +156,7 @@ const Subscription = ({ subscriptions, home }) => {
               FAQ
             </Title>
             <div className="mt-12">
-              {subscriptions.faqs?.data
+              {subscriptions.faq
                 .sort((i1, i2) => (i1.question < i2.question ? -1 : 1))
                 .map((item) => {
                   return (

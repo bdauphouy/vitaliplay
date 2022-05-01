@@ -10,12 +10,22 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import SiteLayout from '@/components/layouts/SiteLayout'
-import { postAPI } from '@/lib/api'
+import { fetchAPI, postAPI } from '@/lib/api'
 import { useState } from 'react'
 import Error from '@/components/utils/Error'
 import useConfetti from '@/hooks/useConfetti'
 
-const Contact = () => {
+export const getStaticProps = async () => {
+  const contact = await fetchAPI('/content/contact')
+
+  return {
+    props: {
+      contact,
+    },
+  }
+}
+
+const Contact = ({ contact }) => {
   const [loading, setLoading] = useState(false)
   const [serverSideError, setServerSideError] = useState()
 
@@ -67,14 +77,10 @@ const Contact = () => {
         <div className="flex justify-center">
           <div className="max-w-xl">
             <Title type="1" center={true}>
-              Contact
+              {contact.contactTitle}
             </Title>
             <div className="mt-4">
-              <Subtitle center={true}>
-                Nous sommes à votre disposition pour répondre à vos questions.
-                Nous ferons le nécessaire pour vous apporter satisfaction dans
-                les meilleurs délais.
-              </Subtitle>
+              <Subtitle center={true}>{contact.contactDescription}</Subtitle>
             </div>
           </div>
         </div>

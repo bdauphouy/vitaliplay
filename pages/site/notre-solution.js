@@ -3,11 +3,12 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import { useEffect, useState, useRef } from 'react'
 import { fetchAPI } from '@/lib/api'
+import { getStrapiMedia } from '@/lib/media'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import SiteLayout from '@/components/layouts/SiteLayout'
 
 export const getStaticProps = async () => {
-  const ourSolution = await fetchAPI('/home-solution')
+  const ourSolution = await fetchAPI('/content/our-solution', ['solutions'])
 
   return { props: { ourSolution }, revalidate: 10 }
 }
@@ -17,10 +18,10 @@ const OurSolution = ({ ourSolution }) => {
     ourSolution.solutions.map((solution, i) => {
       return {
         id: i,
-        keyword: solution.name,
-        title: solution.title,
-        subtitle: solution.description,
-        image: i % 2 === 0 ? '/our-solution.jpg' : '/cat.jpg',
+        keyword: solution.solutionTab,
+        title: solution.solutionTitle,
+        subtitle: solution.solutionDescription,
+        image: solution.solutionImage.data.attributes,
       }
     })
   )
@@ -98,10 +99,12 @@ const OurSolution = ({ ourSolution }) => {
       <div className="mx-auto flex max-w-screen-3xl flex-col">
         <div className="self-center lg:h-96 lg:max-w-2xl lg:py-16 lg:px-6">
           <Title type="1" center={true}>
-            {ourSolution.title}
+            {ourSolution.ourSolutionTitle}
           </Title>
           <div className="mt-10">
-            <Subtitle center={true}>{ourSolution.description}</Subtitle>
+            <Subtitle center={true}>
+              {ourSolution.ourSolutionDescription}
+            </Subtitle>
           </div>
         </div>
         <div className="hidden min-h-4/5-screen justify-between pl-24 xl:flex">
@@ -114,7 +117,7 @@ const OurSolution = ({ ourSolution }) => {
                   transitionProperty: 'left, width, height',
                 }}
               ></div>
-              {sections.map((section, i) => {
+              {sections?.map((section, i) => {
                 return (
                   <li
                     key={i}
@@ -156,12 +159,9 @@ const OurSolution = ({ ourSolution }) => {
             ref={imageRef}
             style={{ transitionProperty: 'opacity' }}
           >
+            {console.log(getSectionById(currentSection))}
             <Image
-              src={
-                getSectionById(currentSection).image
-                  ? getSectionById(currentSection).image
-                  : '/our-solution.jpg'
-              }
+              src={getStrapiMedia(getSectionById(currentSection).image)}
               alt="notre solution"
               layout="fill"
               objectFit="cover"
@@ -169,7 +169,7 @@ const OurSolution = ({ ourSolution }) => {
           </div>
         </div>
         <div className="xl:hidden">
-          {sections.map((section, i) => {
+          {sections?.map((section, i) => {
             return (
               <div
                 key={i}
@@ -179,7 +179,7 @@ const OurSolution = ({ ourSolution }) => {
               >
                 <div className="relative mt-16 h-48 lg:mt-0 lg:h-auto lg:w-2/5 lg:self-stretch xl:mt-16 xl:h-96">
                   <Image
-                    src={section.image}
+                    src={getStrapiMedia(section.image)}
                     alt="notre solution"
                     layout="fill"
                     objectFit="cover"

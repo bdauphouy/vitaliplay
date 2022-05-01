@@ -16,7 +16,7 @@ const Faq = ({
     setButtonSize(isMediumScreen ? 25 : 20)
   }, [isMediumScreen])
 
-  const openDropdown = (e) => {
+  const toggleDropdown = (e) => {
     e.target.parentElement.nextSibling.classList.toggle('max-h-0')
     e.target.parentElement.nextSibling.classList.toggle(
       isMediumScreen ? 'max-h-48' : 'max-h-96'
@@ -32,7 +32,7 @@ const Faq = ({
           {question}
         </p>
         <div
-          onClick={openDropdown}
+          onClick={toggleDropdown}
           className="cursor-pointer transition"
           style={{ transitionProperty: 'transform' }}
         >
