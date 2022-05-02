@@ -6,13 +6,13 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
 export const getStaticProps = async () => {
-  const subscriptions = await fetchAPI('/home-landing')
+  const subscriptions = await fetchAPI('/content/subscriptions', [
+    'subscriptions',
+  ])
 
   return {
     props: {
-      subscriptions: subscriptions.prices.data.map(
-        (subscription) => subscription.attributes
-      ),
+      subscriptions: subscriptions.subscriptions,
     },
     revalidate: 10,
   }
@@ -20,8 +20,6 @@ export const getStaticProps = async () => {
 
 const Checkout = ({ subscriptions }) => {
   const router = useRouter()
-
-  const { isAuth } = useContext(AuthContext)
 
   const [types] = useState({
     Annuel: 'annual',
@@ -53,17 +51,13 @@ const Checkout = ({ subscriptions }) => {
         JSON.stringify({
           subscription: subscriptions.find(
             (subscription) =>
-              subscription.type === types[router.query.abonnement]
+              subscription.subscriptionType === types[router.query.abonnement]
           ),
         })
       )
     }
 
-    if (parseInt(activeStep) === 1 && isAuth) {
-      router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
-    } else {
-      router.push(getPage(checkoutPages, 'id', 2).path)
-    }
+    router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
   }, [])
 
   return <></>

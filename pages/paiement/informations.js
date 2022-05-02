@@ -20,13 +20,14 @@ const CheckoutInfo = () => {
   }, [])
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      lastName: '',
-      firstName: '',
-      address: '',
-      city: '',
-      country: '',
-      zipCode: '',
+      lastName: store?.billing?.lastName || '',
+      firstName: store?.billing?.firstName || '',
+      address: store?.billing?.address || '',
+      city: store?.billing?.city || '',
+      country: store?.billing?.country || '',
+      zipCode: store?.billing?.zipCode || '',
     },
     validationSchema: InformationsSchema,
     onSubmit: (values) => {
@@ -45,6 +46,8 @@ const CheckoutInfo = () => {
   const router = useRouter()
 
   const buttonSize = useButtonSize()
+
+  useEffect(() => {}, [store])
 
   return (
     <div className="mt-10 px-6 md:px-24 lg:mt-40">

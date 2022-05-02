@@ -6,8 +6,20 @@ import { useContext } from 'react'
 import { useState, useEffect } from 'react'
 import CloseNav from '@/components/utils/CloseNav'
 import Link from 'next/link'
+import {
+  CheckoutContextProvider,
+  CheckoutContext,
+} from '@/contexts/CheckoutContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
-const CheckoutLayout = ({ children }) => {
+const CheckoutPreview = ({ children }) => {
+  const { checkout, setCheckout } = useContext(CheckoutContext)
+  const { getPage, otherPages } = useContext(LinksContext)
+
+  const [createdAt, setCreatedAt] = useState('')
+  const [endAt, setEndAt] = useState('')
+  const [orderId, setOrderId] = useState('')
+
   const formik = useFormik({
     initialValues: {
       promoCode: '',
@@ -17,34 +29,21 @@ const CheckoutLayout = ({ children }) => {
     },
   })
 
-  const router = useRouter()
-  const { getPage, checkoutPages, otherPages } = useContext(LinksContext)
+  useEffect(() => {
+    if (checkout.createdAt) {
+      setCreatedAt(new Date(checkout.createdAt))
+    }
 
-  const [currentPath, setCurrentPath] = useState()
-
-  const refreshLocalStorage = (id) => {
-    window.localStorage.setItem(
-      'vitaliplay.checkout.activeStep',
-      (id && id.toString()) || '1'
-    )
-  }
+    setOrderId(checkout.subscriptionId)
+  }, [checkout])
 
   useEffect(() => {
-    if (!window.localStorage.getItem('vitaliplay.checkout.store')) {
-      window.localStorage.setItem(
-        'vitaliplay.checkout.store',
-        JSON.stringify({})
+    if (createdAt) {
+      setEndAt(
+        new Date(new Date(createdAt).setFullYear(createdAt.getFullYear() + 1))
       )
     }
-  }, [])
-
-  useEffect(() => {
-    setCurrentPath(router.asPath)
-  }, [router])
-
-  useEffect(() => {
-    refreshLocalStorage(getPage(checkoutPages, 'path', currentPath)?.id)
-  }, [currentPath])
+  }, [createdAt])
 
   return (
     <>
@@ -81,12 +80,17 @@ const CheckoutLayout = ({ children }) => {
                   <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">
                     x1 Abonnement Annuel
                   </h2>
-                  <p className="mt-2 font-body text-xs text-dark-500 md:text-sm">
-                    Valable du 20/09/2021 au 20/09/2022
-                  </p>
-                  <p className="mt-1 font-body text-xs text-dark-500 md:text-sm">
-                    Numéro de commande : 00001
-                  </p>
+                  {createdAt && endAt && (
+                    <p className="mt-2 font-body text-xs text-dark-500 md:text-sm">
+                      Valable du {createdAt.toLocaleDateString('fr-FR')} au{' '}
+                      {endAt.toLocaleDateString('fr-FR')}
+                    </p>
+                  )}
+                  {orderId && (
+                    <p className="mt-1 font-body text-xs text-dark-500 md:text-sm">
+                      Indentifiant de commande : {orderId}
+                    </p>
+                  )}
                 </div>
                 <span className="font-body text-base font-bold text-dark-900 md:text-lg">
                   99€
@@ -135,6 +139,44 @@ const CheckoutLayout = ({ children }) => {
         </aside>
       </div>
     </>
+  )
+}
+
+const CheckoutLayout = ({ children }) => {
+  const router = useRouter()
+  const { getPage, checkoutPages } = useContext(LinksContext)
+  const { isAuth } = useContext(AuthContext)
+
+  const [currentPath, setCurrentPath] = useState()
+
+  const refreshLocalStorage = (id) => {
+    window.localStorage.setItem(
+      'vitaliplay.checkout.activeStep',
+      (id && id.toString()) || '1'
+    )
+  }
+
+  useEffect(() => {
+    if (!window.localStorage.getItem('vitaliplay.checkout.store')) {
+      window.localStorage.setItem(
+        'vitaliplay.checkout.store',
+        JSON.stringify({})
+      )
+    }
+  }, [])
+
+  useEffect(() => {
+    setCurrentPath(router.asPath)
+  }, [router])
+
+  useEffect(() => {
+    refreshLocalStorage(getPage(checkoutPages, 'path', currentPath)?.id)
+  }, [currentPath])
+
+  return (
+    <CheckoutContextProvider>
+      <CheckoutPreview>{children}</CheckoutPreview>
+    </CheckoutContextProvider>
   )
 }
 

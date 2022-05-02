@@ -13,7 +13,7 @@ import useButtonSize from '@/hooks/useButtonSize'
 import { LinksContext } from '@/contexts/LinksContext'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements } from '@stripe/react-stripe-js'
-import { getToken } from '@/lib/api'
+import { getToken, postAPIWithToken } from '@/lib/api'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -28,25 +28,6 @@ const CheckoutCheckout = () => {
     setStore(
       JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store'))
     )
-
-    const fetchStripe = async () => {
-      const res = await fetch(
-        'https://0339-37-166-173-189.ngrok.io/api/payments',
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization:
-              'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsImlhdCI6MTY1MTE2MzI2OSwiZXhwIjoxNjUzNzU1MjY5fQ.B2DwZZ230khIP7Ep7WdVgNqOJQJLg3KlJn3I1IjOY-A',
-          },
-          body: JSON.stringify({
-            interval: 'month',
-          }),
-        }
-      )
-    }
-
-    fetchStripe()
   }, [])
 
   const router = useRouter()

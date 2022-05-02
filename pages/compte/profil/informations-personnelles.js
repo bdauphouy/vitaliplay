@@ -9,22 +9,22 @@ import Dropdown from '@/components/utils/Dropdown'
 import { useState } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
-    
-    if (!req.cookies.jwt) {
-      return {
-        redirect: {
-          destination: '/connexion',
-          permanent: true,
-        },
-      }
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
     }
-  
-    
-    const {user,history, billing} = await fetchAPIWithToken('/pwa/account', req.cookies.jwt)
-  
-  
-    return { props: { user } }
   }
+
+  const { user, history, billing } = await fetchAPIWithToken(
+    '/pwa/account',
+    req.cookies.jwt
+  )
+
+  return { props: { user } }
+}
 
 const ProfilePersonalInformation = ({ user }) => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
@@ -32,32 +32,32 @@ const ProfilePersonalInformation = ({ user }) => {
 
   const formik = useFormik({
     initialValues: {
-        id: user.id,
-      firstname:user.firstname,
-      lastname:user.lastname,
+      id: user.id,
+      firstname: user.firstname,
+      lastname: user.lastname,
       birthdate: user.birthdate,
       postal_code: user.postal_code,
       email: user.email,
-      phone: user.phone
+      phone: user.phone,
     },
 
     onSubmit: (values) => {
-        const finalData = {
-            ...values,
-            civility
-        }
-        console.log(finalData)
+      const finalData = {
+        ...values,
+        civility,
+      }
+      console.log(finalData)
 
-        // const updateAccount = async () => {
-        //     const data = await updateAPIWithToken(
-        //       `/users/${user.id}`,
-        //       { data: values },
-        //       getToken()
-        //     )
-        //     console.log(data)
-        //   } 
+      // const updateAccount = async () => {
+      //     const data = await updateAPIWithToken(
+      //       `/users/${user.id}`,
+      //       { data: values },
+      //       getToken()
+      //     )
+      //     console.log(data)
+      //   }
 
-        //  updateAccount() 
+      //  updateAccount()
     },
   })
 
@@ -70,8 +70,8 @@ const ProfilePersonalInformation = ({ user }) => {
         onSubmit={formik.handleSubmit}
         className="grid-area-profile-personal-information lg:grid-area-profile-personal-information mx-auto mt-12 grid max-w-4xl gap-3 lg:mt-16 lg:gap-4"
       >
-        <div style={{ gridArea: 'a' }} class="flex gap-3 lg:gap-4">
-        <Dropdown
+        <div style={{ gridArea: 'a' }} className="flex gap-3 lg:gap-4">
+          <Dropdown
             options={['M', 'Mme']}
             label="Civilité"
             defaultOption={civility}

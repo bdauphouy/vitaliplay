@@ -4,31 +4,36 @@ import { useRouter } from 'next/router'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 import { UploadProfilePicture } from '@/components/utils/Icons'
 import { useRef, useEffect, useState } from 'react'
-import { fetchAPIWithToken, sendAvatar, getToken } from '@/lib/api'
-
+import {
+  postAPIWithToken,
+  getToken,
+  getUserData,
+  fetchAPIWithToken,
+  getUserProfilePicture,
+  postProfilePicture,
+} from '@/lib/api'
 
 const months = [
-    "Janvier",
-    "Février",
-    "Mars",
-    "Avril",
-    "Mai",
-    "Juin",
-    "Juillet",
-    "Aout",
-    "Septembre",
-    "Octobre",
-    "Novembre",
-    "Décembre",
+  'Janvier',
+  'Février',
+  'Mars',
+  'Avril',
+  'Mai',
+  'Juin',
+  'Juillet',
+  'Aout',
+  'Septembre',
+  'Octobre',
+  'Novembre',
+  'Décembre',
 ]
 
-function formatDate(str){
-    const split1 = str.split("T")[0]
-    const split2 = split1.split("-")
+function formatDate(str) {
+  const split1 = str.split('T')[0]
+  const split2 = split1.split('-')
 
-    return `${split2[2]} ${months[parseInt(split2[1])]} ${split2[0]}`
+  return `${split2[2]} ${months[parseInt(split2[1])]} ${split2[0]}`
 }
-
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -40,9 +45,7 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  
-  const {user,history, billing} = await fetchAPIWithToken('/pwa/account', req.cookies.jwt)
-
+  const user = await getUserData(req.cookies.jwt)
 
   return { props: { user } }
 }
@@ -66,22 +69,39 @@ export const Section = ({ id, icon, title, path = '/' }) => {
 }
 
 const Profile = ({ user }) => {
-    console.log(user)
   const updateProfilePictureInput = useRef()
 
-  const [userImage, setUserImage] = useState(process.env.NEXT_PUBLIC_STRAPI_API_URL+user?.profil_picture?.url)
+  const [userImage, setUserImage] = useState()
 
-  const updateImage = () => {
-    console.warn(updateProfilePictureInput.current.files[0])
-    sendAvatar(updateProfilePictureInput.current.files[0], user.id, getToken())
-    setUserImage(updateProfilePictureInput.current.files[0])
+  const updateProfilePicture = async () => {
+    const { profilePicture } = await getUserProfilePicture(getToken())
+
+    setUserImage(profilePicture)
+  }
+
+  const postNewProfilePicture = async () => {
+    const file = updateProfilePictureInput.current.files[0]
+    await postProfilePicture(file, getToken())
+
+    updateProfilePicture()
   }
 
   useEffect(() => {
-      updateProfilePictureInput.current?.removeEventListener('input', updateImage)
-    updateProfilePictureInput.current.addEventListener('input', updateImage)
+    updateProfilePicture()
+
+    updateProfilePictureInput.current?.removeEventListener(
+      'input',
+      postNewProfilePicture
+    )
+    updateProfilePictureInput.current.addEventListener(
+      'input',
+      postNewProfilePicture
+    )
     return () =>
-      updateProfilePictureInput.current?.removeEventListener('input', updateImage)
+      updateProfilePictureInput.current?.removeEventListener(
+        'input',
+        postNewProfilePicture
+      )
   }, [])
 
   return (
@@ -91,7 +111,7 @@ const Profile = ({ user }) => {
           htmlFor="update-profile-picture"
           className="group relative mb-6 h-36 w-36 cursor-pointer rounded-full bg-dark-100 bg-cover lg:mb-8"
           style={{
-              backgroundImage: `url(${ user?.profil_picture?.url ? userImage : 'https://thispersondoesnotexist.com/image' })`
+            backgroundImage: `url(${userImage})`,
           }}
         >
           <button

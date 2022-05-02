@@ -64,17 +64,20 @@ const SignupStart = ({ signup }) => {
     validationSchema: SignupSchema,
     onSubmit: async (values) => {
       setLoading(true)
+
+      console.log(values, civility)
       const res = await postAPI('/auth/local/register', {
         username: uuidv4(),
         email: values.email,
         password: values.password,
-        civilite: civility,
+        civility,
         firstname: values.firstName,
         lastname: values.lastName,
         address: values.address,
-        postal_code: values.zipCode,
+        zipCode: values.zipCode,
         birthdate: values.birthday,
-        phone: values.phoneNumber,
+        phone: '+33' + values.phoneNumber,
+        sex: civility === 'M' ? 'male' : 'female',
       })
       setLoading(false)
       if (res.error) {

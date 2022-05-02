@@ -3,16 +3,20 @@ import Subtitle from '@/components/utils/Subtitle'
 import CheckupLayout from '@/components/layouts/CheckupLayout'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 
 const SurveySuccess = () => {
-  const successData = JSON.parse(window.localStorage.getItem('bilanSuccess'))
-  console.log(successData)
+  const [successData, setSuccessData] = useState('')
+
   const { getPage, accountPages } = useContext(LinksContext)
+
+  useEffect(() => {
+    const successData = JSON.parse(window.localStorage.getItem('bilanSuccess'))
+  }, [])
 
   const congratsSize = useCongratsSize()
 

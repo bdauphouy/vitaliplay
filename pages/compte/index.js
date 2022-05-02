@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import AccountLayout from '@/components/layouts/AccountLayout'
-import { fetchAPIWithToken } from '@/lib/api'
+import { fetchAPIWithToken, getUserData } from '@/lib/api'
 import Subtitle from '@/components/utils/Subtitle'
 
 function formatDate(str) {
@@ -37,11 +37,9 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const { user, ...homeData } = await fetchAPIWithToken(
-    '/pwa/home',
-    req.cookies.jwt
-  )
-  return { props: { user, homeData } }
+  const user = await getUserData(req.cookies.jwt)
+
+  return { props: { user } }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -59,8 +57,7 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = ({ user, homeData }) => {
-  console.log(homeData)
+const Account = ({ user }) => {
   const [linkSize, setLinkSize] = useState('m')
 
   const { getPage, checkupPages, accountPages } = useContext(LinksContext)
@@ -77,11 +74,11 @@ const Account = ({ user, homeData }) => {
         <Title type="1" html={false}>
           Bonjour, <strong className="type-1">{user.firstname}</strong>
         </Title>
-        {homeData.offer?.id ? (
+        {/* {homeData.offer?.id ? (
           <div className="fixed top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
             Accès offert par : {homeData.offer?.offerBy}
           </div>
-        ) : null}
+        ) : null} */}
       </div>
       <div className="mt-14 flex flex-wrap gap-8">
         <div className="flex-[2] xsm:min-w-[320px] sm:min-w-[400px]">
@@ -89,13 +86,13 @@ const Account = ({ user, homeData }) => {
           <div className="mt-6 rounded-lg px-6 py-8 shadow-level1">
             <div className="flex items-center gap-6">
               <div
-                className={`min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-cover sm:min-h-[96px] sm:min-w-[96px]`}
+                className={`min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-cover bg-center sm:min-h-[96px] sm:min-w-[96px]`}
                 style={{
                   backgroundImage: `url(${
                     user.profil_picture
                       ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
                         user.profil_picture?.url
-                      : 'https://thispersondoesnotexist.com/image'
+                      : `https://ui-avatars.com/api/?name=${user.firstname}+${user.lastname}&size=512`
                   })`,
                 }}
               ></div>
@@ -126,7 +123,7 @@ const Account = ({ user, homeData }) => {
               </h3>
 
               <div className="mt-4 flex flex-wrap gap-4">
-                {homeData.bilan_reponses.length > 0 ? (
+                {/* {homeData.bilan_reponses.length > 0 ? (
                   homeData.bilan_reponses.map((bilan) => (
                     <Link
                       key={bilan.id}
@@ -156,15 +153,15 @@ const Account = ({ user, homeData }) => {
                   ))
                 ) : (
                   <Subtitle type="4">Vous n'avez pas de bilan.</Subtitle>
-                )}
+                )} */}
               </div>
             </div>
           </div>
         </div>
         <div className="flex min-w-[224px] flex-1 flex-col md:min-w-[288px]">
-          <Title type="5">{getMidleCardTitle(homeData)}</Title>
+          {/* <Title type="5">{getMidleCardTitle(homeData)}</Title> */}
           <div className="mt-6 h-full">
-            {!homeData.isQuestionnaireCompleted ? (
+            {/* {!homeData.isQuestionnaireCompleted ? (
               <div className="flex h-full flex-col items-start justify-end rounded-lg bg-blue-50 p-6">
                 <h3 className="font-head text-[1.25rem] font-bold leading-6 text-dark-900">
                   Votre profil n’est pas totalement complété
@@ -205,13 +202,13 @@ const Account = ({ user, homeData }) => {
                   Mettre un rappel
                 </Cta>
               </div>
-            ) : null}
+            ) : null} */}
           </div>
         </div>
         <div className="flex-[1.5] self-end">
           <Title type="5">Vos dernières séances</Title>
           <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
-            {homeData.exerciceHistory ? (
+            {/* {homeData.exerciceHistory ? (
               homeData.exerciceHistory.map((exercice) => (
                 <Link
                   key={exercice.id}
@@ -235,7 +232,7 @@ const Account = ({ user, homeData }) => {
               ))
             ) : (
               <Subtitle type="4">Vous n'avez pas de séance.</Subtitle>
-            )}
+            )} */}
           </div>
         </div>
       </div>
