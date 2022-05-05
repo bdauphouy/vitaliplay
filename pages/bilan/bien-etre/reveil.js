@@ -47,7 +47,7 @@ const WellBeingAwakening = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            awakening: values.awakeningScale,
+            awakening: parseInt(values.awakeningScale.split('-').at(-1)),
           },
         })
       )
@@ -59,25 +59,30 @@ const WellBeingAwakening = () => {
 
   return (
     <div>
-      <Title type="3">{checkup.etape2_content?.reveil_title}</Title>
+      <Title type="3">{checkup.checkupQuestions?.[3].checkupQuestion}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  label={labels[5 - i]}
-                  id={scale.toString()}
-                  name="awakeningScale"
-                  checked={formik.values.awakeningScale === scale.toString()}
-                  onChange={formik.handleChange}
-                  number={true}
-                >
-                  {scale}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[3].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    label={question.checkupQuestionChoiceDescription}
+                    id={`checkup-question-choice-${question.checkupQuestionChoiceValue}`}
+                    name="awakeningScale"
+                    checked={
+                      formik.values.awakeningScale ===
+                      `checkup-question-choice-${question.checkupQuestionChoiceValue}`
+                    }
+                    onChange={formik.handleChange}
+                    number={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.awakeningScale && (
           <div className="mt-8">

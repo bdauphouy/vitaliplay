@@ -8,15 +8,25 @@ import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const SurveySuccess = () => {
   const [successData, setSuccessData] = useState('')
 
   const { getPage, accountPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   useEffect(() => {
-    const successData = JSON.parse(window.localStorage.getItem('bilanSuccess'))
+    setSuccessData(
+      JSON.parse(window.localStorage.getItem('vitaliplay.checkup.score'))
+    )
   }, [])
+
+  const resetLocalStorage = () => {
+    // window.localStorage.removeItem('vitaliplay.checkup.score')
+    // window.localStorage.removeItem('vitaliplay.checkup.store')
+    // window.localStorage.removeItem('vitaliplay.checkup.activeStep')
+  }
 
   const congratsSize = useCongratsSize()
 
@@ -27,13 +37,15 @@ const SurveySuccess = () => {
       <div className="mb-6 lg:mb-10">
         <Congrats size={congratsSize} />
       </div>
-      <Title center={true} type="3" html={false}>
-        Bilan fini !<br />
-        Votre score est de : {successData.noteGlobal}
+      <Title center={true} type="3">
+        {checkup.checkupSucceedTitle?.replace(
+          '{{score}}',
+          successData.globalScore
+        )}
       </Title>
       <div className="mt-4">
         <Subtitle center={true} type="2">
-          {successData.conseil}
+          {checkup.checkupSucceedDescription}
         </Subtitle>
       </div>
       <div className="mt-12">
@@ -42,7 +54,7 @@ const SurveySuccess = () => {
           as={`/compte/mon-espace-sante/bilans/${successData.id}`}
           passHref
         >
-          <a>
+          <a onClick={() => resetLocalStorage()}>
             <Cta size={buttonSize} type="primary">
               Voir mon bilan
             </Cta>

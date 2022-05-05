@@ -12,8 +12,30 @@ import Error from '@/components/utils/Error'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
 import { SurveyContext } from '@/contexts/SurveyContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const SurveyAffection = () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const longTermConditions = await fetchAPIWithToken(
+    '/long-term-conditions',
+    req.cookies.jwt,
+    false
+  )
+
+  return {
+    props: { longTermConditions: longTermConditions.data },
+  }
+}
+
+const SurveyAffection = ({ longTermConditions }) => {
   const { getPage, surveyPages } = useContext(LinksContext)
 
   const { survey } = useContext(SurveyContext)
@@ -47,11 +69,9 @@ const SurveyAffection = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title type="3">
-          Êtes vous atteints d’une affection longue durée ?
-        </Title>
+        <Title type="3">{survey.hasLongTermConditionTitle}</Title>
         <div className="mt-4">
-          <Subtitle type="2">{survey.ald_description}</Subtitle>
+          <Subtitle type="2">{survey.hasLongTermConditionDescription}</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -84,7 +104,7 @@ const SurveyAffection = () => {
                   : 'h-0 overflow-hidden opacity-0'
               } flex flex-col gap-4 transition duration-300 ease-linear md:col-span-2`}
             >
-              {survey.ald_list?.map((affection, i) => {
+              {longTermConditions.map((affection, i) => {
                 return (
                   <Checkbox
                     key={i}
@@ -95,7 +115,7 @@ const SurveyAffection = () => {
                     )}
                     onChange={formik.handleChange}
                   >
-                    {affection.name}
+                    {affection.attributes.name}
                   </Checkbox>
                 )
               })}
@@ -121,9 +141,6 @@ const SurveyAffection = () => {
             </div>
           </div>
         </form>
-        <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-          Je ne souhaite pas répondre
-        </p>
       </div>
     </div>
   )

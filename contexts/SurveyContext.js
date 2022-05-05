@@ -14,12 +14,12 @@ export const SurveyContextProvider = ({ children }) => {
 
   useEffect(() => {
     const fetchCheckup = async () => {
-      const data = await fetchAPIWithToken('/questionnaire', getToken())
+      const data = await fetchAPIWithToken('/content/questionnaire', getToken())
 
-      if (!data) {
-        router.push(getPage(otherPages, 'pageName', 'Connexion').path)
-        return
-      }
+      // if (!data) {
+      //   router.push(getPage(otherPages, 'pageName', 'Connexion').path)
+      //   return
+      // }
 
       console.log(data)
 

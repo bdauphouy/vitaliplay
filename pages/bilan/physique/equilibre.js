@@ -41,8 +41,8 @@ const PhysicalBalance = () => {
           physical: {
             ...store?.physical,
             balance: {
-              leftLegTime: values.leftLegTime.toString(),
-              rightLegTime: values.rightLegTime.toString(),
+              leftLegTime: parseInt(values.leftLegTime),
+              rightLegTime: parseInt(values.rightLegTime),
             },
           },
         })
@@ -57,16 +57,16 @@ const PhysicalBalance = () => {
     <>
       <div>
         <Title type="3">
-          Exercice 6 : Equilibre sur une jambe (deux cotés)
+          {checkup.checkupExercises?.[5].checkupExerciseName}
         </Title>
         <div className="mt-4">
           <Subtitle type="2">
-            {checkup.etape1_exercices?.exercice6.description}
+            {checkup.checkupExercises?.[5].checkupExerciseDescription}
           </Subtitle>
         </div>
         <iframe
           className="mt-6 aspect-video w-full"
-          src={checkup.etape1_exercices?.exercice6.video}
+          src={checkup.checkupExercises?.[5].checkupExerciseVideoLink}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

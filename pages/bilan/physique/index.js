@@ -12,11 +12,15 @@ const Physical = () => {
 
   const { checkup } = useContext(CheckupContext)
 
+  console.log(checkup)
+
   return (
     <div>
-      <Title type="3">Etape 1 : Bilan physique</Title>
+      <Title type="3">{checkup.checkupSteps?.[0].checkupStepName}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{checkup.etape1_description}</Subtitle>
+        <Subtitle type="2">
+          {checkup.checkupSteps?.[0].checkupStepDescription}
+        </Subtitle>
       </div>
       <div className="mt-12">
         <Link href={getPage(checkupPages, 'pageName', 'Force').path} passHref>

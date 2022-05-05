@@ -47,7 +47,7 @@ const WellBeingMood = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            mood: values.moodScale,
+            mood: parseInt(values.moodScale.split('-').at(-1)),
           },
         })
       )
@@ -59,25 +59,30 @@ const WellBeingMood = () => {
 
   return (
     <div>
-      <Title type="3">{checkup.etape2_content?.humeur_title}</Title>
+      <Title type="3">{checkup.checkupQuestions?.[0].checkupQuestion}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  label={labels[5 - i]}
-                  id={scale.toString()}
-                  name="moodScale"
-                  checked={formik.values.moodScale === scale.toString()}
-                  onChange={formik.handleChange}
-                  number={true}
-                >
-                  {scale}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[0].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    label={question.checkupQuestionChoiceDescription}
+                    id={`checkup-question-choice-${question.checkupQuestionChoiceValue}`}
+                    name="moodScale"
+                    checked={
+                      formik.values.moodScale ===
+                      `checkup-question-choice-${question.checkupQuestionChoiceValue}`
+                    }
+                    onChange={formik.handleChange}
+                    number={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.moodScale && (
           <div className="mt-8">

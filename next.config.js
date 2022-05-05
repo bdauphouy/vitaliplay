@@ -11,8 +11,16 @@ module.exports = withPWA({
         destination: '/site',
       },
       {
-        source: '/:path*',
-        destination: '/site/:path*',
+        source: '/notre-solution',
+        destination: '/site/notre-solution',
+      },
+      {
+        source: '/abonnements',
+        destination: '/site/abonnements',
+      },
+      {
+        source: '/contact',
+        destination: '/site/contact',
       },
     ]
   },

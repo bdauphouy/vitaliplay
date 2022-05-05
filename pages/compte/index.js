@@ -7,25 +7,13 @@ import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import AccountLayout from '@/components/layouts/AccountLayout'
-import { fetchAPIWithToken, getUserData } from '@/lib/api'
+import {
+  fetchAPIWithToken,
+  getUserData,
+  getUserProfilePicture,
+  getToken,
+} from '@/lib/api'
 import Subtitle from '@/components/utils/Subtitle'
-
-function formatDate(str) {
-  const split1 = str.split('T')[0]
-  const split2 = split1.split('-')
-
-  return `${split2[2]}/${split2[1]}/${split2[0]}`
-}
-function formatTime(str) {
-  const splited = str.split(':')
-
-  return `${splited[0]}:${splited[1]}`
-}
-function getMidleCardTitle(data) {
-  if (!data.isQuestionnaireCompleted) return 'Compléter votre profil'
-  if (data.todayExercice?.id) return 'Votre séance du jour'
-  return 'Le live du jour'
-}
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -60,13 +48,25 @@ export const CheckupBox = ({ date, score }) => {
 const Account = ({ user }) => {
   const [linkSize, setLinkSize] = useState('m')
 
-  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
+  const { getPage, checkupPages } = useContext(LinksContext)
+
+  const [userImage, setUserImage] = useState()
 
   const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
   useEffect(() => {
     setLinkSize(isSmallScreen ? 's' : 'm')
   }, [isSmallScreen])
+
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      const { profilePicture } = await getUserProfilePicture(getToken())
+
+      setUserImage(profilePicture)
+    }
+
+    fetchProfilePicture()
+  })
 
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
@@ -88,12 +88,7 @@ const Account = ({ user }) => {
               <div
                 className={`min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-cover bg-center sm:min-h-[96px] sm:min-w-[96px]`}
                 style={{
-                  backgroundImage: `url(${
-                    user.profil_picture
-                      ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                        user.profil_picture?.url
-                      : `https://ui-avatars.com/api/?name=${user.firstname}+${user.lastname}&size=512`
-                  })`,
+                  backgroundImage: `url(${userImage})`,
                 }}
               ></div>
               <div>

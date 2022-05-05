@@ -13,9 +13,11 @@ const WellBeing = () => {
 
   return (
     <div>
-      <Title type="3">Etape 2 : Bilan bien être</Title>
+      <Title type="3">{checkup.checkupSteps?.[1].checkupStepName}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{checkup.etape2_description}</Subtitle>
+        <Subtitle type="2">
+          {checkup.checkupSteps?.[1].checkupStepDescription}
+        </Subtitle>
       </div>
       <div className="mt-12">
         <Link href={getPage(checkupPages, 'pageName', 'Humeur').path} passHref>

@@ -13,9 +13,11 @@ const DailyActivity = () => {
 
   return (
     <div>
-      <Title type="3">Etape 3 : Bilan activité quotidienne</Title>
+      <Title type="3">{checkup.checkupSteps?.[2].checkupStepName}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{checkup.etape3_description}</Subtitle>
+        <Subtitle type="2">
+          {checkup.checkupSteps?.[2].checkupStepDescription}
+        </Subtitle>
       </div>
       <div className="mt-12">
         <Link

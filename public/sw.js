@@ -1,1 +1,114 @@
-if(!self.define){let e,s={};const a=(a,c)=>(a=new URL(a+".js",c).href,s[a]||new Promise((s=>{if("document"in self){const e=document.createElement("script");e.src=a,e.onload=s,document.head.appendChild(e)}else e=a,importScripts(a),s()})).then((()=>{let e=s[a];if(!e)throw new Error(`Module ${a} didn’t register its module`);return e})));self.define=(c,i)=>{const n=e||("document"in self?document.currentScript.src:"")||location.href;if(s[n])return;let t={};const r=e=>a(e,n),o={module:{uri:n},exports:t,require:r};s[n]=Promise.all(c.map((e=>o[e]||r(e)))).then((e=>(i(...e),t)))}}define(["./workbox-5afaf374"],(function(e){"use strict";importScripts(),self.skipWaiting(),e.clientsClaim(),e.precacheAndRoute([{url:"/_next/static/chunks/1524-b55881c6fe65257c.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/2281-d8cb64e913720570.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/2625-4b170d29b3a628be.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/271-99c5ed3d6623343c.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/3064-3cdf5206153ea8b7.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/3408-f0c1d20ad41828c2.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/4231-bcbf1ca005f5494c.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/593-d5880e26be493c65.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/6153-03a3790f87c66498.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/6468-d092f951ffd20ea5.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/6481-d8a6bf5fe5dd179a.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/7168-6cc138147f949db4.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/7388-482568c229294ea7.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/774-4a7cd76984e09504.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/8656-42950ba3854743ac.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/8838-d3e38691c0a8f714.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/9418-09e33374899c6a53.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/framework-f8bb310c882fc1e5.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/main-aab172ea50bf4a88.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/404-7c63eba4fc966b51.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/500-9078dd815eb0acd6.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/_app-a441c37ac42edf55.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/_error-785557186902809b.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan-98189323ac1973f9.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/activite-quotidienne-94249fd69726d086.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/activite-quotidienne/activite-intense-963530570e616c7f.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/activite-quotidienne/activite-moderee-b9c85247f9f87321.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/bien-etre-d70f137122161148.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/bien-etre/energie-8113981ac0474d52.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/bien-etre/humeur-a55b28a0b590ec7e.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/bien-etre/reveil-63c9ae48162a12c2.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/bien-etre/tranquilite-d4f708642496a73b.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/bien-etre/vie-quotidienne-68164bdd8bdf6fce.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/physique-ce60d45c519d12bf.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/physique/endurance-56846e1132b22ffb.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/physique/equilibre-81e21798bfbe5293.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/physique/force-056584fb68669a40.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/physique/souplesse-5a0919023960184b.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/bilan/succes-1dbf4f4a0af82acc.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte-45a2577f274206d9.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/ajouter-un-moyen-de-paiement-ab0716d73fed7687.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/conferences-de-sante-733a0b002f80ff26.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/conferences-de-sante/%5Bid%5D-f0f41da4fe16c2fa.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/le-direct-717ee7a2222adea7.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/mes-cartes-et-factures-078074b29766a94e.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/mon-espace-sante-1ae73cdee4565809.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/mon-espace-sante/bilans-629db68aad51d969.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/mon-espace-sante/bilans/%5Bid%5D-14a294a203a12ecc.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/profil-0857197c64e07778.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/profil/deconnexion-b6c25461b88ae38c.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/profil/historique-b9d1ebf1ff86b4f2.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/profil/informations-de-sante-ada73f84e9a4a32b.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/profil/informations-personnelles-fbb4872df714db78.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/profil/mot-de-passe-bfa06f7c590a1c55.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances-09f4b66385033580.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/disciplines-4d7f14f7a3664d0a.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/disciplines/%5Bdiscipline%5D-0e83ff30ddd661e2.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/disciplines/%5Bdiscipline%5D/%5Bid%5D-ce41dcc81e6762a9.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/mes-seances-recommande-93f62c2b706a97f2.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/mes-seances-recommande/%5Bid%5D-f4be35182edbcb0e.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/programmes-6626b8bbb02e8cf3.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/programmes/%5Bprogramme%5D-80a2d8b5d614f93a.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/programmes/%5Bprogramme%5D/%5Bid%5D-6583cfe5b403dc78.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/toutes-les-seances-65edd676bcdf610d.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/compte/seances/toutes-les-seances/%5Bid%5D-7e9224948b30fe5f.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/connexion-eccc2227f97783f1.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/connexion/confirmation-da50f0a0597d212b.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/connexion/mot-de-passe-oublie-7bf04fe616043e2e.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/inscription-1cf2760baf278369.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/inscription/confirmation-e18433b1d4200ce1.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/invitation-773c5f67797dcceb.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/invitation/confirmation-ce85d7179326f0a3.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/paiement-344744154e1b7755.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/paiement/compte-412cb935440fae66.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/paiement/confirmation-0d2cd1dfa3052c68.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/paiement/informations-32b7cc5915558cff.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/paiement/proceder-au-paiement-54d28da5ef142904.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/paiement/succes-1ddff2f1f3c28145.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire-c9316a7152c70bdd.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/affection-4ba177a727364ad7.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/completer-mon-profil-0282375b04b068d1.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/douleurs-f59d83da058154fe.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/fumeur-3ed824e4158dd3d8.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/mensurations-cbde9e684656bc92.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/protheses-863918fd81c1d3e8.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/questionnaire/succes-74c6ec7519914a43.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/reinitialiser-mot-de-passe-1829da9538acab49.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/reinitialiser-mot-de-passe/confirmation-2dab33748c7b2914.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/site-2a428a16cee1daf5.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/site/abonnements-5291d99180bd9bb9.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/site/contact-cbb2c944f26f44a9.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/pages/site/notre-solution-8f0e8e762f2d98e6.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/polyfills-5cd94c89d3acac5f.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/chunks/webpack-98009c24c517fa8c.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/css/9ea98f31dfad02e0.css",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/lmJE_5_DxcqILXahKY80h/_buildManifest.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/lmJE_5_DxcqILXahKY80h/_middlewareManifest.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/lmJE_5_DxcqILXahKY80h/_ssgManifest.js",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/media/blue-orange.2c8276a2.svg",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/media/green-blue.2b15070d.svg",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/media/login.a26d6b30.jpeg",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/media/orange-green.be75dfca.svg",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/_next/static/media/yellow-orange.5949ff56.svg",revision:"lmJE_5_DxcqILXahKY80h"},{url:"/bg-card.png",revision:"bcd9d7482e70358477c67b9019a1d1e4"},{url:"/cgv.pdf",revision:"1370f51a35e57db9ed21a419825bb710"},{url:"/checkout-icons/american-express.svg",revision:"81e1b1cb3ceda463db6ba86390e68adb"},{url:"/checkout-icons/apple-pay.svg",revision:"3d1596cd194a8574e925e105849cb0c6"},{url:"/checkout-icons/mastercard.svg",revision:"bfa996efc1c7643984005c964727b654"},{url:"/checkout-icons/paypal.svg",revision:"34946fe52bb903b1dd1462294adf1f69"},{url:"/checkout-icons/visa.svg",revision:"6e1ed8aaa50bc77205eab2556437301b"},{url:"/congrats.svg",revision:"98ae19041e3454f4e11b8f9514851893"},{url:"/decoration-icons/blue-orange.svg",revision:"d06ba5f0577b0a3691c6485fa8ef25fe"},{url:"/decoration-icons/green-blue.svg",revision:"ee2f10c3259e4e631bcb86a1fc6d5852"},{url:"/decoration-icons/orange-green.svg",revision:"a1a0f433958439acec4b5e0cb54a97c7"},{url:"/decoration-icons/yellow-orange.svg",revision:"9d64f37c7ad3da846fda541110564407"},{url:"/favicon.ico",revision:"6d75f32c4942b75cd35a045c63dfb179"},{url:"/icon-192x192.png",revision:"b92843795d11ed856161b796d9c2f675"},{url:"/icon-256x256.png",revision:"7cafb9e9bacac05280ffc550fbc8b6ac"},{url:"/icon-384x384.png",revision:"1bd44248dfe2b19d56c0c30c27207f92"},{url:"/icon-512x512.png",revision:"6ef54cafc94b2ac4a2b956f2e0680fd2"},{url:"/login.jpeg",revision:"aa8774508d2e36dd5986ccfcf5b4afa0"},{url:"/logo-footer.svg",revision:"8b6e9f1ad08f0a4dbfaf629f0553ac0d"},{url:"/logo.svg",revision:"81567915fd5ac81c55eeb486c4d6a5d0"},{url:"/manifest.webmanifest",revision:"af4fec44c347c7ff2791818428dd286b"},{url:"/mentions-legales.pdf",revision:"52d17065a3612c27580195893607f3fb"},{url:"/our-solution.jpg",revision:"4ddf830327c186131aa540ea2ddca020"},{url:"/protection-donnees.pdf",revision:"4845dcb6be7cc42ff6b6aa9a0fd1fe6f"},{url:"/session-header.png",revision:"19e6312cbaa08f6f1717cbc073ede976"},{url:"/stamp.svg",revision:"25f762d7f09855a170557b2b9da74316"},{url:"/star.svg",revision:"3abb8ce98d5bee553feeb058851a5a78"},{url:"/vitaliplay-thumbnail.png",revision:"8401e9f8039ba5709736c4726e95542a"}],{ignoreURLParametersMatching:[]}),e.cleanupOutdatedCaches(),e.registerRoute("/",new e.NetworkFirst({cacheName:"start-url",plugins:[{cacheWillUpdate:async({request:e,response:s,event:a,state:c})=>s&&"opaqueredirect"===s.type?new Response(s.body,{status:200,statusText:"OK",headers:s.headers}):s}]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:gstatic)\.com\/.*/i,new e.CacheFirst({cacheName:"google-fonts-webfonts",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:31536e3})]}),"GET"),e.registerRoute(/^https:\/\/fonts\.(?:googleapis)\.com\/.*/i,new e.StaleWhileRevalidate({cacheName:"google-fonts-stylesheets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:eot|otf|ttc|ttf|woff|woff2|font.css)$/i,new e.StaleWhileRevalidate({cacheName:"static-font-assets",plugins:[new e.ExpirationPlugin({maxEntries:4,maxAgeSeconds:604800})]}),"GET"),e.registerRoute(/\.(?:jpg|jpeg|gif|png|svg|ico|webp)$/i,new e.StaleWhileRevalidate({cacheName:"static-image-assets",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/image\?url=.+$/i,new e.StaleWhileRevalidate({cacheName:"next-image",plugins:[new e.ExpirationPlugin({maxEntries:64,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp3|wav|ogg)$/i,new e.CacheFirst({cacheName:"static-audio-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:mp4)$/i,new e.CacheFirst({cacheName:"static-video-assets",plugins:[new e.RangeRequestsPlugin,new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:js)$/i,new e.StaleWhileRevalidate({cacheName:"static-js-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:css|less)$/i,new e.StaleWhileRevalidate({cacheName:"static-style-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\/_next\/data\/.+\/.+\.json$/i,new e.StaleWhileRevalidate({cacheName:"next-data",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute(/\.(?:json|xml|csv)$/i,new e.NetworkFirst({cacheName:"static-data-assets",plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:e})=>{if(!(self.origin===e.origin))return!1;const s=e.pathname;return!s.startsWith("/api/auth/")&&!!s.startsWith("/api/")}),new e.NetworkFirst({cacheName:"apis",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:16,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:e})=>{if(!(self.origin===e.origin))return!1;return!e.pathname.startsWith("/api/")}),new e.NetworkFirst({cacheName:"others",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:86400})]}),"GET"),e.registerRoute((({url:e})=>!(self.origin===e.origin)),new e.NetworkFirst({cacheName:"cross-origin",networkTimeoutSeconds:10,plugins:[new e.ExpirationPlugin({maxEntries:32,maxAgeSeconds:3600})]}),"GET")}));
+/**
+ * Copyright 2018 Google Inc. All Rights Reserved.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+// If the loader is already loaded, just stop.
+if (!self.define) {
+  let registry = {};
+
+  // Used for `eval` and `importScripts` where we can't get script URL by other means.
+  // In both cases, it's safe to use a global var because those functions are synchronous.
+  let nextDefineUri;
+
+  const singleRequire = (uri, parentUri) => {
+    uri = new URL(uri + ".js", parentUri).href;
+    return registry[uri] || (
+      
+        new Promise(resolve => {
+          if ("document" in self) {
+            const script = document.createElement("script");
+            script.src = uri;
+            script.onload = resolve;
+            document.head.appendChild(script);
+          } else {
+            nextDefineUri = uri;
+            importScripts(uri);
+            resolve();
+          }
+        })
+      
+      .then(() => {
+        let promise = registry[uri];
+        if (!promise) {
+          throw new Error(`Module ${uri} didn’t register its module`);
+        }
+        return promise;
+      })
+    );
+  };
+
+  self.define = (depsNames, factory) => {
+    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    if (registry[uri]) {
+      // Module is already loading or loaded.
+      return;
+    }
+    let exports = {};
+    const require = depUri => singleRequire(depUri, uri);
+    const specialDeps = {
+      module: { uri },
+      exports,
+      require
+    };
+    registry[uri] = Promise.all(depsNames.map(
+      depName => specialDeps[depName] || require(depName)
+    )).then(deps => {
+      factory(...deps);
+      return exports;
+    });
+  };
+}
+define(['./workbox-43e9f706'], (function (workbox) { 'use strict';
+
+  /**
+  * Welcome to your Workbox-powered service worker!
+  *
+  * You'll need to register this file in your web app.
+  * See https://goo.gl/nhQhGp
+  *
+  * The rest of the code is auto-generated. Please don't update this file
+  * directly; instead, make changes to your Workbox build configuration
+  * and re-run your build process.
+  * See https://goo.gl/2aRDsh
+  */
+
+  importScripts();
+  self.skipWaiting();
+  workbox.clientsClaim();
+  workbox.registerRoute("/", new workbox.NetworkFirst({
+    "cacheName": "start-url",
+    plugins: [{
+      cacheWillUpdate: async ({
+        request,
+        response,
+        event,
+        state
+      }) => {
+        if (response && response.type === 'opaqueredirect') {
+          return new Response(response.body, {
+            status: 200,
+            statusText: 'OK',
+            headers: response.headers
+          });
+        }
+
+        return response;
+      }
+    }]
+  }), 'GET');
+  workbox.registerRoute(/.*/i, new workbox.NetworkOnly({
+    "cacheName": "dev",
+    plugins: []
+  }), 'GET');
+
+}));
+//# sourceMappingURL=sw.js.map

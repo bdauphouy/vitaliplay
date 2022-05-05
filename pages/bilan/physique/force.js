@@ -44,8 +44,8 @@ const PhysicalStrength = () => {
           physical: {
             ...store?.physical,
             strength: {
-              exo1: values.firstReps.toString(),
-              exo2: values.secondReps.toString(),
+              arm: parseInt(values.firstReps),
+              leg: parseInt(values.secondReps),
             },
           },
         })
@@ -62,15 +62,17 @@ const PhysicalStrength = () => {
     <>
       {currentExercise === 1 ? (
         <div>
-          <Title type="3">Exercice 1 : Assis-debout</Title>
+          <Title type="3">
+            {checkup.checkupExercises?.[0].checkupExerciseName}
+          </Title>
           <div className="mt-4">
             <Subtitle type="2">
-              {checkup.etape1_exercices?.exercice1.description}
+              {checkup.checkupExercises?.[0].checkupExerciseDescription}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src={checkup.etape1_exercices?.exercice1.video}
+            src={checkup.checkupExercises?.[0].checkupExerciseVideoLink}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -79,15 +81,17 @@ const PhysicalStrength = () => {
         </div>
       ) : (
         <div>
-          <Title type="3">Exercice 2 : Flexion de bras</Title>
+          <Title type="3">
+            {checkup.checkupExercises?.[1].checkupExerciseName}
+          </Title>
           <div className="mt-4">
             <Subtitle type="2">
-              {checkup.etape1_exercices?.exercice2.description}
+              {checkup.checkupExercises?.[1].checkupExerciseDescription}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src={checkup.etape1_exercices?.exercice2.video}
+            src={checkup.checkupExercises?.[1].checkupExerciseVideoLink}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

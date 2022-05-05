@@ -8,28 +8,26 @@ import Advices from '@/components/pages/account/Advices'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
 
-function formatDate(str){
-    const split1 = str.split("T")[0]
-    const split2 = split1.split("-")
-
-    return `${split2[2]}/${split2[1]}/${split2[0]}`
-}
-
-export const getServerSideProps = async ({ req , query}) => {
-    if (!req.cookies.jwt) {
-      return {
-        redirect: {
-          destination: '/connexion',
-          permanent: true,
-        },
-      }
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
     }
-  
-    const bilan = await fetchAPIWithToken(`/bilan-reponses/${query.id}`, req.cookies.jwt)
-    return { props: { bilan } }
   }
 
-export const CheckupSectionBar = ({ score, type, section, checkup }) => {
+  const bilan = await fetchAPIWithToken(
+    `/checkups/${query.id}`,
+    req.cookies.jwt,
+    true,
+    ['physical']
+  )
+  return { props: { bilan: {} } }
+}
+
+const CheckupSectionBar = ({ score, type, section, checkup }) => {
   return (
     <div className="mt-6 overflow-hidden rounded-lg shadow-level1 xl:flex">
       <div
@@ -84,8 +82,8 @@ export const CheckupSectionBar = ({ score, type, section, checkup }) => {
   )
 }
 
-const MyHealthSpaceCheckups1 = ({bilan}) => {
-    console.log(bilan)
+const MyHealthSpaceCheckups1 = ({ bilan }) => {
+  console.log(bilan)
   const router = useRouter()
 
   const { getPathByPage } = useContext(LinksContext)
@@ -100,8 +98,16 @@ const MyHealthSpaceCheckups1 = ({bilan}) => {
         </Cta>
       </div>
       <div className="mt-10 md:mt-6">
-        <Row title={`Bilan ${formatDate(bilan.createdAt)}`} type="grid" button={false}>
-          <Advices button={false} note={bilan.note_global} advice={bilan.conseil}/>
+        <Row
+          title={`Bilan ${bilan.createdAt.toLocaleDateString('fr-FR')}`}
+          type="grid"
+          button={false}
+        >
+          <Advices
+            button={false}
+            note={bilan.globalNote}
+            advice={bilan.conseil}
+          />
           <CheckupSectionBar
             score={bilan.note_physique}
             type="1"
@@ -109,19 +115,30 @@ const MyHealthSpaceCheckups1 = ({bilan}) => {
             checkup={[
               {
                 title: 'Force',
-                values: [`Nbr de répétitions : ${bilan.physical.strength.exo1}`, `Nbr de répétitions : ${bilan.physical.strength.exo2}`],
+                values: [
+                  `Nbr de répétitions : ${bilan.physical.strength.exo1}`,
+                  `Nbr de répétitions : ${bilan.physical.strength.exo2}`,
+                ],
               },
               {
                 title: 'Souplesse',
-                values: [`Distance (cm) : ${bilan.physical.flexibility.exo3} cm`,`Distance (cm) : ${bilan.physical.flexibility.exo4} cm`],
+                values: [
+                  `Distance (cm) : ${bilan.physical.flexibility.exo3} cm`,
+                  `Distance (cm) : ${bilan.physical.flexibility.exo4} cm`,
+                ],
               },
               {
                 title: 'Endurance',
-                values: [`Nbr de répétitions : ${bilan.physical.endurance.exo5}`],
+                values: [
+                  `Nbr de répétitions : ${bilan.physical.endurance.exo5}`,
+                ],
               },
               {
                 title: 'Equilibre',
-                values: [`Jambe droite : ${bilan.physical.balance.rightLegTime} sec`, `Jambe gauche : ${bilan.physical.balance.leftLegTime} sec`],
+                values: [
+                  `Jambe droite : ${bilan.physical.balance.rightLegTime} sec`,
+                  `Jambe gauche : ${bilan.physical.balance.leftLegTime} sec`,
+                ],
               },
             ]}
           />

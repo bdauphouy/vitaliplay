@@ -57,9 +57,9 @@ const SurveySmoker = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title type="3">Êtes-vous fumeur ?</Title>
+        <Title type="3">{survey.isSmokerTitle}</Title>
         <div className="mt-4">
-          <Subtitle type="2">{survey.fumeur_description}</Subtitle>
+          <Subtitle type="2">{survey.isSmokerDescription}</Subtitle>
         </div>
         <form
           onSubmit={formik.handleSubmit}
@@ -125,9 +125,6 @@ const SurveySmoker = () => {
             </div>
           </div>
         </form>
-        <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-          Je ne souhaite pas répondre
-        </p>
       </div>
     </div>
   )

@@ -42,8 +42,8 @@ const PhysicalFlexibility = () => {
           physical: {
             ...store?.physical,
             flexibility: {
-              exo3: values.firstDistance.toString(),
-              exo4: values.secondDistance.toString(),
+              trunk: parseInt(values.firstDistance),
+              shoulder: parseInt(values.secondDistance),
             },
           },
         })
@@ -60,15 +60,17 @@ const PhysicalFlexibility = () => {
     <>
       {currentExercise === 1 ? (
         <div>
-          <Title type="3">Exercice 3 : Souplesse de tronc</Title>
+          <Title type="3">
+            {checkup.checkupExercises?.[2].checkupExerciseName}
+          </Title>
           <div className="mt-4">
             <Subtitle type="2">
-              {checkup.etape1_exercices?.exercice3.description}
+              {checkup.checkupExercises?.[2].checkupExerciseDescription}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src={checkup.etape1_exercices?.exercice3.video}
+            src={checkup.checkupExercises?.[2].checkupExerciseVideoLink}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -77,15 +79,17 @@ const PhysicalFlexibility = () => {
         </div>
       ) : (
         <div>
-          <Title type="3">Exercice 4 : Gratte dos (dès 2 côtés)</Title>
+          <Title type="3">
+            {checkup.checkupExercises?.[3].checkupExerciseName}
+          </Title>
           <div className="mt-4">
             <Subtitle>
-              {checkup.etape1_exercices?.exercice4.description}
+              {checkup.checkupExercises?.[3].checkupExerciseDescription}
             </Subtitle>
           </div>
           <iframe
             className="mt-6 aspect-video w-full"
-            src={checkup.etape1_exercices?.exercice4.video}
+            src={checkup.checkupExercises?.[3].checkupExerciseVideoLink}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

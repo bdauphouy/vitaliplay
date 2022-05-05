@@ -17,9 +17,9 @@ const SurveySignup = () => {
 
   return (
     <div>
-      <Title type="3">Compléter votre profil</Title>
+      <Title type="3">{survey.completeProfileTitle}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{survey.questionnaire_description}</Subtitle>
+        <Subtitle type="2">{survey.completeProfileDescription}</Subtitle>
       </div>
       <div className="mt-10 flex flex-wrap items-start gap-4 lg:gap-6">
         <Link

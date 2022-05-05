@@ -48,7 +48,7 @@ const WellBeingEverydayLife = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            everydayLife: values.everydayLifeScale,
+            everydayLife: parseInt(values.everydayLifeScale.split('-').at(-1)),
           },
         })
       )
@@ -62,25 +62,30 @@ const WellBeingEverydayLife = () => {
 
   return (
     <div>
-      <Title type="3">{checkup.etape2_content?.vie_title}</Title>
+      <Title type="3">{checkup.checkupQuestions?.[4].checkupQuestion}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  label={labels[5 - i]}
-                  id={scale.toString()}
-                  name="everydayLifeScale"
-                  checked={formik.values.everydayLifeScale === scale.toString()}
-                  onChange={formik.handleChange}
-                  number={true}
-                >
-                  {scale}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[1].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    label={question.checkupQuestionChoiceDescription}
+                    id={`checkup-question-choice-${question.checkupQuestionChoiceValue}`}
+                    name="everydayLifeScale"
+                    checked={
+                      formik.values.everydayLifeScale ===
+                      `checkup-question-choice-${question.checkupQuestionChoiceValue}`
+                    }
+                    onChange={formik.handleChange}
+                    number={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.everydayLifeScale && (
           <div className="mt-8">

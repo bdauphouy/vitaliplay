@@ -15,12 +15,17 @@ export const CheckupContextProvider = ({ children }) => {
   const { isAuth } = useContext(AuthContext)
 
   useEffect(() => {
-    if (!isAuth) {
-      router.push(getPage(otherPages, 'pageName', 'Connexion').path)
-    }
+    // if (!isAuth) {
+    //   router.push(getPage(otherPages, 'pageName', 'Connexion').path)
+    // }
 
     const fetchCheckup = async () => {
-      const data = await fetchAPIWithToken('/bilan', getToken())
+      const data = await fetchAPIWithToken(
+        '/content/checkup',
+        getToken(),
+        true,
+        ['checkupQuestions', 'checkupExercises', 'checkupSteps']
+      )
 
       if (!data) {
         router.push(getPage(otherPages, 'pageName', 'Connexion').path)
@@ -28,6 +33,8 @@ export const CheckupContextProvider = ({ children }) => {
       }
 
       setCheckup(data)
+
+      console.log(data)
     }
 
     fetchCheckup()

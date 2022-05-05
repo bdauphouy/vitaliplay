@@ -43,9 +43,9 @@ const SurveyMeasurements = () => {
 
   return (
     <div>
-      <Title type="3">Renseignez votre taille et poids</Title>
+      <Title type="3">{survey.enterWeightTitle}</Title>
       <div className="mt-4">
-        <Subtitle type="2">{survey.mensuration_description}</Subtitle>
+        <Subtitle type="2">{survey.enterWeightDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}
@@ -81,9 +81,6 @@ const SurveyMeasurements = () => {
           </div>
         </div>
       </form>
-      <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-        Je ne souhaite pas répondre
-      </p>
     </div>
   )
 }

@@ -39,13 +39,19 @@ const DailyActivityIntenseActivity = () => {
     },
     validationSchema: ActivitySchema,
     onSubmit: (values) => {
+      console.log(values)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
           ...store,
           dailyActivity: {
             ...store?.dailyActivity,
-            intenseActivity: values.frequency,
+            intenseActivity:
+              parseInt(values.frequency.split('-').at(-1)) === 31
+                ? 'threeOrMoreAWeek'
+                : parseInt(values.frequency.split('-').at(-1)) === 32
+                ? 'oneOrTwoAWeek'
+                : 'never',
           },
         })
       )
@@ -57,29 +63,34 @@ const DailyActivityIntenseActivity = () => {
 
   return (
     <div>
-      <Title type="3">{checkup.etape3_content?.intense_activity.title}</Title>
+      <Title type="3">{checkup.checkupQuestions?.[5].checkupQuestion}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          {checkup.etape3_content?.intense_activity.description}
+          {checkup.checkupQuestions?.[5].checkupQuestionDescription}
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-          {radios.map((radio, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  id={radio.toString()}
-                  name="frequency"
-                  checked={formik.values.frequency === radio.toString()}
-                  onChange={formik.handleChange}
-                  center={true}
-                >
-                  {radio}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[5].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    id={`checkup-question-choice-${question.id}`}
+                    name="frequency"
+                    checked={
+                      formik.values.frequency ===
+                      `checkup-question-choice-${question.id}`
+                    }
+                    onChange={formik.handleChange}
+                    center={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.frequency && (
           <div className="mt-8">

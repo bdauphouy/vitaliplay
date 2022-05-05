@@ -14,29 +14,22 @@ import Image from 'next/image'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
 
-function formatDate(str){
-    const split1 = str.split("T")[0]
-    const split2 = split1.split("-")
-
-    return `${split2[2]}/${split2[1]}/${split2[0]}`
-}
-
 export const getServerSideProps = async ({ req }) => {
-    if (!req.cookies.jwt) {
-      return {
-        redirect: {
-          destination: '/connexion',
-          permanent: true,
-        },
-      }
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
     }
-  
-    const bilans = await fetchAPIWithToken('/bilan-reponses', req.cookies.jwt, false)
-    return { props: { bilans: bilans.data } }
+  }
+
+  const bilans = await fetchAPIWithToken('/checkups', req.cookies.jwt, false)
+  console.log(bilans)
+  return { props: { bilans: bilans.data } }
 }
 
-
-const MyHealthSpaceCheckups = ({bilans}) => {
+const MyHealthSpaceCheckups = ({ bilans }) => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -87,19 +80,21 @@ const MyHealthSpaceCheckups = ({bilans}) => {
                 </a>
               </Link>
             </div>
-            {bilans.map(item => {
+            {bilans?.map((item) => {
               return (
-                <Link 
-                    key={item.id} 
-                    href={`${router.route}/[id]`} 
-                    as={`${router.route}/${item.id}`} 
-                    passHref
+                <Link
+                  key={item.id}
+                  href={`${router.route}/[id]`}
+                  as={`${router.route}/${item.id}`}
+                  passHref
                 >
                   <a>
                     <div className="flex h-auto md:h-64">
                       <CheckupPreview
                         mobile={true}
-                        date={formatDate(item?.attributes.createdAt)}
+                        date={item?.attributes.createdAt.toLocaleDateString(
+                          'fr-FR'
+                        )}
                         score={item?.attributes.note_global}
                       />
                     </div>

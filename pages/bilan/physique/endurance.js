@@ -39,9 +39,7 @@ const PhysicalEndurance = () => {
           ...store,
           physical: {
             ...store?.physical,
-            endurance: {
-              exo5: values.reps.toString(),
-            },
+            endurance: parseInt(values.reps),
           },
         })
       )
@@ -54,15 +52,17 @@ const PhysicalEndurance = () => {
   return (
     <>
       <div>
-        <Title type="3">Exercice 5 : Montée genoux</Title>
+        <Title type="3">
+          {checkup.checkupExercises?.[4].checkupExerciseName}
+        </Title>
         <div className="mt-4">
           <Subtitle type="2">
-            {checkup.etape1_exercices?.exercice5.description}
+            {checkup.checkupExercises?.[4].checkupExerciseDescription}
           </Subtitle>
         </div>
         <iframe
           className="mt-6 aspect-video w-full"
-          src={checkup.etape1_exercices?.exercice5.video}
+          src={checkup.checkupExercises?.[4].checkupExerciseVideoLink}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

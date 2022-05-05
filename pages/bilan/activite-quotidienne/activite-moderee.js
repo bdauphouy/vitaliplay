@@ -47,7 +47,14 @@ const DailyActivityModerateActivity = () => {
           ...store,
           dailyActivity: {
             ...store?.dailyActivity,
-            moderateActivity: values.frequency,
+            moderateActivity:
+              parseInt(values.frequency.split('-').at(-1)) === 34
+                ? 'fiveOrMoreAWeek'
+                : parseInt(values.frequency.split('-').at(-1)) === 35
+                ? 'threeOrFourAWeek'
+                : parseInt(values.frequency.split('-').at(-1)) === 36
+                ? 'oneOrTwoAWeek'
+                : 'never',
           },
         })
       )
@@ -58,20 +65,16 @@ const DailyActivityModerateActivity = () => {
 
       const fetchCheckup = async () => {
         const data = await postAPIWithToken(
-          '/bilan-reponses',
-          {
-            data: JSON.parse(checkupData),
-          },
+          '/checkups',
+          JSON.parse(checkupData),
           getToken()
         )
         if (data) {
           window.localStorage.setItem(
-            'bilanSuccess',
-            JSON.stringify(data.data.attributes)
+            'vitaliplay.checkup.score',
+            JSON.stringify({ ...data.data.attributes, id: data.data.id })
           )
           router.push(getPage(checkupPages, 'pageName', 'Succès').path)
-        } else {
-          router.push(getPage(checkupPages, 'pageName', 'Bilan').path)
         }
       }
 
@@ -85,29 +88,34 @@ const DailyActivityModerateActivity = () => {
 
   return (
     <div>
-      <Title type="3">{checkup.etape3_content?.moderate_activity.title}</Title>
+      <Title type="3">{checkup.checkupQuestions?.[6].checkupQuestion}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          {checkup.etape3_content?.moderate_activity.description}
+          {checkup.checkupQuestions?.[6].checkupQuestionDescription}
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-4">
-          {radios.map((radio, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  id={radio.toString()}
-                  name="frequency"
-                  checked={formik.values.frequency === radio.toString()}
-                  onChange={formik.handleChange}
-                  center={true}
-                >
-                  {radio}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[6].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    id={`checkup-question-choice-${question.id}`}
+                    name="frequency"
+                    checked={
+                      formik.values.frequency ===
+                      `checkup-question-choice-${question.id}`
+                    }
+                    onChange={formik.handleChange}
+                    center={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.frequency && (
           <div className="mt-8">
