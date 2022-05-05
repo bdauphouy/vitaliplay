@@ -10,10 +10,12 @@ import Radio from '@/components/utils/Radio'
 import EverydayLifeSchema from '@/schemas/checkup/well-being/EverydayLife'
 import Error from '@/components/utils/Error'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const WellBeingEverydayLife = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const [labels] = useState([
     'Tout le temps',
@@ -46,9 +48,7 @@ const WellBeingEverydayLife = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            everydayLife: {
-              everydayLifeScale: values.everydayLifeScale,
-            },
+            everydayLife: parseInt(values.everydayLifeScale.split('-').at(-1)),
           },
         })
       )
@@ -62,27 +62,30 @@ const WellBeingEverydayLife = () => {
 
   return (
     <div>
-      <Title type="3">
-        Ma vie quotidienne a été remplie de choses intéressantes
-      </Title>
+      <Title type="3">{checkup.checkupQuestions?.[4].checkupQuestion}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  label={labels[5 - i]}
-                  id={scale.toString()}
-                  name="everydayLifeScale"
-                  checked={formik.values.everydayLifeScale === scale.toString()}
-                  onChange={formik.handleChange}
-                  number={true}
-                >
-                  {scale}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[1].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    label={question.checkupQuestionChoiceDescription}
+                    id={`checkup-question-choice-${question.checkupQuestionChoiceValue}`}
+                    name="everydayLifeScale"
+                    checked={
+                      formik.values.everydayLifeScale ===
+                      `checkup-question-choice-${question.checkupQuestionChoiceValue}`
+                    }
+                    onChange={formik.handleChange}
+                    number={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.everydayLifeScale && (
           <div className="mt-8">

@@ -7,6 +7,13 @@ import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import {
+  fetchAPIWithToken,
+  getUserData,
+  getUserProfilePicture,
+  getToken,
+} from '@/lib/api'
+import Subtitle from '@/components/utils/Subtitle'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -18,7 +25,9 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  return { props: {} }
+  const user = await getUserData(req.cookies.jwt)
+
+  return { props: { user } }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -36,12 +45,12 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = () => {
+const Account = ({ user }) => {
   const [linkSize, setLinkSize] = useState('m')
 
-  const [cardType] = useState('Le live du jour')
+  const { getPage, checkupPages } = useContext(LinksContext)
 
-  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
+  const [userImage, setUserImage] = useState()
 
   const isSmallScreen = useMediaQuery('(max-width: 640px)')
 
@@ -49,24 +58,43 @@ const Account = () => {
     setLinkSize(isSmallScreen ? 's' : 'm')
   }, [isSmallScreen])
 
+  useEffect(() => {
+    const fetchProfilePicture = async () => {
+      const { profilePicture } = await getUserProfilePicture(getToken())
+
+      setUserImage(profilePicture)
+    }
+
+    fetchProfilePicture()
+  })
+
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
-      <div className="flex-row-reverse justify-between lg:flex">
-        <div className="fixed top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
-          Accès offert par : AG2R LA MONDIALE
-        </div>
+      <div className="flex-row justify-between lg:flex">
         <Title type="1" html={false}>
-          Bonjour, <strong className="type-1">Guillaume</strong>
+          Bonjour, <strong className="type-1">{user.firstname}</strong>
         </Title>
+        {/* {homeData.offer?.id ? (
+          <div className="fixed top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
+            Accès offert par : {homeData.offer?.offerBy}
+          </div>
+        ) : null} */}
       </div>
       <div className="mt-14 flex flex-wrap gap-8">
         <div className="flex-[2] xsm:min-w-[320px] sm:min-w-[400px]">
           <Title type="5">Votre récapitulatif</Title>
           <div className="mt-6 rounded-lg px-6 py-8 shadow-level1">
             <div className="flex items-center gap-6">
-              <div className="min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-[url(https://thispersondoesnotexist.com/image)] bg-cover sm:min-h-[96px] sm:min-w-[96px]"></div>
+              <div
+                className={`min-h-[72px] min-w-[72px] rounded-full bg-gray-100 bg-cover bg-center sm:min-h-[96px] sm:min-w-[96px]`}
+                style={{
+                  backgroundImage: `url(${userImage})`,
+                }}
+              ></div>
               <div>
-                <Title type="5">Guillaume Clerisseau</Title>
+                <Title type="5" html={false}>
+                  {user.firstname} {user.lastname}
+                </Title>
                 <Link
                   href={getPage(checkupPages, 'pageName', 'Bilan').path}
                   passHref
@@ -88,55 +116,47 @@ const Account = () => {
               <h3 className="font-head text-lg font-bold leading-6 text-dark-900">
                 Mes derniers bilans
               </h3>
+
               <div className="mt-4 flex flex-wrap gap-4">
-                <Link
-                  href={`${
-                    getPage(accountPages, 'pageName', 'Mon espace santé').path
-                  }/bilans/1`}
-                  passHref
-                >
-                  <a className="flex-1">
-                    <CheckupBox date="23/08/21" score="65" />
-                  </a>
-                </Link>
-                <Link
-                  href={`${
-                    getPage(accountPages, 'pageName', 'Mon espace santé').path
-                  }/bilans/1`}
-                  passHref
-                >
-                  <a className="flex-1">
-                    <CheckupBox date="23/07/21" score="85" />
-                  </a>
-                </Link>
-                <Link
-                  href={`${
-                    getPage(accountPages, 'pageName', 'Mon espace santé').path
-                  }/bilans/1`}
-                  passHref
-                >
-                  <a className="flex-1">
-                    <CheckupBox date="23/06/21" score="43" />
-                  </a>
-                </Link>
+                {/* {homeData.bilan_reponses.length > 0 ? (
+                  homeData.bilan_reponses.map((bilan) => (
+                    <Link
+                      key={bilan.id}
+                      href={`${
+                        getPage(accountPages, 'pageName', 'Mon espace santé')
+                          .path
+                      }/bilans/[id]`}
+                      as={`${
+                        getPage(accountPages, 'pageName', 'Mon espace santé')
+                          .path
+                      }/bilans/${bilan.id}`}
+                      passHref
+                    >
+                      <a
+                        className="flex-1"
+                        style={{
+                          maxWidth:
+                            homeData.bilan_reponses.length < 3 ? '30%' : '',
+                        }}
+                      >
+                        <CheckupBox
+                          date={formatDate(bilan.createdAt)}
+                          score={bilan.note_global}
+                        />
+                      </a>
+                    </Link>
+                  ))
+                ) : (
+                  <Subtitle type="4">Vous n'avez pas de bilan.</Subtitle>
+                )} */}
               </div>
             </div>
           </div>
         </div>
         <div className="flex min-w-[224px] flex-1 flex-col md:min-w-[288px]">
-          <Title type="5">{cardType}</Title>
+          {/* <Title type="5">{getMidleCardTitle(homeData)}</Title> */}
           <div className="mt-6 h-full">
-            {cardType === 'Votre séance du jour' ? (
-              <Card
-                tagType="1"
-                title="Exercices intensifs pour le bas du corps"
-                type="séances"
-                duration="27"
-                level="Intermédiaire"
-                bg="/bg-card.png"
-                height="h-full"
-              />
-            ) : cardType === 'Compléter votre profil' ? (
+            {/* {!homeData.isQuestionnaireCompleted ? (
               <div className="flex h-full flex-col items-start justify-end rounded-lg bg-blue-50 p-6">
                 <h3 className="font-head text-[1.25rem] font-bold leading-6 text-dark-900">
                   Votre profil n’est pas totalement complété
@@ -149,7 +169,17 @@ const Account = () => {
                   Compléter mon profil
                 </Cta>
               </div>
-            ) : (
+            ) : homeData.todayExercice?.id ? (
+              <Card
+                tagType={homeData.todayExercice.tags?.id}
+                title={homeData.todayExercice.name}
+                type="séances"
+                duration={homeData.todayExercice.duration}
+                level={homeData.todayExercice.level}
+                bg="/bg-card.png"
+                height="h-full"
+              />
+            ) : homeData.todayLive.id ? (
               <div
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
@@ -157,53 +187,47 @@ const Account = () => {
                 className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
               >
                 <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
-                  Live Yoga:
-                  <br />
-                  Sophie Martinez
+                  {homeData.todayLive?.name}
                 </h3>
                 <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
-                  16:00 - 17:00
+                  {formatTime(homeData.todayLive.startTime)} -{' '}
+                  {formatTime(homeData.todayLive.endTime)}
                 </span>
                 <Cta size="m" type="primary">
                   Mettre un rappel
                 </Cta>
               </div>
-            )}
+            ) : null} */}
           </div>
         </div>
         <div className="flex-[1.5] self-end">
           <Title type="5">Vos dernières séances</Title>
           <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
-            <Link
-              href={`${
-                getPage(accountPages, 'pageName', 'Séances').path
-              }/toutes-les-seances/1`}
-              passHref
-            >
-              <a>
-                <CardPreview
-                  title="Exercices intensifs pour le bas du corps"
-                  duration="27"
-                  level="Intermédiaire"
-                  type="4"
-                />
-              </a>
-            </Link>
-            <Link
-              href={`${
-                getPage(accountPages, 'pageName', 'Séances').path
-              }/toutes-les-seances/1`}
-              passHref
-            >
-              <a>
-                <CardPreview
-                  title="Exercices intensifs pour le bas du corps"
-                  duration="27"
-                  level="Intermédiaire"
-                  type="2"
-                />
-              </a>
-            </Link>
+            {/* {homeData.exerciceHistory ? (
+              homeData.exerciceHistory.map((exercice) => (
+                <Link
+                  key={exercice.id}
+                  href={`${
+                    getPage(accountPages, 'pageName', 'Séances').path
+                  }/toutes-les-seances/[id]`}
+                  as={`${
+                    getPage(accountPages, 'pageName', 'Séances').path
+                  }/toutes-les-seances/${exercice.id}`}
+                  passHref
+                >
+                  <a>
+                    <CardPreview
+                      title={exercice.name}
+                      duration={exercice.duration}
+                      level={exercice.level}
+                      type={exercice.tags?.id}
+                    />
+                  </a>
+                </Link>
+              ))
+            ) : (
+              <Subtitle type="4">Vous n'avez pas de séance.</Subtitle>
+            )} */}
           </div>
         </div>
       </div>

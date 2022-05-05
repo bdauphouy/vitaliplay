@@ -4,10 +4,24 @@ import Card from '@/components/pages/account/Card'
 import Row from '@/components/pages/account/Row'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
-import { useEffect } from 'react'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const SessionsNewTrainings = () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const seances = await fetchAPIWithToken('/exercices', req.cookies.jwt)
+
+  return { props: { exercices: seances.exercices, tags: seances.exerciceTags } }
+}
+const SessionsNewTrainings = ({ exercices, tags }) => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -24,19 +38,30 @@ const SessionsNewTrainings = () => {
           title="Toutes les séances"
           type="filter"
           mobile={true}
-          filterOptions={['Par pertinence', 'Type 1', 'Type 2', 'Type 3']}
+          filterOptions={tags.map((tag) => tag.name)}
         >
-          {[...Array(4)].map((item, i) => {
+          {exercices.map((item) => {
+              console.log(item.attributes)
             return (
-              <Link key={i} href={`${router.route}/1`} passHref>
+              <Link 
+                key={item.id} 
+                href={`${router.route}/[id]`} 
+                as={`${router.route}/${item.id}`} 
+                passHref
+              >
                 <a>
                   <Card
-                    tagType="1"
-                    title="Exercices intensifs pour le bas du corps"
+                    tagType={item?.attributes?.tags?.data?.id}
+                    title={item?.attributes?.name}
                     type="séances"
-                    duration="27"
-                    level="Intermédiaire"
-                    bg="/bg-card.png"
+                    duration={item?.attributes?.duration}
+                    level={item?.attributes?.level}
+                    bg={
+                      item?.attributes?.image?.data?.attributes?.url
+                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                          item?.attributes?.image?.data?.attributes?.url
+                        : '/bg-card.png'
+                    }
                   />
                 </a>
               </Link>

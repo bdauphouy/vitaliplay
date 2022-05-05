@@ -8,6 +8,7 @@ import useButtonSize from '@/hooks/useButtonSize'
 import { useRouter } from 'next/router'
 import { useContext, useState, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { InformationsSchema } from '@/schemas/checkout/InformationsSchema'
 
 const CheckoutInfo = () => {
   const [store, setStore] = useState()
@@ -19,14 +20,16 @@ const CheckoutInfo = () => {
   }, [])
 
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      lastName: '',
-      firstName: '',
-      address: '',
-      city: '',
-      country: '',
-      zipCode: '',
+      lastName: store?.billing?.lastName || '',
+      firstName: store?.billing?.firstName || '',
+      address: store?.billing?.address || '',
+      city: store?.billing?.city || '',
+      country: store?.billing?.country || '',
+      zipCode: store?.billing?.zipCode || '',
     },
+    validationSchema: InformationsSchema,
     onSubmit: (values) => {
       window.localStorage.setItem(
         'vitaliplay.checkout.store',
@@ -43,6 +46,8 @@ const CheckoutInfo = () => {
   const router = useRouter()
 
   const buttonSize = useButtonSize()
+
+  useEffect(() => {}, [store])
 
   return (
     <div className="mt-10 px-6 md:px-24 lg:mt-40">
@@ -62,30 +67,35 @@ const CheckoutInfo = () => {
           name="lastName"
           value={formik.values.lastName}
           onChange={formik.handleChange}
+          error={formik.touched.lastName && formik.errors.lastName}
         />
         <Input
           label="Prénom"
           name="firstName"
           value={formik.values.firstName}
           onChange={formik.handleChange}
+          error={formik.touched.firstName && formik.errors.firstName}
         />
         <Input
           label="Adresse de facturation"
           name="address"
           value={formik.values.address}
           onChange={formik.handleChange}
+          error={formik.touched.address && formik.errors.address}
         />
         <Input
           label="Ville"
           name="city"
           value={formik.values.city}
           onChange={formik.handleChange}
+          error={formik.touched.city && formik.errors.city}
         />
         <Input
           label="Pays"
           name="country"
           value={formik.values.country}
           onChange={formik.handleChange}
+          error={formik.touched.country && formik.errors.country}
         />
         <div className="md:w-1/2">
           <Input
@@ -93,6 +103,7 @@ const CheckoutInfo = () => {
             name="zipCode"
             value={formik.values.zipCode}
             onChange={formik.handleChange}
+            error={formik.touched.zipCode && formik.errors.zipCode}
           />
         </div>
         <div className="mt-4 lg:mt-7">

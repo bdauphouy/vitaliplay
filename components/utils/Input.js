@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useRef, useEffect } from 'react'
 import Error from './Error'
+import {
+  Elements,
+  CardNumberElement,
+  CardCvcElement,
+  CardExpiryElement,
+} from '@stripe/react-stripe-js'
 
 const Input = ({
   label,
@@ -57,22 +63,65 @@ const Input = ({
           >
             {prefix}
           </div>
-          <input
-            ref={input}
-            type={type}
-            id={randomId}
-            name={name}
-            onChange={onChange}
-            onFocus={prefix ? () => setTelFocus(true) : null}
-            onBlur={prefix ? () => setTelFocus(false) : null}
-            placeholder={placeholder}
-            value={value}
-            className={`${type === 'date' ? 'px-3 py-[9px]' : 'px-3 py-2.5'} ${
-              !prefix
-                ? 'w-full rounded-md border-1 border-solid border-dark-100 bg-light-100 font-body text-base font-normal text-dark-900 outline-none transition-[border-color] duration-300 focus:border-dark-300'
-                : 'flex-1 outline-none'
-            }`}
-          />
+          {label === 'Numéro de carte' ? (
+            <div className="w-full rounded-md border-1 border-solid border-dark-100 bg-light-100 py-2.5 px-3 font-body text-base font-normal text-dark-900 outline-none transition-[border-color] duration-300 focus:border-dark-300">
+              <CardNumberElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      lineHeight: '27px',
+                    },
+                  },
+                }}
+              />
+            </div>
+          ) : label === "Date d'expiration" ? (
+            <div className="w-full rounded-md border-1 border-solid border-dark-100 bg-light-100 py-2.5 px-3 font-body text-base font-normal text-dark-900 outline-none transition-[border-color] duration-300 focus:border-dark-300">
+              <CardExpiryElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      lineHeight: '27px',
+                    },
+                  },
+                }}
+              />
+            </div>
+          ) : label === 'CVV' ? (
+            <div className="w-full rounded-md border-1 border-solid border-dark-100 bg-light-100 py-2.5 px-3 font-body text-base font-normal text-dark-900 outline-none transition-[border-color] duration-300 focus:border-dark-300">
+              <CardCvcElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      lineHeight: '27px',
+                    },
+                  },
+                }}
+              />
+            </div>
+          ) : (
+            <input
+              ref={input}
+              type={type}
+              id={randomId}
+              name={name}
+              onChange={onChange}
+              onFocus={prefix ? () => setTelFocus(true) : null}
+              onBlur={prefix ? () => setTelFocus(false) : null}
+              placeholder={placeholder}
+              value={value}
+              className={`${
+                type === 'date' ? 'px-3 py-[9px]' : 'px-3 py-2.5'
+              } ${
+                !prefix
+                  ? 'w-full rounded-md border-1 border-solid border-dark-100 bg-light-100 font-body text-base font-normal text-dark-900 outline-none transition-[border-color] duration-300 focus:border-dark-300'
+                  : 'flex-1 outline-none'
+              }`}
+            />
+          )}
         </div>
       )}
       {error && (

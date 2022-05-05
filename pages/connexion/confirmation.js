@@ -8,8 +8,15 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { useContext } from 'react'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
+import { fetchAPI } from '@/lib/api'
 
-const LoginConfirm = () => {
+export const getStaticProps = async () => {
+  const login = await fetchAPI('/content/login')
+
+  return { props: { login }, revalidate: 10 }
+}
+
+const LoginConfirm = ({ login }) => {
   const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()
 
@@ -21,12 +28,11 @@ const LoginConfirm = () => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        Bon retour parmis nous !
+        {login.loginSuccessTitle}
       </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+        <Subtitle type="2" center={true}>
+          {login.loginSuccessDescription}
         </Subtitle>
       </div>
       <div className="mt-10 lg:mt-12">

@@ -10,10 +10,12 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import BalanceSchema from '@/schemas/checkup/physical/Balance'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const PhysicalBalance = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -39,8 +41,8 @@ const PhysicalBalance = () => {
           physical: {
             ...store?.physical,
             balance: {
-              leftLegTime: values.leftLegTime.toString(),
-              rightLegTime: values.rightLegTime.toString(),
+              leftLegTime: parseInt(values.leftLegTime),
+              rightLegTime: parseInt(values.rightLegTime),
             },
           },
         })
@@ -55,17 +57,16 @@ const PhysicalBalance = () => {
     <>
       <div>
         <Title type="3">
-          Exercice 6 : Equilibre sur une jambe (deux cotés)
+          {checkup.checkupExercises?.[5].checkupExerciseName}
         </Title>
         <div className="mt-4">
           <Subtitle type="2">
-            Le but du test est de tenir au moins 30 secondes en équilibre sur
-            une jambe sans se tenir. L’exercice est à réaliser de chaque côté.
+            {checkup.checkupExercises?.[5].checkupExerciseDescription}
           </Subtitle>
         </div>
         <iframe
           className="mt-6 aspect-video w-full"
-          src="https://www.youtube.com/embed/yR9Wpyf8gbk"
+          src={checkup.checkupExercises?.[5].checkupExerciseVideoLink}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -10,10 +10,12 @@ import Radio from '@/components/utils/Radio'
 import EnergySchema from '@/schemas/checkup/well-being/Energy'
 import Error from '@/components/utils/Error'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const WellBeingEnergy = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const [labels] = useState([
     'Tout le temps',
@@ -35,7 +37,7 @@ const WellBeingEnergy = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      energyScale: store?.wellBeing?.energy?.energyScale || '',
+      energyScale: store?.wellBeing?.energy || '',
     },
     validationSchema: EnergySchema,
     onSubmit: (values) => {
@@ -45,9 +47,7 @@ const WellBeingEnergy = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            energy: {
-              energyScale: values.energyScale,
-            },
+            energy: parseInt(values.energyScale.split('-').at(-1)),
           },
         })
       )
@@ -59,27 +59,30 @@ const WellBeingEnergy = () => {
 
   return (
     <div>
-      <Title type="3">
-        Je me suis senti(e) plein(e) d’énergie et vigoureux(se)
-      </Title>
+      <Title type="3">{checkup.checkupQuestions?.[2].checkupQuestion}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  label={labels[5 - i]}
-                  id={scale.toString()}
-                  name="energyScale"
-                  checked={formik.values.energyScale === scale.toString()}
-                  onChange={formik.handleChange}
-                  number={true}
-                >
-                  {scale}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[2].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    label={question.checkupQuestionChoiceDescription}
+                    id={`checkup-question-choice-${question.checkupQuestionChoiceValue}`}
+                    name="energyScale"
+                    checked={
+                      formik.values.energyScale ===
+                      `checkup-question-choice-${question.checkupQuestionChoiceValue}`
+                    }
+                    onChange={formik.handleChange}
+                    number={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.energyScale && (
           <div className="mt-8">

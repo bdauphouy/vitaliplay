@@ -11,17 +11,46 @@ import { useRouter } from 'next/router'
 import Error from '@/components/utils/Error'
 import ProsthesisSchema from '@/schemas/survey/Prosthesis'
 import { LinksContext } from '@/contexts/LinksContext'
+import { SurveyContext } from '@/contexts/SurveyContext'
+import { postAPIWithToken, getToken, fetchAPIWithToken } from '@/lib/api'
 
-const SurveyProsthesis = () => {
-  const { getPage, surveyPages } = useContext(LinksContext)
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: true,
+      },
+    }
+  }
+
+  const prosthesis = await fetchAPIWithToken(
+    '/protheses',
+    req.cookies.jwt,
+    false
+  )
+
+  return { props: { prosthesis: prosthesis.data } }
+}
+
+const SurveyProsthesis = ({ prosthesis }) => {
+  const { getPage, surveyPages, accountPages } = useContext(LinksContext)
+  const { survey } = useContext(SurveyContext)
+
+  const [loading, setLoading] = useState(false)
 
   const [store, setStore] = useState()
+
+  const [serverSideErrors] = useState({
+    'The user already has a questionAnswer field.':
+      'Vous avez déjà répondu à votre questionnaire.',
+  })
+
+  const [serverSideError, setServerSideError] = useState()
 
   useEffect(() => {
     setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
   }, [])
-
-  const [prosthesisLocations] = useState(['Epaule', 'Hanche', 'Genou', 'Autre'])
 
   const router = useRouter()
 
@@ -33,11 +62,79 @@ const SurveyProsthesis = () => {
     },
     validationSchema: ProsthesisSchema,
     onSubmit: (values) => {
+      setLoading(true)
+
       window.localStorage.setItem(
         'vitaliplay.survey.store',
         JSON.stringify({ ...store, ...values })
       )
-      router.push(getPage(surveyPages, 'pageName', 'Succès').path)
+
+      const surveyData = window.localStorage.getItem('vitaliplay.survey.store')
+
+      const {
+        height,
+        weight,
+        smoker,
+        number,
+        forDate,
+        pain,
+        painList,
+        painScale,
+        affection,
+        affectionList,
+        prosthesis,
+        prosthesisLocations,
+      } = JSON.parse(surveyData)
+
+      const sortedData = {
+        size: parseInt(height),
+        weight: parseInt(weight),
+        isSmoker: smoker === 'smoker',
+        dailyPacksOfCigarettes: parseInt(number),
+        smokerForYears: parseInt(forDate),
+        hasPain: pain === 'yes',
+        pains: painList.map((pain) => parseInt(pain.slice(-1))),
+        painScale: parseInt(painScale),
+        hasLongTermCondition: affection === 'yes',
+        longTermConditions: affectionList.map((affection) =>
+          parseInt(affection.slice(-1))
+        ),
+        hasProthesis: prosthesis === 'yes',
+        protheses: prosthesisLocations.map((prosthesisLocation) =>
+          parseInt(prosthesisLocation.slice(-1))
+        ),
+      }
+
+      const fetchSurvey = async () => {
+        const data = await postAPIWithToken(
+          '/questions-answers',
+          { data: sortedData },
+          getToken()
+        )
+        setLoading(false)
+
+        if (data.data) {
+          router.push(getPage(surveyPages, 'pageName', 'Succès').path)
+        }
+
+        if (data.error) {
+          setServerSideError(
+            serverSideErrors[data.error.message] ||
+              'Erreur lors de la soumission du questionnaire.'
+          )
+
+          if (
+            data.error.message ===
+            'The user already has a questionAnswer field.'
+          ) {
+            router.push(getPage(accountPages, 'pageName', 'Accueil').path)
+          }
+        }
+      }
+
+      if (surveyData) {
+        fetchSurvey()
+      }
     },
   })
 
@@ -46,9 +143,9 @@ const SurveyProsthesis = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title type="3">Avez-vous une prothèse articulaire ?</Title>
+        <Title type="3">{survey.hasProthesisTitle}</Title>
         <div className="mt-4">
-          <Subtitle type="2">Si oui, à quel(s) endroit ?</Subtitle>
+          <Subtitle type="2">{survey.hasProthesisDescription}</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -68,7 +165,7 @@ const SurveyProsthesis = () => {
             >
               Non
             </Radio>
-            {formik.touched.prosthesis && (
+            {formik.touched.prosthesis && formik.errors.prosthesis && (
               <div className="md:col-span-2">
                 <Error>{formik.errors.prosthesis}</Error>
               </div>
@@ -81,18 +178,18 @@ const SurveyProsthesis = () => {
                   : 'h-0 overflow-hidden opacity-0'
               } grid grid-cols-1 gap-4 transition duration-300 ease-linear md:col-span-2 md:grid-cols-2`}
             >
-              {prosthesisLocations.map((prosthesisLocation, i) => {
+              {prosthesis?.map((prosthesisLocation, i) => {
                 return (
                   <Checkbox
                     key={i}
-                    id={prosthesisLocation}
+                    id={`prosthesis-${prosthesisLocation.id}`}
                     name="prosthesisLocations"
                     checked={formik.values.prosthesisLocations.includes(
-                      prosthesisLocation
+                      `prosthesis-${prosthesisLocation.id}`
                     )}
                     onChange={formik.handleChange}
                   >
-                    {prosthesisLocation}
+                    {prosthesisLocation.attributes.name}
                   </Checkbox>
                 )
               })}
@@ -103,24 +200,23 @@ const SurveyProsthesis = () => {
               <Error>{formik.errors.prosthesisLocations}</Error>
             </div>
           )}
+          {serverSideError && <Error>{serverSideError}</Error>}
           <div className="mt-12 flex flex-wrap gap-4 lg:gap-6">
-            <Cta buttonType="submit" type="primary" size={buttonSize}>
+            <Cta
+              loading={loading}
+              buttonType="submit"
+              type="primary"
+              size={buttonSize}
+            >
               Valider
             </Cta>
-            <div
-              onClick={() =>
-                router.push(getPage(surveyPages, 'pageName', 'Succès').path)
-              }
-            >
-              <Cta type="secondary" size={buttonSize}>
-                Passer
+            <div>
+              <Cta buttonType="submit" type="secondary" size={buttonSize}>
+                Passer et valider
               </Cta>
             </div>
           </div>
         </form>
-        <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-          Je ne souhaite pas répondre
-        </p>
       </div>
     </div>
   )

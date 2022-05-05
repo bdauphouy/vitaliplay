@@ -1,6 +1,8 @@
-module.exports = {
+const withPWA = require('next-pwa')
+
+module.exports = withPWA({
   images: {
-    domains: ['test.vitaliplay.eltha.fr'],
+    domains: ['api.vitaliplay.fr'],
   },
   async rewrites() {
     return [
@@ -9,9 +11,22 @@ module.exports = {
         destination: '/site',
       },
       {
-        source: '/:path*',
-        destination: '/site/:path*',
+        source: '/notre-solution',
+        destination: '/site/notre-solution',
+      },
+      {
+        source: '/abonnements',
+        destination: '/site/abonnements',
+      },
+      {
+        source: '/contact',
+        destination: '/site/contact',
       },
     ]
   },
-}
+  pwa: {
+    dest: 'public',
+    register: true,
+    skipWaiting: true,
+  },
+})

@@ -10,12 +10,18 @@ import { LinksContext } from '@/contexts/LinksContext'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
-import { postAPI } from '@/lib/api'
+import { postAPI, fetchAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
 import Error from '@/components/utils/Error'
 import Success from '@/components/utils/Success'
 
-const LoginStart = () => {
+export const getStaticProps = async () => {
+  const login = await fetchAPI('/content/login')
+
+  return { props: { login }, revalidate: 10 }
+}
+
+const LoginStart = ({ login }) => {
   const router = useRouter()
 
   const [loading, setLoading] = useState(false)
@@ -43,10 +49,9 @@ const LoginStart = () => {
       })
       setLoading(false)
       if (res.error) {
-        console.log(res.error)
         setServerSideError(
           serverSideErrors[res.error.message] ||
-            'Erreur lors de la soumission du formulaire'
+            'Erreur lors de la soumission du formulaire.'
         )
       } else {
         document.cookie = `jwt=${res.jwt}`
@@ -79,12 +84,9 @@ const LoginStart = () => {
           </Success>
         </div>
       )}
-      <Title type="3">Connexion</Title>
+      <Title type="3">{login.loginTitle}</Title>
       <div className="mt-4">
-        <Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
+        <Subtitle type="2">{login.loginDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}

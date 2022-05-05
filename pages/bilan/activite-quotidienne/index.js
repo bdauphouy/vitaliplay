@@ -5,19 +5,18 @@ import Cta from '@/components/utils/Cta'
 import { useContext } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const DailyActivity = () => {
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   return (
     <div>
-      <Title type="3">Etape 3 : Bilan activité quotidienne</Title>
+      <Title type="3">{checkup.checkupSteps?.[2].checkupStepName}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. At purus
-          pellentesque malesuada pellentesque ultricies leo sit. Ut in sed
-          ultricies diam arcu et. Sed lectus feugiat aliquam urna, sed risus
-          sed. Integer vestibulum dolor aliquam volutpat lectus.
+          {checkup.checkupSteps?.[2].checkupStepDescription}
         </Subtitle>
       </div>
       <div className="mt-12">

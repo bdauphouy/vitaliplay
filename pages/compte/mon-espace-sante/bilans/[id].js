@@ -6,8 +6,28 @@ import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import Advices from '@/components/pages/account/Advices'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-export const CheckupSectionBar = ({ score, type, section, checkup }) => {
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const bilan = await fetchAPIWithToken(
+    `/checkups/${query.id}`,
+    req.cookies.jwt,
+    true,
+    ['physical']
+  )
+  return { props: { bilan: {} } }
+}
+
+const CheckupSectionBar = ({ score, type, section, checkup }) => {
   return (
     <div className="mt-6 overflow-hidden rounded-lg shadow-level1 xl:flex">
       <div
@@ -62,7 +82,8 @@ export const CheckupSectionBar = ({ score, type, section, checkup }) => {
   )
 }
 
-const MyHealthSpaceCheckups1 = () => {
+const MyHealthSpaceCheckups1 = ({ bilan }) => {
+  console.log(bilan)
   const router = useRouter()
 
   const { getPathByPage } = useContext(LinksContext)
@@ -77,70 +98,89 @@ const MyHealthSpaceCheckups1 = () => {
         </Cta>
       </div>
       <div className="mt-10 md:mt-6">
-        <Row title="Bilan 01/02/22" type="grid" button={false}>
-          <Advices button={false} />
+        <Row
+          title={`Bilan ${bilan.createdAt.toLocaleDateString('fr-FR')}`}
+          type="grid"
+          button={false}
+        >
+          <Advices
+            button={false}
+            note={bilan.globalNote}
+            advice={bilan.conseil}
+          />
           <CheckupSectionBar
-            score="60"
+            score={bilan.note_physique}
             type="1"
             section="Bilan Physique"
             checkup={[
               {
                 title: 'Force',
-                values: ['Nbr de répétitions : 15', 'Nbr de répétitions : 15'],
+                values: [
+                  `Nbr de répétitions : ${bilan.physical.strength.exo1}`,
+                  `Nbr de répétitions : ${bilan.physical.strength.exo2}`,
+                ],
               },
               {
                 title: 'Souplesse',
-                values: ['Distance (cm) : 35 cm'],
+                values: [
+                  `Distance (cm) : ${bilan.physical.flexibility.exo3} cm`,
+                  `Distance (cm) : ${bilan.physical.flexibility.exo4} cm`,
+                ],
               },
               {
                 title: 'Endurance',
-                values: ['Nbr de répétitions : 15'],
+                values: [
+                  `Nbr de répétitions : ${bilan.physical.endurance.exo5}`,
+                ],
               },
               {
                 title: 'Equilibre',
-                values: ['Jambe droite : 15 sec', 'Jambe gauche : 20 sec'],
+                values: [
+                  `Jambe droite : ${bilan.physical.balance.rightLegTime} sec`,
+                  `Jambe gauche : ${bilan.physical.balance.leftLegTime} sec`,
+                ],
               },
             ]}
           />
           <CheckupSectionBar
-            score="55"
+            score={bilan.note_bien_etre}
             type="2"
             section="Bilan Bien Être"
             checkup={[
               {
                 title: 'Humeur',
-                values: ['Note (0/5) : 3'],
+                values: [`Note (0/5) : ${bilan.wellBeing.mood}`],
               },
               {
                 title: 'Tranquilité',
-                values: ['Note (0/5) : 3'],
+                values: [`Note (0/5) : ${bilan.wellBeing.tranquility}`],
               },
               {
                 title: 'Energie',
-                values: ['Note (0/5) : 3'],
+                values: [`Note (0/5) : ${bilan.wellBeing.energy}`],
               },
               {
                 title: 'Réveil',
-                values: ['Note (0/5) : 3'],
+                values: [`Note (0/5) : ${bilan.wellBeing.awakening}`],
               },
               {
                 title: 'Vie quotidienne',
-                values: ['Note (0/5) : 3'],
+                values: [`Note (0/5) : ${bilan.wellBeing.everydayLife}`],
               },
             ]}
           />
           <CheckupSectionBar
-            score="34"
+            score={bilan.note_activite_quotidienne}
             type="3"
             section="Activité quotidienne"
             checkup={[
               {
                 title: 'Activité intense',
-                values: ['1 à 2 fois par semaine'],
+                values: [bilan.dailyActivity.intenseActivity],
               },
               {
                 title: 'Activité modérée',
-                values: ['3 à 4 fois par semaine'],
+                values: [bilan.dailyActivity.moderateActivity],
               },
             ]}
           />

@@ -30,7 +30,7 @@ const SignupConfirm = () => {
         Félicitations, votre mot de passe a bien été réinitialisé
       </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
+        <Subtitle type="2" center={true}>
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
           varius a diam faucibus nec sodales fermentum eget.
         </Subtitle>

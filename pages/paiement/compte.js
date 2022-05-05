@@ -14,17 +14,26 @@ import {
   StartSignupSchema,
 } from '@/schemas/checkout/StartSchemas'
 import { LinksContext } from '@/contexts/LinksContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 const CheckoutStart = () => {
   const [civility, setCivility] = useState('M')
 
   const [store, setStore] = useState()
 
+  const { isAuth } = useContext(AuthContext)
+
   useEffect(() => {
     setStore(
       JSON.parse(window.localStorage.getItem('vitaliplay.checkout.store'))
     )
   }, [])
+
+  useEffect(() => {
+    if (isAuth) {
+      router.push(getPage(checkoutPages, 'pageName', 'Informations').path)
+    }
+  }, [isAuth])
 
   const formatDate = (date) => {
     const year = date.getFullYear()
@@ -149,6 +158,7 @@ const CheckoutStart = () => {
           >
             Je créer mon compte
           </Radio>
+
           <Radio
             id="offer"
             name="account"

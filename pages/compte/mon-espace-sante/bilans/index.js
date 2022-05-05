@@ -12,8 +12,24 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const MyHealthSpaceCheckups = () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const bilans = await fetchAPIWithToken('/checkups', req.cookies.jwt, false)
+  console.log(bilans)
+  return { props: { bilans: bilans.data } }
+}
+
+const MyHealthSpaceCheckups = ({ bilans }) => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -64,15 +80,22 @@ const MyHealthSpaceCheckups = () => {
                 </a>
               </Link>
             </div>
-            {[...Array(4)].map((_, i) => {
+            {bilans?.map((item) => {
               return (
-                <Link key={i} href={`${router.route}/1`} passHref>
+                <Link
+                  key={item.id}
+                  href={`${router.route}/[id]`}
+                  as={`${router.route}/${item.id}`}
+                  passHref
+                >
                   <a>
                     <div className="flex h-auto md:h-64">
                       <CheckupPreview
                         mobile={true}
-                        date="01/02/2020"
-                        score="65"
+                        date={item?.attributes.createdAt.toLocaleDateString(
+                          'fr-FR'
+                        )}
+                        score={item?.attributes.note_global}
                       />
                     </div>
                   </a>

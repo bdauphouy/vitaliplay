@@ -11,25 +11,35 @@ import Checkbox from '@/components/utils/Checkbox'
 import Error from '@/components/utils/Error'
 import PainSchema from '@/schemas/survey/Pain'
 import { useRouter } from 'next/router'
+import { SurveyContext } from '@/contexts/SurveyContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const SurveyPain = () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/',
+        permanent: true,
+      },
+    }
+  }
+
+  const pains = await fetchAPIWithToken('/pains', req.cookies.jwt, false)
+
+  return {
+    props: { pains: pains.data },
+  }
+}
+
+const SurveyPain = ({ pains }) => {
   const { getPage, surveyPages } = useContext(LinksContext)
+  const { survey } = useContext(SurveyContext)
 
   const [store, setStore] = useState()
 
   useEffect(() => {
     setStore(JSON.parse(window.localStorage.getItem('vitaliplay.survey.store')))
   }, [])
-
-  const [painList] = useState([
-    'Cervicales',
-    'Epaules',
-    'Coude / Poignet / Main',
-    'Dorso-lombaire',
-    'Hanches',
-    'Genou',
-    'Cheville / Pied',
-  ])
 
   const router = useRouter()
 
@@ -55,13 +65,9 @@ const SurveyPain = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title type="3">
-          Souffrez-vous de douleurs chroniques ? (Depuis plus de 3 mois)
-        </Title>
+        <Title type="3">{survey.hasPainTitle}</Title>
         <div className="mt-4">
-          <Subtitle type="2">
-            Si oui, où sont localisées vos douleurs ?
-          </Subtitle>
+          <Subtitle type="2">{survey.hasPainDescription}</Subtitle>
         </div>
         <form onSubmit={formik.handleSubmit}>
           <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -94,16 +100,16 @@ const SurveyPain = () => {
                   : 'h-0 overflow-hidden opacity-0'
               } grid grid-cols-1 gap-6 transition duration-300 ease-linear md:col-span-2 md:grid-cols-2`}
             >
-              {painList.map((pain, i) => {
+              {pains?.map((pain, i) => {
                 return (
                   <Checkbox
                     key={i}
-                    id={pain}
+                    id={`pain-${pain.id}`}
                     name="painList"
-                    checked={formik.values.painList.includes(pain)}
+                    checked={formik.values.painList.includes(`pain-${pain.id}`)}
                     onChange={formik.handleChange}
                   >
-                    {pain}
+                    {pain.attributes.name}
                   </Checkbox>
                 )
               })}
@@ -122,13 +128,9 @@ const SurveyPain = () => {
                 : 'h-0 overflow-hidden opacity-0'
             } col-span-2 transition duration-300 ease-linear`}
           >
-            <Title type="3">
-              Pouvez-vous évaluer ces douleurs sur une échelle de 0 à 10 ?
-            </Title>
+            <Title type="3">{survey.painScaleTitle}</Title>
             <div className="mt-4">
-              <Subtitle type="2">
-                0 étant pas de douleur et 10 une douleur extrême.
-              </Subtitle>
+              <Subtitle type="2">{survey.painScaleDescription}</Subtitle>
             </div>
             <div className="mt-8 flex flex-wrap gap-3 md:gap-4">
               {Array.from({ length: 11 }, (_, i) => i + 0).map((scale, i) => {
@@ -168,9 +170,6 @@ const SurveyPain = () => {
             </div>
           </div>
         </form>
-        <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-          Je ne souhaite pas répondre
-        </p>
       </div>
     </div>
   )

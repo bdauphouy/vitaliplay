@@ -9,8 +9,15 @@ import Link from 'next/link'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 import useConfetti from '@/hooks/useConfetti'
+import { fetchAPI } from '@/lib/api'
 
-const SignupConfirm = () => {
+export const getStaticProps = async () => {
+  const signup = await fetchAPI('/content/signup')
+
+  return { props: { signup }, revalidate: 10 }
+}
+
+const SignupConfirm = ({ signup }) => {
   const { getPage, sitePages, otherPages } = useContext(LinksContext)
   const congratsSize = useCongratsSize()
 
@@ -27,12 +34,11 @@ const SignupConfirm = () => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        Félicitations, vous êtes bien inscrit sur Vitaliplay
+        {signup.signupSuccessTitle}
       </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+        <Subtitle type="2" center={true}>
+          {signup.signupSuccessDescription}
         </Subtitle>
       </div>
       <div className="mt-10 flex flex-wrap justify-center gap-6 lg:mt-12">

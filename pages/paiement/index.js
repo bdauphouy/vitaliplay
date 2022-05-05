@@ -3,15 +3,16 @@ import { useEffect, useContext } from 'react'
 import { fetchAPI } from '@/lib/api'
 import { useState } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { AuthContext } from '@/contexts/AuthContext'
 
 export const getStaticProps = async () => {
-  const subscriptions = await fetchAPI('/home-landing')
+  const subscriptions = await fetchAPI('/content/subscriptions', [
+    'subscriptions',
+  ])
 
   return {
     props: {
-      subscriptions: subscriptions.prices.data.map(
-        (subscription) => subscription.attributes
-      ),
+      subscriptions: subscriptions.subscriptions,
     },
     revalidate: 10,
   }
@@ -50,7 +51,7 @@ const Checkout = ({ subscriptions }) => {
         JSON.stringify({
           subscription: subscriptions.find(
             (subscription) =>
-              subscription.type === types[router.query.abonnement]
+              subscription.subscriptionType === types[router.query.abonnement]
           ),
         })
       )

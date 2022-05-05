@@ -11,10 +11,13 @@ import ActivitySchema from '@/schemas/checkup/daily-activity/ActivitySchema'
 import Error from '@/components/utils/Error'
 import Subtitle from '@/components/utils/Subtitle'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
+import { getToken, postAPIWithToken } from '@/lib/api'
 
 const DailyActivityModerateActivity = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -34,7 +37,7 @@ const DailyActivityModerateActivity = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      frequency: store?.dailyActivity?.moderateActivity?.frequency || '',
+      frequency: store?.dailyActivity?.moderateActivity || '',
     },
     validationSchema: ActivitySchema,
     onSubmit: (values) => {
@@ -44,13 +47,40 @@ const DailyActivityModerateActivity = () => {
           ...store,
           dailyActivity: {
             ...store?.dailyActivity,
-            moderateActivity: {
-              frequency: values.frequency,
-            },
+            moderateActivity:
+              parseInt(values.frequency.split('-').at(-1)) === 34
+                ? 'fiveOrMoreAWeek'
+                : parseInt(values.frequency.split('-').at(-1)) === 35
+                ? 'threeOrFourAWeek'
+                : parseInt(values.frequency.split('-').at(-1)) === 36
+                ? 'oneOrTwoAWeek'
+                : 'never',
           },
         })
       )
-      router.push(getPage(checkupPages, 'pageName', 'Succès').path)
+
+      const checkupData = window.localStorage.getItem(
+        'vitaliplay.checkup.store'
+      )
+
+      const fetchCheckup = async () => {
+        const data = await postAPIWithToken(
+          '/checkups',
+          JSON.parse(checkupData),
+          getToken()
+        )
+        if (data) {
+          window.localStorage.setItem(
+            'vitaliplay.checkup.score',
+            JSON.stringify({ ...data.data.attributes, id: data.data.id })
+          )
+          router.push(getPage(checkupPages, 'pageName', 'Succès').path)
+        }
+      }
+
+      if (checkupData) {
+        fetchCheckup()
+      }
     },
   })
 
@@ -58,34 +88,34 @@ const DailyActivityModerateActivity = () => {
 
   return (
     <div>
-      <Title type="3">
-        Combien de fois par semaine faites-vous 30 minutes d’activité physique
-        modérée ou de la marche, qui augmente votre fréquence cardiaque ou qui
-        vous font respirer plus fort que normalement ?
-      </Title>
+      <Title type="3">{checkup.checkupQuestions?.[6].checkupQuestion}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          Par exemple : jogging, port de charge lourde, aérobic ou cyclisme à
-          allure rapide
+          {checkup.checkupQuestions?.[6].checkupQuestionDescription}
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-1 gap-x-4 gap-y-6 xl:grid-cols-4">
-          {radios.map((radio, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  id={radio.toString()}
-                  name="frequency"
-                  checked={formik.values.frequency === radio.toString()}
-                  onChange={formik.handleChange}
-                  center={true}
-                >
-                  {radio}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[6].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    id={`checkup-question-choice-${question.id}`}
+                    name="frequency"
+                    checked={
+                      formik.values.frequency ===
+                      `checkup-question-choice-${question.id}`
+                    }
+                    onChange={formik.handleChange}
+                    center={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.frequency && (
           <div className="mt-8">

@@ -4,8 +4,26 @@ import Card from '@/components/pages/account/Card'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import AccountLayout from '@/components/layouts/AccountLayout'
+import { fetchAPIWithToken } from '@/lib/api'
 
-const HealthConferences = () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const { conferences, tags } = await fetchAPIWithToken(
+    '/conference-santes',
+    req.cookies.jwt
+  )
+  return { props: { conferences, tags } }
+}
+
+const HealthConferences = ({ conferences, tags }) => {
   const router = useRouter()
 
   return (
@@ -23,26 +41,30 @@ const HealthConferences = () => {
       <div className="py-12">
         <Row
           title="Conférences de santé"
-          filterOptions={[
-            'Par pertinence',
-            'Popularité',
-            'Recommandé',
-            'Mes favoris',
-          ]}
-          type="filter"
+          filterOptions={tags.map((tag) => tag.name)}
+          type={tags.length > 0 ? 'filter' : 'none'}
           mobile={true}
         >
-          {[...Array(4)].map((_, i) => {
+          {conferences.map((item) => {
             return (
-              <Link key={i} href={`${router.route}/1`} passHref>
+              <Link
+                key={item.id}
+                href={`${router.route}/[id]`}
+                as={`${router.route}/${item.id}`}
+                passHref
+              >
                 <a>
                   <Card
-                    tagType="1"
-                    title="Exercices intensifs pour le bas du corps"
-                    type="séances"
-                    duration="27"
-                    level="Intermédiaire"
-                    bg="/bg-card.png"
+                    title={item.attributes.name}
+                    subtitle={item.attributes.description}
+                    type="conférence"
+                    bg={
+                      item.attributes?.image?.data?.attributes?.url
+                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                          item.attributes?.image?.data?.attributes?.url
+                        : '/bg-card.png'
+                    }
+                    mobile={true}
                   />
                 </a>
               </Link>

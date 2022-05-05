@@ -9,8 +9,15 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 import useConfetti from '@/hooks/useConfetti'
+import { fetchAPI } from '@/lib/api'
 
-const InvitationConfirm = () => {
+export const getStaticProps = async () => {
+  const invitation = await fetchAPI('/content/invitation')
+
+  return { props: { invitation }, revalidate: 10 }
+}
+
+const InvitationConfirm = ({ invitation }) => {
   const congratsSize = useCongratsSize()
 
   const { getPage, surveyPages } = useContext(LinksContext)
@@ -28,12 +35,11 @@ const InvitationConfirm = () => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        Bienvenue parmis nous !
+        {invitation.invitationTitle}
       </Title>
       <div className="mt-4">
-        <Subtitle center={true}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
+        <Subtitle center={true} type="2">
+          {invitation.invitationDescription}
         </Subtitle>
       </div>
       <div className="mt-8 lg:mt-12">

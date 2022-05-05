@@ -12,11 +12,17 @@ import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { v4 as uuidv4 } from 'uuid'
-import { postAPI } from '@/lib/api'
+import { postAPI, fetchAPI } from '@/lib/api'
 import { AuthContext } from '@/contexts/AuthContext'
 import Error from '@/components/utils/Error'
 
-const SignupStart = () => {
+export const getStaticProps = async () => {
+  const signup = await fetchAPI('/content/signup')
+
+  return { props: { signup }, revalidate: 10 }
+}
+
+const SignupStart = ({ signup }) => {
   const [civility, setCivility] = useState('M')
 
   const { getPage, otherPages } = useContext(LinksContext)
@@ -56,26 +62,28 @@ const SignupStart = () => {
       confirmPassword: '',
     },
     validationSchema: SignupSchema,
-
     onSubmit: async (values) => {
       setLoading(true)
+
+      console.log(values, civility)
       const res = await postAPI('/auth/local/register', {
         username: uuidv4(),
         email: values.email,
         password: values.password,
-        civilite: values.civility,
+        civility,
         firstname: values.firstName,
         lastname: values.lastName,
         address: values.address,
-        postal_code: values.zipCode,
+        zipCode: values.zipCode,
         birthdate: values.birthday,
-        phone: values.phoneNumber,
+        phone: '+33' + values.phoneNumber,
+        sex: civility === 'M' ? 'male' : 'female',
       })
       setLoading(false)
       if (res.error) {
         setServerSideError(
           serverSideErrors[res.error.message] ||
-            'Erreur lors de la soumission du formulaire'
+            'Erreur lors de la soumission du formulaire.'
         )
       } else {
         document.cookie = `jwt=${res.jwt}`
@@ -87,12 +95,9 @@ const SignupStart = () => {
 
   return (
     <div className="h-full lg:pt-32 xl:mr-20">
-      <Title type="3">Inscription</Title>
+      <Title type="3">{signup.signupTitle}</Title>
       <div className="mt-4">
-        <Subtitle>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
+        <Subtitle type="2">{signup.signupDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}

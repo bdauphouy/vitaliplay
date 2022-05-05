@@ -5,18 +5,21 @@ import Cta from '@/components/utils/Cta'
 import { useContext } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const Physical = () => {
   const { getPage, checkupPages } = useContext(LinksContext)
 
+  const { checkup } = useContext(CheckupContext)
+
+  console.log(checkup)
+
   return (
     <div>
-      <Title type="3">Etape 1 : Bilan physique</Title>
+      <Title type="3">{checkup.checkupSteps?.[0].checkupStepName}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          Le bilan physique a pour objectif d'évaluer votre condition physique
-          globale à travers différents exercices. Le bilan est personnel car il
-          dépend de votre âge et votre sexe.
+          {checkup.checkupSteps?.[0].checkupStepDescription}
         </Subtitle>
       </div>
       <div className="mt-12">

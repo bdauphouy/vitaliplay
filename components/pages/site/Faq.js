@@ -16,7 +16,7 @@ const Faq = ({
     setButtonSize(isMediumScreen ? 25 : 20)
   }, [isMediumScreen])
 
-  const openDropdown = (e) => {
+  const toggleDropdown = (e) => {
     e.target.parentElement.nextSibling.classList.toggle('max-h-0')
     e.target.parentElement.nextSibling.classList.toggle(
       isMediumScreen ? 'max-h-48' : 'max-h-96'
@@ -28,9 +28,11 @@ const Faq = ({
   return (
     <div>
       <div className="flex items-center justify-between px-2 pt-4 md:px-6">
-        <p className="pr-8 font-body font-normal text-dark-500">{question}</p>
+        <p className="pr-8 font-body font-normal leading-8 text-dark-500">
+          {question}
+        </p>
         <div
-          onClick={openDropdown}
+          onClick={toggleDropdown}
           className="cursor-pointer transition"
           style={{ transitionProperty: 'transform' }}
         >
@@ -42,7 +44,7 @@ const Faq = ({
         className="mt-4 mb-4 max-h-0 overflow-y-auto border-b-1 border-solid duration-700"
         style={{ transitionProperty: 'max-height' }}
       >
-        <p className="mb-4 text-ellipsis px-2 pr-8 font-body font-normal text-dark-500 md:px-6">
+        <p className="mb-4 text-ellipsis px-2 pr-8 font-normal leading-8 text-dark-500 md:px-6">
           {answer}
         </p>
       </div>

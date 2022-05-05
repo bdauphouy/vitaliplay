@@ -9,6 +9,7 @@ import { useContext, useEffect, useState } from 'react'
 import MeasurementsSchema from '@/schemas/survey/Measurements'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
+import { SurveyContext } from '@/contexts/SurveyContext'
 
 const SurveyMeasurements = () => {
   const [store, setStore] = useState()
@@ -18,6 +19,7 @@ const SurveyMeasurements = () => {
   }, [])
 
   const { getPage, surveyPages } = useContext(LinksContext)
+  const { survey } = useContext(SurveyContext)
 
   const router = useRouter()
 
@@ -41,12 +43,9 @@ const SurveyMeasurements = () => {
 
   return (
     <div>
-      <Title type="3">Renseignez votre taille et poids</Title>
+      <Title type="3">{survey.enterWeightTitle}</Title>
       <div className="mt-4">
-        <Subtitle type="2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida eget
-          varius a diam faucibus nec sodales fermentum eget.
-        </Subtitle>
+        <Subtitle type="2">{survey.enterWeightDescription}</Subtitle>
       </div>
       <form
         onSubmit={formik.handleSubmit}
@@ -82,9 +81,6 @@ const SurveyMeasurements = () => {
           </div>
         </div>
       </form>
-      <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-        Je ne souhaite pas répondre
-      </p>
     </div>
   )
 }

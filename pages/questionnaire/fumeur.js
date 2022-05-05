@@ -11,9 +11,12 @@ import SmokerSchema from '@/schemas/survey/Smoker'
 import Error from '@/components/utils/Error'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
+import { SurveyContext } from '@/contexts/SurveyContext'
 
 const SurveySmoker = () => {
   const { getPage, surveyPages } = useContext(LinksContext)
+
+  const { survey } = useContext(SurveyContext)
 
   const [store, setStore] = useState()
 
@@ -54,12 +57,9 @@ const SurveySmoker = () => {
   return (
     <div>
       <div className="xl:max-w-3xl">
-        <Title type="3">Êtes-vous fumeur ?</Title>
+        <Title type="3">{survey.isSmokerTitle}</Title>
         <div className="mt-4">
-          <Subtitle type="2">
-            Si oui, combien de paquets fumez-vous par semaine ? Et depuis
-            combien de temps ?
-          </Subtitle>
+          <Subtitle type="2">{survey.isSmokerDescription}</Subtitle>
         </div>
         <form
           onSubmit={formik.handleSubmit}
@@ -125,9 +125,6 @@ const SurveySmoker = () => {
             </div>
           </div>
         </form>
-        <p className="mt-6 font-body text-sm font-bold text-dark-300 underline">
-          Je ne souhaite pas répondre
-        </p>
       </div>
     </div>
   )

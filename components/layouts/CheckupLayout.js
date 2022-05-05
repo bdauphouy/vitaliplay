@@ -2,10 +2,11 @@ import { useState, useEffect, useContext } from 'react'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
 import CloseNav from '@/components/utils/CloseNav'
+import { CheckupContextProvider } from '@/contexts/CheckupContext'
 
 const CheckupLayout = ({ children }) => {
   const [achievedSteps, setAchievedSteps] = useState([[0, 1, 2], [0]])
-  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
+  const { getPage, checkupPages } = useContext(LinksContext)
   const [currentPath, setCurrentPath] = useState('/bilan')
   const router = useRouter()
 
@@ -47,8 +48,8 @@ const CheckupLayout = ({ children }) => {
   }
 
   return (
-    <>
-      <CloseNav target={getPage(accountPages, 'pageName', 'Accueil').path} />
+    <CheckupContextProvider>
+      <CloseNav />
       <div className="flex min-h-screen flex-col lg:flex-row">
         <aside
           style={{ minWidth: '400px' }}
@@ -234,7 +235,7 @@ const CheckupLayout = ({ children }) => {
           <div className="w-full max-w-4xl lg:w-11/12">{children}</div>
         </div>
       </div>
-    </>
+    </CheckupContextProvider>
   )
 }
 

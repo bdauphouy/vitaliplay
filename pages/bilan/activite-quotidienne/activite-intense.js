@@ -11,10 +11,12 @@ import ActivitySchema from '@/schemas/checkup/daily-activity/ActivitySchema'
 import Error from '@/components/utils/Error'
 import Subtitle from '@/components/utils/Subtitle'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const DailyActivityIntenseActivity = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const router = useRouter()
 
@@ -33,19 +35,23 @@ const DailyActivityIntenseActivity = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      frequency: store?.dailyActivity?.intenseActivity?.frequency || '',
+      frequency: store?.dailyActivity?.intenseActivity || '',
     },
     validationSchema: ActivitySchema,
     onSubmit: (values) => {
+      console.log(values)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({
           ...store,
           dailyActivity: {
             ...store?.dailyActivity,
-            intenseActivity: {
-              frequency: values.frequency,
-            },
+            intenseActivity:
+              parseInt(values.frequency.split('-').at(-1)) === 31
+                ? 'threeOrMoreAWeek'
+                : parseInt(values.frequency.split('-').at(-1)) === 32
+                ? 'oneOrTwoAWeek'
+                : 'never',
           },
         })
       )
@@ -57,33 +63,34 @@ const DailyActivityIntenseActivity = () => {
 
   return (
     <div>
-      <Title type="3">
-        Combien de fois par semaine faites-vous 20 minutes d’activité physique
-        intense au point de transpirer ou de haleter ?
-      </Title>
+      <Title type="3">{checkup.checkupQuestions?.[5].checkupQuestion}</Title>
       <div className="mt-4">
         <Subtitle type="2">
-          Par exemple : jogging, port de charge lourde, aérobic ou cyclisme à
-          allure rapide
+          {checkup.checkupQuestions?.[5].checkupQuestionDescription}
         </Subtitle>
       </div>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-1 gap-4 xl:grid-cols-2 2xl:grid-cols-3">
-          {radios.map((radio, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  id={radio.toString()}
-                  name="frequency"
-                  checked={formik.values.frequency === radio.toString()}
-                  onChange={formik.handleChange}
-                  center={true}
-                >
-                  {radio}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[5].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    id={`checkup-question-choice-${question.id}`}
+                    name="frequency"
+                    checked={
+                      formik.values.frequency ===
+                      `checkup-question-choice-${question.id}`
+                    }
+                    onChange={formik.handleChange}
+                    center={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.frequency && (
           <div className="mt-8">

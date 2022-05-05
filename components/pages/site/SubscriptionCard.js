@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import showdown from 'showdown'
 
 const SubscriptionCard = ({
-  title = 'This is a subscrption',
-  price = 10,
+  title = null,
+  price = null,
   suffix = '/mois',
   description = 'Lorem ipsum ut dolor',
   variant = null,
@@ -18,15 +19,22 @@ const SubscriptionCard = ({
   subPage = false,
   program = [],
 }) => {
+  console.log(program)
   const [stampSize, setStampSize] = useState()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   const { sitePages, checkoutPages, getPage } = useContext(LinksContext)
 
+  const [converter, setConverter] = useState()
+
   useEffect(() => {
     setStampSize(isMediumScreen ? 90 : 64)
   }, [isMediumScreen])
+
+  useEffect(() => {
+    setConverter(new showdown.Converter())
+  }, [])
 
   return (
     <div
@@ -80,7 +88,9 @@ const SubscriptionCard = ({
           } mt-4 font-body text-md font-normal ${
             program.length > 0 && subPage && 'border-b-1 border-solid pb-6'
           }`}
-          dangerouslySetInnerHTML={{ __html: description }}
+          dangerouslySetInnerHTML={{
+            __html: converter?.makeHtml(description.replaceAll('\n', '<br />')),
+          }}
         ></p>
         <ul className={`flex flex-col gap-4 ${program.length > 0 && 'py-6'}`}>
           {subPage &&
@@ -99,7 +109,7 @@ const SubscriptionCard = ({
                         variant === 'blue' ? 'text-light-100' : 'text-dark-500'
                       } ml-4 text-md`}
                     >
-                      {item.point}
+                      {item.subscriptionBenefit}
                     </p>
                   </div>
                 </li>

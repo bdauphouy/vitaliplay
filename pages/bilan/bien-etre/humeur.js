@@ -10,10 +10,12 @@ import Radio from '@/components/utils/Radio'
 import MoodSchema from '@/schemas/checkup/well-being/Mood'
 import Error from '@/components/utils/Error'
 import { LinksContext } from '@/contexts/LinksContext'
+import { CheckupContext } from '@/contexts/CheckupContext'
 
 const WellBeingMood = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)
+  const { checkup } = useContext(CheckupContext)
 
   const [labels] = useState([
     'Tout le temps',
@@ -35,7 +37,7 @@ const WellBeingMood = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      moodScale: store?.wellBeing?.mood?.moodScale || '',
+      moodScale: store?.wellBeing?.mood || '',
     },
     validationSchema: MoodSchema,
     onSubmit: (values) => {
@@ -45,9 +47,7 @@ const WellBeingMood = () => {
           ...store,
           wellBeing: {
             ...store?.wellBeing,
-            mood: {
-              moodScale: values.moodScale,
-            },
+            mood: parseInt(values.moodScale.split('-').at(-1)),
           },
         })
       )
@@ -59,25 +59,30 @@ const WellBeingMood = () => {
 
   return (
     <div>
-      <Title type="3">Je me suis senti(e) bien et bonne humeur</Title>
+      <Title type="3">{checkup.checkupQuestions?.[0].checkupQuestion}</Title>
       <form onSubmit={formik.handleSubmit} className="mt-12">
         <div className="grid grid-cols-3 gap-x-4 gap-y-6 xl:grid-cols-6">
-          {Array.from({ length: 6 }, (_, i) => i + 0).map((scale, i) => {
-            return (
-              <div key={i}>
-                <Radio
-                  label={labels[5 - i]}
-                  id={scale.toString()}
-                  name="moodScale"
-                  checked={formik.values.moodScale === scale.toString()}
-                  onChange={formik.handleChange}
-                  number={true}
-                >
-                  {scale}
-                </Radio>
-              </div>
-            )
-          })}
+          {checkup.checkupQuestions?.[0].checkupQuestionChoices.map(
+            (question) => {
+              return (
+                <div key={question.id}>
+                  <Radio
+                    label={question.checkupQuestionChoiceDescription}
+                    id={`checkup-question-choice-${question.checkupQuestionChoiceValue}`}
+                    name="moodScale"
+                    checked={
+                      formik.values.moodScale ===
+                      `checkup-question-choice-${question.checkupQuestionChoiceValue}`
+                    }
+                    onChange={formik.handleChange}
+                    number={true}
+                  >
+                    {question.checkupQuestionChoiceValue}
+                  </Radio>
+                </div>
+              )
+            }
+          )}
         </div>
         {formik.touched.moodScale && (
           <div className="mt-8">
