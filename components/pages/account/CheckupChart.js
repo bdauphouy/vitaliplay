@@ -9,9 +9,7 @@ import {
   CartesianGrid,
 } from 'recharts'
 
-const CheckupChart = ({notes= []}) => {
-  const tooltip = useRef()
-
+const CheckupChart = ({ notes = [] }) => {
   return (
     <ResponsiveContainer width="100%" height={550}>
       <AreaChart data={notes} margin={{ right: 0, left: -60, top: 30 }}>
@@ -43,8 +41,6 @@ const CheckupChart = ({notes= []}) => {
     </ResponsiveContainer>
   )
 }
-
-const a = '-translate-x-[96px] -translate-y-[148px]'
 
 export const CustomTooltip = ({ active, payload, label }) => {
   if (active) {

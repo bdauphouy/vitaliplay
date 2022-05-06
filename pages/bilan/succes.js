@@ -23,9 +23,9 @@ const SurveySuccess = () => {
   }, [])
 
   const resetLocalStorage = () => {
-    // window.localStorage.removeItem('vitaliplay.checkup.score')
-    // window.localStorage.removeItem('vitaliplay.checkup.store')
-    // window.localStorage.removeItem('vitaliplay.checkup.activeStep')
+    window.localStorage.removeItem('vitaliplay.checkup.score')
+    window.localStorage.removeItem('vitaliplay.checkup.store')
+    window.localStorage.removeItem('vitaliplay.checkup.activeStep')
   }
 
   const congratsSize = useCongratsSize()

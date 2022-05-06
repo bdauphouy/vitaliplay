@@ -13,21 +13,6 @@ import {
   postProfilePicture,
 } from '@/lib/api'
 
-const months = [
-  'Janvier',
-  'Février',
-  'Mars',
-  'Avril',
-  'Mai',
-  'Juin',
-  'Juillet',
-  'Aout',
-  'Septembre',
-  'Octobre',
-  'Novembre',
-  'Décembre',
-]
-
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
     return {
@@ -83,6 +68,8 @@ const Spin = () => {
 }
 
 const Profile = ({ user }) => {
+  console.log(user)
+
   const updateProfilePictureInput = useRef()
 
   const [userImage, setUserImage] = useState()

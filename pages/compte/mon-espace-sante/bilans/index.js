@@ -13,7 +13,7 @@ import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
-import { Subtitle } from '@/components/utils/Subtitle'
+import Subtitle from '@/components/utils/Subtitle'
 import moment from 'moment'
 
 export const getServerSideProps = async ({ req }) => {
@@ -32,13 +32,11 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  return { props: { checkups: checkups.data } }
+  return { props: { checkups: checkups.data.data } }
 }
 
 const MyHealthSpaceCheckups = ({ checkups }) => {
   const router = useRouter()
-
-  console.log(checkups)
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
@@ -100,8 +98,10 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
                       <div className="flex h-auto md:h-64">
                         <CheckupPreview
                           mobile={true}
-                          date={moment(checkup.createdAt).format('0d/MM/YY')}
-                          score={checkup.globalScore}
+                          date={moment(checkup.attributes.createdAt).format(
+                            '0d/MM/YY'
+                          )}
+                          score={checkup.attributes.globalScore}
                         />
                       </div>
                     </a>
@@ -109,7 +109,7 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
                 )
               })
             ) : (
-              <Subtitle>Aucun live n'est actuellement en cours.</Subtitle>
+              <Subtitle>Vous n'avez pas de bilan.</Subtitle>
             )}
           </div>
         </Row>

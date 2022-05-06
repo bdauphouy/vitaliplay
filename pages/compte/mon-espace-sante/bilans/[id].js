@@ -7,6 +7,7 @@ import { LinksContext } from '@/contexts/LinksContext'
 import Advices from '@/components/pages/account/Advices'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import moment from 'moment'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {
@@ -21,12 +22,15 @@ export const getServerSideProps = async ({ req, query }) => {
   const checkup = await fetchAPIWithToken(
     `/checkups/mine`,
     req.cookies.jwt,
-    false
+    false,
+    ['physical', 'wellBeing', 'dailyActivity']
   )
 
   return {
     props: {
-      checkup: checkup.data.find((ckp) => ckp.id === parseInt(query.id)),
+      checkup:
+        checkup.data.data.find((ckp) => ckp.id === parseInt(query.id))
+          .attributes || null,
     },
   }
 }
@@ -88,11 +92,27 @@ const CheckupSectionBar = ({ score, type, section, checkup }) => {
 
 const MyHealthSpaceCheckups1 = ({ checkup }) => {
   console.log(checkup)
+
   const router = useRouter()
 
   const { getPathByPage } = useContext(LinksContext)
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const activityToSentence = (activity) => {
+    switch (activity) {
+      case 'fiveOrMoreAWeek':
+        return 'Plus de 5 fois par semaine'
+      case 'threeOrFourAWeek':
+        return '3 à 4 fois par semaine'
+      case 'threeOrMoreAWeek':
+        return 'Plus de 3 fois par semaine'
+      case 'oneOrTwoAWeek':
+        return '1 à 2 fois par semaine'
+      case 'never':
+        return 'Jamais'
+    }
+  }
 
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-5 md:py-16">
@@ -103,7 +123,7 @@ const MyHealthSpaceCheckups1 = ({ checkup }) => {
       </div>
       <div className="mt-10 md:mt-6">
         <Row
-          title={`Bilan ${bilan.createdAt.toLocaleDateString('fr-FR')}`}
+          title={`Bilan ${moment(checkup.createdAt).format('0d/DD/YY')}`}
           type="grid"
           button={false}
         >
@@ -113,63 +133,77 @@ const MyHealthSpaceCheckups1 = ({ checkup }) => {
             advice={checkup.advice}
           />
           <CheckupSectionBar
-            score={bilan.physicalNote}
+            score={checkup.physicalScore}
             type="1"
             section="Bilan Physique"
             checkup={[
               {
                 title: 'Force',
                 values: [
-                  `Nbr de répétitions : ${bilan.physical.strength.exo1}`,
-                  `Nbr de répétitions : ${bilan.physical.strength.exo2}`,
+                  `Nbr de répétitions : ${
+                    checkup.physical[0].scores[0]?.score || 'Non renseigné'
+                  }`,
+                  `Nbr de répétitions : ${
+                    checkup.physical[0].scores[1]?.score || 'Non renseigné'
+                  }`,
                 ],
               },
               {
                 title: 'Souplesse',
                 values: [
-                  `Distance (cm) : ${bilan.physical.flexibility.exo3} cm`,
-                  `Distance (cm) : ${bilan.physical.flexibility.exo4} cm`,
+                  `Distance (cm) : ${
+                    checkup.physical[1].scores[0]?.score || 'Non renseigné'
+                  } cm`,
+                  `Distance (cm) : ${
+                    checkup.physical[1].scores[1]?.score || 'Non renseigné'
+                  } cm`,
                 ],
               },
               {
                 title: 'Endurance',
                 values: [
-                  `Nbr de répétitions : ${bilan.physical.endurance.exo5}`,
+                  `Nbr de répétitions : ${
+                    checkup.physical[2].scores[0]?.score || 'Non renseigné'
+                  }`,
                 ],
               },
               {
                 title: 'Equilibre',
                 values: [
-                  `Jambe droite : ${bilan.physical.balance.rightLegTime} sec`,
-                  `Jambe gauche : ${bilan.physical.balance.leftLegTime} sec`,
+                  `Jambe droite : ${
+                    checkup.physical[3].scores[0]?.score || 'Non renseigné'
+                  } sec`,
+                  `Jambe gauche : ${
+                    checkup.physical[3].scores[1]?.score || 'Non renseigné'
+                  } sec`,
                 ],
               },
             ]}
           />
           <CheckupSectionBar
-            score={bilan.wellBeingScore}
+            score={checkup.wellBeingScore}
             type="2"
             section="Bilan Bien Être"
             checkup={[
               {
                 title: 'Humeur',
-                values: [`Note (0/5) : ${bilan.wellBeing.mood}`],
+                values: [`Note (0/5) : ${checkup.wellBeing.mood}`],
               },
               {
                 title: 'Tranquilité',
-                values: [`Note (0/5) : ${bilan.wellBeing.tranquility}`],
+                values: [`Note (0/5) : ${checkup.wellBeing.tranquility}`],
               },
               {
                 title: 'Energie',
-                values: [`Note (0/5) : ${bilan.wellBeing.energy}`],
+                values: [`Note (0/5) : ${checkup.wellBeing.energy}`],
               },
               {
                 title: 'Réveil',
-                values: [`Note (0/5) : ${bilan.wellBeing.awakening}`],
+                values: [`Note (0/5) : ${checkup.wellBeing.awakening}`],
               },
               {
                 title: 'Vie quotidienne',
-                values: [`Note (0/5) : ${bilan.wellBeing.everydayLife}`],
+                values: [`Note (0/5) : ${checkup.wellBeing.everydayLife}`],
               },
             ]}
           />
@@ -180,11 +214,15 @@ const MyHealthSpaceCheckups1 = ({ checkup }) => {
             checkup={[
               {
                 title: 'Activité intense',
-                values: [bilan.dailyActivity.intenseActivity],
+                values: [
+                  activityToSentence(checkup.dailyActivity.intenseActivity),
+                ],
               },
               {
                 title: 'Activité modérée',
-                values: [bilan.dailyActivity.moderateActivity],
+                values: [
+                  activityToSentence(checkup.dailyActivity.moderateActivity),
+                ],
               },
             ]}
           />

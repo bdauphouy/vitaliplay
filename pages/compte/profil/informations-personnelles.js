@@ -4,7 +4,12 @@ import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
-import { fetchAPIWithToken, updateAPIWithToken, getToken } from '@/lib/api'
+import {
+  fetchAPIWithToken,
+  updateAPIWithToken,
+  getToken,
+  getUserData,
+} from '@/lib/api'
 import Dropdown from '@/components/utils/Dropdown'
 import { useState } from 'react'
 
@@ -18,15 +23,14 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const { user, history, billing } = await fetchAPIWithToken(
-    '/pwa/account',
-    req.cookies.jwt
-  )
+  const user = await getUserData(req.cookies.jwt)
 
   return { props: { user } }
 }
 
 const ProfilePersonalInformation = ({ user }) => {
+  console.log(user)
+
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
   const [civility, setCivility] = useState('M')
 
@@ -36,9 +40,9 @@ const ProfilePersonalInformation = ({ user }) => {
       firstname: user.firstname,
       lastname: user.lastname,
       birthdate: user.birthdate,
-      postal_code: user.postal_code,
+      zipCode: user.zipCode,
       email: user.email,
-      phone: user.phone,
+      phone: user.phone.slice(3),
     },
 
     onSubmit: (values) => {
@@ -105,10 +109,10 @@ const ProfilePersonalInformation = ({ user }) => {
         <div style={{ gridArea: 'c' }}>
           <Input
             label="Code postal"
-            name="postal_code"
+            name="zipCode"
             onChange={formik.handleChange}
-            value={formik.values.postal_code}
-            error={formik.touched.postal_code && formik.errors.postal_code}
+            value={formik.values.zipCode}
+            error={formik.touched.zipCode && formik.errors.zipCode}
           />
         </div>
         <div style={{ gridArea: 'd' }}>

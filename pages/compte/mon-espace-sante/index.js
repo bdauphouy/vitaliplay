@@ -32,10 +32,11 @@ export const getServerSideProps = async ({ req }) => {
   const checkups = await fetchAPIWithToken(
     '/checkups/mine',
     req.cookies.jwt,
-    false
+    false,
+    ['physical', 'wellBeing', 'dailyActivity']
   )
 
-  return { props: { checkups: checkups.data } }
+  return { props: { checkups: checkups.data.data.reverse() } }
 }
 
 const MyHealthSpace = ({ content, checkups }) => {
@@ -45,7 +46,17 @@ const MyHealthSpace = ({ content, checkups }) => {
     checkups.length > 0 ? checkups[checkups.length - 1] : null
   )
 
-  console.log(lastCheckup)
+  console.log({ lastCheckup })
+
+  const [notes] = useState(
+    checkups.map((checkup) => {
+      return {
+        id: checkup.id,
+        date: moment(checkup.createdAt).format('0d/MM/YY'),
+        score: checkup.attributes.globalScore,
+      }
+    })
+  )
 
   const router = useRouter()
 
@@ -75,8 +86,8 @@ const MyHealthSpace = ({ content, checkups }) => {
           </h2>
           <div className="mt-8">
             <Advices
-              advice={lastCheckup.advice}
-              note={lastCheckup.globalScore}
+              advice={lastCheckup.attributes.advice}
+              note={lastCheckup.attributes.globalScore}
             />
           </div>
         </div>
@@ -126,7 +137,7 @@ const MyHealthSpace = ({ content, checkups }) => {
                     <div className="flex h-64 py-4 md:h-72">
                       <CheckupPreview
                         date={moment(checkup.createdAt).format('0d/MM/YY')}
-                        score={checkup.globalScore}
+                        score={checkup.attributes.globalScore}
                       />
                     </div>
                   </a>
@@ -136,14 +147,14 @@ const MyHealthSpace = ({ content, checkups }) => {
           </Row>
         </div>
       ) : null}
-      {content?.notes.length > 0 ? (
+      {notes.length > 0 ? (
         <div className="mt-14 px-6 md:px-24">
           <h2 className="font-head text-xl font-bold text-dark-900 md:text-3xl lg:text-4xl">
             Récapitulatif
           </h2>
 
           <div className="mt-0.5 lg:mt-10">
-            <CheckupChart notes={content.notes} />
+            <CheckupChart notes={notes} />
           </div>
         </div>
       ) : null}
