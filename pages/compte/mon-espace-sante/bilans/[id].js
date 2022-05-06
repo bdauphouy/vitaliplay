@@ -19,18 +19,26 @@ export const getServerSideProps = async ({ req, query }) => {
     }
   }
 
-  const checkup = await fetchAPIWithToken(
+  const checkups = await fetchAPIWithToken(
     `/checkups/mine`,
     req.cookies.jwt,
     false,
     ['physical', 'wellBeing', 'dailyActivity']
   )
 
+  const checkup =
+    checkups.data.data.find((checkup) => checkup.id === parseInt(query.id))
+      ?.attributes || null
+
+  if (!checkup) {
+    return {
+      notFound: true,
+    }
+  }
+
   return {
     props: {
-      checkup:
-        checkup.data.data.find((ckp) => ckp.id === parseInt(query.id))
-          .attributes || null,
+      checkup,
     },
   }
 }
