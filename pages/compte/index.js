@@ -5,7 +5,7 @@ import CardPreview from '@/components/pages/account/CardPreview'
 import { useMediaQuery } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { LinksContext } from '@/contexts/LinksContext'
+import { LinksContext, LinksContextProvider } from '@/contexts/LinksContext'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import {
   fetchAPIWithToken,
@@ -28,10 +28,10 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt)
+  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
   const user = await getUserData(req.cookies.jwt)
 
-  return { props: { user, nextLive: lives.nextLive } }
+  return { props: { user, lives: lives.data } }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -49,7 +49,7 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = ({ user, nextLive }) => {
+const Account = ({ user, lives }) => {
   const [linkSize, setLinkSize] = useState('m')
 
   const { getPage, checkupPages } = useContext(LinksContext)
@@ -90,7 +90,9 @@ const Account = ({ user, nextLive }) => {
     }
 
     fetchProfilePicture()
-  })
+
+    console.log(lives)
+  }, [])
 
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
@@ -226,7 +228,7 @@ const Account = ({ user, nextLive }) => {
                 </Cta>
               </div>
             ) : null} */}
-            {nextLive && (
+            {lives.next && (
               <div
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
@@ -234,10 +236,16 @@ const Account = ({ user, nextLive }) => {
                 className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
               >
                 <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
-                  {nextLive.name}
+                  {lives.next.attributes.attributes.name}
                 </h3>
                 <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
-                  {nextLive.startTime} - {nextLive.endTime}
+                  {moment(lives.next.attributes.attributes.startTime).format(
+                    'HH-mm'
+                  )}{' '}
+                  -{' '}
+                  {moment(lives.next.attributes.attributes.endTime).format(
+                    'HH-mm'
+                  )}
                 </span>
                 <Cta size="m" type="primary">
                   Mettre un rappel

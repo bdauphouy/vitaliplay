@@ -18,13 +18,17 @@ export const getServerSideProps = async ({ req, query }) => {
     }
   }
 
-  const bilan = await fetchAPIWithToken(
-    `/checkups/${query.id}`,
+  const checkup = await fetchAPIWithToken(
+    `/checkups/mine`,
     req.cookies.jwt,
-    true,
-    ['physical']
+    false
   )
-  return { props: { bilan: {} } }
+
+  return {
+    props: {
+      checkup: checkup.data.find((ckp) => ckp.id === parseInt(query.id)),
+    },
+  }
 }
 
 const CheckupSectionBar = ({ score, type, section, checkup }) => {
@@ -82,8 +86,8 @@ const CheckupSectionBar = ({ score, type, section, checkup }) => {
   )
 }
 
-const MyHealthSpaceCheckups1 = ({ bilan }) => {
-  console.log(bilan)
+const MyHealthSpaceCheckups1 = ({ checkup }) => {
+  console.log(checkup)
   const router = useRouter()
 
   const { getPathByPage } = useContext(LinksContext)
@@ -105,11 +109,11 @@ const MyHealthSpaceCheckups1 = ({ bilan }) => {
         >
           <Advices
             button={false}
-            note={bilan.globalNote}
-            advice={bilan.conseil}
+            note={checkup.globalScore}
+            advice={checkup.advice}
           />
           <CheckupSectionBar
-            score={bilan.note_physique}
+            score={bilan.physicalNote}
             type="1"
             section="Bilan Physique"
             checkup={[
@@ -143,7 +147,7 @@ const MyHealthSpaceCheckups1 = ({ bilan }) => {
             ]}
           />
           <CheckupSectionBar
-            score={bilan.note_bien_etre}
+            score={bilan.wellBeingScore}
             type="2"
             section="Bilan Bien Être"
             checkup={[
@@ -170,7 +174,7 @@ const MyHealthSpaceCheckups1 = ({ bilan }) => {
             ]}
           />
           <CheckupSectionBar
-            score={bilan.note_activite_quotidienne}
+            score={checkup.dailyActivityScore}
             type="3"
             section="Activité quotidienne"
             checkup={[

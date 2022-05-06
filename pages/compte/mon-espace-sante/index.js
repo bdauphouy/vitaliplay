@@ -6,7 +6,7 @@ import { useMediaQuery } from '@mui/material'
 import CheckupPreview from '@/components/pages/account/CheckupPreview'
 import Advices from '@/components/pages/account/Advices'
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import CheckupChart from '@/components/pages/account/CheckupChart'
 import orangeGreen from '@/public/decoration-icons/orange-green.svg'
@@ -17,13 +17,7 @@ import Image from 'next/image'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { useRouter } from 'next/router'
 import { fetchAPIWithToken } from '@/lib/api'
-
-function formatDate(str) {
-  const split1 = str.split('T')[0]
-  const split2 = split1.split('-')
-
-  return `${split2[2]}/${split2[1]}/${split2[0]}`
-}
+import moment from 'moment'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -35,18 +29,29 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const content = await fetchAPIWithToken('/pwa/espace-sante', req.cookies.jwt)
-  return { props: { content } }
+  const checkups = await fetchAPIWithToken(
+    '/checkups/mine',
+    req.cookies.jwt,
+    false
+  )
+
+  return { props: { checkups: checkups.data } }
 }
 
-const MyHealthSpace = ({ content }) => {
+const MyHealthSpace = ({ content, checkups }) => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
+  const [lastCheckup] = useState(
+    checkups.length > 0 ? checkups[checkups.length - 1] : null
+  )
+
+  console.log(lastCheckup)
 
   const router = useRouter()
 
   const { getPage, checkupPages } = useContext(LinksContext)
 
-  console.log(pro)
+  console.log(checkups)
 
   return (
     <div className="mt-20 overflow-x-hidden py-10 md:py-20">
@@ -63,20 +68,20 @@ const MyHealthSpace = ({ content }) => {
           </Subtitle>
         </div>
       </div>
-      {content.lastBilan.id ? (
+      {lastCheckup ? (
         <div className="mt-14 px-6 md:px-24">
           <h2 className="font-head text-xl font-bold text-dark-900 md:text-3xl lg:text-4xl">
             Mon dernier bilan
           </h2>
           <div className="mt-8">
             <Advices
-              advice={content.lastBilan.conseil}
-              note={content.lastBilan.note_global}
+              advice={lastCheckup.advice}
+              note={lastCheckup.globalScore}
             />
           </div>
         </div>
       ) : null}
-      {content.lastBilans.length > 0 ? (
+      {checkups.length > 0 ? (
         <div className="mt-24">
           <Row title="Mes derniers bilans" path={`${router.asPath}/bilans`}>
             <div className="relative flex h-56 flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-16 px-10 shadow-level1 md:h-64">
@@ -110,19 +115,18 @@ const MyHealthSpace = ({ content }) => {
                 </a>
               </Link>
             </div>
-            {content.lastBilans.slice(0, 3).map((item) => {
+            {checkups.slice(0, 3).map((checkup) => {
               return (
                 <Link
-                  key={item.id}
-                  href={`${router.asPath}/bilans/[id]`}
-                  as={`${router.asPath}/bilans/${item.id}`}
+                  key={checkup.id}
+                  href={`${router.asPath}/bilans/${checkup.id}`}
                   passHref
                 >
                   <a>
                     <div className="flex h-64 py-4 md:h-72">
                       <CheckupPreview
-                        date={item.createdAt.toLocaleDateString('fr-FR')}
-                        score={item.note_global}
+                        date={moment(checkup.createdAt).format('0d/MM/YY')}
+                        score={checkup.globalScore}
                       />
                     </div>
                   </a>
@@ -132,7 +136,7 @@ const MyHealthSpace = ({ content }) => {
           </Row>
         </div>
       ) : null}
-      {content.notes.length > 0 ? (
+      {content?.notes.length > 0 ? (
         <div className="mt-14 px-6 md:px-24">
           <h2 className="font-head text-xl font-bold text-dark-900 md:text-3xl lg:text-4xl">
             Récapitulatif

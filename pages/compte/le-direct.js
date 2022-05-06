@@ -3,32 +3,31 @@ import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
+import moment from 'moment'
 
 export const getServerSideProps = async ({ req }) => {
-  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt)
+  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
 
-  console.log(lives)
-
-  return { props: { lives } }
+  return { props: { lives: lives.data } }
 }
 
 const TheLive = ({ lives }) => {
   return (
     <div>
-      {lives ? (
-        <div className="mt-20 py-10 px-6 md:py-20 md:px-24 ">
-          <div className="flex flex-col-reverse items-center xl:flex-row xl:justify-between">
+      {lives.current ? (
+        <div className="mt-20 py-10 px-6 md:py-20 md:px-24">
+          <div className="flex flex-col-reverse xl:flex-row xl:items-center xl:justify-between">
             <div className="mt-10 xl:mt-0 xl:mr-24 xl:max-w-xl">
               <Title type="1" html={false}>
-                Live : {lives?.inTheAir?.attributes?.name || ''}
+                Live : {lives.current.attributes.attributes.name}
               </Title>
               <div className="mt-4">
                 <Subtitle>
-                  {lives?.inTheAir?.attributes?.description || ''}
+                  {lives.current.attributes.attributes.description}
                 </Subtitle>
               </div>
             </div>
-            {lives?.nextLive?.id ? (
+            {lives.current ? (
               <div
                 style={{ backgroundImage: "url('/bg-card.png')" }}
                 className="flex h-36 w-full items-center rounded-lg bg-cover p-4 md:items-end lg:h-32 xl:w-auto xl:min-w-[500px] xl:flex-[.8]"
@@ -36,20 +35,16 @@ const TheLive = ({ lives }) => {
                 <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
                   <div>
                     <h3 className="font-head text-lg font-bold leading-6 text-light-100">
-                      {lives?.nextLive?.attributes.name}
+                      {lives.current.attributes.attributes.name}
                     </h3>
                     <span className="mt-2 text-sm text-light-100">
-                      {lives?.nextLive?.attributes.date.toLocaleDateString(
-                        'fr-FR'
-                      )}{' '}
-                      :{' '}
-                      {lives?.nextLive?.attributes.startTime.toLocaleDateString(
-                        'fr-FR'
-                      )}{' '}
+                      {moment(
+                        lives.current.attributes.attributes.startTime
+                      ).format('HH:mm')}{' '}
                       -{' '}
-                      {lives?.nextLive?.attributes.endTime.toLocaleDateString(
-                        'fr-FR'
-                      )}
+                      {moment(
+                        lives.current.attributes.attributes.endTime
+                      ).format('HH:mm')}
                     </span>
                   </div>
                   <div className="mt-6 md:mt-0">
@@ -61,14 +56,18 @@ const TheLive = ({ lives }) => {
           </div>
           <iframe
             className="mt-12 aspect-video w-full bg-dark-900"
-            src={lives?.inTheAir?.attributes?.link || ''}
+            src={lives.current?.attributes.attributes.link}
             title="YouTube video player"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           ></iframe>
         </div>
-      ) : null}
+      ) : (
+        <div className="mt-20 py-10 px-6 md:py-20 md:px-24">
+          <Subtitle>Aucun live n'est actuellement en cours.</Subtitle>
+        </div>
+      )}
     </div>
   )
 }

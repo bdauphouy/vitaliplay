@@ -16,14 +16,17 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const { conferences, tags } = await fetchAPIWithToken(
-    '/conference-santes',
-    req.cookies.jwt
+  const conferences = await fetchAPIWithToken(
+    '/health-conferences',
+    req.cookies.jwt,
+    false,
+    ['thumbnail']
   )
-  return { props: { conferences, tags } }
+
+  return { props: { conferences: conferences.data } }
 }
 
-const HealthConferences = ({ conferences, tags }) => {
+const HealthConferences = ({ conferences }) => {
   const router = useRouter()
 
   return (
@@ -45,25 +48,19 @@ const HealthConferences = ({ conferences, tags }) => {
           type={tags.length > 0 ? 'filter' : 'none'}
           mobile={true}
         >
-          {conferences.map((item) => {
+          {conferences.map((conference) => {
             return (
               <Link
-                key={item.id}
-                href={`${router.route}/[id]`}
-                as={`${router.route}/${item.id}`}
+                key={conference.id}
+                href={`${router.route}/${conference.id}`}
                 passHref
               >
                 <a>
                   <Card
-                    title={item.attributes.name}
-                    subtitle={item.attributes.description}
+                    title={conference.attributes.name}
+                    subtitle={conference.attributes.description}
                     type="conférence"
-                    bg={
-                      item.attributes?.image?.data?.attributes?.url
-                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item.attributes?.image?.data?.attributes?.url
-                        : '/bg-card.png'
-                    }
+                    bg={'/bg-card.png'}
                     mobile={true}
                   />
                 </a>

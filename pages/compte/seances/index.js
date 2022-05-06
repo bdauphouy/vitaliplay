@@ -53,14 +53,14 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const seanceData = await fetchAPIWithToken('/pwa/seance', req.cookies.jwt)
+  const workouts = await fetchAPIWithToken('/workouts', req.cookies.jwt, false)
 
-  console.log(seanceData)
+  console.log(workouts.data)
 
-  return { props: { seanceData: null } }
+  return { props: { workouts: workouts.data } }
 }
 
-const Sessions = ({ seanceData }) => {
+const Sessions = ({ workouts }) => {
   const router = useRouter()
 
   return (
@@ -76,7 +76,7 @@ const Sessions = ({ seanceData }) => {
         />
       </header>
       <div className="flex flex-col gap-12 py-12">
-        {Object.entries(seanceData).map(([entryName, data], i) => {
+        {workouts.map(([entryName, data], i) => {
           if (data.length === 0) return <></>
           return (
             <Row

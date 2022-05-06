@@ -13,6 +13,8 @@ import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { Subtitle } from '@/components/utils/Subtitle'
+import moment from 'moment'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -24,13 +26,19 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const bilans = await fetchAPIWithToken('/checkups', req.cookies.jwt, false)
-  console.log(bilans)
-  return { props: { bilans: bilans.data } }
+  const checkups = await fetchAPIWithToken(
+    '/checkups/mine',
+    req.cookies.jwt,
+    false
+  )
+
+  return { props: { checkups: checkups.data } }
 }
 
-const MyHealthSpaceCheckups = ({ bilans }) => {
+const MyHealthSpaceCheckups = ({ checkups }) => {
   const router = useRouter()
+
+  console.log(checkups)
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
@@ -80,28 +88,29 @@ const MyHealthSpaceCheckups = ({ bilans }) => {
                 </a>
               </Link>
             </div>
-            {bilans?.map((item) => {
-              return (
-                <Link
-                  key={item.id}
-                  href={`${router.route}/[id]`}
-                  as={`${router.route}/${item.id}`}
-                  passHref
-                >
-                  <a>
-                    <div className="flex h-auto md:h-64">
-                      <CheckupPreview
-                        mobile={true}
-                        date={item?.attributes.createdAt.toLocaleDateString(
-                          'fr-FR'
-                        )}
-                        score={item?.attributes.note_global}
-                      />
-                    </div>
-                  </a>
-                </Link>
-              )
-            })}
+            {checkups.length > 0 ? (
+              checkups.map((checkup) => {
+                return (
+                  <Link
+                    key={checkup.id}
+                    href={`${router.route}/${checkup.id}`}
+                    passHref
+                  >
+                    <a>
+                      <div className="flex h-auto md:h-64">
+                        <CheckupPreview
+                          mobile={true}
+                          date={moment(checkup.createdAt).format('0d/MM/YY')}
+                          score={checkup.globalScore}
+                        />
+                      </div>
+                    </a>
+                  </Link>
+                )
+              })
+            ) : (
+              <Subtitle>Aucun live n'est actuellement en cours.</Subtitle>
+            )}
           </div>
         </Row>
       </div>
