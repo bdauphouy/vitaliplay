@@ -130,14 +130,12 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
   )
 }
 
-const Calendar = ({ events }) => {
-  const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
+const Calendar = ({ events, setSelectedDate, selectedDate }) => {
   const [startDate, setStartDate] = useState(moment().subtract(3, 'days'))
 
   useEffect(() => {
     setStartDate(selectedDate.clone().subtract(3, 'days'))
   }, [selectedDate])
-
   return (
     <div className="w-full overflow-auto">
       <div className="flex h-[600px] min-w-[800px] flex-col overflow-hidden rounded-lg border border-dark-100 font-body">

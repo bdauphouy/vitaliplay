@@ -25,7 +25,7 @@ export const getServerSideProps = async ({ req }) => {
   }
 
   const prosthesis = await fetchAPIWithToken(
-    '/protheses',
+    '/prostheses',
     req.cookies.jwt,
     false
   )
