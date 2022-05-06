@@ -50,8 +50,7 @@ const SurveySuccess = () => {
       </div>
       <div className="mt-12">
         <Link
-          href={`/compte/mon-espace-sante/bilans/[id]`}
-          as={`/compte/mon-espace-sante/bilans/${successData.id}`}
+          href={`/compte/mon-espace-sante/bilans/${successData.id}`}
           passHref
         >
           <a onClick={() => resetLocalStorage()}>

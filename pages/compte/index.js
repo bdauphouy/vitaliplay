@@ -14,6 +14,9 @@ import {
   getToken,
 } from '@/lib/api'
 import Subtitle from '@/components/utils/Subtitle'
+import Calendar from '@/components/pages/account/Calendar'
+import moment from 'moment'
+import { ChevronRight } from '@/components/utils/Icons'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -46,6 +49,8 @@ export const CheckupBox = ({ date, score }) => {
 }
 
 const Account = ({ user }) => {
+  console.log(user)
+
   const [linkSize, setLinkSize] = useState('m')
 
   const { getPage, checkupPages } = useContext(LinksContext)
@@ -53,6 +58,24 @@ const Account = ({ user }) => {
   const [userImage, setUserImage] = useState()
 
   const isSmallScreen = useMediaQuery('(max-width: 640px)')
+
+  const events = [
+    {
+      startDate: moment(new Date('05-03-22 10:00')),
+      endDate: moment(new Date('05-03-22 12:00')),
+      name: 'Test',
+    },
+    {
+      startDate: moment(new Date('05-05-22 14:00')),
+      endDate: moment(new Date('05-05-22 16:00')),
+      name: 'Test',
+    },
+    {
+      startDate: moment(new Date('05-07-22 16:00')),
+      endDate: moment(new Date('05-07-22 20:00')),
+      name: 'Test',
+    },
+  ]
 
   useEffect(() => {
     setLinkSize(isSmallScreen ? 's' : 'm')
@@ -70,6 +93,20 @@ const Account = ({ user }) => {
 
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
+      <div
+        className={`
+  flex
+  cursor-pointer
+  select-none
+  flex-col
+  items-center
+  p-3
+
+  first:rounded-tl-lg
+  last:rounded-tr-lg
+`}
+      ></div>
+
       <div className="flex-row justify-between lg:flex">
         <Title type="1" html={false}>
           Bonjour, <strong className="type-1">{user.firstname}</strong>
@@ -230,6 +267,27 @@ const Account = ({ user }) => {
             )} */}
           </div>
         </div>
+      </div>
+      <div className="mt-20">
+        <header className="mb-4 flex flex-col flex-wrap justify-between gap-8 lg:mb-8 lg:flex-row">
+          <Title type="5">Nos prochains lives :</Title>
+          <div className="flex items-center gap-10 self-end lg:self-auto">
+            <Title type="5">Septembre 20-21, 2021</Title>
+
+            <div>
+              <div className="flex gap-3">
+                <div className="rotate-180 transform">
+                  <ChevronRight color="#1778F2" size={24} />
+                </div>
+
+                <div>
+                  <ChevronRight color="#1778F2" size={24} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <Calendar events={events} />
       </div>
     </div>
   )
