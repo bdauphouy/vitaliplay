@@ -14,6 +14,7 @@ import { getToken, getUserSavedCards, postAPIWithToken } from '@/lib/api'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
 import { loadStripe } from '@stripe/stripe-js'
 import { CardElement, Elements } from '@stripe/react-stripe-js'
+import Spin from '@/components/utils/Spin'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -28,6 +29,8 @@ const CheckoutConfirm = () => {
   const [createdAt, setCreatedAt] = useState('')
   const [endAt, setEndAt] = useState('')
   const [orderId, setOrderId] = useState('')
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
 
   useEffect(() => {
     if (checkout.createdAt) {
@@ -79,6 +82,8 @@ const CheckoutConfirm = () => {
 
   useEffect(() => {
     if (store) {
+      setSelectedPaymentMethod(store.paymentMethod.id)
+
       if (Object.keys(store).includes('cardInfo')) {
         setCardInfo(
           JSON.parse(Buffer.from(store.cardInfo, 'base64').toString('ascii'))
@@ -94,6 +99,24 @@ const CheckoutConfirm = () => {
   })
 
   const { getPage, checkoutPages, accountPages } = useContext(LinksContext)
+
+  const confirmPayment = async () => {
+    const stripe = await stripePromise
+
+    const { paymentIntent, paymentIntentError } =
+      await stripe.confirmCardPayment(checkout.clientSecret, {
+        setup_future_usage: 'off_session',
+        payment_method: selectedPaymentMethod,
+      })
+
+    if (paymentIntentError) {
+      console.log(paymentIntentError)
+      // TODO: handle error
+      return
+    }
+
+    await router.push(getPage(checkoutPages, 'pageName', 'Succès').path)
+  }
 
   return (
     <Elements stripe={stripePromise}>
@@ -150,60 +173,55 @@ const CheckoutConfirm = () => {
             </Cta>
           </div>
           <div className="mt-3 md:mt-2">
-            <Radio checked={true}>
-              <div className="mr-6 flex flex-wrap justify-between gap-8">
-                <div>
-                  <h3 className="font-body text-sm font-bold text-blue-900">
-                    Adresse de facturation
-                  </h3>
-                  <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                    {store?.billing?.address}
-                    <br />
-                    {store?.billing?.city} {store?.billing?.zipCode}
-                  </h4>
-                </div>
-                <div>
-                  {orderId && (
-                    <>
-                      <h3 className="font-body text-sm font-bold text-blue-900">
-                        Numéro de commande
-                      </h3>
+            {orderId ? (
+              <Radio checked={true}>
+                <div className="mr-6 flex flex-wrap justify-between gap-8">
+                  <div>
+                    <h3 className="font-body text-sm font-bold text-blue-900">
+                      Adresse de facturation
+                    </h3>
+                    <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                      {store?.billing?.address}
+                      <br />
+                      {store?.billing?.city} {store?.billing?.zipCode}
+                    </h4>
+                  </div>
+                  <div>
+                    {orderId && (
+                      <>
+                        <h3 className="font-body text-sm font-bold text-blue-900">
+                          Numéro de commande
+                        </h3>
 
-                      <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                        {orderId}
-                      </h4>
-                    </>
-                  )}
-                </div>
-                <div>
-                  {createdAt && endAt && (
-                    <>
-                      <h3 className="font-body text-sm font-bold text-blue-900">
-                        Durée de validité
-                      </h3>
+                        <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                          {orderId}
+                        </h4>
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    {createdAt && endAt && (
+                      <>
+                        <h3 className="font-body text-sm font-bold text-blue-900">
+                          Durée de validité
+                        </h3>
 
-                      <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                        {createdAt.toLocaleDateString('fr-FR')} au{' '}
-                        {endAt.toLocaleDateString('fr-FR')}
-                      </h4>
-                    </>
-                  )}
+                        <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                          {createdAt.toLocaleDateString('fr-FR')} au{' '}
+                          {endAt.toLocaleDateString('fr-FR')}
+                        </h4>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Radio>
+              </Radio>
+            ) : (
+              <Spin />
+            )}
             <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
-              <div
-                onClick={() =>
-                  router.push(getPage(checkoutPages, 'pageName', 'Succès').path)
-                }
-              >
+              <div onClick={confirmPayment}>
                 <Cta size={buttonSize} buttonType="submit">
                   Procéder au paiement*
-                </Cta>
-              </div>
-              <div onClick={() => router.back()}>
-                <Cta size={buttonSize} type="secondary">
-                  Retour
                 </Cta>
               </div>
             </div>
