@@ -4,6 +4,7 @@ import { AuthContextProvider } from '@/contexts/AuthContext'
 import { RouteContextProvider } from '@/contexts/RouteContext'
 import { LinksContextProvider } from '@/contexts/LinksContext'
 import HeadLayout from '@/components/layouts/HeadLayout'
+import '@/lib/loadMomentFr'
 
 const MyApp = ({ Component, pageProps }) => {
   return (

@@ -15,13 +15,16 @@ import {
 } from '@/schemas/checkout/StartSchemas'
 import { LinksContext } from '@/contexts/LinksContext'
 import { AuthContext } from '@/contexts/AuthContext'
+import { v4 as uuidv4 } from 'uuid'
+import { postAPI } from '@/lib/api'
+import Error from '@/components/utils/Error'
 
 const CheckoutStart = () => {
   const [civility, setCivility] = useState('M')
 
   const [store, setStore] = useState()
 
-  const { isAuth } = useContext(AuthContext)
+  const { isAuth, setIsAuth } = useContext(AuthContext)
 
   useEffect(() => {
     setStore(
@@ -45,6 +48,72 @@ const CheckoutStart = () => {
 
   const [validationSchema, setValidationSchema] = useState()
 
+  const [loading, setLoading] = useState(false)
+
+  const login = async (email, password) => {
+    return new Promise(async (resolve, reject) => {
+      const res = await postAPI('/auth/local', {
+        identifier: email,
+        password: password,
+      })
+
+      if (res.error) {
+        reject({
+          error: res.error.message,
+        })
+      } else {
+        document.cookie = `jwt=${res.jwt}`
+        setIsAuth(true)
+        resolve()
+      }
+    })
+  }
+
+  const signup = async (
+    email,
+    password,
+    civility,
+    firstname,
+    lastname,
+    address,
+    zipCode,
+    birthdate,
+    phoneNumber
+  ) => {
+    return new Promise(async (resolve, reject) => {
+      const res = await postAPI('/auth/local/register', {
+        username: uuidv4(),
+        email,
+        password,
+        civility,
+        firstname,
+        lastname,
+        address,
+        zipCode,
+        birthdate,
+        phone: '+33' + phoneNumber,
+        sex: civility === 'M' ? 'male' : 'female',
+      })
+
+      if (res.error) {
+        reject({
+          error: res.error.message,
+        })
+      } else {
+        document.cookie = `jwt=${res.jwt}`
+        setIsAuth(true)
+        resolve()
+      }
+    })
+  }
+
+  const [serverSideErrors] = useState({
+    'Email is already taken': 'Ce compte existe déja.',
+    'Invalid identifier or password': 'Vos identifiants sont invalides.',
+  })
+
+  const [serverSideError, setServerSideError] = useState()
+
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
@@ -62,6 +131,51 @@ const CheckoutStart = () => {
     },
     validationSchema,
     onSubmit: (values) => {
+      setLoading(true)
+      switch (values.account) {
+        case 'already':
+          login(values.email, values.password)
+            .then(() => {
+              setLoading(false)
+              router.push(
+                getPage(checkoutPages, 'pageName', 'Informations').path
+              )
+            })
+            .catch(({ error }) => {
+              setLoading(false)
+              setServerSideError(
+                serverSideErrors[error] ||
+                  'Erreur lors de la soumission du formulaire.'
+              )
+            })
+          break
+        case 'create':
+          signup(
+            values.email,
+            values.password,
+            civility,
+            values.firstName,
+            values.lastName,
+            values.address,
+            values.zipCode,
+            values.birthday,
+            values.phoneNumber
+          )
+            .then(() => {
+              setLoading(false)
+              router.push(
+                getPage(checkoutPages, 'pageName', 'Informations').path
+              )
+            })
+            .catch(({ error }) => {
+              setLoading(false)
+              setServerSideError(
+                serverSideErrors[error] ||
+                  'Erreur lors de la soumission du formulaire.'
+              )
+            })
+      }
+
       const entries = Object.entries(values)
       const filtered = entries.filter(([key, value]) => value !== '')
       if (!disabled) {
@@ -69,7 +183,6 @@ const CheckoutStart = () => {
           'vitaliplay.checkout.store',
           JSON.stringify({ ...store, ...Object.fromEntries(filtered) })
         )
-        router.push(getPage(checkoutPages, 'pageName', 'Informations').path)
       }
     },
   })
@@ -168,7 +281,7 @@ const CheckoutStart = () => {
             Offrir un abonnement
           </Radio>
         </div>
-        <div className="mt-7">
+        <div className="mt-7 mb-4">
           {formik.values.account === 'already' ? (
             <div className="flex flex-col gap-3 lg:w-4/5 lg:gap-5">
               <Input
@@ -348,11 +461,14 @@ const CheckoutStart = () => {
             )
           )}
         </div>
+        {serverSideError && <Error>{serverSideError}</Error>}
+
         <div className="mt-8 lg:mt-12">
           <Cta
             buttonType="submit"
             type={disabled ? 'disabled' : 'primary'}
             size={buttonSize}
+            loading={loading}
           >
             Suivant
           </Cta>

@@ -14,6 +14,9 @@ import {
   getToken,
 } from '@/lib/api'
 import Subtitle from '@/components/utils/Subtitle'
+import Calendar from '@/components/pages/account/Calendar'
+import moment from 'moment'
+import { ChevronRight } from '@/components/utils/Icons'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -25,9 +28,10 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
+  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt)
   const user = await getUserData(req.cookies.jwt)
 
-  return { props: { user } }
+  return { props: { user, nextLive: lives.nextLive } }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -45,7 +49,7 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = ({ user }) => {
+const Account = ({ user, nextLive }) => {
   const [linkSize, setLinkSize] = useState('m')
 
   const { getPage, checkupPages } = useContext(LinksContext)
@@ -53,6 +57,26 @@ const Account = ({ user }) => {
   const [userImage, setUserImage] = useState()
 
   const isSmallScreen = useMediaQuery('(max-width: 640px)')
+
+  const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
+
+  const events = [
+    {
+      startDate: moment(new Date('05-03-22 10:00')),
+      endDate: moment(new Date('05-03-22 12:00')),
+      name: 'Test',
+    },
+    {
+      startDate: moment(new Date('05-05-22 14:00')),
+      endDate: moment(new Date('05-05-22 16:00')),
+      name: 'Test',
+    },
+    {
+      startDate: moment(new Date('05-07-22 16:00')),
+      endDate: moment(new Date('05-07-22 20:00')),
+      name: 'Test',
+    },
+  ]
 
   useEffect(() => {
     setLinkSize(isSmallScreen ? 's' : 'm')
@@ -70,6 +94,10 @@ const Account = ({ user }) => {
 
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
+      <div
+        className={` flex cursor-pointer select-none flex-col items-center p-3 first:rounded-tl-lg last:rounded-tr-lg`}
+      ></div>
+
       <div className="flex-row justify-between lg:flex">
         <Title type="1" html={false}>
           Bonjour, <strong className="type-1">{user.firstname}</strong>
@@ -198,6 +226,24 @@ const Account = ({ user }) => {
                 </Cta>
               </div>
             ) : null} */}
+            {nextLive && (
+              <div
+                style={{
+                  backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
+                }}
+                className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
+              >
+                <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
+                  {nextLive.name}
+                </h3>
+                <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
+                  {nextLive.startTime} - {nextLive.endTime}
+                </span>
+                <Cta size="m" type="primary">
+                  Mettre un rappel
+                </Cta>
+              </div>
+            )}
           </div>
         </div>
         <div className="flex-[1.5] self-end">
@@ -230,6 +276,49 @@ const Account = ({ user }) => {
             )} */}
           </div>
         </div>
+      </div>
+      <div className="mt-20">
+        <header className="mb-4 flex flex-col flex-wrap justify-between gap-8 lg:mb-8 lg:flex-row">
+          <Title type="5">Nos prochains lives :</Title>
+          <div className="flex items-center gap-10 self-end lg:self-auto">
+            <Title type="5" html={false}>
+              <span className="capitalize">
+                {moment(selectedDate).format('dddd Do, YYYY')}
+              </span>
+            </Title>
+
+            <div>
+              <div className="flex gap-3">
+                <div
+                  className="rotate-180 transform cursor-pointer"
+                  onClick={() =>
+                    setSelectedDate((selectedDate) =>
+                      moment(selectedDate).subtract(1, 'days')
+                    )
+                  }
+                >
+                  <ChevronRight color="#1778F2" size={24} />
+                </div>
+
+                <div
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setSelectedDate((selectedDate) =>
+                      moment(selectedDate).add(1, 'days')
+                    )
+                  }
+                >
+                  <ChevronRight color="#1778F2" size={24} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <Calendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          events={events}
+        />
       </div>
     </div>
   )
