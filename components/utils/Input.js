@@ -89,7 +89,7 @@ const Input = ({
                 }}
               />
             </div>
-          ) : label === 'CVV' ? (
+          ) : label === 'CVC' ? (
             <div className="w-full rounded-md border-1 border-solid border-dark-100 bg-light-100 py-2.5 px-3 font-body text-base font-normal text-dark-900 outline-none transition-[border-color] duration-300 focus:border-dark-300">
               <CardCvcElement
                 options={{

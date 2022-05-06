@@ -1,19 +1,20 @@
 import CheckoutLayout from '@/components/layouts/CheckoutLayout'
-import {useState, useEffect, useContext} from 'react'
+import { useState, useEffect, useContext } from 'react'
 import Title from '@/components/utils/Title'
 import Subtitle from '@/components/utils/Subtitle'
 import Radio from '@/components/utils/Radio'
-import {useFormik} from 'formik'
+import { useFormik } from 'formik'
 import Cta from '@/components/utils/Cta'
 import useButtonSize from '@/hooks/useButtonSize'
-import {useRouter} from 'next/router'
+import { useRouter } from 'next/router'
 import CreditCardInfo from '@/components/pages/account/CreditCardInfo'
 import Link from 'next/link'
-import {LinksContext} from '@/contexts/LinksContext'
-import {getToken, getUserSavedCards, postAPIWithToken} from '@/lib/api'
-import {CheckoutContext} from '@/contexts/CheckoutContext'
-import {loadStripe} from '@stripe/stripe-js'
-import {CardElement, Elements} from '@stripe/react-stripe-js'
+import { LinksContext } from '@/contexts/LinksContext'
+import { getToken, getUserSavedCards, postAPIWithToken } from '@/lib/api'
+import { CheckoutContext } from '@/contexts/CheckoutContext'
+import { loadStripe } from '@stripe/stripe-js'
+import { CardElement, Elements } from '@stripe/react-stripe-js'
+import Spin from '@/components/utils/Spin'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -23,7 +24,7 @@ const CheckoutConfirm = () => {
 
   const [savedCards, setSavedCards] = useState([])
 
-  const {checkout, setCheckout} = useContext(CheckoutContext)
+  const { checkout, setCheckout } = useContext(CheckoutContext)
 
   const [createdAt, setCreatedAt] = useState('')
   const [endAt, setEndAt] = useState('')
@@ -97,14 +98,16 @@ const CheckoutConfirm = () => {
     },
   })
 
-  const {getPage, checkoutPages, accountPages} = useContext(LinksContext)
+  const { getPage, checkoutPages, accountPages } = useContext(LinksContext)
 
   const confirmPayment = async () => {
     const stripe = await stripePromise
 
-    const {paymentIntent, paymentIntentError} = await stripe.confirmCardPayment(checkout.clientSecret, {
-      payment_method: selectedPaymentMethod,
-    })
+    const { paymentIntent, paymentIntentError } =
+      await stripe.confirmCardPayment(checkout.clientSecret, {
+        setup_future_usage: 'off_session',
+        payment_method: selectedPaymentMethod,
+      })
 
     if (paymentIntentError) {
       console.log(paymentIntentError)
@@ -170,56 +173,55 @@ const CheckoutConfirm = () => {
             </Cta>
           </div>
           <div className="mt-3 md:mt-2">
-            <Radio checked={true}>
-              <div className="mr-6 flex flex-wrap justify-between gap-8">
-                <div>
-                  <h3 className="font-body text-sm font-bold text-blue-900">
-                    Adresse de facturation
-                  </h3>
-                  <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                    {store?.billing?.address}
-                    <br/>
-                    {store?.billing?.city} {store?.billing?.zipCode}
-                  </h4>
-                </div>
-                <div>
-                  {orderId && (
-                    <>
-                      <h3 className="font-body text-sm font-bold text-blue-900">
-                        Numéro de commande
-                      </h3>
+            {orderId ? (
+              <Radio checked={true}>
+                <div className="mr-6 flex flex-wrap justify-between gap-8">
+                  <div>
+                    <h3 className="font-body text-sm font-bold text-blue-900">
+                      Adresse de facturation
+                    </h3>
+                    <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                      {store?.billing?.address}
+                      <br />
+                      {store?.billing?.city} {store?.billing?.zipCode}
+                    </h4>
+                  </div>
+                  <div>
+                    {orderId && (
+                      <>
+                        <h3 className="font-body text-sm font-bold text-blue-900">
+                          Numéro de commande
+                        </h3>
 
-                      <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                        {orderId}
-                      </h4>
-                    </>
-                  )}
-                </div>
-                <div>
-                  {createdAt && endAt && (
-                    <>
-                      <h3 className="font-body text-sm font-bold text-blue-900">
-                        Durée de validité
-                      </h3>
+                        <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                          {orderId}
+                        </h4>
+                      </>
+                    )}
+                  </div>
+                  <div>
+                    {createdAt && endAt && (
+                      <>
+                        <h3 className="font-body text-sm font-bold text-blue-900">
+                          Durée de validité
+                        </h3>
 
-                      <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
-                        {createdAt.toLocaleDateString('fr-FR')} au{' '}
-                        {endAt.toLocaleDateString('fr-FR')}
-                      </h4>
-                    </>
-                  )}
+                        <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                          {createdAt.toLocaleDateString('fr-FR')} au{' '}
+                          {endAt.toLocaleDateString('fr-FR')}
+                        </h4>
+                      </>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Radio>
+              </Radio>
+            ) : (
+              <Spin />
+            )}
             <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
               <div onClick={confirmPayment}>
                 <Cta size={buttonSize} buttonType="submit">
                   Procéder au paiement*
-                </Cta>
-              </div>
-              <div onClick={() => router.back()}>
-                <Cta size={buttonSize} type="secondary">
-                  Retour
                 </Cta>
               </div>
             </div>
