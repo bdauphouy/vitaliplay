@@ -4,6 +4,9 @@ import Subtitle from '@/components/utils/Subtitle'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
 import moment from 'moment'
+import { ChevronRight } from '@/components/utils/Icons'
+import Calendar from '@/components/pages/account/Calendar'
+import { useState } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
@@ -12,6 +15,28 @@ export const getServerSideProps = async ({ req }) => {
 }
 
 const TheLive = ({ lives }) => {
+  const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
+
+  const events = [
+    {
+      startDate: moment(
+        new Date(lives.current.attributes.attributes.startTime)
+      ),
+      endDate: moment(new Date(lives.current.attributes.attributes.endTime)),
+      name: lives.current.attributes.attributes.name,
+    },
+    {
+      startDate: moment(new Date(lives.next.attributes.attributes.startTime)),
+      endDate: moment(new Date(lives.next.attributes.attributes.endTime)),
+      name: lives.next.attributes.attributes.name,
+    },
+    {
+      startDate: moment(new Date(lives.prev.attributes.attributes.startTime)),
+      endDate: moment(new Date(lives.prev.attributes.attributes.endTime)),
+      name: lives.prev.attributes.attributes.name,
+    },
+  ]
+
   return (
     <div>
       {lives.current ? (
@@ -68,6 +93,49 @@ const TheLive = ({ lives }) => {
           <Subtitle>Aucun live n'est actuellement en cours.</Subtitle>
         </div>
       )}
+      <div className="px-6 pb-12 md:px-24">
+        <header className="mb-4 flex flex-col flex-wrap justify-between gap-8 lg:mb-8 lg:flex-row">
+          <Title type="5">Nos prochains lives :</Title>
+          <div className="flex items-center gap-10 self-end lg:self-auto">
+            <Title type="5" html={false}>
+              <span className="capitalize">
+                {moment(selectedDate).format('dddd Do, YYYY')}
+              </span>
+            </Title>
+
+            <div>
+              <div className="flex gap-3">
+                <div
+                  className="rotate-180 transform cursor-pointer"
+                  onClick={() =>
+                    setSelectedDate((selectedDate) =>
+                      moment(selectedDate).subtract(1, 'days')
+                    )
+                  }
+                >
+                  <ChevronRight color="#1778F2" size={24} />
+                </div>
+
+                <div
+                  className="cursor-pointer"
+                  onClick={() =>
+                    setSelectedDate((selectedDate) =>
+                      moment(selectedDate).add(1, 'days')
+                    )
+                  }
+                >
+                  <ChevronRight color="#1778F2" size={24} />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+        <Calendar
+          selectedDate={selectedDate}
+          setSelectedDate={setSelectedDate}
+          events={events}
+        />
+      </div>
     </div>
   )
 }
