@@ -60,21 +60,27 @@ const Account = ({ user, lives }) => {
 
   const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
 
+  console.log(lives)
+
+  console.log(lives.current.attributes.attributes)
+
   const events = [
     {
-      startDate: moment(new Date('05-03-22 10:00')),
-      endDate: moment(new Date('05-03-22 12:00')),
-      name: 'Test',
+      startDate: moment(
+        new Date(lives.current.attributes.attributes.startTime)
+      ),
+      endDate: moment(new Date(lives.current.attributes.attributes.endTime)),
+      name: lives.current.attributes.attributes.name,
     },
     {
-      startDate: moment(new Date('05-05-22 14:00')),
-      endDate: moment(new Date('05-05-22 16:00')),
-      name: 'Test',
+      startDate: moment(new Date(lives.next.attributes.attributes.startTime)),
+      endDate: moment(new Date(lives.next.attributes.attributes.endTime)),
+      name: lives.next.attributes.attributes.name,
     },
     {
-      startDate: moment(new Date('05-07-22 16:00')),
-      endDate: moment(new Date('05-07-22 20:00')),
-      name: 'Test',
+      startDate: moment(new Date(lives.prev.attributes.attributes.startTime)),
+      endDate: moment(new Date(lives.prev.attributes.attributes.endTime)),
+      name: lives.prev.attributes.attributes.name,
     },
   ]
 

@@ -112,7 +112,7 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
 
       <div className="flex grow flex-col justify-end">
         <button
-          className={`mt-4 rounded py-1.5 text-md font-semibold text-light-100 transition-[background-color] duration-300 ${(() => {
+          className={`mt-4 rounded px-2 py-1.5 text-md font-semibold text-light-100 transition-[background-color] duration-300 ${(() => {
             switch (color) {
               case 'blue':
                 return 'bg-blue-900 hover:bg-blue-700'
