@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -16,18 +17,27 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const conferences = await fetchAPIWithToken(
+  const healthConferences = await fetchAPIWithToken(
     '/health-conferences',
     req.cookies.jwt,
     false,
-    ['thumbnail']
+    ['thumbnail', 'tags']
   )
 
-  return { props: { conferences: conferences.data } }
+  const tags = await fetchAPIWithToken('/tags', req.cookies.jwt, false)
+
+  return {
+    props: { healthConferences: healthConferences.data, tags: tags.data },
+  }
 }
 
-const HealthConferences = ({ conferences }) => {
+const HealthConferences = ({ healthConferences, tags }) => {
   const router = useRouter()
+  const [filter, setFilter] = useState()
+
+  useEffect(() => {
+    setFilter(router.query.filtre)
+  }, [router])
 
   return (
     <div className="mt-20">
@@ -44,29 +54,42 @@ const HealthConferences = ({ conferences }) => {
       <div className="py-12">
         <Row
           title="Conférences de santé"
-          filterOptions={tags.map((tag) => tag.name)}
-          type={tags.length > 0 ? 'filter' : 'none'}
+          filterOptions={['Toutes', ...tags.map((tag) => tag.attributes.name)]}
+          type="filter"
           mobile={true}
         >
-          {conferences.map((conference) => {
-            return (
-              <Link
-                key={conference.id}
-                href={`${router.route}/${conference.id}`}
-                passHref
-              >
-                <a>
-                  <Card
-                    title={conference.attributes.name}
-                    subtitle={conference.attributes.description}
-                    type="conférence"
-                    bg={'/bg-card.png'}
-                    mobile={true}
-                  />
-                </a>
-              </Link>
-            )
-          })}
+          {healthConferences
+            .filter((healthConference) => {
+              if (filter === 'Toutes') return healthConference
+
+              return (
+                healthConference.attributes.tags.data[0]?.attributes.name ===
+                filter
+              )
+            })
+            .map((healthConference) => {
+              return (
+                <Link
+                  key={healthConference.id}
+                  href={`${router.route}/${healthConference.id}`}
+                  passHref
+                >
+                  <a>
+                    <Card
+                      title={healthConference.attributes.name}
+                      subtitle={healthConference.attributes.description}
+                      type="conférence"
+                      bg={
+                        process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        healthConference.attributes.thumbnail.data.attributes
+                          .formats.medium.url
+                      }
+                      mobile={true}
+                    />
+                  </a>
+                </Link>
+              )
+            })}
         </Row>
       </div>
     </div>

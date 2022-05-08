@@ -30,8 +30,13 @@ export const getServerSideProps = async ({ req }) => {
 
   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
   const user = await getUserData(req.cookies.jwt)
+  const checkups = await fetchAPIWithToken(
+    '/checkups/mine',
+    req.cookies.jwt,
+    false
+  )
 
-  return { props: { user, lives: lives.data } }
+  return { props: { user, lives: lives.data, checkups: checkups.data.data } }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -49,10 +54,10 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = ({ user, lives }) => {
+const Account = ({ user, lives, checkups }) => {
   const [linkSize, setLinkSize] = useState('m')
 
-  const { getPage, checkupPages } = useContext(LinksContext)
+  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
 
   const [userImage, setUserImage] = useState()
 
@@ -60,29 +65,7 @@ const Account = ({ user, lives }) => {
 
   const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
 
-  console.log(lives)
-
-  console.log(lives.current.attributes.attributes)
-
-  const events = [
-    {
-      startDate: moment(
-        new Date(lives.current.attributes.attributes.startTime)
-      ),
-      endDate: moment(new Date(lives.current.attributes.attributes.endTime)),
-      name: lives.current.attributes.attributes.name,
-    },
-    {
-      startDate: moment(new Date(lives.next.attributes.attributes.startTime)),
-      endDate: moment(new Date(lives.next.attributes.attributes.endTime)),
-      name: lives.next.attributes.attributes.name,
-    },
-    {
-      startDate: moment(new Date(lives.prev.attributes.attributes.startTime)),
-      endDate: moment(new Date(lives.prev.attributes.attributes.endTime)),
-      name: lives.prev.attributes.attributes.name,
-    },
-  ]
+  const [events, setEvents] = useState([])
 
   useEffect(() => {
     setLinkSize(isSmallScreen ? 's' : 'm')
@@ -97,7 +80,46 @@ const Account = ({ user, lives }) => {
 
     fetchProfilePicture()
 
-    console.log(lives)
+    if (lives.current) {
+      setEvents((events) => [
+        ...events,
+        {
+          startDate: moment(
+            new Date(lives.current?.attributes.attributes.startTime)
+          ),
+          endDate: moment(
+            new Date(lives.current?.attributes.attributes.endTime)
+          ),
+          name: lives.current?.attributes.attributes.name,
+        },
+      ])
+    }
+
+    if (lives.next) {
+      setEvents((events) => [
+        ...events,
+        {
+          startDate: moment(
+            new Date(lives.next?.attributes.attributes.startTime)
+          ),
+          endDate: moment(new Date(lives.next?.attributes.attributes.endTime)),
+          name: lives.next?.attributes.attributes.name,
+        },
+      ])
+    }
+
+    if (lives.prev) {
+      setEvents((events) => [
+        ...events,
+        {
+          startDate: moment(
+            new Date(lives.prev?.attributes.attributes.startTime)
+          ),
+          endDate: moment(new Date(lives.prev?.attributes.attributes.endTime)),
+          name: lives.prev?.attributes.attributes.name,
+        },
+      ])
+    }
   }, [])
 
   return (
@@ -154,37 +176,34 @@ const Account = ({ user, lives }) => {
               </h3>
 
               <div className="mt-4 flex flex-wrap gap-4">
-                {/* {homeData.bilan_reponses.length > 0 ? (
-                  homeData.bilan_reponses.map((bilan) => (
+                {checkups.length > 0 ? (
+                  checkups.map((checkup) => (
                     <Link
-                      key={bilan.id}
+                      key={checkup.id}
                       href={`${
                         getPage(accountPages, 'pageName', 'Mon espace santé')
                           .path
-                      }/bilans/[id]`}
-                      as={`${
-                        getPage(accountPages, 'pageName', 'Mon espace santé')
-                          .path
-                      }/bilans/${bilan.id}`}
+                      }/bilans/${checkup.id}`}
                       passHref
                     >
                       <a
                         className="flex-1"
                         style={{
-                          maxWidth:
-                            homeData.bilan_reponses.length < 3 ? '30%' : '',
+                          maxWidth: checkups.length < 3 ? '30%' : '',
                         }}
                       >
                         <CheckupBox
-                          date={formatDate(bilan.createdAt)}
-                          score={bilan.note_global}
+                          date={moment(checkup.attributes.createdAt).format(
+                            '0d/MM/YY'
+                          )}
+                          score={checkup.attributes.globalScore}
                         />
                       </a>
                     </Link>
                   ))
                 ) : (
                   <Subtitle type="4">Vous n'avez pas de bilan.</Subtitle>
-                )} */}
+                )}
               </div>
             </div>
           </div>
@@ -239,7 +258,7 @@ const Account = ({ user, lives }) => {
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
                 }}
-                className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
+                className="flex h-80 flex-col items-center justify-end rounded-lg bg-cover bg-center p-6 sm:h-full"
               >
                 <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
                   {lives.next.attributes.attributes.name}

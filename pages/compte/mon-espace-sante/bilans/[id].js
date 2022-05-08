@@ -103,7 +103,7 @@ const MyHealthSpaceCheckups1 = ({ checkup }) => {
 
   const router = useRouter()
 
-  const { getPathByPage } = useContext(LinksContext)
+  const { getPage, accountPages } = useContext(LinksContext)
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
@@ -124,7 +124,14 @@ const MyHealthSpaceCheckups1 = ({ checkup }) => {
 
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-5 md:py-16">
-      <div className="px-6 md:px-24" onClick={() => router.back()}>
+      <div
+        className="px-6 md:px-24"
+        onClick={() =>
+          router.push(
+            getPage(accountPages, 'pageName', 'Mon espace santé').path
+          )
+        }
+      >
         <Cta arrow="left" type="secondary" size={isMediumScreen ? 'l' : 'm'}>
           Retour
         </Cta>

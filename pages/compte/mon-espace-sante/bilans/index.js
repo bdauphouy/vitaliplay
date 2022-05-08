@@ -52,7 +52,7 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
       <div className="mt-10 md:mt-6">
         <Row title="Mes bilans" type="grid" button={false}>
           <div className="mt-2 grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-            <div className="relative flex h-auto flex-row flex-wrap items-center justify-between gap-4 overflow-hidden rounded-lg bg-blue-50 py-6 px-4 shadow-level1 md:h-64 md:flex-col md:flex-nowrap md:justify-center md:py-16 md:px-10">
+            <div className="relative flex h-auto flex-row items-center justify-between gap-4 overflow-hidden rounded-lg bg-blue-50 py-6 px-4 shadow-level1 md:h-64 md:flex-col md:flex-nowrap md:justify-center md:py-16 md:px-10">
               <div className="absolute top-0 -left-8 hidden scale-50 transform lg:block">
                 <Image src={orangeGreen} alt="orange-green" />
               </div>
@@ -78,7 +78,7 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
                 passHref
               >
                 <a>
-                  <div className="mt-0 md:mt-6">
+                  <div className="mt-0 whitespace-nowrap md:mt-6">
                     <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
                       Nouveau bilan
                     </Cta>

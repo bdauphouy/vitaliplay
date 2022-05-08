@@ -51,13 +51,14 @@ const SessionsNewTrainings = ({ workouts, tags }) => {
           title="Toutes les séances"
           type="filter"
           mobile={true}
-          filterOptions={tags.map((tag) => tag.attributes.name)}
+          filterOptions={['Tous', ...tags.map((tag) => tag.attributes.name)]}
         >
           {workouts
-            .filter(
-              (workout) =>
-                workout.attributes.tags.data[0].attributes.name === filter
-            )
+            .filter((workout) => {
+              if (filter === 'Tous') return workout
+
+              return workout.attributes.tags.data[0]?.attributes.name === filter
+            })
             .map((workout) => {
               return (
                 <Link
@@ -74,8 +75,8 @@ const SessionsNewTrainings = ({ workouts, tags }) => {
                       level={workout.attributes.level}
                       bg={
                         process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          workout.attributes.image.data.attributes.formats
-                            .medium.url || '/bg-card.png'
+                        workout.attributes.image.data.attributes.formats.medium
+                          .url
                       }
                     />
                   </a>

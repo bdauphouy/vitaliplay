@@ -63,13 +63,17 @@ const DailyActivityModerateActivity = () => {
         'vitaliplay.checkup.store'
       )
 
+      console.log(JSON.parse(checkupData))
+
       const fetchCheckup = async () => {
         const data = await postAPIWithToken(
           '/checkups',
           JSON.parse(checkupData),
           getToken()
         )
-        if (data) {
+
+        console.log(data)
+        if (data.data) {
           window.localStorage.setItem(
             'vitaliplay.checkup.score',
             JSON.stringify({ ...data.data.attributes, id: data.data.id })

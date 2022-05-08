@@ -6,7 +6,7 @@ import { fetchAPIWithToken, getToken } from '@/lib/api'
 import moment from 'moment'
 import { ChevronRight } from '@/components/utils/Icons'
 import Calendar from '@/components/pages/account/Calendar'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
@@ -17,25 +17,50 @@ export const getServerSideProps = async ({ req }) => {
 const TheLive = ({ lives }) => {
   const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
 
-  const events = [
-    {
-      startDate: moment(
-        new Date(lives.current.attributes.attributes.startTime)
-      ),
-      endDate: moment(new Date(lives.current.attributes.attributes.endTime)),
-      name: lives.current.attributes.attributes.name,
-    },
-    {
-      startDate: moment(new Date(lives.next.attributes.attributes.startTime)),
-      endDate: moment(new Date(lives.next.attributes.attributes.endTime)),
-      name: lives.next.attributes.attributes.name,
-    },
-    {
-      startDate: moment(new Date(lives.prev.attributes.attributes.startTime)),
-      endDate: moment(new Date(lives.prev.attributes.attributes.endTime)),
-      name: lives.prev.attributes.attributes.name,
-    },
-  ]
+  const [events, setEvents] = useState([])
+
+  useEffect(() => {
+    if (lives.current) {
+      setEvents((events) => [
+        ...events,
+        {
+          startDate: moment(
+            new Date(lives.current?.attributes.attributes.startTime)
+          ),
+          endDate: moment(
+            new Date(lives.current?.attributes.attributes.endTime)
+          ),
+          name: lives.current?.attributes.attributes.name,
+        },
+      ])
+    }
+
+    if (lives.next) {
+      setEvents((events) => [
+        ...events,
+        {
+          startDate: moment(
+            new Date(lives.next?.attributes.attributes.startTime)
+          ),
+          endDate: moment(new Date(lives.next?.attributes.attributes.endTime)),
+          name: lives.next?.attributes.attributes.name,
+        },
+      ])
+    }
+
+    if (lives.prev) {
+      setEvents((events) => [
+        ...events,
+        {
+          startDate: moment(
+            new Date(lives.prev?.attributes.attributes.startTime)
+          ),
+          endDate: moment(new Date(lives.prev?.attributes.attributes.endTime)),
+          name: lives.prev?.attributes.attributes.name,
+        },
+      ])
+    }
+  }, [])
 
   return (
     <div>
@@ -44,11 +69,11 @@ const TheLive = ({ lives }) => {
           <div className="flex flex-col-reverse xl:flex-row xl:items-center xl:justify-between">
             <div className="mt-10 xl:mt-0 xl:mr-24 xl:max-w-xl">
               <Title type="1" html={false}>
-                Live : {lives.current.attributes.attributes.name}
+                Live : {lives.current?.attributes.attributes.name}
               </Title>
               <div className="mt-4">
                 <Subtitle>
-                  {lives.current.attributes.attributes.description}
+                  {lives.current?.attributes.attributes.description}
                 </Subtitle>
               </div>
             </div>
@@ -60,7 +85,7 @@ const TheLive = ({ lives }) => {
                 <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
                   <div>
                     <h3 className="font-head text-lg font-bold leading-6 text-light-100">
-                      {lives.current.attributes.attributes.name}
+                      {lives.current?.attributes.attributes.name}
                     </h3>
                     <span className="mt-2 text-sm text-light-100">
                       {moment(

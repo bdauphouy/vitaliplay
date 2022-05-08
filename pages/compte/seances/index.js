@@ -29,8 +29,6 @@ export const getServerSideProps = async ({ req }) => {
 const Sessions = ({ workouts }) => {
   const router = useRouter()
 
-  console.log(workouts)
-
   return (
     <div className="mt-20">
       <header className="relative h-60 lg:h-96">
