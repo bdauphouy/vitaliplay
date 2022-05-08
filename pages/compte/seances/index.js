@@ -6,43 +6,6 @@ import { useRouter } from 'next/router'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
 
-function getRowTitle(entryName) {
-  switch (entryName) {
-    case 'disciplines':
-      return 'Disciplines'
-    case 'exercices':
-      return 'Nouveaux entraînements'
-    case 'programmes':
-      return 'Programmes'
-    case 'recommandedExercices':
-      return 'Sélectionnés pour vous'
-  }
-}
-
-function getCardType(entryName) {
-  switch (entryName) {
-    case 'disciplines':
-      return 'disciplines'
-    case 'programmes':
-      return 'programme'
-    case 'exercices':
-    case 'recommandedExercices':
-      return 'séances'
-  }
-}
-function getRowPath(entryName) {
-  switch (entryName) {
-    case 'disciplines':
-      return '/disciplines'
-    case 'exercices':
-      return '/toutes-les-seances'
-    case 'programmes':
-      return '/programmes'
-    case 'recommandedExercices':
-      return '/mes-seances-recommande'
-  }
-}
-
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
     return {
@@ -53,15 +16,20 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const workouts = await fetchAPIWithToken('/workouts', req.cookies.jwt, false)
-
-  console.log(workouts.data)
+  const workouts = await fetchAPIWithToken(
+    '/workouts',
+    req.cookies.jwt,
+    false,
+    ['tags', 'image']
+  )
 
   return { props: { workouts: workouts.data } }
 }
 
 const Sessions = ({ workouts }) => {
   const router = useRouter()
+
+  console.log(workouts)
 
   return (
     <div className="mt-20">
@@ -76,47 +44,36 @@ const Sessions = ({ workouts }) => {
         />
       </header>
       <div className="flex flex-col gap-12 py-12">
-        {workouts.map(([entryName, data], i) => {
-          if (data.length === 0) return <></>
-          return (
-            <Row
-              key={i}
-              title={getRowTitle(entryName)}
-              path={`${router.asPath}${getRowPath(entryName)}`}
-            >
-              {data.map((exo) => {
-                console.log(
-                  `${router.asPath}${getRowPath(entryName)}/${exo.id}`
-                )
-                return (
-                  <Link
-                    key={exo.id}
-                    href={`${router.asPath}${getRowPath(entryName)}/[id]`}
-                    as={`${router.asPath}${getRowPath(entryName)}/${exo.id}`}
-                    passHref
-                  >
-                    <a>
-                      <Card
-                        tagType={exo.tags ? exo?.tags[0]?.id || '' : ''}
-                        title={exo.name}
-                        type={getCardType(entryName)}
-                        duration={exo?.duration || ''}
-                        level={exo?.level || ''}
-                        subtitle={exo?.description || ''}
-                        bg={
-                          exo?.image?.url
-                            ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                              exo?.image?.url
-                            : '/bg-card.png'
-                        }
-                      />
-                    </a>
-                  </Link>
-                )
-              })}
-            </Row>
-          )
-        })}
+        <Row
+          title="Toutes les séances"
+          path={`${router.asPath}/toutes-les-seances`}
+        >
+          {workouts.map((workout) => {
+            return (
+              <Link
+                key={workout.id}
+                href={`${router.asPath}/toutes-les-seances/${workout.id}`}
+                passHref
+              >
+                <a>
+                  <Card
+                    tag={workout.attributes.tags?.data[0]}
+                    title={workout.attributes.name}
+                    type="séances"
+                    duration={workout.attributes.duration}
+                    level={workout.attributes.level}
+                    subtitle={workout.attributes.description}
+                    bg={
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        workout.attributes.image.data.attributes.formats.medium
+                          .url || '/bg-card.png'
+                    }
+                  />
+                </a>
+              </Link>
+            )
+          })}
+        </Row>
       </div>
     </div>
   )

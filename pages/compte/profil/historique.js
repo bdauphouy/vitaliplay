@@ -16,7 +16,7 @@ const ProfileHistory = () => {
       </Title>
       <div className="mt-12 space-y-12 lg:mt-20 lg:space-y-16">
         <Row title="Août 2021" button={false} mobile={true}>
-          {[...Array(4)].map((_, i) => {
+          {/* {[...Array(4)].map((_, i) => {
             return (
               <Link
                 key={i}
@@ -37,7 +37,7 @@ const ProfileHistory = () => {
                 </a>
               </Link>
             )
-          })}
+          })} */}
         </Row>
       </div>
     </div>

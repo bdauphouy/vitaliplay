@@ -1,7 +1,7 @@
 import Tag from './Tag'
 
 const Card = ({
-  tagType = '1',
+  tag,
   type = 'catégorie',
   title = 'This is a card',
   subtitle = 'Lorem ipsum ut dolor',
@@ -21,7 +21,7 @@ const Card = ({
       >
         {type === 'séances' ? (
           <div className="flex h-full w-full flex-col items-start justify-between bg-gradient-to-t from-dark-900 via-transparent to-transparent p-4 md:p-6">
-            <Tag type={tagType}>Renforcement</Tag>
+            <Tag tag={tag.attributes} />
             <div>
               <h3 className="font-head text-lg font-bold text-light-100">
                 {title}

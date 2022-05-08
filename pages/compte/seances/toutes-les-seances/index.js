@@ -6,6 +6,7 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -17,12 +18,24 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const seances = await fetchAPIWithToken('/exercices', req.cookies.jwt)
+  const workouts = await fetchAPIWithToken(
+    '/workouts',
+    req.cookies.jwt,
+    false,
+    ['tags', 'image']
+  )
 
-  return { props: { exercices: seances.exercices, tags: seances.exerciceTags } }
+  const tags = await fetchAPIWithToken('/tags', req.cookies.jwt, false)
+
+  return { props: { workouts: workouts.data, tags: tags.data } }
 }
-const SessionsNewTrainings = ({ exercices, tags }) => {
+const SessionsNewTrainings = ({ workouts, tags }) => {
   const router = useRouter()
+  const [filter, setFilter] = useState()
+
+  useEffect(() => {
+    setFilter(router.query.filtre)
+  }, [router])
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
@@ -38,35 +51,37 @@ const SessionsNewTrainings = ({ exercices, tags }) => {
           title="Toutes les séances"
           type="filter"
           mobile={true}
-          filterOptions={tags.map((tag) => tag.name)}
+          filterOptions={tags.map((tag) => tag.attributes.name)}
         >
-          {exercices.map((item) => {
-              console.log(item.attributes)
-            return (
-              <Link 
-                key={item.id} 
-                href={`${router.route}/[id]`} 
-                as={`${router.route}/${item.id}`} 
-                passHref
-              >
-                <a>
-                  <Card
-                    tagType={item?.attributes?.tags?.data?.id}
-                    title={item?.attributes?.name}
-                    type="séances"
-                    duration={item?.attributes?.duration}
-                    level={item?.attributes?.level}
-                    bg={
-                      item?.attributes?.image?.data?.attributes?.url
-                        ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item?.attributes?.image?.data?.attributes?.url
-                        : '/bg-card.png'
-                    }
-                  />
-                </a>
-              </Link>
+          {workouts
+            .filter(
+              (workout) =>
+                workout.attributes.tags.data[0].attributes.name === filter
             )
-          })}
+            .map((workout) => {
+              return (
+                <Link
+                  key={workout.id}
+                  href={`${router.route}/${workout.id}`}
+                  passHref
+                >
+                  <a>
+                    <Card
+                      tag={workout.attributes.tags.data[0]}
+                      title={workout.attributes.name}
+                      type="séances"
+                      duration={workout.attributes.duration}
+                      level={workout.attributes.level}
+                      bg={
+                        process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                          workout.attributes.image.data.attributes.formats
+                            .medium.url || '/bg-card.png'
+                      }
+                    />
+                  </a>
+                </Link>
+              )
+            })}
         </Row>
       </div>
     </div>
