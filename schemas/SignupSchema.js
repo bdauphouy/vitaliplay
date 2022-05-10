@@ -19,7 +19,7 @@ const SignupSchema = yup.object().shape({
   zipCode: yup
     .string()
     .matches(
-      /(?:0[1-9]|[13-8][0-9]|2[ab1-9]|9[0-5])(?:[0-9]{3})?|9[78][1-9](?:[0-9]{2})?/,
+      /d{5}/,
       'Veuillez renseigner un code postal valide.',
     )
     .required('Veuillez renseigner un code postal.'),

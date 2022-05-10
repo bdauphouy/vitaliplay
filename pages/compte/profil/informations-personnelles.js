@@ -29,10 +29,11 @@ export const getServerSideProps = async ({ req }) => {
 }
 
 const ProfilePersonalInformation = ({ user }) => {
-  console.log(user)
 
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
   const [civility, setCivility] = useState('M')
+
+  const [loading, setLoading] = useState(false)
 
   const formik = useFormik({
     initialValues: {
@@ -48,20 +49,22 @@ const ProfilePersonalInformation = ({ user }) => {
     onSubmit: (values) => {
       const finalData = {
         ...values,
+        phone: '+33' + values.phone,
         civility,
       }
-      console.log(finalData)
 
-      // const updateAccount = async () => {
-      //     const data = await updateAPIWithToken(
-      //       `/users/${user.id}`,
-      //       { data: values },
-      //       getToken()
-      //     )
-      //     console.log(data)
-      //   }
+      const updateAccount = async () => {
+          setLoading(true)
+          await updateAPIWithToken(
+            `/users/me`,
+            finalData,
+            getToken()
+          )
+          setLoading(false)
 
-      //  updateAccount()
+        }
+
+       updateAccount()
     },
   })
 
@@ -138,7 +141,7 @@ const ProfilePersonalInformation = ({ user }) => {
           className="mt-10 flex justify-center gap-4"
           style={{ gridArea: 'f' }}
         >
-          <Cta size="l" buttonType="submit">
+          <Cta loading={loading} size="l" buttonType="submit">
             {isLargeScreen ? 'Sauvegarder les changements' : 'Sauvegarder'}
           </Cta>
           <div className="lg:hidden">
