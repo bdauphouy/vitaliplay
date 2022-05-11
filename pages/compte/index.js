@@ -27,16 +27,10 @@ export const getServerSideProps = async ({ req }) => {
       },
     }
   }
-
-  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
-  const user = await getUserData(req.cookies.jwt)
-  const checkups = await fetchAPIWithToken(
-    '/checkups/mine',
-    req.cookies.jwt,
-    false
-  )
-
-  return { props: { user, lives: lives.data, checkups: checkups.data.data } }
+  
+  return {
+    props: {}
+  }
 }
 
 export const CheckupBox = ({ date, score }) => {
@@ -54,7 +48,13 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = ({ user, lives, checkups }) => {
+const Account = () => {
+  const [user, setUser] = useState()
+
+  const [lives, setLives] = useState()
+
+  const [checkups, setCheckups] = useState()
+
   const [linkSize, setLinkSize] = useState('m')
 
   const { getPage, checkupPages, accountPages } = useContext(LinksContext)
@@ -78,9 +78,35 @@ const Account = ({ user, lives, checkups }) => {
       setUserImage(profilePicture)
     }
 
-    fetchProfilePicture()
 
-    if (lives.current) {
+    const fetchLives = async () => {
+      const lives = await fetchAPIWithToken('/lives', getToken(), false)
+      
+      setLives(lives.data)
+    }
+
+    const fetchUser = async () => {
+      const user = await getUserData(getToken())
+
+      setUser(user)
+    }
+    
+    const fetchCheckups = async () => {
+      const checkups = await fetchAPIWithToken(
+        '/checkups/mine',
+        getToken(),
+        false
+      )
+
+      setCheckups(checkups.data.data)
+    }
+
+    fetchProfilePicture()
+    fetchLives()
+    fetchUser()
+    fetchCheckups()
+
+    if (lives?.current) {
       setEvents((events) => [
         ...events,
         {
@@ -95,7 +121,7 @@ const Account = ({ user, lives, checkups }) => {
       ])
     }
 
-    if (lives.next) {
+    if (lives?.next) {
       setEvents((events) => [
         ...events,
         {
@@ -108,7 +134,7 @@ const Account = ({ user, lives, checkups }) => {
       ])
     }
 
-    if (lives.prev) {
+    if (lives?.prev) {
       setEvents((events) => [
         ...events,
         {
@@ -130,7 +156,7 @@ const Account = ({ user, lives, checkups }) => {
 
       <div className="flex-row justify-between lg:flex">
         <Title type="1" html={false}>
-          Bonjour, <strong className="type-1">{user.firstname}</strong>
+          Bonjour, <strong className="type-1">{user?.firstname}</strong>
         </Title>
         {/* {homeData.offer?.id ? (
           <div className="fixed top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
@@ -151,7 +177,7 @@ const Account = ({ user, lives, checkups }) => {
               ></div>
               <div>
                 <Title type="5" html={false}>
-                  {user.firstname} {user.lastname}
+                  {user?.firstname} {user?.lastname}
                 </Title>
                 <Link
                   href={getPage(checkupPages, 'pageName', 'Bilan').path}
@@ -176,8 +202,8 @@ const Account = ({ user, lives, checkups }) => {
               </h3>
 
               <div className="mt-4 flex flex-wrap gap-4">
-                {checkups.length > 0 ? (
-                  checkups.map((checkup) => (
+                {checkups?.length > 0 ? (
+                  checkups.slice(0, 3).map((checkup) => (
                     <Link
                       key={checkup.id}
                       href={`${
@@ -253,7 +279,7 @@ const Account = ({ user, lives, checkups }) => {
                 </Cta>
               </div>
             ) : null} */}
-            {lives.next && (
+            {lives?.next && (
               <div
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
