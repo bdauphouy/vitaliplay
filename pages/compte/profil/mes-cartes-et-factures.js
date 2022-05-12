@@ -6,6 +6,23 @@ import { useFormik } from 'formik'
 import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import Link from 'next/link'
+import { fetchAPIWithToken } from '@/lib/api'
+
+export const getServerSideProps = async ({ req }) => {
+  const savedCards = await fetchAPIWithToken(
+    '/users/me/saved-cards',
+    req.cookies.jwt,
+    false
+  )
+
+  console.log(savedCards)
+
+  return {
+    props: {
+      savedCards: savedCards.paymentMethods,
+    },
+  }
+}
 
 const Invoice = ({ id, period, title }) => {
   return (
@@ -29,7 +46,7 @@ const Invoice = ({ id, period, title }) => {
   )
 }
 
-const ProfileMyCardsAndInvoices = () => {
+const ProfileMyCardsAndInvoices = ({ savedCards }) => {
   const formik = useFormik({
     initialValues: {
       defaultCard: '1',
@@ -63,26 +80,23 @@ const ProfileMyCardsAndInvoices = () => {
           </Link>
         </div>
         <div className="mt-3 space-y-4 md:mt-2">
-          <CreditCardInfo
-            id="1"
-            name="defaultCard"
-            cardType={'mastercard'}
-            cardNumber={'1234123412341234'}
-            cardName={'John Doe'}
-            cardExpires={'09/23'}
-            checked={formik.values.defaultCard === '1'}
-            onChange={formik.handleChange}
-          />
-          <CreditCardInfo
-            id="2"
-            name="defaultCard"
-            cardType={'visa'}
-            cardNumber={'4567456745674567'}
-            cardName={'Jane Doe'}
-            cardExpires={'09/23'}
-            checked={formik.values.defaultCard === '2'}
-            onChange={formik.handleChange}
-          />
+          {savedCards.map((savedCard) => {
+            console.log(savedCard)
+            return (
+              <CreditCardInfo
+                key={savedCard.id}
+                id="1"
+                name="defaultCard"
+                cardType={savedCard.card.brand}
+                last4={savedCard.card.last4}
+                cardName={savedCard.customer}
+                expMonth={savedCard.card.exp_month}
+                expYear={savedCard.card.exp_year}
+                checked={formik.values.defaultCard === '1'}
+                onChange={formik.handleChange}
+              />
+            )
+          })}
         </div>
       </div>
       <div className="mt-10 md:mt-20">
@@ -90,7 +104,7 @@ const ProfileMyCardsAndInvoices = () => {
           Mes factures
         </Title>
         <div className="mx-auto mt-12 max-w-4xl rounded-lg border-1 border-solid border-dark-100 lg:mt-16">
-          <Invoice
+          {/* <Invoice
             id="0"
             period={['17/09/2020', '16/09/2021']}
             title="Abonnement annuel"
@@ -99,7 +113,7 @@ const ProfileMyCardsAndInvoices = () => {
             id="1"
             period={['17/09/2019', '16/09/2020']}
             title="Abonnement annuel"
-          />
+          /> */}
         </div>
       </div>
     </div>

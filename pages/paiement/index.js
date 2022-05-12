@@ -19,12 +19,10 @@ export const getStaticProps = async () => {
 }
 
 const Checkout = ({ subscriptions }) => {
+
+  console.log(subscriptions)
   const router = useRouter()
 
-  const [types] = useState({
-    Annuel: 'annual',
-    Mensuel: 'monthly',
-  })
 
   const { getPage, checkoutPages } = useContext(LinksContext)
 
@@ -45,17 +43,17 @@ const Checkout = ({ subscriptions }) => {
       )
     }
 
-    if (!window.localStorage.getItem('vitaliplay.checkout.subscription')) {
-      window.localStorage.setItem(
-        'vitaliplay.checkout.subscription',
-        JSON.stringify({
-          subscription: subscriptions.find(
-            (subscription) =>
-              subscription.subscriptionType === types[router.query.abonnement]
-          ),
-        })
-      )
-    }
+    window.localStorage.setItem(
+      'vitaliplay.checkout.subscription',
+      JSON.stringify({
+        
+        subscription: subscriptions.find(
+          (subscription) =>
+            subscription.subscriptionType === router.query.abonnement
+        ),
+      })
+    )
+    
 
     router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
   }, [])

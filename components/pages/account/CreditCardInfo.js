@@ -8,37 +8,12 @@ const CreditCardInfo = ({
   checked,
   onChange,
   cardType = 'mastercard',
-  cardNumber,
+  last4,
   cardName,
-  cardExpires,
+  expMonth,
+  expYear,
 }) => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
-
-  const formatCardNumber = (cardNumber) => {
-    let formatted = cardNumber
-
-    let i = 0
-
-    formatted = cardNumber?.split('').map((digit, p) => {
-      if (i < 3) {
-        i++
-        if (p < cardNumber.length - 2) {
-          return '*'
-        }
-        return digit
-      } else {
-        i = 0
-        if (p < cardNumber.length - 2) {
-          return '* '
-        }
-        return digit + ' '
-      }
-    })
-
-    formatted = formatted?.join('')
-
-    return formatted
-  }
 
   return (
     <Radio id={id} name={name} onChange={onChange} checked={checked}>
@@ -51,7 +26,7 @@ const CreditCardInfo = ({
           )}
           <div>
             <h3 className="font-body text-sm font-bold text-blue-900 md:text-md">
-              {formatCardNumber(cardNumber)}
+              **** **** **** {last4}
             </h3>
             <h4 className="mt-0.5 font-body text-xs font-normal text-dark-500 md:mt-0">
               {cardName}
@@ -59,7 +34,7 @@ const CreditCardInfo = ({
           </div>
         </div>
         <span className="font-body text-sm font-bold text-blue-900 md:text-md">
-          {cardExpires}
+          {expMonth.toString().padStart(2, '0')}/{expYear.toString().slice(2)}
         </span>
       </div>
     </Radio>

@@ -11,21 +11,52 @@ import {
   CheckoutContext,
 } from '@/contexts/CheckoutContext'
 import { AuthContext } from '@/contexts/AuthContext'
+import moment from 'moment'
+import PromoCodeSchema from '@/schemas/checkout/PromoCodeSchema'
+import { fetchAPIWithToken, getToken } from '@/lib/api'
 
 const CheckoutPreview = ({ children }) => {
   const { checkout, setCheckout } = useContext(CheckoutContext)
-  const { getPage, otherPages } = useContext(LinksContext)
-
+  const { getPage, otherPages, sitePages } = useContext(LinksContext)
+  const router = useRouter()
   const [createdAt, setCreatedAt] = useState('')
   const [endAt, setEndAt] = useState('')
   const [orderId, setOrderId] = useState('')
+  const [subscription, setSubscription] = useState()
+  const [totalPrice, setTotalPrice] = useState()
+  const [serverSideError, setServerSideError] = useState()
+  const [coupon, setCoupon] = useState()
 
   const formik = useFormik({
     initialValues: {
       promoCode: '',
     },
+    validationSchema: PromoCodeSchema,
     onSubmit: (values) => {
-      console.log(values)
+      const fetchPromoCode = async () => {
+        const data = await fetchAPIWithToken(
+          `/promotion-codes/${values.promoCode}`,
+          getToken(),
+          false
+        )
+
+        if (!data.data) {
+          setServerSideError("Ce code est expiré ou n'existe pas.")
+        } else {
+          setCoupon(data.data.coupon)
+          console.log(data.data.coupon)
+
+          if (data.data.coupon.percent_off) {
+            setTotalPrice(
+              (price) => price - (price * data.data.coupon.percent_off) / 100
+            )
+          } else {
+            setTotalPrice((price) => price - data.data.coupon.amount_off)
+          }
+        }
+      }
+
+      fetchPromoCode()
     },
   })
 
@@ -44,6 +75,21 @@ const CheckoutPreview = ({ children }) => {
       )
     }
   }, [createdAt])
+
+  useEffect(() => {
+    const localSubscription = window.localStorage.getItem(
+      'vitaliplay.checkout.subscription'
+    )
+
+    if (!localSubscription || localSubscription === '{}') {
+      router.push(getPage(sitePages, 'pageName', 'Accueil').path)
+    } else {
+      const parsedSubscription = JSON.parse(localSubscription)
+      setSubscription(parsedSubscription.subscription)
+
+      setTotalPrice(parsedSubscription.subscription.subscriptionPrice)
+    }
+  }, [])
 
   return (
     <>
@@ -77,23 +123,20 @@ const CheckoutPreview = ({ children }) => {
               </h4>
               <div className="mt-4 flex items-start justify-between">
                 <div>
-                  <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">
-                    x1 Abonnement Annuel
-                  </h2>
-                  {createdAt && endAt && (
-                    <p className="mt-2 font-body text-xs text-dark-500 md:text-sm">
-                      Valable du {createdAt.toLocaleDateString('fr-FR')} au{' '}
-                      {endAt.toLocaleDateString('fr-FR')}
-                    </p>
+                  {subscription?.subscriptionType && (
+                    <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">
+                      x1 Abonnement {subscription?.subscriptionType}
+                    </h2>
                   )}
-                  {orderId && (
-                    <p className="mt-1 font-body text-xs text-dark-500 md:text-sm">
-                      Indentifiant de commande : {orderId}
+                  {subscription && (
+                    <p className="mt-2 font-body text-xs text-dark-500 md:text-sm">
+                      Valable du {moment().format('DD/MM/YY')} au{' '}
+                      {moment().add(1, 'year').format('DD/MM/YY')}
                     </p>
                   )}
                 </div>
                 <span className="font-body text-base font-bold text-dark-900 md:text-lg">
-                  99€
+                  {subscription?.subscriptionPrice}€
                 </span>
               </div>
             </div>
@@ -106,6 +149,10 @@ const CheckoutPreview = ({ children }) => {
                 value={formik.values.promoCode}
                 name="promoCode"
                 onChange={formik.handleChange}
+                error={
+                  (formik.touched.promoCode && formik.errors.promoCode) ||
+                  serverSideError
+                }
               />
             </form>
             <div>
@@ -114,12 +161,18 @@ const CheckoutPreview = ({ children }) => {
                   Total TTC
                 </h2>
                 <span className="font-head text-[1.25rem] font-bold text-blue-900 md:text-2xl">
-                  89€
+                  {totalPrice}€
                 </span>
               </div>
-              <p className="mt-4 font-body text-md font-bold text-blue-900">
-                -10 € avec le code VITALIPLAY10
-              </p>
+              {coupon && (
+                <p className="mt-4 font-body text-md font-bold text-blue-900">
+                  -
+                  {coupon.percent_off
+                    ? `${coupon.percent_off}%`
+                    : `${coupon.amount_off}€`}{' '}
+                  avec le code {formik.values.promoCode.toUpperCase()}
+                </p>
+              )}
             </div>
           </div>
           <p className="hidden font-body text-sm text-dark-300 lg:block">
@@ -144,7 +197,7 @@ const CheckoutPreview = ({ children }) => {
 
 const CheckoutLayout = ({ children }) => {
   const router = useRouter()
-  const { getPage, checkoutPages } = useContext(LinksContext)
+  const { getPage, checkoutPages, sitePages } = useContext(LinksContext)
   const { isAuth } = useContext(AuthContext)
 
   const [currentPath, setCurrentPath] = useState()

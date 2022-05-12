@@ -12,6 +12,7 @@ import {
   getUserProfilePicture,
   postProfilePicture,
 } from '@/lib/api'
+import moment from 'moment'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -25,7 +26,13 @@ export const getServerSideProps = async ({ req }) => {
 
   const user = await getUserData(req.cookies.jwt)
 
-  return { props: { user } }
+  const subscription = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  return { props: { user, subscription } }
 }
 
 export const Section = ({ id, icon, title, path = '/' }) => {
@@ -67,9 +74,7 @@ const Spin = () => {
   )
 }
 
-const Profile = ({ user }) => {
-  console.log(user)
-
+const Profile = ({ user, subscription }) => {
   const updateProfilePictureInput = useRef()
 
   const [userImage, setUserImage] = useState()
@@ -137,8 +142,8 @@ const Profile = ({ user }) => {
         </h2>
 
         <div className="mt-2 lg:mt-3">
-          <Subtitle type="4" center={true}>
-            Abonné jusqu’au 12 juillet 2022
+          <Subtitle type="4" center={true} html={false}>
+            Abonné jusqu’au {moment(subscription.endDate).format('D MMMM YYYY')}
           </Subtitle>
         </div>
       </div>

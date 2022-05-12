@@ -5,8 +5,8 @@ import Input from '@/components/utils/Input'
 import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
-import { useState} from 'react'
-import { updateAPIWithToken, getToken} from '@/lib/api'
+import { useState } from 'react'
+import { updateAPIWithToken, getToken } from '@/lib/api'
 import ProfilePasswordSchema from '@/schemas/account/ProfilePasswordsSchema'
 
 const ProfilePassword = () => {
@@ -23,21 +23,19 @@ const ProfilePassword = () => {
     onSubmit: (values) => {
       console.log(values)
       const updateAccount = async () => {
-          setLoading(true)
-          await updateAPIWithToken(
-            `/users/me`,
-            {
-              password: values.password,
-            },
-            getToken()
-          )
-          setLoading(false)
+        setLoading(true)
+        await updateAPIWithToken(
+          `/users-permissions/users/me`,
+          {
+            password: values.password,
+          },
+          getToken()
+        )
+        setLoading(false)
+      }
 
-        }
-
-       updateAccount()
+      updateAccount()
     },
-    
   })
 
   return (

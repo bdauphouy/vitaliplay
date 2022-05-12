@@ -69,7 +69,12 @@ const CheckoutConfirm = () => {
       const res = await postAPIWithToken(
         '/payments',
         {
-          interval: 'month',
+          interval:
+            JSON.parse(
+              window.localStorage.getItem('vitaliplay.checkout.subscription')
+            ).subscription.subscriptionType === 'Annuel'
+              ? 'year'
+              : 'month',
         },
         getToken()
       )

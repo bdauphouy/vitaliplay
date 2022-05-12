@@ -12,15 +12,7 @@ export const CheckoutContextProvider = ({ children }) => {
   const router = useRouter()
 
   const { getPage, otherPages } = useContext(LinksContext)
-  const { isAuth } = useContext(AuthContext)
 
-  console.log(isAuth)
-
-  useEffect(() => {
-    // if (!isAuth) {
-    //   router.push(getPage(otherPages, 'pageName', 'Connexion').path)
-    // }
-  }, [])
 
   useEffect(() => {
     const checkoutData = window.localStorage.getItem(

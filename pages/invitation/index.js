@@ -6,7 +6,7 @@ import { useFormik } from 'formik'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
-import { fetchAPI } from '@/lib/api'
+import { fetchAPI, fetchAPIWithToken, getToken } from '@/lib/api'
 import Error from '@/components/utils/Error'
 import { useState } from 'react'
 import InvitationSchema from '@/schemas/InvitationSchema'
@@ -18,13 +18,24 @@ export const getStaticProps = async () => {
 }
 
 const InvitationStart = ({ invitation }) => {
+
   const formik = useFormik({
     initialValues: {
       code: '',
     },
     validationSchema: InvitationSchema,
     onSubmit: (values) => {
-      router.push(`${router.asPath}/confirmation`)
+      const fetchPromoCode = async () => {
+        const data = await fetchAPIWithToken(`/promotion-codes/${values.code}`, getToken(), false) 
+
+        if (!data.data) {
+          setServerSideError('Ce code est expiré ou n\'existe pas.')
+        } else {
+          router.push(`${router.asPath}/confirmation`)
+        }
+      }
+
+      fetchPromoCode()
     },
   })
 

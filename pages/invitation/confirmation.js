@@ -35,11 +35,11 @@ const InvitationConfirm = ({ invitation }) => {
         <Congrats size={congratsSize} />
       </div>
       <Title center={true} type="3">
-        {invitation.invitationTitle}
+        {invitation.invitationSuccessTitle}
       </Title>
       <div className="mt-4">
         <Subtitle center={true} type="2">
-          {invitation.invitationDescription}
+          {invitation.invitationSuccessDescription}
         </Subtitle>
       </div>
       <div className="mt-8 lg:mt-12">
