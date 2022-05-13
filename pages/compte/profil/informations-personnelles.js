@@ -51,6 +51,7 @@ const ProfilePersonalInformation = ({ user }) => {
         ...values,
         phone: '+33' + values.phone,
         civility,
+        sex: civility === 'M' ? 'male' : 'female'
       }
 
       const updateAccount = async () => {
