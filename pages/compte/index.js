@@ -27,9 +27,9 @@ export const getServerSideProps = async ({ req }) => {
       },
     }
   }
-  
+
   return {
-    props: {}
+    props: {},
   }
 }
 
@@ -78,10 +78,9 @@ const Account = () => {
       setUserImage(profilePicture)
     }
 
-
     const fetchLives = async () => {
       const lives = await fetchAPIWithToken('/lives', getToken(), false)
-      
+
       setLives(lives.data)
     }
 
@@ -90,7 +89,7 @@ const Account = () => {
 
       setUser(user)
     }
-    
+
     const fetchCheckups = async () => {
       const checkups = await fetchAPIWithToken(
         '/checkups/mine',
@@ -105,7 +104,9 @@ const Account = () => {
     fetchLives()
     fetchUser()
     fetchCheckups()
+  }, [])
 
+  useEffect(() => {
     if (lives?.current) {
       setEvents((events) => [
         ...events,
@@ -146,7 +147,7 @@ const Account = () => {
         },
       ])
     }
-  }, [])
+  }, [lives])
 
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">

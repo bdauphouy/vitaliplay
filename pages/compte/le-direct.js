@@ -8,19 +8,31 @@ import { ChevronRight } from '@/components/utils/Icons'
 import Calendar from '@/components/pages/account/Calendar'
 import { useState, useEffect } from 'react'
 
-export const getServerSideProps = async ({ req }) => {
-  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
+// export const getServerSideProps = async ({ req }) => {
+//   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
 
-  return { props: { lives: lives.data } }
-}
+//   return { props: { lives: lives.data } }
+// }
 
-const TheLive = ({ lives }) => {
+const TheLive = () => {
   const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))
 
   const [events, setEvents] = useState([])
 
+  const [lives, setLives] = useState()
+
   useEffect(() => {
-    if (lives.current) {
+    const fetchLives = async () => {
+      const lives = await fetchAPIWithToken('/lives', getToken(), false)
+
+      setLives(lives.data)
+    }
+
+    fetchLives()
+  }, [])
+
+  useEffect(() => {
+    if (lives?.current) {
       setEvents((events) => [
         ...events,
         {
@@ -35,7 +47,7 @@ const TheLive = ({ lives }) => {
       ])
     }
 
-    if (lives.next) {
+    if (lives?.next) {
       setEvents((events) => [
         ...events,
         {
@@ -48,7 +60,7 @@ const TheLive = ({ lives }) => {
       ])
     }
 
-    if (lives.prev) {
+    if (lives?.prev) {
       setEvents((events) => [
         ...events,
         {
@@ -60,11 +72,11 @@ const TheLive = ({ lives }) => {
         },
       ])
     }
-  }, [])
+  }, [lives])
 
   return (
     <div>
-      {lives.current ? (
+      {lives?.current ? (
         <div className="mt-20 py-10 px-6 md:py-20 md:px-24">
           <div className="flex flex-col-reverse xl:flex-row xl:items-center xl:justify-between">
             <div className="mt-10 xl:mt-0 xl:mr-24 xl:max-w-xl">
@@ -72,37 +84,35 @@ const TheLive = ({ lives }) => {
                 Live : {lives.current?.attributes.attributes.name}
               </Title>
               <div className="mt-4">
-                <Subtitle>
+                <Subtitle html={false}>
                   {lives.current?.attributes.attributes.description}
                 </Subtitle>
               </div>
             </div>
-            {lives.current ? (
-              <div
-                style={{ backgroundImage: "url('/bg-card.png')" }}
-                className="flex h-36 w-full items-center rounded-lg bg-cover p-4 md:items-end lg:h-32 xl:w-auto xl:min-w-[500px] xl:flex-[.8]"
-              >
-                <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
-                  <div>
-                    <h3 className="font-head text-lg font-bold leading-6 text-light-100">
-                      {lives.current?.attributes.attributes.name}
-                    </h3>
-                    <span className="mt-2 text-sm text-light-100">
-                      {moment(
-                        lives.current.attributes.attributes.startTime
-                      ).format('HH:mm')}{' '}
-                      -{' '}
-                      {moment(
-                        lives.current.attributes.attributes.endTime
-                      ).format('HH:mm')}
-                    </span>
-                  </div>
-                  <div className="mt-6 md:mt-0">
-                    <Cta size="m">Mettre un rappel</Cta>
-                  </div>
+            <div
+              style={{ backgroundImage: "url('/bg-card.png')" }}
+              className="flex h-36 w-full items-center rounded-lg bg-cover p-4 md:items-end lg:h-32 xl:w-auto xl:min-w-[500px] xl:flex-[.8]"
+            >
+              <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
+                <div>
+                  <h3 className="font-head text-lg font-bold leading-6 text-light-100">
+                    {lives.current?.attributes.attributes.name}
+                  </h3>
+                  <span className="mt-2 text-sm text-light-100">
+                    {moment(
+                      lives.current.attributes.attributes.startTime
+                    ).format('HH:mm')}{' '}
+                    -{' '}
+                    {moment(lives.current.attributes.attributes.endTime).format(
+                      'HH:mm'
+                    )}
+                  </span>
+                </div>
+                <div className="mt-6 md:mt-0">
+                  <Cta size="m">Mettre un rappel</Cta>
                 </div>
               </div>
-            ) : null}
+            </div>
           </div>
           <iframe
             className="mt-12 aspect-video w-full bg-dark-900"
