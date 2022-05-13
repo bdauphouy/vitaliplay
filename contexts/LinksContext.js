@@ -58,10 +58,6 @@ export const LinksContextProvider = ({ children }) => {
       pageName: 'Profil',
       path: `${ACCOUNT_PREFIX}/profil`,
     },
-    {
-      pageName: 'Ajouter un moyen de paiement',
-      path: `${ACCOUNT_PREFIX}/ajouter-un-moyen-de-paiement`,
-    },
   ])
 
   const [externalPages] = useState([
@@ -148,6 +144,10 @@ export const LinksContextProvider = ({ children }) => {
       id: 5,
       pageName: 'Succès',
       path: `${CHECKOUT_PREFIX}/succes`,
+    },
+    {
+      pageName: 'Ajouter un moyen de paiement',
+      path: `${CHECKOUT_PREFIX}/ajouter-un-moyen-de-paiement`,
     },
   ])
 

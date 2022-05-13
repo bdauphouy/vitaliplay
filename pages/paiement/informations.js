@@ -35,9 +35,7 @@ const CheckoutInfo = () => {
         'vitaliplay.checkout.store',
         JSON.stringify({ ...store, billing: { ...values } })
       )
-      router.push(
-        getPage(checkoutPages, 'pageName', 'Procéder au paiement').path
-      )
+      router.push(getPage(checkoutPages, 'pageName', 'Confirmation').path)
     },
   })
 

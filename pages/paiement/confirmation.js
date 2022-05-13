@@ -103,7 +103,7 @@ const CheckoutConfirm = () => {
     },
   })
 
-  const { getPage, checkoutPages, accountPages } = useContext(LinksContext)
+  const { getPage, checkoutPages } = useContext(LinksContext)
 
   const confirmPayment = async () => {
     const stripe = await stripePromise
@@ -141,7 +141,7 @@ const CheckoutConfirm = () => {
             <Link
               href={
                 getPage(
-                  accountPages,
+                  checkoutPages,
                   'pageName',
                   'Ajouter un moyen de paiement'
                 ).path

@@ -71,10 +71,6 @@ const SiteNav = () => {
         if (
           router.route.startsWith(
             getPage(accountPages, 'pageName', 'Profil').path
-          ) ||
-          router.route.startsWith(
-            getPage(accountPages, 'pageName', 'Ajouter un moyen de paiement')
-              .path
           )
         ) {
           return

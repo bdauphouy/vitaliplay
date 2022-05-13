@@ -12,6 +12,7 @@ import { useContext } from 'react'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, useElements, useStripe } from '@stripe/react-stripe-js'
+import CheckoutLayout from '@/components/layouts/CheckoutLayout'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -37,30 +38,6 @@ const PaymentForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      {/* <div className="mt-8 flex flex-wrap gap-x-4 gap-y-4 md:gap-x-6">
-            <Radio
-              padding="md:px-7 md:py-3"
-              center={true}
-              type="2"
-              id="mastercard"
-              name="way"
-              checked={formik.values.way === 'mastercard'}
-              onChange={formik.handleChange}
-            >
-              <Mastercard size={isMediumScreen ? '48' : '35'} />
-            </Radio>
-            <Radio
-              padding="md:px-7 md:py-3"
-              center={true}
-              type="2"
-              id="visa"
-              name="way"
-              checked={formik.values.way === 'visa'}
-              onChange={formik.handleChange}
-            >
-              <Visa size={isMediumScreen ? '48' : '35'} />
-            </Radio>
-          </div> */}
       <div className="mt-11">
         <div className="xl:grid-area-card-info md:grid-area-card-info grid-area-card-info grid gap-3 gap-x-4 md:gap-y-5">
           <div style={{ gridArea: 'a' }}>
@@ -91,7 +68,7 @@ const PaymentForm = () => {
           // }
           >
             <Cta size={buttonSize} buttonType="submit">
-              Enregistrer
+              Enregister et payer*
             </Cta>
           </div>
 
@@ -117,6 +94,6 @@ const AddPaymentWay = () => {
   )
 }
 
-AddPaymentWay.Layout = AccountLayout
+AddPaymentWay.Layout = CheckoutLayout
 
 export default AddPaymentWay
