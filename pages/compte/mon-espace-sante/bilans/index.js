@@ -86,7 +86,7 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
                 </a>
               </Link>
             </div>
-            {checkups.length > 0 ? (
+            {checkups.length > 0 &&
               checkups.map((checkup) => {
                 return (
                   <Link
@@ -107,10 +107,7 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
                     </a>
                   </Link>
                 )
-              })
-            ) : (
-              <Subtitle>Vous n'avez pas de bilan.</Subtitle>
-            )}
+              })}
           </div>
         </Row>
       </div>

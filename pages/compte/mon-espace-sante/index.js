@@ -62,8 +62,6 @@ const MyHealthSpace = ({ content, checkups }) => {
 
   const { getPage, checkupPages } = useContext(LinksContext)
 
-  console.log(checkups)
-
   return (
     <div className="mt-20 overflow-x-hidden py-10 md:py-20">
       <div className="mx-auto max-w-4xl px-6 md:px-24">
@@ -92,41 +90,41 @@ const MyHealthSpace = ({ content, checkups }) => {
           </div>
         </div>
       ) : null}
-      {checkups.length > 0 ? (
-        <div className="mt-24">
-          <Row title="Mes derniers bilans" path={`${router.asPath}/bilans`}>
-            <div className="relative flex h-56 flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-16 px-10 shadow-level1 md:h-64">
-              <div className="absolute top-0 -left-8 block scale-50 transform">
-                <Image src={orangeGreen} alt="orange-green" />
-              </div>
-              <div className="absolute top-0 right-0 block scale-50 transform lg:scale-75">
-                <Image src={blueOrange} alt="blue-orange" />
-              </div>
-              <div className="absolute bottom-4 left-2 block">
-                <Image src={greenBlue} alt="green-blue" />
-              </div>
-              <div className="absolute -bottom-12 right-2 block">
-                <Image src={yellowOrange} alt="yellow-orange" />
-              </div>
-              <h3
-                className={`text-center font-head text-lg font-bold text-blue-900 md:text-xl`}
-              >
-                Réaliser un nouveau bilan
-              </h3>
-              <Link
-                href={getPage(checkupPages, 'pageName', 'Bilan').path}
-                passHref
-              >
-                <a>
-                  <div className="mt-6">
-                    <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
-                      Nouveau bilan
-                    </Cta>
-                  </div>
-                </a>
-              </Link>
+      <div className="mt-24">
+        <Row title="Mes derniers bilans" path={`${router.asPath}/bilans`}>
+          <div className="relative flex h-56 flex-col items-center justify-center overflow-hidden rounded-lg bg-blue-50 py-16 px-10 shadow-level1 md:h-64">
+            <div className="absolute top-0 -left-8 block scale-50 transform">
+              <Image src={orangeGreen} alt="orange-green" />
             </div>
-            {checkups.slice(0, 3).map((checkup) => {
+            <div className="absolute top-0 right-0 block scale-50 transform lg:scale-75">
+              <Image src={blueOrange} alt="blue-orange" />
+            </div>
+            <div className="absolute bottom-4 left-2 block">
+              <Image src={greenBlue} alt="green-blue" />
+            </div>
+            <div className="absolute -bottom-12 right-2 block">
+              <Image src={yellowOrange} alt="yellow-orange" />
+            </div>
+            <h3
+              className={`text-center font-head text-lg font-bold text-blue-900 md:text-xl`}
+            >
+              Réaliser un nouveau bilan
+            </h3>
+            <Link
+              href={getPage(checkupPages, 'pageName', 'Bilan').path}
+              passHref
+            >
+              <a>
+                <div className="mt-6">
+                  <Cta arrow="right" size={isMediumScreen ? 'l' : 'm'}>
+                    Nouveau bilan
+                  </Cta>
+                </div>
+              </a>
+            </Link>
+          </div>
+          {checkups.length > 0 &&
+            checkups.slice(0, 3).map((checkup) => {
               return (
                 <Link
                   key={checkup.id}
@@ -144,9 +142,8 @@ const MyHealthSpace = ({ content, checkups }) => {
                 </Link>
               )
             })}
-          </Row>
-        </div>
-      ) : null}
+        </Row>
+      </div>
       {notes.length > 0 ? (
         <div className="mt-14 px-6 md:px-24">
           <h2 className="font-head text-xl font-bold text-dark-900 md:text-3xl lg:text-4xl">
