@@ -8,7 +8,7 @@ import { useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { LinksContext } from '@/contexts/LinksContext'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, useElements, useStripe } from '@stripe/react-stripe-js'
@@ -35,6 +35,24 @@ const PaymentForm = () => {
       return
     }
   }
+
+  // const confirmPayment = async () => {
+  //   const stripe = await stripePromise
+
+  //   const { paymentIntent, paymentIntentError } =
+  //     await stripe.confirmCardPayment(checkout.clientSecret, {
+  //       setup_future_usage: 'off_session',
+  //       payment_method: selectedPaymentMethod,
+  //     })
+
+  //   if (paymentIntentError) {
+  //     console.log(paymentIntentError)
+  //     // TODO: handle error
+  //     return
+  //   }
+
+  //   await router.push(getPage(checkoutPages, 'pageName', 'Succès').path)
+  // }
 
   return (
     <form onSubmit={handleSubmit}>

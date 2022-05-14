@@ -7,6 +7,8 @@ import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import Link from 'next/link'
 import { fetchAPIWithToken } from '@/lib/api'
+import Subtitle from '@/components/utils/Subtitle'
+import moment from 'moment'
 
 export const getServerSideProps = async ({ req }) => {
   const savedCards = await fetchAPIWithToken(
@@ -15,21 +17,28 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  console.log(savedCards)
+  const invoices = await fetchAPIWithToken(
+    '/users/me/invoices',
+    req.cookies.jwt,
+    false
+  )
 
   return {
     props: {
-      savedCards: [],
+      savedCards: savedCards?.paymentMethods
+        ? savedCards.paymentMethods
+        : savedCards,
+      invoices: invoices.data.invoices,
     },
   }
 }
 
-const Invoice = ({ id, period, title }) => {
+const Invoice = ({ id, period, title, downloadUrl }) => {
   return (
     <div
       className={`flex justify-between ${
         id === '0' ? '' : 'border-t-1'
-      } border-solid border-dark-100 p-4`}
+      } items-center border-solid border-dark-100 p-4`}
     >
       <div className="flex flex-col gap-1">
         <span className="font-body text-xs font-bold text-dark-500">
@@ -39,14 +48,16 @@ const Invoice = ({ id, period, title }) => {
           {title}
         </h3>
       </div>
-      <Cta arrow="right" textColor="text-blue-900" type="link">
-        Télécharger
-      </Cta>
+      <a href={downloadUrl} download>
+        <Cta arrow="right" textColor="text-blue-900" type="link">
+          Télécharger
+        </Cta>
+      </a>
     </div>
   )
 }
 
-const ProfileMyCardsAndInvoices = ({ savedCards }) => {
+const ProfileMyCardsAndInvoices = ({ savedCards, invoices }) => {
   const formik = useFormik({
     initialValues: {
       defaultCard: '1',
@@ -61,42 +72,29 @@ const ProfileMyCardsAndInvoices = ({ savedCards }) => {
         Mes cartes
       </Title>
       <div className="mx-auto  mt-12 flex max-w-4xl flex-col rounded-lg lg:mt-16">
-        <div className="flex flex-col flex-wrap justify-between sm:flex-row sm:items-center">
-          <h3 className="font-body text-sm font-bold text-dark-900">
-            Informations de paiement
-          </h3>
-          <Link
-            href={
-              getPage(accountPages, 'pageName', 'Ajouter un moyen de paiement')
-                .path
-            }
-            passHref
-          >
-            <a>
-              <Cta type="link" size="s" arrow="right">
-                Ajouter un moyen de paiement
-              </Cta>
-            </a>
-          </Link>
-        </div>
         <div className="mt-3 space-y-4 md:mt-2">
-          {savedCards.map((savedCard) => {
-            console.log(savedCard)
-            return (
-              <CreditCardInfo
-                key={savedCard.id}
-                id="1"
-                name="defaultCard"
-                cardType={savedCard.card.brand}
-                last4={savedCard.card.last4}
-                cardName={savedCard.customer}
-                expMonth={savedCard.card.exp_month}
-                expYear={savedCard.card.exp_year}
-                checked={formik.values.defaultCard === '1'}
-                onChange={formik.handleChange}
-              />
-            )
-          })}
+          {savedCards.length > 0 ? (
+            <>
+              {savedCards.map((savedCard) => {
+                return (
+                  <CreditCardInfo
+                    key={savedCard.id}
+                    id="1"
+                    name="defaultCard"
+                    cardType={savedCard.card.brand}
+                    last4={savedCard.card.last4}
+                    cardName={savedCard.customer}
+                    expMonth={savedCard.card.exp_month}
+                    expYear={savedCard.card.exp_year}
+                    checked={formik.values.defaultCard === '1'}
+                    onChange={formik.handleChange}
+                  />
+                )
+              })}
+            </>
+          ) : (
+            <Subtitle center>Vous n'avez pas de carte enregistrée</Subtitle>
+          )}
         </div>
       </div>
       <div className="mt-10 md:mt-20">
@@ -104,16 +102,24 @@ const ProfileMyCardsAndInvoices = ({ savedCards }) => {
           Mes factures
         </Title>
         <div className="mx-auto mt-12 max-w-4xl rounded-lg border-1 border-solid border-dark-100 lg:mt-16">
-          {/* <Invoice
-            id="0"
-            period={['17/09/2020', '16/09/2021']}
-            title="Abonnement annuel"
-          />
-          <Invoice
-            id="1"
-            period={['17/09/2019', '16/09/2020']}
-            title="Abonnement annuel"
-          /> */}
+          {invoices.map((invoice) => {
+            return (
+              <Invoice
+                key={invoice.id}
+                id="1"
+                period={[
+                  moment(invoice.created * 1000).format('DD/MM/YYYY'),
+                  moment(
+                    moment(invoice.created * 1000).add(1, invoice.recurring)
+                  ).format('DD/MM/YYYY'),
+                ]}
+                title={`Abonnement ${
+                  invoice.recurring === 'year' ? 'annuel' : 'mensuel'
+                }`}
+                downloadUrl={invoice.downloadUrl}
+              />
+            )
+          })}
         </div>
       </div>
     </div>
