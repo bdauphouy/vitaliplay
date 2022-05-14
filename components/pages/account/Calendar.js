@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 
 const CalendarHeader = ({ startDate, selectedDate, setSelectedDate }) => {
   startDate = moment(startDate)
@@ -37,7 +37,6 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
   const color = diff < 0 ? 'orange' : diff > 0 ? 'green' : 'blue'
 
   const colDiff = Math.floor(startDate.diff(selectedDate, 'hours') / 24)
-  console.log(colDiff)
 
   return (
     <div
@@ -133,11 +132,21 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
 const Calendar = ({ events, setSelectedDate, selectedDate }) => {
   const [startDate, setStartDate] = useState(moment().subtract(3, 'days'))
 
+  const calendarContainer = useRef()
+
+  useEffect(() => {
+    calendarContainer.current.scrollTo(
+      calendarContainer.current.scrollWidth / 2 -
+        calendarContainer.current.offsetWidth / 2,
+      0
+    )
+  }, [])
+
   useEffect(() => {
     setStartDate(selectedDate.clone().subtract(3, 'days'))
   }, [selectedDate])
   return (
-    <div className="w-full overflow-auto">
+    <div className="w-full overflow-auto" ref={calendarContainer}>
       <div className="flex h-[600px] min-w-[800px] flex-col overflow-hidden rounded-lg border border-dark-100 font-body">
         <CalendarHeader
           startDate={startDate}
