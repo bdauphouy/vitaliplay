@@ -24,10 +24,19 @@ export const getServerSideProps = async ({ req }) => {
     ['thumbnail', 'tags']
   )
 
-  const tags = await fetchAPIWithToken('/tags', req.cookies.jwt, false)
+  const tags = []
+
+  healthConferences.data.map((healthConference) => {
+    healthConference.attributes.tags.data.map((tag) => {
+      const tagName = tag.attributes.name
+      if (!tags.includes(tagName)) {
+        tags.push(tagName)
+      }
+    })
+  })
 
   return {
-    props: { healthConferences: healthConferences.data, tags: tags.data },
+    props: { healthConferences: healthConferences.data, tags },
   }
 }
 
@@ -54,13 +63,13 @@ const HealthConferences = ({ healthConferences, tags }) => {
       <div className="py-12">
         <Row
           title="Conférences de santé"
-          filterOptions={['Toutes', ...tags.map((tag) => tag.attributes.name)]}
+          filterOptions={['Toutes', ...tags]}
           type="filter"
           mobile={true}
         >
           {healthConferences
             .filter((healthConference) => {
-              if (filter === 'Toutes') return healthConference
+              if (filter === 'Toutes' || !filter) return healthConference
 
               return (
                 healthConference.attributes.tags.data[0]?.attributes.name ===

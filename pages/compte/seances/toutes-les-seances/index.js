@@ -25,9 +25,18 @@ export const getServerSideProps = async ({ req }) => {
     ['tags', 'image']
   )
 
-  const tags = await fetchAPIWithToken('/tags', req.cookies.jwt, false)
+  const tags = []
 
-  return { props: { workouts: workouts.data, tags: tags.data } }
+  workouts.data.map((workout) => {
+    workout.attributes.tags.data.map((tag) => {
+      const tagName = tag.attributes.name
+      if (!tags.includes(tagName)) {
+        tags.push(tagName)
+      }
+    })
+  })
+
+  return { props: { workouts: workouts.data, tags: tags } }
 }
 const SessionsNewTrainings = ({ workouts, tags }) => {
   const router = useRouter()
@@ -51,7 +60,7 @@ const SessionsNewTrainings = ({ workouts, tags }) => {
           title="Toutes les séances"
           type="filter"
           mobile={true}
-          filterOptions={['Tous', ...tags.map((tag) => tag.attributes.name)]}
+          filterOptions={['Tous', ...tags]}
         >
           {workouts
             .filter((workout) => {

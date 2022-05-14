@@ -19,7 +19,7 @@ export const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      savedCards: savedCards.paymentMethods,
+      savedCards: [],
     },
   }
 }
