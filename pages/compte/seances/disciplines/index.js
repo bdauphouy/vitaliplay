@@ -6,26 +6,33 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
-    if (!req.cookies.jwt) {
-      return {
-        redirect: {
-          destination: '/connexion',
-          permanent: true,
-        },
-      }
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
     }
-  
-    const disciplines = await fetchAPIWithToken('/disciplines', req.cookies.jwt)
-    return { props: { disciplines } }
   }
 
+  const disciplines = await fetchAPIWithToken(
+    '/disciplines',
+    req.cookies.jwt,
+    false
+  )
 
-
-
-const SessionsNewTrainings = ({disciplines}) => {
+  return { props: { disciplines: disciplines.data.attributes } }
+}
+const SessionDisciplines = ({ disciplines }) => {
   const router = useRouter()
+  const [filter, setFilter] = useState()
+
+  useEffect(() => {
+    setFilter(router.query.filtre)
+  }, [router])
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
@@ -38,25 +45,27 @@ const SessionsNewTrainings = ({disciplines}) => {
       </div>
       <div className="mt-6 flex flex-col gap-12">
         <Row
-          type="none"
+          type="filter"
+          filterOptions={['Toutes']}
           title="Toutes les disciplines"
-          mobile={true}
         >
-          {disciplines.map((item) => {
+          {disciplines.map((discipline) => {
             return (
-              <Link 
-              key={item.id} 
-              href={`${router.route}/[discipline]`} 
-              as={`${router.route}/${item.id}`} 
-              passHref
+              <Link
+                key={discipline.id}
+                href={`${router.route}/${discipline.id}`}
+                passHref
               >
                 <a>
                   <Card
-                    title={item.attributes?.name}
-                    type="disciplines"
-                    bg={ item.attributes?.image ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                        item.attributes?.image.data.attributes.url
-                      : '/bg-card.png'}
+                    mobile={!isMediumScreen}
+                    title={discipline.attributes.name}
+                    type="catégorie"
+                    bg={
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        discipline.attributes.image.data.attributes.formats
+                          .medium.url || '/bg-card.png'
+                    }
                   />
                 </a>
               </Link>
@@ -68,6 +77,6 @@ const SessionsNewTrainings = ({disciplines}) => {
   )
 }
 
-SessionsNewTrainings.Layout = AccountLayout
+SessionDisciplines.Layout = AccountLayout
 
-export default SessionsNewTrainings
+export default SessionDisciplines

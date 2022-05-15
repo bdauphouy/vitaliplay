@@ -104,7 +104,7 @@ const Account = () => {
         false
       )
 
-      setCheckups(checkups.data.data)
+      setCheckups(checkups.data?.data)
     }
 
     const fetchQuestionnaire = async () => {
@@ -116,7 +116,7 @@ const Account = () => {
 
       console.log(questionnaire)
 
-      setQuestionnaire(questionnaire.data.length > 0)
+      setQuestionnaire(questionnaire.data?.length > 0)
     }
 
     const fetchRecommendedWorkout = async () => {

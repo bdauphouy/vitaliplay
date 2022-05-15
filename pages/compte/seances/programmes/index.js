@@ -6,24 +6,34 @@ import { useRouter } from 'next/router'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
-    if (!req.cookies.jwt) {
-      return {
-        redirect: {
-          destination: '/connexion',
-          permanent: true,
-        },
-      }
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
     }
-  
-    const programmes = await fetchAPIWithToken('/programmes', req.cookies.jwt, false)
-    console.log(programmes)
-    return { props: { programmes: programmes.data } }
   }
 
-const SessionsNewTrainings = ({programmes}) => {
+  const programs = await fetchAPIWithToken(
+    '/programs',
+    req.cookies.jwt,
+    false,
+    ['image']
+  )
+
+  return { props: { programs: programs.data } }
+}
+const SessionsPrograms = ({ programs }) => {
   const router = useRouter()
+  const [filter, setFilter] = useState()
+
+  useEffect(() => {
+    setFilter(router.query.filtre)
+  }, [router])
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
@@ -36,29 +46,29 @@ const SessionsNewTrainings = ({programmes}) => {
       </div>
       <div className="mt-6 flex flex-col gap-12">
         <Row
-        type="none"
+          type="filter"
+          filterOptions={['Tous']}
           title="Tous les programmes"
-          mobile={true}
+          path={`${router.asPath}/programmes`}
         >
-          {programmes.map((item ) => {
+          {programs.map((program) => {
             return (
-              <Link 
-              key={item.id} 
-              href={`${router.route}/[programme]`} 
-              as={`${router.route}/${item.id}`} 
-              passHref
+              <Link
+                key={program.id}
+                href={`${router.route}/${program.id}`}
+                passHref
               >
                 <a>
                   <Card
-                    title={item?.attributes?.name}
-                    subtitle={item?.attributes?.description}
+                    mobile={!isMediumScreen}
                     type="programme"
+                    title={program.attributes.name}
+                    subtitle={program.attributes.description}
                     bg={
-                        item?.attributes?.image?.data?.attributes.url
-                          ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          item?.attributes?.image?.data?.attributes.url
-                          : '/bg-card.png'
-                      }
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                      program.attributes.image.data.attributes.formats.medium
+                        .url
+                    }
                   />
                 </a>
               </Link>
@@ -70,6 +80,6 @@ const SessionsNewTrainings = ({programmes}) => {
   )
 }
 
-SessionsNewTrainings.Layout = AccountLayout
+SessionsPrograms.Layout = AccountLayout
 
-export default SessionsNewTrainings
+export default SessionsPrograms

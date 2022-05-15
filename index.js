@@ -38,7 +38,7 @@ export const getServerSideProps = async ({ req }) => {
 
   return { props: { workouts: workouts.data, tags: tags } }
 }
-const SessionAll = ({ workouts, tags }) => {
+const SessionsNewTrainings = ({ workouts, tags }) => {
   const router = useRouter()
   const [filter, setFilter] = useState()
 
@@ -99,6 +99,6 @@ const SessionAll = ({ workouts, tags }) => {
   )
 }
 
-SessionAll.Layout = AccountLayout
+SessionsNewTrainings.Layout = AccountLayout
 
-export default SessionAll
+export default SessionsNewTrainings

@@ -2,7 +2,7 @@ import showdown from 'showdown'
 import { useEffect, useState } from 'react'
 
 const Title = ({
-  children = 'This is a title',
+  children = '',
   type = '2',
   center = false,
   html = true,

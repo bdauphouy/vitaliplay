@@ -9,7 +9,8 @@ import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 export const Exercice = ({ title, time, image }) => {
   return (
@@ -42,27 +43,29 @@ export const getServerSideProps = async ({ req, query }) => {
   return { props: {} }
 }
 
-const SessionsAll1 = () => {
+const SessionsPrograms1 = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
-  const [workout, setWorkout] = useState([])
+  const [program, setProgram] = useState([])
+  const { getPage, accountPages } = useContext(LinksContext)
 
   useEffect(() => {
-    const fetchWorkout = async () => {
+    const fetchProgram = async () => {
       const res = await fetchAPIWithToken(
-        `/workouts/${router.query.id}?saveToHistory=true&[populate][series][populate]=*&[populate][tags][populate]=*`,
+        `/programs/${router.query.id}`,
         getToken(),
-        false
+        false,
+        ['image', 'workouts']
       )
 
       if (res.data) {
-        setWorkout(res.data.attributes)
+        setProgram(res.data.attributes)
       }
     }
 
-    fetchWorkout()
+    fetchProgram()
   }, [])
 
   return (
@@ -72,58 +75,41 @@ const SessionsAll1 = () => {
           Retour
         </Cta>
       </div>
-      <div className="px-6 md:px-24">
-        <div className="mt-6 flex max-w-3xl flex-col gap-3 lg:gap-4">
-          <Title type="1">{workout.name}</Title>
-          {workout.duration && workout.level && workout.tags && (
-            <Subtitle type="3" html={false}>
-              {workout.duration} min - {workout.level} -{' '}
-              {workout.tags?.data[0].attributes.name}
-            </Subtitle>
-          )}
-        </div>
-        <iframe
-          className="mt-8 aspect-video w-full lg:mt-12"
-          src={workout.videoLink}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      </div>
-      {workout.series?.length > 0 ? (
-        <div className="mx-auto max-w-6xl px-6 md:px-24">
-          <h2 className="mt-10 font-head text-[1.25rem] font-semibold text-dark-900 lg:mb-2 lg:mt-16 lg:text-3xl lg:font-bold">
-            Programme de la séance
-          </h2>
-          <div className="space-y-10 lg:space-y-16">
-            {workout.series.map((serie, i) => {
-              console.log(serie.exercises)
+
+      <div className="mt-6 flex flex-col gap-12">
+        {!program.workouts?.length > 0 && (
+          <Row type="none" title={program.name} mobile={true}>
+            {program.workouts?.data.map((workout) => {
               return (
-                <div key={i}>
-                  <Subtitle type="3" html={false}>
-                    Série {i + 1} sur {workout.series.length}
-                  </Subtitle>
-                  <div className="mt-4 space-y-4 lg:mt-6 lg:space-y-8">
-                    {serie.exercises?.map((exercise) => {
-                      return (
-                        <Exercice
-                          key={exercise.id}
-                          title={exercise.name}
-                          time={`${exercise.durationMinutes} minute${
-                            exercise.durationMinutes > 1 ? 's' : ''
-                          }`}
-                          image={'/bg-card.png'}
-                        />
-                      )
-                    })}
-                  </div>
-                </div>
+                <Link
+                  key={workout.id}
+                  href={`${
+                    getPage(accountPages, 'pageName', 'Séances').path
+                  }/toutes-les-seances/${workout.id}`}
+                  passHref
+                >
+                  <a>
+                    <Card
+                      tag={workout.attributes.tags?.data[0]}
+                      title={workout.attributes.name}
+                      type="séances"
+                      mobile={!isMediumScreen}
+                      duration={workout.attributes.duration}
+                      level={workout.attributes.level}
+                      bg={
+                        process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        workout.attributes.image.data.attributes.formats.medium
+                          .url
+                      }
+                    />
+                  </a>
+                </Link>
               )
             })}
-          </div>
-        </div>
-      ) : null}
+          </Row>
+        )}
+      </div>
+
       {/* {otherExercices.length > 0 ? (
         <div className="mt-12 lg:mt-28">
           <Row title="Découvrez d'autres séances" button={false}>
@@ -161,6 +147,6 @@ const SessionsAll1 = () => {
   )
 }
 
-SessionsAll1.Layout = AccountLayout
+SessionsPrograms1.Layout = AccountLayout
 
-export default SessionsAll1
+export default SessionsPrograms1

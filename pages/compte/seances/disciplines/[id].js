@@ -9,7 +9,8 @@ import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
+import { LinksContext } from '@/contexts/LinksContext'
 
 export const Exercice = ({ title, time, image }) => {
   return (
@@ -29,7 +30,7 @@ export const Exercice = ({ title, time, image }) => {
   )
 }
 
-export const getServerSideProps = async ({ req, query }) => {
+export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
     return {
       redirect: {
@@ -42,28 +43,32 @@ export const getServerSideProps = async ({ req, query }) => {
   return { props: {} }
 }
 
-const SessionsAll1 = () => {
+const SessionsDisciplines1 = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
-  const [workout, setWorkout] = useState([])
+  const [discipline, setDiscipline] = useState([])
+
+  const { getPage, accountPages } = useContext(LinksContext)
 
   useEffect(() => {
-    const fetchWorkout = async () => {
+    const fetchDiscipline = async () => {
       const res = await fetchAPIWithToken(
-        `/workouts/${router.query.id}?saveToHistory=true&[populate][series][populate]=*&[populate][tags][populate]=*`,
+        `/disciplines/${router.query.id}`,
         getToken(),
         false
       )
 
       if (res.data) {
-        setWorkout(res.data.attributes)
+        setDiscipline(res.data.attributes)
       }
     }
 
-    fetchWorkout()
+    fetchDiscipline()
   }, [])
+
+  // return <></>
 
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-5 pb-10 md:py-16">
@@ -72,58 +77,39 @@ const SessionsAll1 = () => {
           Retour
         </Cta>
       </div>
-      <div className="px-6 md:px-24">
-        <div className="mt-6 flex max-w-3xl flex-col gap-3 lg:gap-4">
-          <Title type="1">{workout.name}</Title>
-          {workout.duration && workout.level && workout.tags && (
-            <Subtitle type="3" html={false}>
-              {workout.duration} min - {workout.level} -{' '}
-              {workout.tags?.data[0].attributes.name}
-            </Subtitle>
-          )}
-        </div>
-        <iframe
-          className="mt-8 aspect-video w-full lg:mt-12"
-          src={workout.videoLink}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        ></iframe>
-      </div>
-      {workout.series?.length > 0 ? (
-        <div className="mx-auto max-w-6xl px-6 md:px-24">
-          <h2 className="mt-10 font-head text-[1.25rem] font-semibold text-dark-900 lg:mb-2 lg:mt-16 lg:text-3xl lg:font-bold">
-            Programme de la séance
-          </h2>
-          <div className="space-y-10 lg:space-y-16">
-            {workout.series.map((serie, i) => {
-              console.log(serie.exercises)
+      <div className="mt-6 flex flex-col gap-12">
+        {discipline.exercices?.length > 0 && (
+          <Row type="none" title={discipline.name} mobile={true}>
+            {discipline.exercices?.map((exercise) => {
               return (
-                <div key={i}>
-                  <Subtitle type="3" html={false}>
-                    Série {i + 1} sur {workout.series.length}
-                  </Subtitle>
-                  <div className="mt-4 space-y-4 lg:mt-6 lg:space-y-8">
-                    {serie.exercises?.map((exercise) => {
-                      return (
-                        <Exercice
-                          key={exercise.id}
-                          title={exercise.name}
-                          time={`${exercise.durationMinutes} minute${
-                            exercise.durationMinutes > 1 ? 's' : ''
-                          }`}
-                          image={'/bg-card.png'}
-                        />
-                      )
-                    })}
-                  </div>
-                </div>
+                <Link
+                  key={exercise.id}
+                  href={`${
+                    getPage(accountPages, 'pageName', 'Séances').path
+                  }/toutes-les-seances/${exercise.id}`}
+                  passHref
+                >
+                  <a>
+                    <Card
+                      tag={{ attributes: exercise.tags[0] }}
+                      title={exercise.name}
+                      type="séances"
+                      mobile={!isMediumScreen}
+                      duration={exercise.duration}
+                      level={exercise.level}
+                      bg={
+                        process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        exercise.image.formats.medium.url
+                      }
+                    />
+                  </a>
+                </Link>
               )
             })}
-          </div>
-        </div>
-      ) : null}
+          </Row>
+        )}
+      </div>
+
       {/* {otherExercices.length > 0 ? (
         <div className="mt-12 lg:mt-28">
           <Row title="Découvrez d'autres séances" button={false}>
@@ -161,6 +147,6 @@ const SessionsAll1 = () => {
   )
 }
 
-SessionsAll1.Layout = AccountLayout
+SessionsDisciplines1.Layout = AccountLayout
 
-export default SessionsAll1
+export default SessionsDisciplines1

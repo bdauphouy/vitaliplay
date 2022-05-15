@@ -42,7 +42,7 @@ export const getServerSideProps = async ({ req, query }) => {
   return { props: {} }
 }
 
-const SessionsAll1 = () => {
+const SessionsSelectedForYou1 = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
@@ -75,12 +75,10 @@ const SessionsAll1 = () => {
       <div className="px-6 md:px-24">
         <div className="mt-6 flex max-w-3xl flex-col gap-3 lg:gap-4">
           <Title type="1">{workout.name}</Title>
-          {workout.duration && workout.level && workout.tags && (
-            <Subtitle type="3" html={false}>
-              {workout.duration} min - {workout.level} -{' '}
-              {workout.tags?.data[0].attributes.name}
-            </Subtitle>
-          )}
+          <Subtitle type="3" html={false}>
+            {workout.duration} min - {workout.level} -{' '}
+            {workout.tags?.data[0].attributes.name}
+          </Subtitle>
         </div>
         <iframe
           className="mt-8 aspect-video w-full lg:mt-12"
@@ -161,6 +159,6 @@ const SessionsAll1 = () => {
   )
 }
 
-SessionsAll1.Layout = AccountLayout
+SessionsSelectedForYou1.Layout = AccountLayout
 
-export default SessionsAll1
+export default SessionsSelectedForYou1

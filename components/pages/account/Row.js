@@ -32,7 +32,9 @@ const Row = ({
 
   useEffect(() => {
     if (type === 'filter') {
-      router.replace(`${router.route}?filtre=${filter}`)
+      router.replace(
+        `${router.route.replace('[id]', router.query.id)}?filtre=${filter}`
+      )
     }
 
     setFilterScreen(false)
@@ -118,7 +120,7 @@ const Row = ({
             : 'flex flex-row gap-3 md:gap-8'
         } ${
           type === 'filter'
-            ? 'mt-4 flex md:mt-8 md:grid  md:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(4,minmax(_224px,_1fr))] 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))]'
+            ? 'mt-4 flex flex-col md:mt-8 md:grid  md:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(4,minmax(_224px,_1fr))] 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))]'
             : type === 'grid'
             ? 'mt-4 flex flex-col md:mt-8 md:grid'
             : 'mt-4 grid grid-cols-[repeat(4,minmax(_224px,_1fr))] items-center gap-3 overflow-x-auto md:mt-8 md:grid-cols-[repeat(4,minmax(_288px,_1fr))] xl:grid-cols-[repeat(4,minmax(_224px,_1fr))] 2xl:grid-cols-[repeat(4,minmax(_288px,_1fr))]'

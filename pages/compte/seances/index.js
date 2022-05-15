@@ -23,11 +23,42 @@ export const getServerSideProps = async ({ req }) => {
     ['tags', 'image']
   )
 
-  return { props: { workouts: workouts.data } }
+  const recommended = await fetchAPIWithToken(
+    '/users/me/workouts/recommended',
+    req.cookies.jwt,
+    false,
+    ['tags', 'image']
+  )
+
+  const disciplines = await fetchAPIWithToken(
+    '/disciplines',
+    req.cookies.jwt,
+    false
+  )
+
+  const programs = await fetchAPIWithToken(
+    '/programs',
+    req.cookies.jwt,
+    false,
+    ['image']
+  )
+
+  return {
+    props: {
+      workouts: workouts.data,
+      recommended: recommended.data,
+      disciplines: disciplines.data.attributes,
+      programs: programs.data,
+    },
+  }
 }
 
-const Sessions = ({ workouts }) => {
+const Sessions = ({ workouts, recommended, disciplines, programs }) => {
   const router = useRouter()
+
+  console.log(programs)
+
+  // return <></>
 
   return (
     <div className="mt-20">
@@ -65,6 +96,83 @@ const Sessions = ({ workouts }) => {
                       process.env.NEXT_PUBLIC_STRAPI_API_URL +
                         workout.attributes.image.data.attributes.formats.medium
                           .url || '/bg-card.png'
+                    }
+                  />
+                </a>
+              </Link>
+            )
+          })}
+        </Row>
+        <Row
+          title="Sélectionnées pour vous"
+          path={`${router.asPath}/selectionnees-pour-vous`}
+        >
+          {recommended.map((workout) => {
+            return (
+              <Link
+                key={workout.id}
+                href={`${router.asPath}/selectionnees-pour-vous/${workout.id}`}
+                passHref
+              >
+                <a>
+                  <Card
+                    tag={workout.attributes.tags?.data[0]}
+                    title={workout.attributes.name}
+                    type="séances"
+                    duration={workout.attributes.duration}
+                    level={workout.attributes.level}
+                    subtitle={workout.attributes.description}
+                    bg={
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                      workout.attributes.image.data.attributes.formats.medium
+                        .url
+                    }
+                  />
+                </a>
+              </Link>
+            )
+          })}
+        </Row>
+        <Row title="Disciplines" path={`${router.asPath}/disciplines`}>
+          {disciplines.map((discipline) => {
+            return (
+              <Link
+                key={discipline.id}
+                href={`${router.asPath}/disciplines/${discipline.id}`}
+                passHref
+              >
+                <a>
+                  <Card
+                    title={discipline.attributes.name}
+                    type="catégorie"
+                    bg={
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        discipline.attributes.image.data.attributes.formats
+                          .medium.url || '/bg-card.png'
+                    }
+                  />
+                </a>
+              </Link>
+            )
+          })}
+        </Row>
+        <Row title="Programmes" path={`${router.asPath}/programmes`}>
+          {programs.map((program) => {
+            return (
+              <Link
+                key={program.id}
+                href={`${router.asPath}/programmes/${program.id}`}
+                passHref
+              >
+                <a>
+                  <Card
+                    type="programme"
+                    title={program.attributes.name}
+                    subtitle={program.attributes.description}
+                    bg={
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                      program.attributes.image.data.attributes.formats.medium
+                        .url
                     }
                   />
                 </a>
