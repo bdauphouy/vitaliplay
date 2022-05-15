@@ -17,9 +17,11 @@ import CheckoutLayout from '@/components/layouts/CheckoutLayout'
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const PaymentForm = () => {
-  const { getPage, accountPages } = useContext(LinksContext)
+  const { getPage, accountPages, checkoutPages } = useContext(LinksContext)
 
   const router = useRouter()
+
+  const { clientSecret, selectedPaymentMethod } = router.query
 
   const isMediumScreen = useMediaQuery('max-width: 768px')
 
@@ -36,23 +38,23 @@ const PaymentForm = () => {
     }
   }
 
-  // const confirmPayment = async () => {
-  //   const stripe = await stripePromise
+  const confirmPayment = async () => {
+    const stripe = await stripePromise
 
-  //   const { paymentIntent, paymentIntentError } =
-  //     await stripe.confirmCardPayment(checkout.clientSecret, {
-  //       setup_future_usage: 'off_session',
-  //       payment_method: selectedPaymentMethod,
-  //     })
+    const { paymentIntent, paymentIntentError } =
+      await stripe.confirmCardPayment(clientSecret, {
+        setup_future_usage: 'off_session',
+        payment_method: selectedPaymentMethod,
+      })
 
-  //   if (paymentIntentError) {
-  //     console.log(paymentIntentError)
-  //     // TODO: handle error
-  //     return
-  //   }
+    if (paymentIntentError) {
+      console.log(paymentIntentError)
+      // TODO: handle error
+      return
+    }
 
-  //   await router.push(getPage(checkoutPages, 'pageName', 'Succès').path)
-  // }
+    await router.push(getPage(checkoutPages, 'pageName', 'Succès').path)
+  }
 
   return (
     <form onSubmit={handleSubmit}>
@@ -76,15 +78,7 @@ const PaymentForm = () => {
           </div>
         </div>
         <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
-          <div
-          // onClick={() =>
-          //   router.push(
-          //     `${
-          //       getPage(accountPages, 'pageName', 'Profil').path
-          //     }/mes-cartes-et-factures`
-          //   )
-          // }
-          >
+          <div onClick={confirmPayment}>
             <Cta size={buttonSize} buttonType="submit">
               Enregister et payer*
             </Cta>

@@ -7,8 +7,9 @@ import { useRouter } from 'next/router'
 import Subtitle from '@/components/utils/Subtitle'
 import Link from 'next/link'
 import AccountLayout from '@/components/layouts/AccountLayout'
-import { fetchAPIWithToken } from '@/lib/api'
+import { fetchAPIWithToken, getToken } from '@/lib/api'
 import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
 export const Exercice = ({ title, time, image }) => {
   return (
@@ -37,26 +38,32 @@ export const getServerSideProps = async ({ req, query }) => {
       },
     }
   }
-  const workouts = await fetchAPIWithToken(
-    `/workouts`,
-    req.cookies.jwt,
-    false,
-    ['tags', 'series']
-  )
 
-  const workout = workouts.data.find((workout) => {
-    return workout.id === parseInt(query.id)
-  })
-
-  return { props: { workout: workout.attributes } }
+  return { props: {} }
 }
 
-const SessionsNewTrainings1 = ({ workout }) => {
+const SessionsNewTrainings1 = () => {
   const router = useRouter()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
-  console.log(workout)
+  const [workout, setWorkout] = useState([])
+
+  useEffect(() => {
+    const fetchWorkout = async () => {
+      const res = await fetchAPIWithToken(
+        `/workouts/${router.query.id}?saveToHistory=true&[populate][series][populate]=*&[populate][tags][populate]=*`,
+        getToken(),
+        false
+      )
+
+      if (res.data) {
+        setWorkout(res.data.attributes)
+      }
+    }
+
+    fetchWorkout()
+  }, [])
 
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-5 pb-10 md:py-16">
@@ -70,7 +77,7 @@ const SessionsNewTrainings1 = ({ workout }) => {
           <Title type="1">{workout.name}</Title>
           <Subtitle type="3" html={false}>
             {workout.duration} min - {workout.level} -{' '}
-            {workout.tags.data[0].attributes.name}
+            {workout.tags?.data[0].attributes.name}
           </Subtitle>
         </div>
         <iframe
@@ -89,14 +96,14 @@ const SessionsNewTrainings1 = ({ workout }) => {
           </h2>
           <div className="space-y-10 lg:space-y-16">
             {workout.series.map((serie, i) => {
-              console.log(serie)
+              console.log(serie.exercises)
               return (
                 <div key={i}>
                   <Subtitle type="3" html={false}>
                     Série {i + 1} sur {workout.series.length}
                   </Subtitle>
                   <div className="mt-4 space-y-4 lg:mt-6 lg:space-y-8">
-                    {serie.exercises.map((exercise) => {
+                    {serie.exercises?.map((exercise) => {
                       return (
                         <Exercice
                           key={exercise.id}

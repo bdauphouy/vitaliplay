@@ -36,7 +36,7 @@ export const getServerSideProps = async ({ req }) => {
     ['physical', 'wellBeing', 'dailyActivity']
   )
 
-  return { props: { checkups: checkups.data.data.reverse() } }
+  return { props: { checkups: checkups.data.data } }
 }
 
 const MyHealthSpace = ({ content, checkups }) => {

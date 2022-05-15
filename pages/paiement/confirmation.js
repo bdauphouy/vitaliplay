@@ -10,11 +10,32 @@ import { useRouter } from 'next/router'
 import CreditCardInfo from '@/components/pages/account/CreditCardInfo'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
-import { getToken, getUserSavedCards, postAPIWithToken } from '@/lib/api'
+import {
+  fetchAPIWithToken,
+  getToken,
+  getUserSavedCards,
+  postAPIWithToken,
+} from '@/lib/api'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
 import { loadStripe } from '@stripe/stripe-js'
 import { CardElement, Elements } from '@stripe/react-stripe-js'
 import Spin from '@/components/utils/Spin'
+
+export const getServerSideProps = async ({ req }) => {
+  const savedCards = await fetchAPIWithToken(
+    '/users/me/saved-cards',
+    req.cookies.jwt,
+    false
+  )
+
+  return {
+    props: {
+      savedCards: savedCards?.paymentMethods
+        ? savedCards.paymentMethods
+        : savedCards,
+    },
+  }
+}
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -116,7 +137,7 @@ const CheckoutConfirm = () => {
 
     if (paymentIntentError) {
       console.log(paymentIntentError)
-      // TODO: handle error
+      router.push(getPage(checkoutPages, 'pageName', 'Erreur').path)
       return
     }
 
@@ -144,7 +165,8 @@ const CheckoutConfirm = () => {
                   checkoutPages,
                   'pageName',
                   'Ajouter un moyen de paiement'
-                ).path
+                ).path +
+                `?clientSecret=${checkout.clientSecret}&selectedPaymentMethod=${selectedPaymentMethod}`
               }
               passHref
             >
@@ -156,16 +178,28 @@ const CheckoutConfirm = () => {
             </Link>
           </div>
           <div className="mt-3 space-y-4 md:mt-2">
-            {/* <CreditCardInfo
-            id="1"
-            name="selectedCard"
-            cardType={cardInfo?.way}
-            cardNumber={cardInfo?.cardNumber}
-            cardName={cardInfo?.name}
-            cardExpires={cardInfo?.expires}
-            checked={formik.values.selectedCard === '1'}
-            onChange={formik.handleChange}
-          /> */}
+            {savedCards.length > 0 ? (
+              <>
+                {savedCards.map((savedCard) => {
+                  return (
+                    <CreditCardInfo
+                      key={savedCard.id}
+                      id="1"
+                      name="defaultCard"
+                      cardType={savedCard.card.brand}
+                      last4={savedCard.card.last4}
+                      cardName={savedCard.customer}
+                      expMonth={savedCard.card.exp_month}
+                      expYear={savedCard.card.exp_year}
+                      checked={formik.values.defaultCard === '1'}
+                      onChange={formik.handleChange}
+                    />
+                  )
+                })}
+              </>
+            ) : (
+              <Subtitle>Vous n'avez pas de carte enregistrée</Subtitle>
+            )}
           </div>
         </div>
         <div className="mt-8">
@@ -173,9 +207,6 @@ const CheckoutConfirm = () => {
             <h3 className="font-body text-sm font-bold text-dark-900">
               Détails de la commande
             </h3>
-            <Cta type="link" size="s" arrow="right">
-              Ajouter une adresse de facturation
-            </Cta>
           </div>
           <div className="mt-3 md:mt-2">
             {orderId ? (

@@ -146,6 +146,12 @@ export const LinksContextProvider = ({ children }) => {
       path: `${CHECKOUT_PREFIX}/succes`,
     },
     {
+      id: 6,
+      pageName: 'Erreur',
+      path: `${CHECKOUT_PREFIX}/erreur`,
+    },
+    {
+      id: 7,
       pageName: 'Ajouter un moyen de paiement',
       path: `${CHECKOUT_PREFIX}/ajouter-un-moyen-de-paiement`,
     },
