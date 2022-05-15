@@ -65,7 +65,6 @@ const SignupStart = ({ signup }) => {
     onSubmit: async (values) => {
       setLoading(true)
 
-      console.log(values, civility)
       const res = await postAPI('/auth/local/register', {
         username: uuidv4(),
         email: values.email,

@@ -63,8 +63,6 @@ const DailyActivityModerateActivity = () => {
         'vitaliplay.checkup.store'
       )
 
-      console.log(JSON.parse(checkupData))
-
       const fetchCheckup = async () => {
         const data = await postAPIWithToken(
           '/checkups',
@@ -72,7 +70,6 @@ const DailyActivityModerateActivity = () => {
           getToken()
         )
 
-        console.log(data)
         if (data.data) {
           window.localStorage.setItem(
             'vitaliplay.checkup.score',

@@ -33,8 +33,6 @@ export const CheckupContextProvider = ({ children }) => {
       }
 
       setCheckup(data)
-
-      console.log(data)
     }
 
     fetchCheckup()

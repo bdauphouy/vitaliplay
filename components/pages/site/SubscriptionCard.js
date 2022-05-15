@@ -19,7 +19,6 @@ const SubscriptionCard = ({
   subPage = false,
   program = [],
 }) => {
-  console.log(program)
   const [stampSize, setStampSize] = useState()
 
   const isMediumScreen = useMediaQuery('(min-width: 768px)')

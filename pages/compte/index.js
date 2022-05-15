@@ -114,8 +114,6 @@ const Account = () => {
         false
       )
 
-      console.log(questionnaire)
-
       setQuestionnaire(questionnaire.data?.length > 0)
     }
 

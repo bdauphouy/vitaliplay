@@ -24,8 +24,6 @@ const PhysicalStrength = () => {
     setStore(
       JSON.parse(window.localStorage.getItem('vitaliplay.checkup.store'))
     )
-
-    console.log(checkup)
   }, [])
 
   const formik = useFormik({

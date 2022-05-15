@@ -23,7 +23,6 @@ const ResetPasswordStart = () => {
     validationSchema: ResetPasswordSchema,
     onSubmit: (values) => {
       setLoading(true)
-      console.log(values)
       setLoading(false)
       router.push(`${router.asPath}/confirmation`)
     },

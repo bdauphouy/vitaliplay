@@ -80,8 +80,6 @@ const CheckoutConfirm = () => {
 
     const fetchSavedCards = async () => {
       const cards = await getUserSavedCards(getToken())
-
-      console.log(cards)
     }
 
     fetchSavedCards()
@@ -137,7 +135,6 @@ const CheckoutConfirm = () => {
       })
 
     if (paymentIntentError) {
-      console.log(paymentIntentError)
       router.push(getPage(checkoutPages, 'pageName', 'Erreur').path)
       return
     }

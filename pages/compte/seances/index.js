@@ -56,8 +56,6 @@ export const getServerSideProps = async ({ req }) => {
 const Sessions = ({ workouts, recommended, disciplines, programs }) => {
   const router = useRouter()
 
-  console.log(programs)
-
   // return <></>
 
   return (

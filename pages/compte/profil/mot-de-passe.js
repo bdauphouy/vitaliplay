@@ -21,7 +21,6 @@ const ProfilePassword = () => {
     },
     validationSchema: ProfilePasswordSchema,
     onSubmit: (values) => {
-      console.log(values)
       const updateAccount = async () => {
         setLoading(true)
         await updateAPIWithToken(

@@ -48,8 +48,7 @@ const PaymentForm = () => {
       })
 
     if (paymentIntentError) {
-      console.log(paymentIntentError)
-      // TODO: handle error
+      router.push(getPage(checkoutPages, 'pageName', 'Erreur').path)
       return
     }
 

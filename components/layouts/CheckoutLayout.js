@@ -44,7 +44,6 @@ const CheckoutPreview = ({ children }) => {
           setServerSideError("Ce code est expiré ou n'existe pas.")
         } else {
           setCoupon(data.data.coupon)
-          console.log(data.data.coupon)
 
           if (data.data.coupon.percent_off) {
             setTotalPrice(

@@ -109,40 +109,6 @@ const SessionsDisciplines1 = () => {
           </Row>
         )}
       </div>
-
-      {/* {otherExercices.length > 0 ? (
-        <div className="mt-12 lg:mt-28">
-          <Row title="Découvrez d'autres séances" button={false}>
-            {otherExercices.map((item) => {
-              console.log(item)
-              return (
-                <Link
-                  key={item.id}
-                  href={`/compte/seances/toutes-les-seances/[id]`}
-                  as={`/compte/seances/toutes-les-seances/${item.id}`}
-                  passHref
-                >
-                  <a>
-                    <Card
-                      tagType={item.tags.name}
-                      title={item.name}
-                      type="séances"
-                      duration={item.duration}
-                      level={item.level}
-                      bg={
-                        item.image?.url
-                          ? process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                            item.image?.url
-                          : '/bg-card.png'
-                      }
-                    />
-                  </a>
-                </Link>
-              )
-            })}
-          </Row>
-        </div>
-      ) : null} */}
     </div>
   )
 }

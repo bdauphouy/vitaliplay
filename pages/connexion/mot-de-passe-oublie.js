@@ -24,7 +24,6 @@ const PasswordForgottenStart = () => {
     validationSchema: PasswordForgottenSchema,
     onSubmit: (values) => {
       setLoading(true)
-      console.log(values)
       setLoading(false)
       router.push(
         `${getPage(otherPages, 'pageName', 'Connexion').path}?mdp-oublie=true`

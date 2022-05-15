@@ -21,8 +21,6 @@ export const SurveyContextProvider = ({ children }) => {
       //   return
       // }
 
-      console.log(data)
-
       setSurvey(data)
     }
 

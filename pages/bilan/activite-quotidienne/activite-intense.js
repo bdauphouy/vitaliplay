@@ -39,7 +39,6 @@ const DailyActivityIntenseActivity = () => {
     },
     validationSchema: ActivitySchema,
     onSubmit: (values) => {
-      console.log(values)
       window.localStorage.setItem(
         'vitaliplay.checkup.store',
         JSON.stringify({

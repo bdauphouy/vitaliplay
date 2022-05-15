@@ -99,7 +99,7 @@ const MyHealthSpaceCheckups = ({ checkups }) => {
                         <CheckupPreview
                           mobile={true}
                           date={moment(checkup.attributes.createdAt).format(
-                            '0d/MM/YY'
+                            'DD/MM/YY'
                           )}
                           score={checkup.attributes.globalScore}
                         />

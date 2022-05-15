@@ -11,9 +11,7 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [])
 
-  useEffect(() => {
-    console.log({ isAuth })
-  }, [isAuth])
+  useEffect(() => {}, [isAuth])
 
   return (
     <AuthContext.Provider value={{ isAuth, setIsAuth }}>

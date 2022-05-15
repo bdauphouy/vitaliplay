@@ -12,8 +12,6 @@ const Physical = () => {
 
   const { checkup } = useContext(CheckupContext)
 
-  console.log(checkup)
-
   return (
     <div>
       <Title type="3">{checkup.checkupSteps?.[0].checkupStepName}</Title>

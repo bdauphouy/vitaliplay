@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 
 const Tag = ({ tag }) => {
-  console.log(tag)
   return (
     <div
       style={{ borderColor: tag.color }}
