@@ -96,6 +96,7 @@ const CheckoutConfirm = () => {
             ).subscription.subscriptionType === 'Annuel'
               ? 'year'
               : 'month',
+          // recipient:
         },
         getToken()
       )

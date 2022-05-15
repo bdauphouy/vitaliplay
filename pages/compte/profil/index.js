@@ -24,15 +24,7 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const user = await getUserData(req.cookies.jwt)
-
-  const subscription = await fetchAPIWithToken(
-    '/users/me/subscription',
-    req.cookies.jwt,
-    false
-  )
-
-  return { props: { user, subscription } }
+  return { props: {} }
 }
 
 export const Section = ({ id, icon, title, path = '/' }) => {
@@ -74,7 +66,7 @@ const Spin = () => {
   )
 }
 
-const Profile = ({ user, subscription }) => {
+const Profile = ({}) => {
   const updateProfilePictureInput = useRef()
 
   const [userImage, setUserImage] = useState()
@@ -95,7 +87,24 @@ const Profile = ({ user, subscription }) => {
 
   const [loading, setLoading] = useState(false)
 
+  const [user, setUser] = useState()
+
+  const [subscription, setSubscription] = useState()
+
   useEffect(() => {
+    const fetchSubscription = async () => {
+      setSubscription(
+        await fetchAPIWithToken('/users/me/subscription', getToken(), false)
+      )
+    }
+
+    const fetchUser = async () => {
+      setUser(await getUserData(getToken()))
+    }
+
+    fetchSubscription()
+    fetchUser()
+
     updateProfilePicture()
 
     updateProfilePictureInput.current?.removeEventListener(
@@ -138,12 +147,13 @@ const Profile = ({ user, subscription }) => {
           className="hidden"
         />
         <h2 className="text-center font-head text-lg font-bold text-dark-900 md:text-xl">
-          {user.firstname} {user.lastname}
+          {user?.firstname} {user?.lastname}
         </h2>
 
         <div className="mt-2 lg:mt-3">
           <Subtitle type="4" center={true} html={false}>
-            Abonné jusqu’au {moment(subscription.endDate).format('D MMMM YYYY')}
+            Abonné jusqu’au{' '}
+            {moment(subscription?.endDate).format('D MMMM YYYY')}
           </Subtitle>
         </div>
       </div>

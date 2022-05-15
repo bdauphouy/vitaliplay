@@ -11,7 +11,7 @@ import {
   getUserData,
 } from '@/lib/api'
 import Dropdown from '@/components/utils/Dropdown'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -23,27 +23,35 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
-  const user = await getUserData(req.cookies.jwt)
-
-  return { props: { user } }
+  return { props: {} }
 }
 
-const ProfilePersonalInformation = ({ user }) => {
-
+const ProfilePersonalInformation = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
   const [civility, setCivility] = useState('M')
 
   const [loading, setLoading] = useState(false)
 
+  const [user, setUser] = useState()
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      setUser(await getUserData(getToken()))
+    }
+
+    fetchUser()
+  }, [])
+
   const formik = useFormik({
+    enableReinitialize: true,
     initialValues: {
-      id: user.id,
-      firstname: user.firstname,
-      lastname: user.lastname,
-      birthdate: user.birthdate,
-      zipCode: user.zipCode,
-      email: user.email,
-      phone: user.phone.slice(3),
+      id: user?.id,
+      firstname: user?.firstname,
+      lastname: user?.lastname,
+      birthdate: user?.birthdate,
+      zipCode: user?.zipCode,
+      email: user?.email,
+      phone: user?.phone.slice(3),
     },
 
     onSubmit: (values) => {
@@ -51,21 +59,16 @@ const ProfilePersonalInformation = ({ user }) => {
         ...values,
         phone: '+33' + values.phone,
         civility,
-        sex: civility === 'M' ? 'male' : 'female'
+        sex: civility === 'M' ? 'male' : 'female',
       }
 
       const updateAccount = async () => {
-          setLoading(true)
-          await updateAPIWithToken(
-            `/users/me`,
-            finalData,
-            getToken()
-          )
-          setLoading(false)
+        setLoading(true)
+        await updateAPIWithToken(`/users/me`, finalData, getToken())
+        setLoading(false)
+      }
 
-        }
-
-       updateAccount()
+      updateAccount()
     },
   })
 

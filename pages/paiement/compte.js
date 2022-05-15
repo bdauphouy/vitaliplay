@@ -269,7 +269,7 @@ const CheckoutStart = () => {
             checked={formik.values.account === 'create'}
             onChange={formik.handleChange}
           >
-            Je créer mon compte
+            Je crée mon compte
           </Radio>
 
           <Radio
