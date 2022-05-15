@@ -31,8 +31,8 @@ const PhysicalStrength = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      firstReps: store?.physical?.strength.exo1 || '15',
-      secondReps: store?.physical?.strength.exo2 || '15',
+      firstReps: store?.physical?.strength.arm || '15',
+      secondReps: store?.physical?.strength.leg || '15',
     },
     validationSchema: StrengthSchema,
     onSubmit: (values) => {
