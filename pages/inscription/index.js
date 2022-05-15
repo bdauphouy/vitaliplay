@@ -86,6 +86,7 @@ const SignupStart = ({ signup }) => {
             'Erreur lors de la soumission du formulaire.'
         )
       } else {
+        document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
         document.cookie = `jwt=${res.jwt}`
         setIsAuth(true)
         router.push(`${router.asPath}/confirmation`)

@@ -62,6 +62,7 @@ const CheckoutStart = () => {
           error: res.error.message,
         })
       } else {
+        document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
         document.cookie = `jwt=${res.jwt}`
         setIsAuth(true)
         resolve()
@@ -100,6 +101,7 @@ const CheckoutStart = () => {
           error: res.error.message,
         })
       } else {
+        document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
         document.cookie = `jwt=${res.jwt}`
         setIsAuth(true)
         resolve()
