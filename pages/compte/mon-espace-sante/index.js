@@ -36,7 +36,7 @@ export const getServerSideProps = async ({ req }) => {
     ['physical', 'wellBeing', 'dailyActivity']
   )
 
-  return { props: { checkups: checkups.data.data } }
+  return { props: { checkups: checkups.data.data.reverse() } }
 }
 
 const MyHealthSpace = ({ content, checkups }) => {
@@ -46,13 +46,11 @@ const MyHealthSpace = ({ content, checkups }) => {
     checkups.length > 0 ? checkups[checkups.length - 1] : null
   )
 
-  console.log({ lastCheckup })
-
   const [notes] = useState(
     checkups.map((checkup) => {
       return {
         id: checkup.id,
-        date: moment(checkup.createdAt).format('0d/MM/YY'),
+        date: moment(checkup.createdAt).format('DD/MM/YY'),
         score: checkup.attributes.globalScore,
       }
     })
@@ -124,24 +122,27 @@ const MyHealthSpace = ({ content, checkups }) => {
             </Link>
           </div>
           {checkups.length > 0 &&
-            checkups.slice(0, 3).map((checkup) => {
-              return (
-                <Link
-                  key={checkup.id}
-                  href={`${router.asPath}/bilans/${checkup.id}`}
-                  passHref
-                >
-                  <a>
-                    <div className="flex h-64 py-4 md:h-72">
-                      <CheckupPreview
-                        date={moment(checkup.createdAt).format('0d/MM/YY')}
-                        score={checkup.attributes.globalScore}
-                      />
-                    </div>
-                  </a>
-                </Link>
-              )
-            })}
+            [...checkups]
+              .reverse()
+              .slice(0, 3)
+              .map((checkup) => {
+                return (
+                  <Link
+                    key={checkup.id}
+                    href={`${router.asPath}/bilans/${checkup.id}`}
+                    passHref
+                  >
+                    <a>
+                      <div className="flex h-64 py-4 md:h-72">
+                        <CheckupPreview
+                          date={moment(checkup.createdAt).format('DD/MM/YY')}
+                          score={checkup.attributes.globalScore}
+                        />
+                      </div>
+                    </a>
+                  </Link>
+                )
+              })}
         </Row>
       </div>
       {notes.length > 0 ? (

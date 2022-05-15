@@ -59,7 +59,7 @@ const Account = () => {
 
   const [recommendedWorkout, setRecommendedWorkout] = useState()
 
-  const [history, setHistory] = useState()
+  const [history, setHistory] = useState([])
 
   const [linkSize, setLinkSize] = useState('m')
 
@@ -130,7 +130,26 @@ const Account = () => {
       setRecommendedWorkout(recommended.data?.[0])
     }
 
-    const fetchHistory = async () => {}
+    const fetchHistory = async () => {
+      const history = await fetchAPIWithToken(
+        '/users/me/workouts/history',
+        getToken(),
+        false,
+        ['workout']
+      )
+
+      if (history.data) {
+        const historyIds = []
+
+        const filteredHistory = history.data.filter((workout) => {
+          if (!historyIds.includes(workout.attributes.workout.data.id)) {
+            historyIds.push(workout.attributes.workout.data.id)
+            return workout.attributes.workout
+          }
+        })
+        setHistory(filteredHistory.reverse())
+      }
+    }
 
     fetchRecommendedWorkout()
     fetchHistory()
@@ -256,7 +275,7 @@ const Account = () => {
                       >
                         <CheckupBox
                           date={moment(checkup.attributes.createdAt).format(
-                            '0d/MM/YY'
+                            'DD/MM/YY'
                           )}
                           score={checkup.attributes.globalScore}
                         />
@@ -352,31 +371,33 @@ const Account = () => {
         <div className="flex-[1.5] self-end">
           <Title type="5">Vos dernières séances</Title>
           <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
-            {/* {homeData.exerciceHistory ? (
-              homeData.exerciceHistory.map((exercice) => (
+            {history.length > 0 ? (
+              history.slice(0, 3).map((workout) => (
                 <Link
-                  key={exercice.id}
+                  key={workout.id}
                   href={`${
                     getPage(accountPages, 'pageName', 'Séances').path
-                  }/toutes-les-seances/[id]`}
-                  as={`${
-                    getPage(accountPages, 'pageName', 'Séances').path
-                  }/toutes-les-seances/${exercice.id}`}
+                  }/toutes-les-seances/${workout.attributes.workout.data.id}`}
                   passHref
                 >
                   <a>
                     <CardPreview
-                      title={exercice.name}
-                      duration={exercice.duration}
-                      level={exercice.level}
-                      type={exercice.tags?.id}
+                      title={workout.attributes.workout.data.attributes.name}
+                      duration={
+                        workout.attributes.workout.data.attributes.duration
+                      }
+                      level={workout.attributes.workout.data.attributes.level}
+                      color={
+                        workout.attributes.workout.data.attributes.tags.data[0]
+                          .attributes.color
+                      }
                     />
                   </a>
                 </Link>
               ))
             ) : (
-              <Subtitle type="4">Vous n'avez pas de séance.</Subtitle>
-            )} */}
+              <Subtitle type="4">Vous n'avez pas de dernière séance.</Subtitle>
+            )}
           </div>
         </div>
       </div>

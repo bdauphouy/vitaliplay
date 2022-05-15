@@ -5,32 +5,12 @@ const CardPreview = ({
   title = 'This is a card preview',
   duration = '5',
   level = 'Intermédiaire',
-  type = '1',
+  color = '',
 }) => {
-  const [color, setColor] = useState('border-light-100')
-
-  useEffect(() => {
-    switch (type) {
-      case '1':
-        setColor('border-orange-900')
-        break
-      case '2':
-        setColor('border-green-900')
-        break
-      case '3':
-        setColor('border-yellow-900')
-        break
-      case '4':
-        setColor('border-blue-900')
-        break
-      default:
-        break
-    }
-  }, [type])
-
   return (
     <div
-      className={`${color} relative min-w-[250px] items-center rounded-lg border-l-8 border-solid bg-light-100 px-4 py-4 font-body font-bold shadow-level1 transition-[background-color] duration-300 hover:bg-gray-100`}
+      style={{ borderColor: color }}
+      className={`relative min-w-[250px] items-center rounded-lg border-l-8 border-solid bg-light-100 px-4 py-4 font-body font-bold shadow-level1 transition-[background-color] duration-300 hover:bg-gray-100`}
     >
       <h3 className="w-2/3 font-head text-lg font-bold leading-6 text-dark-900">
         {title}

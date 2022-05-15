@@ -86,50 +86,52 @@ const ProfileHistory = () => {
       <div className="mt-12 space-y-12 lg:mt-20 lg:space-y-16">
         {Object.keys(history).length > 0 ? (
           <>
-            {Object.entries(history).map(([period, workouts]) => {
-              return (
-                <Row key={period} title={period} button={false} mobile={true}>
-                  {workouts.map((workout) => {
-                    return (
-                      <Link
-                        key={workout.id}
-                        href={`${
-                          getPage(accountPages, 'pageName', 'Séances').path
-                        }/toutes-les-seances/${
-                          workout.attributes.workout.data.id
-                        }`}
-                        passHref
-                      >
-                        <a>
-                          <Card
-                            tag={
-                              workout.attributes.workout.data.attributes.tags
-                                .data[0]
-                            }
-                            title={
-                              workout.attributes.workout.data.attributes.name
-                            }
-                            type="séances"
-                            duration={
-                              workout.attributes.workout.data.attributes
-                                .duration
-                            }
-                            level={
-                              workout.attributes.workout.data.attributes.level
-                            }
-                            bg={
-                              process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                              workout.attributes.workout.data.attributes.image
-                                .data.attributes.formats.medium.url
-                            }
-                          />
-                        </a>
-                      </Link>
-                    )
-                  })}
-                </Row>
-              )
-            })}
+            {Object.entries(history)
+              .reverse()
+              .map(([period, workouts]) => {
+                return (
+                  <Row key={period} title={period} button={false} mobile={true}>
+                    {workouts.reverse().map((workout) => {
+                      return (
+                        <Link
+                          key={workout.id}
+                          href={`${
+                            getPage(accountPages, 'pageName', 'Séances').path
+                          }/toutes-les-seances/${
+                            workout.attributes.workout.data.id
+                          }`}
+                          passHref
+                        >
+                          <a>
+                            <Card
+                              tag={
+                                workout.attributes.workout.data.attributes.tags
+                                  .data[0]
+                              }
+                              title={
+                                workout.attributes.workout.data.attributes.name
+                              }
+                              type="séances"
+                              duration={
+                                workout.attributes.workout.data.attributes
+                                  .duration
+                              }
+                              level={
+                                workout.attributes.workout.data.attributes.level
+                              }
+                              bg={
+                                process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                                workout.attributes.workout.data.attributes.image
+                                  .data.attributes.formats.medium.url
+                              }
+                            />
+                          </a>
+                        </Link>
+                      )
+                    })}
+                  </Row>
+                )
+              })}
           </>
         ) : (
           <Subtitle center>Vous n'avez pas d'historique.</Subtitle>

@@ -99,8 +99,6 @@ const CheckupSectionBar = ({ score, type, section, checkup }) => {
 }
 
 const MyHealthSpaceCheckups1 = ({ checkup }) => {
-  console.log(checkup)
-
   const router = useRouter()
 
   const { getPage, accountPages } = useContext(LinksContext)
@@ -138,7 +136,7 @@ const MyHealthSpaceCheckups1 = ({ checkup }) => {
       </div>
       <div className="mt-10 md:mt-6">
         <Row
-          title={`Bilan ${moment(checkup.createdAt).format('0d/DD/YY')}`}
+          title={`Bilan ${moment(checkup.createdAt).format('DD/MM/YY')}`}
           type="grid"
           button={false}
         >
