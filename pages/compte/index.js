@@ -53,11 +53,18 @@ const Account = () => {
 
   const [lives, setLives] = useState()
 
+  const [questionnaire, setQuestionnaire] = useState()
+
   const [checkups, setCheckups] = useState()
+
+  const [recommendedWorkout, setRecommendedWorkout] = useState()
+
+  const [history, setHistory] = useState()
 
   const [linkSize, setLinkSize] = useState('m')
 
-  const { getPage, checkupPages, accountPages } = useContext(LinksContext)
+  const { getPage, checkupPages, surveyPages, accountPages } =
+    useContext(LinksContext)
 
   const [userImage, setUserImage] = useState()
 
@@ -100,6 +107,34 @@ const Account = () => {
       setCheckups(checkups.data.data)
     }
 
+    const fetchQuestionnaire = async () => {
+      const questionnaire = await fetchAPIWithToken(
+        '/question-answer/mine',
+        getToken(),
+        false
+      )
+
+      console.log(questionnaire)
+
+      setQuestionnaire(questionnaire.data.length > 0)
+    }
+
+    const fetchRecommendedWorkout = async () => {
+      const recommended = await fetchAPIWithToken(
+        '/users/me/workouts/recommended',
+        getToken(),
+        false,
+        ['tags', 'image']
+      )
+
+      setRecommendedWorkout(recommended.data?.[0])
+    }
+
+    const fetchHistory = async () => {}
+
+    fetchRecommendedWorkout()
+    fetchHistory()
+    fetchQuestionnaire()
     fetchProfilePicture()
     fetchLives()
     fetchUser()
@@ -152,7 +187,7 @@ const Account = () => {
   return (
     <div className="mt-44 px-6 pb-12 md:px-24">
       <div
-        className={` flex cursor-pointer select-none flex-col items-center p-3 first:rounded-tl-lg last:rounded-tr-lg`}
+        className={`flex cursor-pointer select-none flex-col items-center p-3 first:rounded-tl-lg last:rounded-tr-lg`}
       ></div>
 
       <div className="flex-row justify-between lg:flex">
@@ -236,9 +271,15 @@ const Account = () => {
           </div>
         </div>
         <div className="flex min-w-[224px] flex-1 flex-col md:min-w-[288px]">
-          {/* <Title type="5">{getMidleCardTitle(homeData)}</Title> */}
-          <div className="mt-6 h-full">
-            {/* {!homeData.isQuestionnaireCompleted ? (
+          <Title type="5">
+            {questionnaire
+              ? 'Compléter mon profil'
+              : recommendedWorkout
+              ? 'Votre séance du jour'
+              : 'Prochain live'}
+          </Title>
+          <div className="mt-6 h-full min-h-[288px]">
+            {questionnaire ? (
               <div className="flex h-full flex-col items-start justify-end rounded-lg bg-blue-50 p-6">
                 <h3 className="font-head text-[1.25rem] font-bold leading-6 text-dark-900">
                   Votre profil n’est pas totalement complété
@@ -247,40 +288,42 @@ const Account = () => {
                   Pensez a bien compléter votre profil afin nous puissions nous
                   adapter un maximum à vos capacités physiques
                 </p>
-                <Cta type="primary" size="m">
-                  Compléter mon profil
-                </Cta>
+                <Link
+                  href={getPage(surveyPages, 'pageName', 'Questionnaire').path}
+                  passHref
+                >
+                  <a>
+                    <Cta type="primary" size="m">
+                      Compléter mon profil
+                    </Cta>
+                  </a>
+                </Link>
               </div>
-            ) : homeData.todayExercice?.id ? (
-              <Card
-                tagType={homeData.todayExercice.tags?.id}
-                title={homeData.todayExercice.name}
-                type="séances"
-                duration={homeData.todayExercice.duration}
-                level={homeData.todayExercice.level}
-                bg="/bg-card.png"
-                height="h-full"
-              />
-            ) : homeData.todayLive.id ? (
-              <div
-                style={{
-                  backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
-                }}
-                className="flex h-full flex-col items-center justify-end rounded-lg bg-cover bg-center p-6"
+            ) : recommendedWorkout ? (
+              <Link
+                href={
+                  getPage(accountPages, 'pageName', 'Séances').path +
+                  `/toutes-les-seances/${recommendedWorkout.id}`
+                }
+                passHref
               >
-                <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
-                  {homeData.todayLive?.name}
-                </h3>
-                <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
-                  {formatTime(homeData.todayLive.startTime)} -{' '}
-                  {formatTime(homeData.todayLive.endTime)}
-                </span>
-                <Cta size="m" type="primary">
-                  Mettre un rappel
-                </Cta>
-              </div>
-            ) : null} */}
-            {lives?.next && (
+                <a>
+                  <Card
+                    tag={recommendedWorkout.attributes.tags?.data[0]}
+                    height="h-full md:h-full"
+                    title={recommendedWorkout.attributes.name}
+                    type="séances"
+                    duration={recommendedWorkout.attributes.duration}
+                    level={recommendedWorkout.attributes.level}
+                    bg={
+                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                      recommendedWorkout.attributes.image.data.attributes
+                        .formats.medium.url
+                    }
+                  />
+                </a>
+              </Link>
+            ) : lives?.next ? (
               <div
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
@@ -303,7 +346,7 @@ const Account = () => {
                   Mettre un rappel
                 </Cta>
               </div>
-            )}
+            ) : null}
           </div>
         </div>
         <div className="flex-[1.5] self-end">
