@@ -33,14 +33,14 @@ export const getServerSideProps = async ({ req }) => {
   }
 }
 
-const Invoice = ({ id, period, title, downloadUrl }) => {
+const Invoice = ({ id, period, title, downloadUrl, status }) => {
   return (
     <div
       className={`flex justify-between ${
         id === '0' ? '' : 'border-t-1'
-      } items-center border-solid border-dark-100 p-4`}
+      } items-center border-solid border-dark-100 p-4 first:border-t-0`}
     >
-      <div className="flex flex-col gap-1">
+      <div className={`flex flex-col gap-1 ${status === 'paid' ? 'opacity-100' : 'opacity-40'}`}>
         <span className="font-body text-xs font-bold text-dark-500">
           {period.join(' / ')}
         </span>
@@ -48,11 +48,13 @@ const Invoice = ({ id, period, title, downloadUrl }) => {
           {title}
         </h3>
       </div>
-      <a href={downloadUrl} download>
-        <Cta arrow="right" textColor="text-blue-900" type="link">
-          Télécharger
-        </Cta>
-      </a>
+      {
+        status === 'paid' ? <a href={downloadUrl} download>
+          <Cta arrow="right" textColor="text-blue-900" type="link">
+            Télécharger
+          </Cta>
+        </a> : <Cta textColor="text-blue-900" type="link">{ status === 'deleted' ? 'Annulé' : 'En cours de paiement' }</Cta>
+      }
     </div>
   )
 }
@@ -117,6 +119,7 @@ const ProfileMyCardsAndInvoices = ({ savedCards, invoices }) => {
                   invoice.recurring === 'year' ? 'annuel' : 'mensuel'
                 }`}
                 downloadUrl={invoice.downloadUrl}
+                status={invoice.status}
               />
             )
           })}
