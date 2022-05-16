@@ -22,6 +22,10 @@ module.exports = withPWA({
         source: '/contact',
         destination: '/site/contact',
       },
+      {
+        source: '/changer-mot-de-passe',
+        destination: '/site/changer-mot-de-passe',
+      },
     ]
   },
   pwa: {

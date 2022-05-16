@@ -9,6 +9,7 @@ import useButtonSize from '@/hooks/useButtonSize'
 import PasswordForgottenSchema from '@/schemas/PasswordForgottenSchema'
 import { useState, useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { postAPI } from '@/lib/api'
 
 const PasswordForgottenStart = () => {
   const [loading, setLoading] = useState(false)
@@ -22,9 +23,13 @@ const PasswordForgottenStart = () => {
       email: '',
     },
     validationSchema: PasswordForgottenSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setLoading(true)
+      const res = await postAPI('/auth/forgot-password', {
+        email: values.email,
+      })
       setLoading(false)
+      console.log(res)
       router.push(
         `${getPage(otherPages, 'pageName', 'Connexion').path}?mdp-oublie=true`
       )
