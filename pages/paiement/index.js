@@ -21,9 +21,14 @@ export const getStaticProps = async () => {
 const Checkout = ({ subscriptions }) => {
   const router = useRouter()
 
+  const { setIsAuth } = useContext(AuthContext)
+
   const { getPage, checkoutPages } = useContext(LinksContext)
 
   useEffect(() => {
+    document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
+    setIsAuth(false)
+
     let activeStep = window.localStorage.getItem(
       'vitaliplay.checkout.activeStep'
     )

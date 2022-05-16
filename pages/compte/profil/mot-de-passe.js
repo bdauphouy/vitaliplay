@@ -9,6 +9,34 @@ import { useState } from 'react'
 import { updateAPIWithToken, getToken } from '@/lib/api'
 import ProfilePasswordSchema from '@/schemas/account/ProfilePasswordsSchema'
 
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 const ProfilePassword = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
 

@@ -12,6 +12,34 @@ import BalanceSchema from '@/schemas/checkup/physical/Balance'
 import { LinksContext } from '@/contexts/LinksContext'
 import { CheckupContext } from '@/contexts/CheckupContext'
 
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 const PhysicalBalance = () => {
   const [store, setStore] = useState()
   const { getPage, checkupPages } = useContext(LinksContext)

@@ -18,6 +18,22 @@ export const getServerSideProps = async ({ req, query }) => {
       },
     }
   }
+
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
   const healthConference = await fetchAPIWithToken(
     `/health-conferences/${query.id}`,
     req.cookies.jwt,
@@ -25,7 +41,6 @@ export const getServerSideProps = async ({ req, query }) => {
     ['thumbnail', 'tags']
   )
 
-  
   if (!healthConference.data) {
     return {
       notFound: true,

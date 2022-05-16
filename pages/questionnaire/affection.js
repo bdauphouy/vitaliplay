@@ -24,6 +24,21 @@ export const getServerSideProps = async ({ req }) => {
     }
   }
 
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
   const longTermConditions = await fetchAPIWithToken(
     '/long-term-conditions',
     req.cookies.jwt,

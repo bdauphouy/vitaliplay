@@ -8,11 +8,26 @@ import { ChevronRight } from '@/components/utils/Icons'
 import Calendar from '@/components/pages/account/Calendar'
 import { useState, useEffect } from 'react'
 
-// export const getServerSideProps = async ({ req }) => {
-//   const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
+export const getServerSideProps = async ({ req }) => {
+  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
 
-//   return { props: { lives: lives.data } }
-// }
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
 
 const TheLive = () => {
   const [selectedDate, setSelectedDate] = useState(moment().startOf('day'))

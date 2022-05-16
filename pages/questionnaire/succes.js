@@ -10,6 +10,34 @@ import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 import { SurveyContext } from '@/contexts/SurveyContext'
 
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 const SurveySuccess = () => {
   const { getPage, accountPages } = useContext(LinksContext)
 

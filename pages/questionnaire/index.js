@@ -2,6 +2,34 @@ import { useRouter } from 'next/router'
 import { useEffect, useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 const Survey = () => {
   const router = useRouter()
 

@@ -12,6 +12,34 @@ import FlexibilitySchema from '@/schemas/checkup/physical/Flexibility'
 import { LinksContext } from '@/contexts/LinksContext'
 import { CheckupContext } from '@/contexts/CheckupContext'
 
+export const getServerSideProps = async ({ req, query }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
+  const paid = await fetchAPIWithToken(
+    '/users/me/subscription',
+    req.cookies.jwt,
+    false
+  )
+
+  if (paid.status !== 'finalized') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
+
+  return { props: {} }
+}
+
 const PhysicalFlexibility = () => {
   const [store, setStore] = useState()
   const [currentExercise, setCurrentExercise] = useState(1)
