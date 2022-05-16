@@ -18,7 +18,6 @@ export const getStaticProps = async () => {
 }
 
 const InvitationStart = ({ invitation }) => {
-
   const formik = useFormik({
     initialValues: {
       code: '',
@@ -26,12 +25,22 @@ const InvitationStart = ({ invitation }) => {
     validationSchema: InvitationSchema,
     onSubmit: (values) => {
       const fetchPromoCode = async () => {
-        const data = await fetchAPIWithToken(`/promotion-codes/${values.code}`, getToken(), false) 
+        const data = await fetchAPIWithToken(
+          `/promotion-codes/${values.code}`,
+          getToken(),
+          false
+        )
 
         if (!data.data) {
-          setServerSideError('Ce code est expiré ou n\'existe pas.')
+          setServerSideError("Ce code est expiré ou n'existe pas.")
         } else {
-          router.push(`${router.asPath}/confirmation`)
+          if (data.data.metadata?.vitalipass === 'true') {
+            router.push(`${router.asPath}/confirmation`)
+          } else {
+            setServerSideError(
+              'Ce coupon ne vous permet pas de profiter de Vitaliplay gratuitement.'
+            )
+          }
         }
       }
 

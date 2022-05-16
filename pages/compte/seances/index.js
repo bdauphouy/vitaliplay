@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { getStrapiMedia } from '@/lib/media'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -15,6 +16,13 @@ export const getServerSideProps = async ({ req }) => {
       },
     }
   }
+
+  const workoutsImage = await fetchAPIWithToken(
+    '/content/workout',
+    req.cookies.jwt,
+    false,
+    ['image']
+  )
 
   const workouts = await fetchAPIWithToken(
     '/workouts',
@@ -49,11 +57,12 @@ export const getServerSideProps = async ({ req }) => {
       recommended: recommended.data,
       disciplines: disciplines.data.attributes,
       programs: programs.data,
+      image: workoutsImage.data.attributes.image,
     },
   }
 }
 
-const Sessions = ({ workouts, recommended, disciplines, programs }) => {
+const Sessions = ({ workouts, recommended, disciplines, programs, image }) => {
   const router = useRouter()
 
   // return <></>
@@ -62,11 +71,11 @@ const Sessions = ({ workouts, recommended, disciplines, programs }) => {
     <div className="mt-20">
       <header className="relative h-60 lg:h-96">
         <Image
-          src="/session-header.png"
+          src={getStrapiMedia(image.data.attributes)}
           alt="sessions-header"
           layout="fill"
           placeholder="blur"
-          blurDataURL="/session-header.png"
+          blurDataURL={getStrapiMedia(image.data.attributes.formats.thumbnail)}
           objectFit="cover"
         />
       </header>
