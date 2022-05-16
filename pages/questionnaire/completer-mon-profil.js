@@ -7,6 +7,7 @@ import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import SurveyLayout from '@/components/layouts/SurveyLayout'
 import { SurveyContext } from '@/contexts/SurveyContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {

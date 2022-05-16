@@ -10,6 +10,7 @@ import MeasurementsSchema from '@/schemas/survey/Measurements'
 import { useRouter } from 'next/router'
 import { LinksContext } from '@/contexts/LinksContext'
 import { SurveyContext } from '@/contexts/SurveyContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {

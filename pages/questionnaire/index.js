@@ -1,6 +1,7 @@
 import { useRouter } from 'next/router'
 import { useEffect, useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {

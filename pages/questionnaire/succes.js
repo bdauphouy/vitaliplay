@@ -9,6 +9,7 @@ import { LinksContext } from '@/contexts/LinksContext'
 import { Congrats } from '@/components/utils/Icons'
 import useCongratsSize from '@/hooks/useCongratsSize'
 import { SurveyContext } from '@/contexts/SurveyContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {
