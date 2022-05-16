@@ -6,7 +6,7 @@ import Cta from '@/components/utils/Cta'
 import { useMediaQuery } from '@mui/material'
 import AccountDecorationLayout from '@/components/layouts/AccountDecorationLayout'
 import { useState } from 'react'
-import { updateAPIWithToken, getToken } from '@/lib/api'
+import { updateAPIWithToken, getToken, fetchAPIWithToken } from '@/lib/api'
 import ProfilePasswordSchema from '@/schemas/account/ProfilePasswordsSchema'
 
 export const getServerSideProps = async ({ req, query }) => {
