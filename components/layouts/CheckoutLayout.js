@@ -26,6 +26,7 @@ const CheckoutPreview = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState()
   const [serverSideError, setServerSideError] = useState()
   const [coupon, setCoupon] = useState()
+  const [promotionCode, setPromotionCode] = useState()
 
   const formik = useFormik({
     initialValues: {
@@ -44,6 +45,8 @@ const CheckoutPreview = ({ children }) => {
           setServerSideError("Ce code est expiré ou n'existe pas.")
         } else {
           setCoupon(data.data.coupon)
+
+          setPromotionCode(values.promoCode)
 
           if (data.data.coupon.percent_off) {
             setTotalPrice(
@@ -76,6 +79,15 @@ const CheckoutPreview = ({ children }) => {
   }, [createdAt])
 
   useEffect(() => {
+    if (promotionCode) {
+      setCheckout({
+        ...checkout,
+        promotionCode,
+      })
+    }
+  }, [promotionCode])
+
+  useEffect(() => {
     const localSubscription = window.localStorage.getItem(
       'vitaliplay.checkout.subscription'
     )
@@ -92,7 +104,7 @@ const CheckoutPreview = ({ children }) => {
 
   return (
     <>
-      <CloseNav />
+      <CloseNav/>
       <div className="flex min-h-screen flex-col-reverse justify-end lg:flex-row">
         <div className="lg:flex-[3]">
           {children}
@@ -111,7 +123,8 @@ const CheckoutPreview = ({ children }) => {
             .
           </p>
         </div>
-        <aside className="flex flex-col justify-between bg-light-100 px-6 pt-24 pb-6 shadow-level1 md:px-24 lg:min-w-[400px] lg:flex-[2] lg:px-14 lg:pt-36 lg:pb-10">
+        <aside
+          className="flex flex-col justify-between bg-light-100 px-6 pt-24 pb-6 shadow-level1 md:px-24 lg:min-w-[400px] lg:flex-[2] lg:px-14 lg:pt-36 lg:pb-10">
           <div>
             <h2 className="font-head text-lg font-bold text-blue-900 md:text-xl lg:text-center">
               Récapitulatif de la commande
