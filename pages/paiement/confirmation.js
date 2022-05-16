@@ -107,7 +107,9 @@ const CheckoutConfirm = () => {
 
   useEffect(() => {
     if (store) {
-      setSelectedPaymentMethod(store.paymentMethod.id)
+      if (store.paymentMethod) {
+        setSelectedPaymentMethod(store.paymentMethod.id)
+      }
 
       if (Object.keys(store).includes('cardInfo')) {
         setCardInfo(
