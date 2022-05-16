@@ -16,10 +16,10 @@ const AccountDecorationLayout = ({ children }) => {
         <div className="absolute top-48 right-20 hidden lg:block xl:right-48">
           <Image src={blueOrange} alt="blue-orange" />
         </div>
-        <div className="absolute bottom-48 left-36 hidden lg:block 2xl:left-72">
+        <div className="absolute left-4 bottom-48 hidden lg:block xl:left-36 2xl:left-72">
           <Image src={greenBlue} alt="green-blue" />
         </div>
-        <div className="absolute bottom-48 right-32 hidden lg:block">
+        <div className="absolute bottom-48 right-4 hidden lg:block xl:right-32">
           <Image src={yellowOrange} alt="yellow-orange" />
         </div>
       </div>

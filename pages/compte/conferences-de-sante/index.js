@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { fetchAPIWithToken } from '@/lib/api'
+import { getStrapiMedia } from '@/lib/media'
 import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
@@ -16,6 +17,13 @@ export const getServerSideProps = async ({ req }) => {
       },
     }
   }
+
+  const healthConferencesImage = await fetchAPIWithToken(
+    '/content/health-conferences',
+    req.cookies.jwt,
+    false,
+    ['image']
+  )
 
   const healthConferences = await fetchAPIWithToken(
     '/health-conferences',
@@ -36,11 +44,15 @@ export const getServerSideProps = async ({ req }) => {
   })
 
   return {
-    props: { healthConferences: healthConferences.data, tags },
+    props: {
+      healthConferences: healthConferences.data,
+      tags,
+      image: healthConferencesImage.data.attributes.image,
+    },
   }
 }
 
-const HealthConferences = ({ healthConferences, tags }) => {
+const HealthConferences = ({ healthConferences, tags, image }) => {
   const router = useRouter()
   const [filter, setFilter] = useState()
 
@@ -52,11 +64,11 @@ const HealthConferences = ({ healthConferences, tags }) => {
     <div className="mt-20">
       <header className="relative h-60 lg:h-96">
         <Image
-          src="/session-header.png"
+          src={getStrapiMedia(image.data.attributes)}
           alt="sessions-header"
           layout="fill"
           placeholder="blur"
-          blurDataURL="/session-header.png"
+          blurDataURL={getStrapiMedia(image.data.attributes.formats.thumbnail)}
           objectFit="cover"
         />
       </header>

@@ -105,17 +105,17 @@ const CheckoutConfirm = () => {
     fetchStripe()
   }, [])
 
-  useEffect(() => {
-    if (store) {
-      setSelectedPaymentMethod(store.paymentMethod.id)
+  // useEffect(() => {
+  //   if (store) {
+  //     setSelectedPaymentMethod(store.paymentMethod.id)
 
-      if (Object.keys(store).includes('cardInfo')) {
-        setCardInfo(
-          JSON.parse(Buffer.from(store.cardInfo, 'base64').toString('ascii'))
-        )
-      }
-    }
-  }, [store])
+  //     if (Object.keys(store).includes('cardInfo')) {
+  //       setCardInfo(
+  //         JSON.parse(Buffer.from(store.cardInfo, 'base64').toString('ascii'))
+  //       )
+  //     }
+  //   }
+  // }, [store])
 
   const formik = useFormik({
     initialValues: {
