@@ -1,5 +1,6 @@
 import { createContext, useEffect, useState, useContext } from 'react'
 import { AuthContext } from './AuthContext'
+import { fetchAPI } from '@/lib/api'
 
 export const LinksContext = createContext()
 
@@ -9,6 +10,39 @@ export const LinksContextProvider = ({ children }) => {
   const SURVEY_PREFIX = '/questionnaire'
   const CHECKUP_PREFIX = '/bilan'
   const CHECKOUT_PREFIX = '/paiement'
+
+  useEffect(() => {
+    const fetchSocialNetworks = async () => {
+      const { facebook, instagram, twitter, linkedin } = await fetchAPI(
+        '/social-network'
+      )
+
+      setExternalPages([
+        {
+          pageName: 'Twitter',
+          path: twitter,
+        },
+        {
+          pageName: 'Instagram',
+          path: instagram,
+        },
+        {
+          pageName: 'Facebook',
+          path: facebook,
+        },
+        {
+          pageName: 'Linkedin',
+          path: linkedin,
+        },
+        {
+          pageName: 'Synerghetic',
+          path: 'https://synerghetic.net',
+        },
+      ])
+    }
+
+    fetchSocialNetworks()
+  }, [])
 
   const getPage = (pages, attribute, value) => {
     return pages.find((page) => page[attribute] === value)
@@ -60,10 +94,10 @@ export const LinksContextProvider = ({ children }) => {
     },
   ])
 
-  const [externalPages] = useState([
+  const [externalPages, setExternalPages] = useState([
     {
       pageName: 'Twitter',
-      path: 'https://twitter.com',
+      path: 'https://twitter.com/',
     },
     {
       pageName: 'Instagram',

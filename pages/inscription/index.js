@@ -55,7 +55,7 @@ const SignupStart = ({ signup }) => {
       firstName: '',
       address: '',
       zipCode: '',
-      birthday: formatDate(new Date()),
+      birthday: formatDate(new Date('01/01/1970')),
       email: '',
       phoneNumber: '',
       password: '',

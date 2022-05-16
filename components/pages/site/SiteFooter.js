@@ -27,6 +27,8 @@ const WebsiteFooter = () => {
   const { externalPages, sitePages, otherPages, getPage } =
     useContext(LinksContext)
 
+  console.log(externalPages)
+
   return (
     <>
       <footer className="hidden flex-col pt-36 md:flex">
