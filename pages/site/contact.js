@@ -46,7 +46,7 @@ const Contact = ({ contact }) => {
         name: values.firstName,
         firstname: values.lastName,
         email: values.email,
-        phone: values.phoneNumber,
+        phone: `+33${values.phoneNumber}`,
         message: values.message,
       })
       setLoading(false)
