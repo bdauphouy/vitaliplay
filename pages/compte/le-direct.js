@@ -9,8 +9,6 @@ import Calendar from '@/components/pages/account/Calendar'
 import { useState, useEffect } from 'react'
 
 export const getServerSideProps = async ({ req }) => {
-  const lives = await fetchAPIWithToken('/lives', req.cookies.jwt, false)
-
   const paid = await fetchAPIWithToken(
     '/users/me/subscription',
     req.cookies.jwt,
@@ -39,6 +37,8 @@ const TheLive = () => {
   useEffect(() => {
     const fetchLives = async () => {
       const lives = await fetchAPIWithToken('/lives', getToken(), false)
+
+      console.log(lives.data)
 
       setLives(lives.data)
     }
@@ -129,14 +129,24 @@ const TheLive = () => {
               </div>
             </div>
           </div>
-          <iframe
-            className="mt-12 aspect-video w-full bg-dark-900"
-            src={lives.current?.attributes.attributes.link}
-            title="YouTube video player"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-          ></iframe>
+          <div className="flex flex-col gap-0 lg:flex-row lg:gap-12">
+            <iframe
+              className="mt-12 aspect-video w-full flex-1 bg-dark-900"
+              src={lives.current?.attributes.attributes.liveLink}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+            <iframe
+              className="mt-12 aspect-video w-full flex-[0.5] bg-dark-900"
+              src={lives.current?.attributes.attributes.chatLink}
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          </div>
         </div>
       ) : (
         <div className="mt-20 py-10 px-6 md:py-20 md:px-24">
