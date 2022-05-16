@@ -24,6 +24,7 @@ const CheckoutPreview = ({ children }) => {
   const [orderId, setOrderId] = useState('')
   const [subscription, setSubscription] = useState()
   const [totalPrice, setTotalPrice] = useState()
+  const [basePrice, setBasePrice] = useState()
   const [serverSideError, setServerSideError] = useState()
   const [coupon, setCoupon] = useState()
   const [promotionCode, setPromotionCode] = useState()
@@ -43,17 +44,22 @@ const CheckoutPreview = ({ children }) => {
 
         if (!data.data) {
           setServerSideError("Ce code est expiré ou n'existe pas.")
+
+          setCoupon(null)
+          setPromotionCode(null)
+          setTotalPrice(basePrice)
         } else {
+          setServerSideError(null)
+
           setCoupon(data.data.coupon)
 
           setPromotionCode(values.promoCode)
 
           if (data.data.coupon.percent_off) {
-            setTotalPrice(
-              (price) => price - (price * data.data.coupon.percent_off) / 100
+            setTotalPrice(basePrice - (basePrice * data.data.coupon.percent_off) / 100
             )
           } else {
-            setTotalPrice((price) => price - data.data.coupon.amount_off)
+            setTotalPrice(basePrice - data.data.coupon.amount_off)
           }
         }
       }
@@ -99,6 +105,7 @@ const CheckoutPreview = ({ children }) => {
       setSubscription(parsedSubscription.subscription)
 
       setTotalPrice(parsedSubscription.subscription.subscriptionPrice)
+      setBasePrice(parsedSubscription.subscription.subscriptionPrice)
     }
   }, [])
 
@@ -182,7 +189,7 @@ const CheckoutPreview = ({ children }) => {
                   {coupon.percent_off
                     ? `${coupon.percent_off}%`
                     : `${coupon.amount_off}€`}{' '}
-                  avec le code {formik.values.promoCode.toUpperCase()}
+                  avec le code {promotionCode}
                 </p>
               )}
             </div>
