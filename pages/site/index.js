@@ -22,6 +22,7 @@ export const getStaticProps = async () => {
     'image',
     'partners',
     'solutionBoxes',
+    'video',
   ])
 
   const subscriptions = await fetchAPI('/content/subscriptions', [
@@ -42,6 +43,8 @@ const Home = ({ home, subscriptions }) => {
 
     return int.toString(2)
   }
+
+  console.log(home)
 
   useEffect(() => {
     window.localStorage.removeItem('vitaliplay.checkout.activeStep')
@@ -144,16 +147,9 @@ const Home = ({ home, subscriptions }) => {
           </div>
         </div>
         <div className="relative mt-10 h-112 w-80 self-end lg:mt-0 lg:h-full lg:w-2/5 lg:self-stretch">
-          <Image
-            src={getStrapiMedia(home.video?.data.attributes)}
-            alt="homepage"
-            layout="fill"
-            placeholder="blur"
-            blurDataURL={getStrapiMedia(
-              home.video?.data.attributes.formats.thumbnail
-            )}
-            objectFit="cover"
-          />
+          <video muted loop autoPlay className="h-full object-cover">
+            <source src={getStrapiMedia(home.video?.data.attributes)}></source>
+          </video>
         </div>
       </div>
 
