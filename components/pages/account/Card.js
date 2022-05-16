@@ -35,7 +35,7 @@ const Card = ({
           </div>
         ) : type === 'programme' ? (
           <div className="flex h-full w-full flex-col items-center justify-center p-3 md:p-6">
-            <h3 className="font-head text-lg font-bold text-light-100 lg:text-xl">
+            <h3 className="text-center font-head text-lg font-bold text-light-100 lg:text-xl">
               {title}
             </h3>
             <p className="mt-2 text-center font-body text-md font-normal text-dark-50">
@@ -44,7 +44,7 @@ const Card = ({
           </div>
         ) : type === 'conférence' ? (
           <div className="gradien flex h-full w-full flex-col justify-end bg-gradient-to-t from-dark-900 via-transparent to-transparent p-3 md:p-6">
-            <h3 className="font-head text-lg font-bold text-light-100 lg:text-xl">
+            <h3 className="text-center font-head text-lg font-bold text-light-100 lg:text-xl">
               {title}
             </h3>
             <p className="mt-1 font-body text-xs font-normal text-dark-500 sm:text-sm sm:text-dark-50">

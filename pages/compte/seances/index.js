@@ -125,36 +125,38 @@ const Sessions = ({ workouts, recommended, disciplines, programs, image }) => {
             )
           })}
         </Row>
-        <Row
-          title="Sélectionnées pour vous"
-          path={`${router.asPath}/selectionnees-pour-vous`}
-        >
-          {recommended.map((workout) => {
-            return (
-              <Link
-                key={workout.id}
-                href={`${router.asPath}/selectionnees-pour-vous/${workout.id}`}
-                passHref
-              >
-                <a>
-                  <Card
-                    tag={workout.attributes.tags?.data[0]}
-                    title={workout.attributes.name}
-                    type="séances"
-                    duration={workout.attributes.duration}
-                    level={workout.attributes.level}
-                    subtitle={workout.attributes.description}
-                    bg={
-                      process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                      workout.attributes.image.data.attributes.formats.medium
-                        .url
-                    }
-                  />
-                </a>
-              </Link>
-            )
-          })}
-        </Row>
+        {recommended && (
+          <Row
+            title="Sélectionnées pour vous"
+            path={`${router.asPath}/selectionnees-pour-vous`}
+          >
+            {recommended.map((workout) => {
+              return (
+                <Link
+                  key={workout.id}
+                  href={`${router.asPath}/selectionnees-pour-vous/${workout.id}`}
+                  passHref
+                >
+                  <a>
+                    <Card
+                      tag={workout.attributes.tags?.data[0]}
+                      title={workout.attributes.name}
+                      type="séances"
+                      duration={workout.attributes.duration}
+                      level={workout.attributes.level}
+                      subtitle={workout.attributes.description}
+                      bg={
+                        process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        workout.attributes.image.data.attributes.formats.medium
+                          .url
+                      }
+                    />
+                  </a>
+                </Link>
+              )
+            })}
+          </Row>
+        )}
         <Row title="Disciplines" path={`${router.asPath}/disciplines`}>
           {disciplines.map((discipline) => {
             return (
