@@ -12,7 +12,7 @@ import Error from '@/components/utils/Error'
 import Subtitle from '@/components/utils/Subtitle'
 import { LinksContext } from '@/contexts/LinksContext'
 import { CheckupContext } from '@/contexts/CheckupContext'
-import { getToken, postAPIWithToken } from '@/lib/api'
+import { getToken, postAPIWithToken, fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {
@@ -30,7 +30,7 @@ export const getServerSideProps = async ({ req, query }) => {
     false
   )
 
-  if (paid.status !== 'finalized') {
+  if (!(paid.status === 'finalized' || paid.status === 'paid')) {
     return {
       redirect: {
         destination: '/abonnements',

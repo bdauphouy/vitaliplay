@@ -24,7 +24,7 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  if (paid.status !== 'finalized') {
+  if (!(paid.status === 'finalized' || paid.status === 'paid')) {
     return {
       redirect: {
         destination: '/abonnements',

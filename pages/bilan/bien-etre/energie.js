@@ -11,6 +11,7 @@ import EnergySchema from '@/schemas/checkup/well-being/Energy'
 import Error from '@/components/utils/Error'
 import { LinksContext } from '@/contexts/LinksContext'
 import { CheckupContext } from '@/contexts/CheckupContext'
+import { fetchAPIWithToken } from '@/lib/api'
 
 export const getServerSideProps = async ({ req, query }) => {
   if (!req.cookies.jwt) {
@@ -28,7 +29,7 @@ export const getServerSideProps = async ({ req, query }) => {
     false
   )
 
-  if (paid.status !== 'finalized') {
+  if (!(paid.status === 'finalized' || paid.status === 'paid')) {
     return {
       redirect: {
         destination: '/abonnements',

@@ -9,6 +9,7 @@ import { useState } from 'react'
 import { getToken, postAPI } from '@/lib/api'
 import ProfilePasswordSchema from '@/schemas/account/ProfilePasswordsSchema'
 import { useRouter } from 'next/router'
+import Error from '@/components/utils/Error'
 
 const ProfilePassword = () => {
   const isLargeScreen = useMediaQuery('(min-width: 1024px)')
@@ -16,6 +17,8 @@ const ProfilePassword = () => {
   const router = useRouter()
 
   const [loading, setLoading] = useState(false)
+
+  const [serverSideError, setServerSideError] = useState()
 
   const formik = useFormik({
     initialValues: {
@@ -26,16 +29,20 @@ const ProfilePassword = () => {
     onSubmit: (values) => {
       const updateAccount = async () => {
         setLoading(true)
-        await postAPI(
-          `/auth/reset-password`,
-          {
-            code: router.query.code,
-            password: values.password,
-            passwordConfirmation: values.confirmPassword,
-          },
-          getToken()
-        )
+
+        const res = await postAPI(`/auth/reset-password`, {
+          code: router.query.code,
+          password: values.password,
+          passwordConfirmation: values.confirmPassword,
+        })
+
         setLoading(false)
+
+        if (res.error) {
+          setServerSideError(
+            'Le lien pour changer votre mot de passe est invalide ou a déjà été utilisé.'
+          )
+        }
       }
 
       updateAccount()
@@ -69,6 +76,11 @@ const ProfilePassword = () => {
             formik.touched.confirmPassword && formik.errors.confirmPassword
           }
         />
+        {serverSideError && (
+          <div className="lg:col-span-2">
+            <Error>{serverSideError}</Error>
+          </div>
+        )}
         <div className="mt-10 flex flex-wrap justify-center gap-4 lg:col-span-2">
           <Cta loading={loading} size="l" buttonType="submit">
             {isLargeScreen ? 'Sauvegarder les changements' : 'Sauvegarder'}

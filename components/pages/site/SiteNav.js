@@ -61,7 +61,7 @@ const SiteNav = () => {
     const navItems = document.querySelectorAll('.nav-item')
     navItems.forEach((navItem) => {
       const updateMarker = () => {
-        if (!marker) return
+        if (!marker || !marker.current) return
 
         marker.current.style.left = `${navItem.offsetLeft}px`
         marker.current.style.width = `${navItem.offsetWidth}px`
@@ -93,13 +93,16 @@ const SiteNav = () => {
           </div>
         </Link>
         <ul className="relative flex h-full items-center">
-          <div
-            className="absolute bottom-0 h-1 bg-blue-900 transition"
-            ref={marker}
-            style={{
-              transitionProperty: 'width, left',
-            }}
-          ></div>
+          {router.route !== '/site/changer-mot-de-passe' && (
+            <div
+              className="absolute bottom-0 h-1 bg-blue-900 transition"
+              ref={marker}
+              style={{
+                transitionProperty: 'width, left',
+              }}
+            ></div>
+          )}
+
           {sitePages.map((sitePage, i) => {
             return (
               <li
@@ -275,7 +278,7 @@ const SiteNav = () => {
               </Link>
             </h4>
             <h4 className="mt-4 font-body text-sm font-semibold text-dark-500">
-              Vitaliplay &copy; 2021
+              Vitaliplay &copy; 2022
             </h4>
           </div>
         </div>
