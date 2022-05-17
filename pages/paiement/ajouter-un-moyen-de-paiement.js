@@ -8,7 +8,7 @@ import { useMediaQuery } from '@mui/material'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
 import { LinksContext } from '@/contexts/LinksContext'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect, useRef, useState } from 'react'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import { loadStripe } from '@stripe/stripe-js'
 import {
@@ -29,6 +29,19 @@ const PaymentForm = () => {
   const { checkout, setCheckout } = useContext(CheckoutContext)
 
   const [cardName, setCardName] = useState('')
+  const [cardNumberValid, setCardNumberValid] = useState(false)
+  const [cardExpiryValid, setCardExpiryValid] = useState(false)
+  const [cardCvcValid, setCardCvcValid] = useState(false)
+
+  const [cardValidated, setCardValidated] = useState(false)
+
+  useEffect(() => {
+    if (cardName.length > 0 && cardNumberValid && cardExpiryValid && cardCvcValid) {
+      setCardValidated(true)
+    } else {
+      setCardValidated(false)
+    }
+  }, [cardName, cardNumberValid, cardExpiryValid, cardCvcValid])
 
   const router = useRouter()
 
@@ -38,6 +51,41 @@ const PaymentForm = () => {
 
   const elements = useElements()
   const stripe = useStripe()
+
+  const [elementsDefinedEffectTriggered, setElementsDefinedEffectTriggered] = useState(false)
+  useEffect(() => {
+    if (elements && !elementsDefinedEffectTriggered) {
+      setElementsDefinedEffectTriggered(true)
+
+      const cardElementNumber = elements.getElement('cardNumber')
+      const cardElementExpiry = elements.getElement('cardExpiry')
+      const cardElementCvc = elements.getElement('cardCvc')
+
+      cardElementNumber.on('change', function(event) {
+        if (event.error || !event.complete) {
+          setCardNumberValid(false)
+        } else {
+          setCardNumberValid(true)
+        }
+      })
+
+      cardElementExpiry.on('change', function(event) {
+        if (event.error || !event.complete) {
+          setCardExpiryValid(false)
+        } else {
+          setCardExpiryValid(true)
+        }
+      })
+
+      cardElementCvc.on('change', function(event) {
+        if (event.error || !event.complete) {
+          setCardCvcValid(false)
+        } else {
+          setCardCvcValid(true)
+        }
+      })
+    }
+  }, [elements])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -58,8 +106,6 @@ const PaymentForm = () => {
       }
     })
 
-    console.log(paymentMethod)
-
     setCheckout(checkout => ({
       ...checkout,
       selectedPaymentMethod: paymentMethod
@@ -67,6 +113,8 @@ const PaymentForm = () => {
 
     router.back()
   }
+
+  console.log(cardValidated)
 
   return (
     <form onSubmit={handleSubmit}>
@@ -80,25 +128,22 @@ const PaymentForm = () => {
             />
           </div>
           <div style={{ gridArea: 'b' }}>
-            <CardNumberElement />
-            {/*<Input label="Numéro de carte" name="cardNumber" />*/}
+            <Input label="Numéro de carte" name="cardNumber" />
           </div>
           <div style={{ gridArea: 'c' }}>
-            <CardExpiryElement />
-            {/*<Input*/}
-            {/*  label="Date d'expiration"*/}
-            {/*  name="expires"*/}
-            {/*  placeholder="ex. 07/23"*/}
-            {/*/>*/}
+            <Input
+              label="Date d'expiration"
+              name="expires"
+              placeholder="ex. 07/23"
+            />
           </div>
           <div style={{ gridArea: 'd' }}>
-            <CardCvcElement />
-            {/*<Input label="CVC" name="cvc" />*/}
+            <Input label="CVV" name="cvv" />
           </div>
         </div>
         <div className='mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12'>
-          <div onClick={useThisCard}>
-            <Cta size={buttonSize} buttonType='submit'>
+          <div onClick={cardValidated ? useThisCard : () => {}}>
+            <Cta size={buttonSize} buttonType='submit' type={cardValidated ? 'primary' : 'disabled'}>
               Utiliser cette carte
             </Cta>
           </div>

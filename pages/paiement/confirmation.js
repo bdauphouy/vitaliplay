@@ -102,7 +102,10 @@ const CheckoutConfirm = () => {
 
     const fetchSavedCards = async () => {
       const fetchedCards = await getUserSavedCards(getToken())
-      setSavedCards(savedCards => [...savedCards, ...fetchedCards.filter(fetchCard => !savedCards.find(savedCard => savedCard.id === fetchCard.id))])
+
+      if (fetchedCards) {
+        setSavedCards(savedCards => [...savedCards, ...fetchedCards.filter(fetchCard => !savedCards.find(savedCard => savedCard.id === fetchCard.id))])
+      }
     }
 
     fetchSavedCards()
