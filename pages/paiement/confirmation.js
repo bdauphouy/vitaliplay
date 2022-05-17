@@ -14,7 +14,7 @@ import {
   fetchAPIWithToken,
   getToken,
   getUserSavedCards,
-  postAPIWithToken,
+  postAPIWithToken
 } from '@/lib/api'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
 import { loadStripe } from '@stripe/stripe-js'
@@ -32,8 +32,8 @@ export const getServerSideProps = async ({ req }) => {
     props: {
       savedCards: savedCards?.paymentMethods
         ? savedCards.paymentMethods
-        : savedCards,
-    },
+        : savedCards
+    }
   }
 }
 
@@ -51,15 +51,37 @@ const CheckoutConfirm = () => {
   const [endAt, setEndAt] = useState('')
   const [orderId, setOrderId] = useState('')
 
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('')
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(checkout.selectedPaymentMethod)
 
   useEffect(() => {
     if (checkout.createdAt) {
       setCreatedAt(new Date(checkout.createdAt))
     }
 
+    if (!selectedPaymentMethod && checkout.selectedPaymentMethod) {
+      setSelectedPaymentMethod(checkout.selectedPaymentMethod)
+    }
     setOrderId(checkout.subscriptionId)
+
+    if (checkout.selectedPaymentMethod && !savedCards.find(card => card.id === checkout.selectedPaymentMethod)) {
+      setSavedCards(savedCards => [...savedCards, checkout.selectedPaymentMethod])
+    }
   }, [checkout])
+
+  useEffect(() => {
+    if (savedCards.length === 1) {
+      formik.setFieldValue('formik selectedCard', 0)
+    }
+  }, [savedCards])
+
+  useEffect(() => {
+    const foundCardIndex = savedCards.findIndex(card => card.id === selectedPaymentMethod.id)
+
+    if (selectedPaymentMethod && foundCardIndex !== -1) {
+      // formik.values.selectedCard = savedCards.findIndex(card => card.id === selectedPaymentMethod.id)
+      formik.setFieldValue('selectedCard', foundCardIndex)
+    }
+  }, [selectedPaymentMethod])
 
   useEffect(() => {
     if (createdAt) {
@@ -79,7 +101,8 @@ const CheckoutConfirm = () => {
     )
 
     const fetchSavedCards = async () => {
-      const cards = await getUserSavedCards(getToken())
+      const fetchedCards = await getUserSavedCards(getToken())
+      setSavedCards(savedCards => [...savedCards, ...fetchedCards.filter(fetchCard => !savedCards.find(savedCard => savedCard.id === fetchCard.id))])
     }
 
     fetchSavedCards()
@@ -94,7 +117,7 @@ const CheckoutConfirm = () => {
             ).subscription.subscriptionType === 'Annuel'
               ? 'year'
               : 'month',
-          promotionCode: checkout.promotionCode,
+          promotionCode: checkout.promotionCode
         },
         getToken()
       )
@@ -105,23 +128,10 @@ const CheckoutConfirm = () => {
     fetchStripe()
   }, [])
 
-  // useEffect(() => {
-  //   if (store) {
-  //     if (store.paymentMethod) {
-  //       setSelectedPaymentMethod(store.paymentMethod.id)
-  //     }
-
-  //     if (Object.keys(store).includes('cardInfo')) {
-  //       setCardInfo(
-  //         JSON.parse(Buffer.from(store.cardInfo, 'base64').toString('ascii'))
-  //       )
-  //     }
-  //   }
-  // }, [store])
-
   const formik = useFormik({
+    // enableReinitialize: true,
     initialValues: {
-      selectedCard: '1',
+      selectedCard: 0,
     },
   })
 
@@ -133,7 +143,7 @@ const CheckoutConfirm = () => {
     const { paymentIntent, paymentIntentError } =
       await stripe.confirmCardPayment(checkout.clientSecret, {
         setup_future_usage: 'off_session',
-        payment_method: selectedPaymentMethod,
+        payment_method: savedCards[formik.values.selectedCard].id
       })
 
     if (paymentIntentError) {
@@ -146,17 +156,17 @@ const CheckoutConfirm = () => {
 
   return (
     <Elements stripe={stripePromise}>
-      <div className="mt-10 px-6 md:px-24 lg:mt-40">
-        <Title type="3">Confirmer votre commande</Title>
-        <div className="mt-4">
-          <Subtitle type="2">
+      <div className='mt-10 px-6 md:px-24 lg:mt-40'>
+        <Title type='3'>Confirmer votre commande</Title>
+        <div className='mt-4'>
+          <Subtitle type='2'>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Gravida
             eget varius a diam faucibus nec sodales fermentum eget.
           </Subtitle>
         </div>
-        <div className="mt-10">
-          <div className="flex flex-col flex-wrap justify-between sm:flex-row sm:items-center">
-            <h3 className="font-body text-sm font-bold text-dark-900">
+        <div className='mt-10'>
+          <div className='flex flex-col flex-wrap justify-between sm:flex-row sm:items-center'>
+            <h3 className='font-body text-sm font-bold text-dark-900'>
               Informations de paiement
             </h3>
             <Link
@@ -171,27 +181,27 @@ const CheckoutConfirm = () => {
               passHref
             >
               <a>
-                <Cta type="link" size="s" arrow="right">
+                <Cta type='link' size='s' arrow='right'>
                   Ajouter un moyen de paiement
                 </Cta>
               </a>
             </Link>
           </div>
-          <div className="mt-3 space-y-4 md:mt-2">
+          <div className='mt-3 space-y-4 md:mt-2'>
             {savedCards.length > 0 ? (
               <>
-                {savedCards.map((savedCard) => {
+                {savedCards.map((savedCard, i) => {
                   return (
                     <CreditCardInfo
                       key={savedCard.id}
-                      id="1"
-                      name="defaultCard"
+                      id={i}
+                      name={savedCard.name}
                       cardType={savedCard.card.brand}
                       last4={savedCard.card.last4}
                       cardName={savedCard.customer}
                       expMonth={savedCard.card.exp_month}
                       expYear={savedCard.card.exp_year}
-                      checked={formik.values.defaultCard === '1'}
+                      checked={formik.values.selectedCard === i}
                       onChange={formik.handleChange}
                     />
                   )
@@ -202,21 +212,21 @@ const CheckoutConfirm = () => {
             )}
           </div>
         </div>
-        <div className="mt-8">
-          <div className="flex flex-col flex-wrap justify-between sm:flex-row sm:items-center">
-            <h3 className="font-body text-sm font-bold text-dark-900">
+        <div className='mt-8'>
+          <div className='flex flex-col flex-wrap justify-between sm:flex-row sm:items-center'>
+            <h3 className='font-body text-sm font-bold text-dark-900'>
               Détails de la commande
             </h3>
           </div>
-          <div className="mt-3 md:mt-2">
+          <div className='mt-3 md:mt-2'>
             {orderId ? (
               <Radio checked={true}>
-                <div className="mr-6 flex flex-wrap justify-between gap-8">
+                <div className='mr-6 flex flex-wrap justify-between gap-8'>
                   <div>
-                    <h3 className="font-body text-sm font-bold text-blue-900">
+                    <h3 className='font-body text-sm font-bold text-blue-900'>
                       Adresse de facturation
                     </h3>
-                    <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                    <h4 className='mt-1 font-body text-xs font-normal text-dark-500'>
                       {store?.billing?.address}
                       <br />
                       {store?.billing?.city} {store?.billing?.zipCode}
@@ -225,11 +235,11 @@ const CheckoutConfirm = () => {
                   <div>
                     {orderId && (
                       <>
-                        <h3 className="font-body text-sm font-bold text-blue-900">
+                        <h3 className='font-body text-sm font-bold text-blue-900'>
                           Numéro de commande
                         </h3>
 
-                        <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                        <h4 className='mt-1 font-body text-xs font-normal text-dark-500'>
                           {orderId}
                         </h4>
                       </>
@@ -238,11 +248,11 @@ const CheckoutConfirm = () => {
                   <div>
                     {createdAt && endAt && (
                       <>
-                        <h3 className="font-body text-sm font-bold text-blue-900">
+                        <h3 className='font-body text-sm font-bold text-blue-900'>
                           Durée de validité
                         </h3>
 
-                        <h4 className="mt-1 font-body text-xs font-normal text-dark-500">
+                        <h4 className='mt-1 font-body text-xs font-normal text-dark-500'>
                           {createdAt.toLocaleDateString('fr-FR')} au{' '}
                           {endAt.toLocaleDateString('fr-FR')}
                         </h4>
@@ -254,9 +264,9 @@ const CheckoutConfirm = () => {
             ) : (
               <Spin />
             )}
-            <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
-              <div onClick={confirmPayment}>
-                <Cta size={buttonSize} buttonType="submit">
+            <div className='mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12'>
+              <div onClick={savedCards[formik.values.selectedCard] ? confirmPayment : () => {}}>
+                <Cta size={buttonSize} buttonType='submit' type={savedCards[formik.values.selectedCard] ? 'primary' : 'disabled'}>
                   Procéder au paiement*
                 </Cta>
               </div>
