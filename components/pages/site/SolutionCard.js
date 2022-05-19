@@ -5,9 +5,10 @@ import { useContext } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 
 const SolutionCard = ({
+  sectionId,
   icon,
-  title = 'A solution',
-  description = 'This is a solution',
+  title = '',
+  description = '',
   variant,
 }) => {
   const { sitePages, getPage } = useContext(LinksContext)
@@ -29,7 +30,10 @@ const SolutionCard = ({
       </p>
       <div className="mt-8">
         <Link
-          href={getPage(sitePages, 'pageName', 'Notre solution').path}
+          href={
+            getPage(sitePages, 'pageName', 'Notre solution').path +
+            `?section=${sectionId}`
+          }
           passHref
         >
           <a>

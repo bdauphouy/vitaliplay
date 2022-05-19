@@ -121,6 +121,7 @@ const Home = ({ home, subscriptions }) => {
                 className={`lg:max-w-lg ${(i + 2) % 2 !== 0 ? 'lg:mt-16' : ''}`}
               >
                 <SolutionCard
+                  sectionId={i + 1}
                   icon={getStrapiMedia(
                     solution?.solutionBoxIcon.data.attributes
                   )}

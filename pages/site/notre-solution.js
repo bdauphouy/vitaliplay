@@ -6,6 +6,7 @@ import { fetchAPI } from '@/lib/api'
 import { getStrapiMedia } from '@/lib/media'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import SiteLayout from '@/components/layouts/SiteLayout'
+import { useRouter } from 'next/router'
 
 export const getStaticProps = async () => {
   const ourSolution = await fetchAPI('/content/our-solution', ['solutions'])
@@ -21,10 +22,15 @@ const OurSolution = ({ ourSolution }) => {
         keyword: solution.solutionTab,
         title: solution.solutionTitle,
         subtitle: solution.solutionDescription,
-        image: solution.solutionImage.data.attributes,
+        image: solution.solutionImage.data.attributes.formats.large,
+        blurImage: solution.solutionImage.data.attributes.formats.thumbnail,
       }
     })
   )
+
+  console.log(sections)
+
+  const router = useRouter()
 
   const imageRef = useRef()
 
@@ -90,7 +96,9 @@ const OurSolution = ({ ourSolution }) => {
   }
 
   useEffect(() => {
-    const timer = triggerSlide(0)
+    const url = new URLSearchParams(router.asPath.split('?')[1])
+    const section = url.get('section') ? url.get('section') : 1
+    const timer = triggerSlide(parseInt(section) - 1)
     return () => clearTimeout(timer)
   }, [isExtraLargeScreen])
 
@@ -159,12 +167,24 @@ const OurSolution = ({ ourSolution }) => {
             ref={imageRef}
             style={{ transitionProperty: 'opacity' }}
           >
-            <Image
-              src={getStrapiMedia(getSectionById(currentSection).image)}
-              alt="notre solution"
-              layout="fill"
-              objectFit="cover"
-            />
+            {[...Array(5)].map((_, i) => {
+              return (
+                <div
+                  key={i}
+                  className={`${currentSection !== i ? 'hidden' : ''}`}
+                >
+                  <Image
+                    src={getStrapiMedia(getSectionById(i).image)}
+                    alt="notre solution"
+                    layout="fill"
+                    objectFit="cover"
+                    placeholder="blur"
+                    blurDataURL={getStrapiMedia(getSectionById(i).blurImage)}
+                    priority={true}
+                  />
+                </div>
+              )
+            })}
           </div>
         </div>
         <div className="xl:hidden">
