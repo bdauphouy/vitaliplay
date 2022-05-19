@@ -34,7 +34,7 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  if (!(paid.status === 'finalized' || paid.status === 'paid')) {
+  if (paid.status !== 'paid') {
     return {
       redirect: {
         destination: '/abonnements',
@@ -129,7 +129,9 @@ const Account = () => {
         false
       )
 
-      setQuestionnaire(questionnaire.data?.length > 0)
+      console.log(questionnaire)
+
+      setQuestionnaire(questionnaire.data?.[0].attributes.length < 12)
     }
 
     const fetchRecommendedWorkout = async () => {
