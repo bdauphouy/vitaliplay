@@ -178,7 +178,11 @@ const Profile = ({}) => {
           title="Informations personnelles"
           path="/informations-personnelles"
         />
-        <Section id="1" title="Mot de passe" path="/changer-mot-de-passe" />
+        <Section
+          id="1"
+          title="Changer de mot de passe"
+          path="/changer-mot-de-passe"
+        />
         <Section
           id="2"
           title="Informations de santé"

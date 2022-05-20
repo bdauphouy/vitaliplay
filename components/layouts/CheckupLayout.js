@@ -6,7 +6,7 @@ import { CheckupContextProvider } from '@/contexts/CheckupContext'
 
 const CheckupLayout = ({ children }) => {
   const [achievedSteps, setAchievedSteps] = useState([[0, 1, 2], [0]])
-  const { getPage, checkupPages } = useContext(LinksContext)
+  const { getPage, accountPages, checkupPages } = useContext(LinksContext)
   const [currentPath, setCurrentPath] = useState('/bilan')
   const router = useRouter()
 
@@ -49,7 +49,7 @@ const CheckupLayout = ({ children }) => {
 
   return (
     <CheckupContextProvider>
-      <CloseNav />
+      <CloseNav target={getPage(accountPages, 'pageName', 'Accueil').path} />
       <div className="flex min-h-screen flex-col lg:flex-row">
         <aside
           style={{ minWidth: '400px' }}

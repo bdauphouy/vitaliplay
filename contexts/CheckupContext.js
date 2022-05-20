@@ -15,10 +15,6 @@ export const CheckupContextProvider = ({ children }) => {
   const { isAuth } = useContext(AuthContext)
 
   useEffect(() => {
-    // if (!isAuth) {
-    //   router.push(getPage(otherPages, 'pageName', 'Connexion').path)
-    // }
-
     const fetchCheckup = async () => {
       const data = await fetchAPIWithToken(
         '/content/checkup',
