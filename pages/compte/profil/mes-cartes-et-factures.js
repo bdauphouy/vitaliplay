@@ -41,6 +41,23 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
+  const filteredSavedCards = () => {
+    if (!savedCards.paymentMethods) {
+      return []
+    }
+
+    const fingerprints = []
+
+    return savedCards.paymentMethods.filter((savedCard) => {
+      const fingerprint = savedCard.card.fingerprint
+
+      if (!fingerprints.includes(fingerprint)) {
+        fingerprints.push(fingerprint)
+        return savedCard
+      }
+    })
+  }
+
   const invoices = await fetchAPIWithToken(
     '/users/me/invoices',
     req.cookies.jwt,
@@ -49,9 +66,7 @@ export const getServerSideProps = async ({ req }) => {
 
   return {
     props: {
-      savedCards: savedCards?.paymentMethods
-        ? savedCards.paymentMethods
-        : savedCards,
+      savedCards: filteredSavedCards(),
       invoices: invoices.data.invoices,
     },
   }
@@ -98,8 +113,6 @@ const ProfileMyCardsAndInvoices = ({ savedCards, invoices }) => {
     },
   })
 
-  const { getPage, accountPages } = useContext(LinksContext)
-
   return (
     <div className="mt-20 min-h-[calc(100vh_-_165px)] py-10 px-6 md:px-24 lg:py-20">
       <Title type="1" center={true}>
@@ -117,7 +130,6 @@ const ProfileMyCardsAndInvoices = ({ savedCards, invoices }) => {
                     name="defaultCard"
                     cardType={savedCard.card.brand}
                     last4={savedCard.card.last4}
-                    cardName={savedCard.customer}
                     expMonth={savedCard.card.exp_month}
                     expYear={savedCard.card.exp_year}
                     onChange={formik.handleChange}

@@ -18,7 +18,7 @@ import {
 } from '@/lib/api'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
 import { loadStripe } from '@stripe/stripe-js'
-import { CardElement, Elements } from '@stripe/react-stripe-js'
+import { Elements } from '@stripe/react-stripe-js'
 import Spin from '@/components/utils/Spin'
 
 export const getServerSideProps = async ({ req }) => {
@@ -28,11 +28,27 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
+  const filteredSavedCards = () => {
+    if (!savedCards.paymentMethods) {
+      return []
+    }
+
+    const fingerprints = []
+
+    return savedCards.paymentMethods.filter((savedCard) => {
+      const fingerprint = savedCard.card.fingerprint
+      console.log(fingerprint)
+
+      if (!fingerprints.includes(fingerprint)) {
+        fingerprints.push(fingerprint)
+        return savedCard
+      }
+    })
+  }
+
   return {
     props: {
-      savedCards: savedCards?.paymentMethods
-        ? savedCards.paymentMethods
-        : savedCards,
+      savedCards: filteredSavedCards(),
     },
   }
 }
@@ -54,6 +70,23 @@ const CheckoutConfirm = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState(
     checkout.selectedPaymentMethod
   )
+
+  const filteredSavedCards = (savedCards) => {
+    if (!savedCards) {
+      return []
+    }
+
+    const fingerprints = []
+
+    return savedCards.filter((savedCard) => {
+      const fingerprint = savedCard.card.fingerprint
+
+      if (!fingerprints.includes(fingerprint)) {
+        fingerprints.push(fingerprint)
+        return savedCard
+      }
+    })
+  }
 
   useEffect(() => {
     if (checkout.createdAt) {
@@ -150,7 +183,7 @@ const CheckoutConfirm = () => {
   const formik = useFormik({
     // enableReinitialize: true,
     initialValues: {
-      selectedCard: 0,
+      selectedCard: '0',
     },
   })
 
@@ -228,18 +261,17 @@ const CheckoutConfirm = () => {
           <div className="mt-3 space-y-4 md:mt-2">
             {savedCards.length > 0 ? (
               <>
-                {savedCards.map((savedCard, i) => {
+                {filteredSavedCards(savedCards).map((savedCard, i) => {
                   return (
                     <CreditCardInfo
                       key={savedCard.id}
                       id={i}
-                      name={savedCard.name}
+                      name="selectedCard"
                       cardType={savedCard.card.brand}
                       last4={savedCard.card.last4}
-                      cardName={savedCard.customer}
                       expMonth={savedCard.card.exp_month}
                       expYear={savedCard.card.exp_year}
-                      checked={formik.values.selectedCard === i}
+                      checked={formik.values.selectedCard === i.toString()}
                       onChange={formik.handleChange}
                     />
                   )

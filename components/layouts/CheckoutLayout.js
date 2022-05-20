@@ -17,7 +17,8 @@ import { fetchAPIWithToken, getToken } from '@/lib/api'
 
 const CheckoutPreview = ({ children }) => {
   const { checkout, setCheckout } = useContext(CheckoutContext)
-  const { getPage, otherPages, sitePages } = useContext(LinksContext)
+  const { getPage, otherPages, checkoutPages, sitePages } =
+    useContext(LinksContext)
   const router = useRouter()
   const [createdAt, setCreatedAt] = useState('')
   const [endAt, setEndAt] = useState('')
@@ -56,7 +57,8 @@ const CheckoutPreview = ({ children }) => {
           setPromotionCode(values.promoCode)
 
           if (data.data.coupon.percent_off) {
-            setTotalPrice(basePrice - (basePrice * data.data.coupon.percent_off) / 100
+            setTotalPrice(
+              basePrice - (basePrice * data.data.coupon.percent_off) / 100
             )
           } else {
             setTotalPrice(basePrice - data.data.coupon.amount_off)
@@ -111,7 +113,7 @@ const CheckoutPreview = ({ children }) => {
 
   return (
     <>
-      <CloseNav/>
+      <CloseNav />
       <div className="flex min-h-screen flex-col-reverse justify-end lg:flex-row">
         <div className="lg:flex-[3]">
           {children}
@@ -130,8 +132,7 @@ const CheckoutPreview = ({ children }) => {
             .
           </p>
         </div>
-        <aside
-          className="flex flex-col justify-between bg-light-100 px-6 pt-24 pb-6 shadow-level1 md:px-24 lg:min-w-[400px] lg:flex-[2] lg:px-14 lg:pt-36 lg:pb-10">
+        <aside className="flex flex-col justify-between bg-light-100 px-6 pt-24 pb-6 shadow-level1 md:px-24 lg:min-w-[400px] lg:flex-[2] lg:px-14 lg:pt-36 lg:pb-10">
           <div>
             <h2 className="font-head text-lg font-bold text-blue-900 md:text-xl lg:text-center">
               Récapitulatif de la commande
@@ -159,21 +160,24 @@ const CheckoutPreview = ({ children }) => {
                 </span>
               </div>
             </div>
-            <form
-              className="mt-7 border-b-1 border-solid border-dark-100 pb-8"
-              onSubmit={formik.handleSubmit}
-            >
-              <Input
-                label="Possédez-vous un code promo ?"
-                value={formik.values.promoCode}
-                name="promoCode"
-                onChange={formik.handleChange}
-                error={
-                  (formik.touched.promoCode && formik.errors.promoCode) ||
-                  serverSideError
-                }
-              />
-            </form>
+            {router.route !==
+              getPage(checkoutPages, 'pageName', 'Confirmation').path && (
+              <form
+                className="mt-7 border-b-1 border-solid border-dark-100 pb-8"
+                onSubmit={formik.handleSubmit}
+              >
+                <Input
+                  label="Possédez-vous un code promo ?"
+                  value={formik.values.promoCode}
+                  name="promoCode"
+                  onChange={formik.handleChange}
+                  error={
+                    (formik.touched.promoCode && formik.errors.promoCode) ||
+                    serverSideError
+                  }
+                />
+              </form>
+            )}
             <div>
               <div className="mt-6 flex items-start justify-between">
                 <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">
