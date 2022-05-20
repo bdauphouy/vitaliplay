@@ -51,7 +51,15 @@ export const getServerSideProps = async ({ req }) => {
     })
   })
 
-  return { props: { workouts: recommended.data, tags: tags } }
+  return {
+    props: {
+      workouts:
+        recommended.data?.length > 0
+          ? recommended.data
+          : recommended.data.reverse(),
+      tags: tags,
+    },
+  }
 }
 const SessionAll = ({ workouts, tags }) => {
   const router = useRouter()
@@ -71,48 +79,45 @@ const SessionAll = ({ workouts, tags }) => {
         </Cta>
       </div>
       <div className="mt-6 flex flex-col gap-12">
-        {workouts && (
-          <Row
-            title="Sélectionnées pour vous"
-            type="filter"
-            mobile={true}
-            filterOptions={['Tous', ...tags]}
-          >
-            {workouts
-              .filter((workout) => {
-                if (filter === 'Tous') return workout
+        <Row
+          title="Sélectionnées pour vous"
+          type="filter"
+          mobile={true}
+          filterOptions={['Tous', ...tags]}
+        >
+          {workouts
+            .reverse()
+            .filter((workout) => {
+              if (filter === 'Tous') return workout
 
-                return (
-                  workout.attributes.tags.data[0]?.attributes.name === filter
-                )
-              })
-              .map((workout) => {
-                return (
-                  <Link
-                    key={workout.id}
-                    href={`${router.route}/${workout.id}`}
-                    passHref
-                  >
-                    <a>
-                      <Card
-                        tag={workout.attributes.tags.data[0]}
-                        title={workout.attributes.name}
-                        type="séances"
-                        mobile={!isMediumScreen}
-                        duration={workout.attributes.duration}
-                        level={workout.attributes.level}
-                        bg={
-                          process.env.NEXT_PUBLIC_STRAPI_API_URL +
-                          workout.attributes.image.data.attributes.formats
-                            .medium.url
-                        }
-                      />
-                    </a>
-                  </Link>
-                )
-              })}
-          </Row>
-        )}
+              return workout.attributes.tags.data[0]?.attributes.name === filter
+            })
+            .map((workout) => {
+              return (
+                <Link
+                  key={workout.id}
+                  href={`${router.route}/${workout.id}`}
+                  passHref
+                >
+                  <a>
+                    <Card
+                      tag={workout.attributes.tags.data[0]}
+                      title={workout.attributes.name}
+                      type="séances"
+                      mobile={!isMediumScreen}
+                      duration={workout.attributes.duration}
+                      level={workout.attributes.level}
+                      bg={
+                        process.env.NEXT_PUBLIC_STRAPI_API_URL +
+                        workout.attributes.image.data.attributes.formats.medium
+                          .url
+                      }
+                    />
+                  </a>
+                </Link>
+              )
+            })}
+        </Row>
       </div>
     </div>
   )

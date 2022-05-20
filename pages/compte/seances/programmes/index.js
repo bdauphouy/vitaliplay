@@ -66,7 +66,7 @@ const SessionsPrograms = ({ programs }) => {
           title="Tous les programmes"
           path={`${router.asPath}/programmes`}
         >
-          {programs.map((program) => {
+          {programs?.reverse().map((program) => {
             return (
               <Link
                 key={program.id}

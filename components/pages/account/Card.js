@@ -19,7 +19,7 @@ const Card = ({
         }}
         className={`${
           mobile ? 'hidden' : 'flex'
-        } cursor-pointer transition-[filter] duration-300 hover:brightness-75 ${height} drop-shadow-level1 min-w-[224px] flex-col items-start justify-center overflow-hidden rounded-lg bg-light-100 bg-cover bg-center font-body font-bold md:flex md:min-w-[288px] lg:w-full xl:min-w-[224px] 2xl:min-w-[288px]`}
+        } cursor-pointer transition-[filter] duration-300 hover:brightness-75 ${height} drop-shadow-level1 min-w-[224px] flex-col items-start justify-center overflow-hidden rounded-lg bg-light-100 bg-cover bg-center font-body font-bold md:flex md:min-w-[288px] lg:w-full xl:min-w-[250px] 2xl:min-w-[288px]`}
       >
         {type === 'séances' ? (
           <div className="flex h-full w-full flex-col items-start justify-between bg-gradient-to-t from-dark-900 via-transparent to-transparent p-4 md:p-6">

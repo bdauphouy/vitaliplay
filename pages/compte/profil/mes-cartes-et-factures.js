@@ -120,7 +120,6 @@ const ProfileMyCardsAndInvoices = ({ savedCards, invoices }) => {
                     cardName={savedCard.customer}
                     expMonth={savedCard.card.exp_month}
                     expYear={savedCard.card.exp_year}
-                    checked={formik.values.defaultCard === '1'}
                     onChange={formik.handleChange}
                   />
                 )

@@ -39,7 +39,7 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  return { props: { disciplines: disciplines.data.attributes } }
+  return { props: { disciplines: disciplines.data.attributes?.reverse() } }
 }
 const SessionDisciplines = ({ disciplines }) => {
   const router = useRouter()

@@ -51,7 +51,7 @@ export const getServerSideProps = async ({ req }) => {
     })
   })
 
-  return { props: { workouts: workouts.data, tags: tags } }
+  return { props: { workouts: workouts.data.reverse(), tags: tags } }
 }
 const SessionAll = ({ workouts, tags }) => {
   const router = useRouter()
