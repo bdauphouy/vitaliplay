@@ -230,7 +230,7 @@ const Home = ({ home, subscriptions }) => {
                 >
                   <a>
                     <Cta size="l" type="primary">
-                      J'ai un code d'invitation
+                      J'ai un VitaliPass
                     </Cta>
                   </a>
                 </Link>

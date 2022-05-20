@@ -58,7 +58,7 @@ const SignupConfirm = ({ signup }) => {
         >
           <a>
             <Cta size={buttonSize} type="secondary">
-              J'ai un code d'invitation
+              J'ai un VitaliPass
             </Cta>
           </a>
         </Link>

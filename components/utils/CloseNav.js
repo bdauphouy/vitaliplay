@@ -15,7 +15,7 @@ const CloseNav = ({ target = '/' }) => {
 
   return (
     <nav
-      className="fixed top-0 z-50 w-full bg-light-100 px-6 md:px-24 xl:bg-transparent
+      className="fixed top-0 z-50 w-full bg-light-100 px-6 md:px-24
     "
     >
       <div className="flex h-20 w-full items-center justify-between">
