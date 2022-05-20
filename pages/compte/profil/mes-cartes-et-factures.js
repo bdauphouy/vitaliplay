@@ -138,21 +138,23 @@ const ProfileMyCardsAndInvoices = ({ savedCards, invoices }) => {
         <div className="mx-auto mt-12 max-w-4xl rounded-lg border-1 border-solid border-dark-100 lg:mt-16">
           {invoices.map((invoice) => {
             return (
-              <Invoice
-                key={invoice.id}
-                id="1"
-                period={[
-                  moment(invoice.created * 1000).format('DD/MM/YYYY'),
-                  moment(
-                    moment(invoice.created * 1000).add(1, invoice.recurring)
-                  ).format('DD/MM/YYYY'),
-                ]}
-                title={`Abonnement ${
-                  invoice.recurring === 'year' ? 'annuel' : 'mensuel'
-                }`}
-                downloadUrl={invoice.downloadUrl}
-                status={invoice.status}
-              />
+              invoice.status === 'paid' && (
+                <Invoice
+                  key={invoice.id}
+                  id="1"
+                  period={[
+                    moment(invoice.created * 1000).format('DD/MM/YYYY'),
+                    moment(
+                      moment(invoice.created * 1000).add(1, invoice.recurring)
+                    ).format('DD/MM/YYYY'),
+                  ]}
+                  title={`Abonnement ${
+                    invoice.recurring === 'year' ? 'annuel' : 'mensuel'
+                  }`}
+                  downloadUrl={invoice.downloadUrl}
+                  status={invoice.status}
+                />
+              )
             )
           })}
         </div>

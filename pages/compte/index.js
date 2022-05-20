@@ -34,14 +34,16 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  if (paid.status !== 'paid') {
-    return {
-      redirect: {
-        destination: '/abonnements',
-        permanent: true,
-      },
-    }
-  }
+  console.log(paid.status)
+
+  // if (paid.status !== 'paid') {
+  //   return {
+  //     redirect: {
+  //       destination: '/abonnements',
+  //       permanent: true,
+  //     },
+  //   }
+  // }
 
   return {
     props: {},
@@ -131,7 +133,7 @@ const Account = () => {
 
       console.log(questionnaire)
 
-      setQuestionnaire(questionnaire.data?.[0].attributes.length < 12)
+      setQuestionnaire(questionnaire.data?.[0]?.attributes?.length < 12)
     }
 
     const fetchRecommendedWorkout = async () => {
