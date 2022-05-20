@@ -65,7 +65,7 @@ const MyHealthSpace = ({ content, checkups }) => {
     checkups.map((checkup) => {
       return {
         id: checkup.id,
-        date: moment(checkup.createdAt).format('DD/MM/YY'),
+        date: moment(checkup.attributes.createdAt).format('DD/MM/YY'),
         score: checkup.attributes.globalScore,
       }
     })
@@ -150,7 +150,9 @@ const MyHealthSpace = ({ content, checkups }) => {
                     <a>
                       <div className="flex h-64 py-4 md:h-72">
                         <CheckupPreview
-                          date={moment(checkup.createdAt).format('DD/MM/YY')}
+                          date={moment(checkup.attributes.createdAt).format(
+                            'DD/MM/YY'
+                          )}
                           score={checkup.attributes.globalScore}
                         />
                       </div>

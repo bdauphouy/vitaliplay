@@ -67,7 +67,7 @@ const CheckupLayout = ({ children }) => {
                 return (
                   <li key={checkupPage.id}>
                     <div
-                      onClick={() => switchCheckupStep(checkupPage.id)}
+                      // onClick={() => switchCheckupStep(checkupPage.id)}
                       className="flex cursor-pointer items-center"
                     >
                       <div
@@ -122,7 +122,7 @@ const CheckupLayout = ({ children }) => {
 
                         return (
                           <li
-                            onClick={() => switchCheckupStep(subPage.id)}
+                            // onClick={() => switchCheckupStep(subPage.id)}
                             style={{ transitionProperty: 'color' }}
                             className={`cursor-pointer font-body text-sm font-bold uppercase transition ${
                               currentPath === subPage.path

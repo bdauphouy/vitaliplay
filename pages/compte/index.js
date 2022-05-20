@@ -34,16 +34,14 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  console.log(paid.status)
-
-  // if (paid.status !== 'paid') {
-  //   return {
-  //     redirect: {
-  //       destination: '/abonnements',
-  //       permanent: true,
-  //     },
-  //   }
-  // }
+  if (paid.status !== 'paid') {
+    return {
+      redirect: {
+        destination: '/abonnements',
+        permanent: true,
+      },
+    }
+  }
 
   return {
     props: {},

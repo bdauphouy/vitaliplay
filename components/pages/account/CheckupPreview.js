@@ -1,7 +1,7 @@
 import Cta from '../../utils/Cta'
 import { useMediaQuery } from '@mui/material'
 
-const CheckupPreview = ({ mobile = false, date = '01/01/01', score = '0' }) => {
+const CheckupPreview = ({ mobile = false, date = '', score = '0' }) => {
   const isMediumScreen = useMediaQuery('(min-width: 768px)')
 
   return isMediumScreen || !mobile ? (
