@@ -161,23 +161,29 @@ const CheckoutPreview = ({ children }) => {
               </div>
             </div>
             {router.route !==
-              getPage(checkoutPages, 'pageName', 'Confirmation').path && (
-              <form
-                className="mt-7 border-b-1 border-solid border-dark-100 pb-8"
-                onSubmit={formik.handleSubmit}
-              >
-                <Input
-                  label="Possédez-vous un code promo ?"
-                  value={formik.values.promoCode}
-                  name="promoCode"
-                  onChange={formik.handleChange}
-                  error={
-                    (formik.touched.promoCode && formik.errors.promoCode) ||
-                    serverSideError
-                  }
-                />
-              </form>
-            )}
+              getPage(checkoutPages, 'pageName', 'Confirmation').path &&
+              router.route !==
+                getPage(
+                  checkoutPages,
+                  'pageName',
+                  'Ajouter un moyen de paiement'
+                ).path && (
+                <form
+                  className="mt-7 border-b-1 border-solid border-dark-100 pb-8"
+                  onSubmit={formik.handleSubmit}
+                >
+                  <Input
+                    label="Possédez-vous un code promo ?"
+                    value={formik.values.promoCode}
+                    name="promoCode"
+                    onChange={formik.handleChange}
+                    error={
+                      (formik.touched.promoCode && formik.errors.promoCode) ||
+                      serverSideError
+                    }
+                  />
+                </form>
+              )}
             <div>
               <div className="mt-6 flex items-start justify-between">
                 <h2 className="font-body text-base font-bold text-dark-900 md:text-lg">

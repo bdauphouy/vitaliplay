@@ -534,6 +534,62 @@ export const Visa = ({ size = 18 }) => {
   )
 }
 
+export const CB = ({ size = 24 }) => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width={size}
+      height="39.29pt"
+      viewBox="0 0 53.34 39.29"
+      version="1.1"
+    >
+      <defs>
+        <clipPath id="clip1">
+          <path d="M 0 0 L 53 0 L 53 0.015625 L 0 0.015625 Z M 0 0.015625 L 53 0.015625 L 53 39 L 0 39 Z M 0 0.015625 " />
+        </clipPath>
+        <image
+          id="image5"
+          width="267"
+          height="197"
+          xlinkHref="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQsAAADFCAIAAADMokB1AAAABmJLR0QA/wD/AP+gvaeTAAACe0lEQVR4nO3cwVUdMRBFQQk6D6fgmMg/Bb6IQHc7s6iKYDb3PLUB738//xdw8fX0B8CrKQSKQqAoBIpCoCgEikKgKASKQqAoBIpCoCgEikKgKASKQqAoBIpCoCgEikKgKASKQqAoBIpCoCgEikKgKASKQqAoBIpCoMxa8/Q3wHvN3gqBq9k2BO68sqB4ZUHxyoLilQXFKwvKrPX99DfAe7lDoNgQKDYEig2BMnsrBK78PATKbK8suLMhUGwIFP+WBcWGQLEhUGb7707gbvyHQBDcIVBsCBR3CBQbAsUdAsWGQHGHQPEzdSizjw2Bq1lrP/0N8F4KgeJSh2JDoCgEilcWFBsCRSFQFALFHQLFhkBRCJTZRyFw5QiB4pUFxYZAUQgUrywoNgSKDYFiQ6DYECg2BIpCoMz2yoI7GwJl1jlPfwO815zP79PfAO816ygErmwIFIVAmfWrELia9fk8/Q3wXl5ZUGYpBO4UAmWOOwTubAgUGwJljt86gTsbAsUdAsWGQHGHQLEhUNwhUGwIFHcIFBsCxR0CxYZAcYdA8XfqUPydOhR3CBR3CBR3CBSvLCgudShzjg2BK791AsUdAsUrC4pCoCgEikKgfD39AfBqCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECgKgaIQKAqBohAoCoGiECh/FW9vvfz0YB8AAAAASUVORK5CYII="
+        />
+      </defs>
+      <g id="surface1">
+        <g clipPath="url(#clip1)" clipRule="nonzero">
+          <use xlinkHref="#image5" transform="matrix(0.2,0,0,-0.2,0,39.29)" />
+        </g>
+        <path
+          style={{
+            stroke: 'none',
+            fillRule: 'nonzero',
+            fill: 'rgb(100%,100%,100%)',
+            fillOpacity: 1,
+          }}
+          d="M 16.371094 18.769531 L 27.808594 18.769531 C 27.707031 16.507813 27.128906 14.179688 25.382813 12.683594 C 23.300781 10.902344 19.65625 10.242188 16.398438 10.242188 C 13.011719 10.242188 9.261719 10.964844 7.167969 12.878906 C 5.363281 14.527344 4.976563 17.175781 4.976563 19.554688 C 4.976563 22.050781 5.738281 24.953125 7.695313 26.621094 C 9.777344 28.402344 13.148438 28.871094 16.398438 28.871094 C 19.558594 28.871094 22.980469 28.339844 25.050781 26.652344 C 27.113281 24.964844 27.828125 22.125 27.828125 19.554688 L 27.828125 19.542969 L 16.371094 19.542969 "
+        />
+        <path
+          style={{
+            stroke: 'none',
+            fillRule: 'nonzero',
+            fill: 'rgb(100%,100%,100%)',
+            fillOpacity: 1,
+          }}
+          d="M 28.574219 19.546875 L 28.574219 28.457031 L 44.484375 28.457031 L 44.484375 28.445313 C 46.8125 28.328125 48.664063 26.410156 48.664063 24.054688 C 48.664063 21.699219 46.8125 19.65625 44.484375 19.539063 L 44.484375 19.546875 "
+        />
+        <path
+          style={{
+            stroke: 'none',
+            fillRule: 'nonzero',
+            fill: 'rgb(100%,100%,100%)',
+            fillOpacity: 1,
+          }}
+          d="M 48.375 14.683594 C 48.375 12.414063 46.574219 10.613281 44.304688 10.613281 C 44.148438 10.613281 43.953125 10.585938 43.800781 10.601563 L 28.574219 10.601563 L 28.574219 18.769531 L 44.617188 18.769531 C 46.71875 18.585938 48.375 16.832031 48.375 14.683594 "
+        />
+      </g>
+    </svg>
+  )
+}
+
 export const AmericanExpress = ({ size = 18 }) => {
   return (
     <svg

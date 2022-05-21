@@ -10,6 +10,8 @@ import { useRouter } from 'next/router'
 import CreditCardInfo from '@/components/pages/account/CreditCardInfo'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
+import { Mastercard, Visa, CB } from '@/components/utils/Icons'
+import { useMediaQuery } from '@mui/material'
 import {
   fetchAPIWithToken,
   getToken,
@@ -134,6 +136,8 @@ const CheckoutConfirm = () => {
     }
   }, [createdAt])
 
+  const isMediumScreen = useMediaQuery('(min-width: 768px)')
+
   const buttonSize = useButtonSize()
 
   const router = useRouter()
@@ -240,14 +244,13 @@ const CheckoutConfirm = () => {
             <h3 className="font-body text-sm font-bold text-dark-900">
               Informations de paiement
             </h3>
-            <Link
+            {/* <Link
               href={
                 getPage(
                   checkoutPages,
                   'pageName',
                   'Ajouter un moyen de paiement'
-                ).path +
-                `?clientSecret=${checkout.clientSecret}&selectedPaymentMethod=${selectedPaymentMethod}`
+                ).path
               }
               passHref
             >
@@ -256,7 +259,7 @@ const CheckoutConfirm = () => {
                   Ajouter un moyen de paiement
                 </Cta>
               </a>
-            </Link>
+            </Link> */}
           </div>
           <div className="mt-3 space-y-4 md:mt-2">
             {savedCards.length > 0 ? (
@@ -278,7 +281,74 @@ const CheckoutConfirm = () => {
                 })}
               </>
             ) : (
-              <Subtitle>Vous n'avez pas de carte enregistrée</Subtitle>
+              <div className="flex gap-4">
+                <Link
+                  href={
+                    getPage(
+                      checkoutPages,
+                      'pageName',
+                      'Ajouter un moyen de paiement'
+                    ).path
+                  }
+                  passHref
+                >
+                  <a>
+                    <Radio
+                      padding="md:px-7 md:py-3"
+                      center={true}
+                      type="2"
+                      id="mastercard"
+                      name="way"
+                    >
+                      <Mastercard size={isMediumScreen ? '48' : '35'} />
+                    </Radio>
+                  </a>
+                </Link>
+                <Link
+                  href={
+                    getPage(
+                      checkoutPages,
+                      'pageName',
+                      'Ajouter un moyen de paiement'
+                    ).path
+                  }
+                  passHref
+                >
+                  <a>
+                    <Radio
+                      padding="md:px-7 md:py-3"
+                      center={true}
+                      type="2"
+                      id="visa"
+                      name="way"
+                    >
+                      <Visa size={isMediumScreen ? '48' : '35'} />
+                    </Radio>
+                  </a>
+                </Link>
+                <Link
+                  href={
+                    getPage(
+                      checkoutPages,
+                      'pageName',
+                      'Ajouter un moyen de paiement'
+                    ).path
+                  }
+                  passHref
+                >
+                  <a>
+                    <Radio
+                      padding="md:px-7 md:py-3"
+                      center={true}
+                      type="2"
+                      id="visa"
+                      name="way"
+                    >
+                      <CB size={isMediumScreen ? '48' : '35'} />
+                    </Radio>
+                  </a>
+                </Link>
+              </div>
             )}
           </div>
         </div>
