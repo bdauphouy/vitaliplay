@@ -19,8 +19,6 @@ export const getServerSideProps = async ({ req, query }) => {
     false
   )
 
-  console.log(paid.status)
-
   if (paid.status !== 'paid') {
     return {
       redirect: {

@@ -22,15 +22,12 @@ export const CheckupContextProvider = ({ children }) => {
         true,
         ['checkupQuestions', 'checkupExercises', 'checkupSteps']
       )
-
       if (!data) {
         router.push(getPage(otherPages, 'pageName', 'Connexion').path)
         return
       }
-
       setCheckup(data)
     }
-
     fetchCheckup()
   }, [])
 

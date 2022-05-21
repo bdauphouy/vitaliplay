@@ -57,7 +57,7 @@ const PhysicalEndurance = () => {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      reps: store?.physical?.endurance?.exo5 || '15',
+      reps: store?.physical?.endurance?.reps || '15',
     },
     validationSchema: EnduranceSchema,
     onSubmit: (values) => {

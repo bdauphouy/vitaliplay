@@ -5,7 +5,7 @@ import CardPreview from '@/components/pages/account/CardPreview'
 import { useMediaQuery } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
-import { LinksContext, LinksContextProvider } from '@/contexts/LinksContext'
+import { LinksContext } from '@/contexts/LinksContext'
 import AccountLayout from '@/components/layouts/AccountLayout'
 import {
   fetchAPIWithToken,
@@ -17,6 +17,9 @@ import Subtitle from '@/components/utils/Subtitle'
 import Calendar from '@/components/pages/account/Calendar'
 import moment from 'moment'
 import { ChevronRight } from '@/components/utils/Icons'
+import Image from 'next/image'
+import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
+import orangeGreen from '@/public/decoration-icons/orange-green.svg'
 
 export const getServerSideProps = async ({ req }) => {
   if (!req.cookies.jwt) {
@@ -34,6 +37,8 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
+  console.log(paid.status)
+
   if (paid.status !== 'paid') {
     return {
       redirect: {
@@ -44,7 +49,7 @@ export const getServerSideProps = async ({ req }) => {
   }
 
   return {
-    props: {},
+    props: { offerBy: paid.payer.email },
   }
 }
 
@@ -63,7 +68,7 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = () => {
+const Account = ({ offerBy }) => {
   const [user, setUser] = useState()
 
   const [lives, setLives] = useState()
@@ -228,11 +233,11 @@ const Account = () => {
         <Title type="1" html={false}>
           Bonjour, <strong className="type-1">{user?.firstname}</strong>
         </Title>
-        {/* {homeData.offer?.id ? (
+        {offerBy !== user?.email && user ? (
           <div className="fixed top-20 left-0 flex w-full items-center justify-center bg-blue-50 py-4 px-6 text-center font-body text-md font-bold text-blue-900 lg:relative lg:top-0 lg:w-auto lg:rounded-lg lg:shadow-level1">
-            Accès offert par : {homeData.offer?.offerBy}
+            Accès offert par : {offerBy}
           </div>
-        ) : null} */}
+        ) : null}
       </div>
       <div className="mt-14 flex flex-wrap gap-8">
         <div className="flex-[2] xsm:min-w-[320px] sm:min-w-[400px]">
@@ -298,7 +303,25 @@ const Account = () => {
                     </Link>
                   ))
                 ) : (
-                  <Subtitle type="4">Vous n'avez pas de bilan.</Subtitle>
+                  <div className="relative flex flex-col items-start gap-3 overflow-hidden rounded-md bg-blue-50 p-4 font-head text-md font-bold text-blue-900">
+                    Vous n'avez pas encore de bilan
+                    <Link
+                      href={getPage(checkupPages, 'pageName', 'Bilan').path}
+                      passHref
+                    >
+                      <a>
+                        <Cta size="m" arrow="right">
+                          Réaliser mon premier bilan
+                        </Cta>
+                      </a>
+                    </Link>
+                    <div className="absolute -left-8 -top-8 block scale-50 transform">
+                      <Image src={orangeGreen} alt="orange-green" />
+                    </div>
+                    <div className="absolute -bottom-12 -right-6 block scale-50">
+                      <Image src={yellowOrange} alt="yellow-orange" />
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
