@@ -406,38 +406,42 @@ const Account = ({ offerBy }) => {
             ) : null}
           </div>
         </div>
-        <div className="flex-[1.5] self-end">
-          <Title type="5">Vos dernières séances</Title>
-          <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
-            {history.length > 0 ? (
-              history.slice(0, 3).map((workout) => (
-                <Link
-                  key={workout.id}
-                  href={`${
-                    getPage(accountPages, 'pageName', 'Séances').path
-                  }/toutes-les-seances/${workout.attributes.workout.data.id}`}
-                  passHref
-                >
-                  <a>
-                    <CardPreview
-                      title={workout.attributes.workout.data.attributes.name}
-                      duration={
-                        workout.attributes.workout.data.attributes.duration
-                      }
-                      level={workout.attributes.workout.data.attributes.level}
-                      color={
-                        workout.attributes.workout.data.attributes.tags.data[0]
-                          .attributes.color
-                      }
-                    />
-                  </a>
-                </Link>
-              ))
-            ) : (
-              <Subtitle type="4">Vous n'avez pas de dernière séance.</Subtitle>
-            )}
+        {history.length > 0 && (
+          <div className="flex-[1.5] self-end">
+            <Title type="5">Vos dernières séances</Title>
+            <div className="mt-6 flex flex-col gap-3 xsm:min-w-[300px]">
+              {history.length > 0 ? (
+                history.slice(0, 3).map((workout) => (
+                  <Link
+                    key={workout.id}
+                    href={`${
+                      getPage(accountPages, 'pageName', 'Séances').path
+                    }/toutes-les-seances/${workout.attributes.workout.data.id}`}
+                    passHref
+                  >
+                    <a>
+                      <CardPreview
+                        title={workout.attributes.workout.data.attributes.name}
+                        duration={
+                          workout.attributes.workout.data.attributes.duration
+                        }
+                        level={workout.attributes.workout.data.attributes.level}
+                        color={
+                          workout.attributes.workout.data.attributes.tags
+                            .data[0].attributes.color
+                        }
+                      />
+                    </a>
+                  </Link>
+                ))
+              ) : (
+                <Subtitle type="4">
+                  Vous n'avez pas de dernière séance.
+                </Subtitle>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </div>
       <div className="mt-20">
         <header className="mb-4 flex flex-col flex-wrap justify-between gap-8 lg:mb-8 lg:flex-row">
