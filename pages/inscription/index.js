@@ -223,8 +223,8 @@ const SignupStart = ({ signup }) => {
               passHref
             >
               <a>
-                <Cta type="secondary" size={buttonSize}>
-                  Se connecter
+                <Cta type="link" size={buttonSize} arrow="right">
+                  Déjà un compte ?
                 </Cta>
               </a>
             </Link>

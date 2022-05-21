@@ -126,9 +126,7 @@ const LoginStart = ({ login }) => {
               </Cta>
               <Link href={`${router.asPath}/mot-de-passe-oublie`}>
                 <a className="mt-4 inline-block">
-                  <Cta type="link" arrow="right">
-                    Mot de passe oublié ?
-                  </Cta>
+                  <Cta type="link">Mot de passe oublié ?</Cta>
                 </a>
               </Link>
             </div>
@@ -137,8 +135,8 @@ const LoginStart = ({ login }) => {
               passHref
             >
               <a>
-                <Cta type="secondary" size={buttonSize}>
-                  S'inscrire
+                <Cta type="link" arrow="right" size={buttonSize}>
+                  Pas de compte ?
                 </Cta>
               </a>
             </Link>
