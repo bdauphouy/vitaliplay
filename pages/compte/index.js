@@ -455,7 +455,10 @@ const Account = ({ offerBy }) => {
                   className="rotate-180 transform cursor-pointer"
                   onClick={() =>
                     setSelectedDate((selectedDate) =>
-                      moment(selectedDate).subtract(1, 'days')
+                      moment(selectedDate).subtract(
+                        isSmallScreen ? 1 : 7,
+                        'days'
+                      )
                     )
                   }
                 >
@@ -466,7 +469,7 @@ const Account = ({ offerBy }) => {
                   className="cursor-pointer"
                   onClick={() =>
                     setSelectedDate((selectedDate) =>
-                      moment(selectedDate).add(1, 'days')
+                      moment(selectedDate).add(isSmallScreen ? 1 : 7, 'days')
                     )
                   }
                 >
