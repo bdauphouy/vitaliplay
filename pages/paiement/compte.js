@@ -126,7 +126,7 @@ const CheckoutStart = () => {
       firstName: '',
       address: '',
       zipCode: '',
-      birthday: formatDate(new Date()),
+      birthday: '1970-01-01',
       phoneNumber: '',
       confirmPassword: '',
       confirmEmail: '',
@@ -236,6 +236,7 @@ const CheckoutStart = () => {
 
   useEffect(() => {
     Object.keys(formik.initialValues).map((key) => {
+      if (key === 'birthday') return
       if (key !== 'account') {
         formik.values[key] = ''
         delete formik.errors[key]
