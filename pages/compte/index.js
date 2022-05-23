@@ -108,6 +108,8 @@ const Account = ({ offerBy }) => {
     const fetchLives = async () => {
       const lives = await fetchAPIWithToken('/lives', getToken(), false)
 
+      console.log(lives.data)
+
       setLives(lives.data)
     }
 
@@ -182,44 +184,49 @@ const Account = ({ offerBy }) => {
 
   useEffect(() => {
     if (lives?.current) {
-      setEvents((events) => [
-        ...events,
-        {
-          startDate: moment(
-            new Date(lives.current?.attributes.attributes.startTime)
-          ),
-          endDate: moment(
-            new Date(lives.current?.attributes.attributes.endTime)
-          ),
-          name: lives.current?.attributes.attributes.name,
-        },
-      ])
+      lives.current.map((current) => {
+        setEvents((events) => [
+          ...events,
+          {
+            startDate: moment(
+              new Date(current.attributes.attributes.startTime)
+            ),
+            endDate: moment(new Date(current.attributes.attributes.endTime)),
+            name: current.attributes.attributes.name,
+            id: current.attributes.id,
+          },
+        ])
+      })
     }
 
     if (lives?.next) {
-      setEvents((events) => [
-        ...events,
-        {
-          startDate: moment(
-            new Date(lives.next?.attributes.attributes.startTime)
-          ),
-          endDate: moment(new Date(lives.next?.attributes.attributes.endTime)),
-          name: lives.next?.attributes.attributes.name,
-        },
-      ])
+      lives.next.map((next) => {
+        setEvents((events) => [
+          ...events,
+          {
+            startDate: moment(new Date(next.attributes.attributes.startTime)),
+            endDate: moment(new Date(next.attributes.attributes.endTime)),
+            name: next.attributes.attributes.name,
+            id: next.attributes.id,
+          },
+        ])
+      })
     }
 
     if (lives?.prev) {
-      setEvents((events) => [
-        ...events,
-        {
-          startDate: moment(
-            new Date(lives.prev?.attributes.attributes.startTime)
-          ),
-          endDate: moment(new Date(lives.prev?.attributes.attributes.endTime)),
-          name: lives.prev?.attributes.attributes.name,
-        },
-      ])
+      lives.prev.map((prev) => {
+        setEvents((events) => [
+          ...events,
+          {
+            startDate: moment(
+              new Date(nprevext.attributes.attributes.startTime)
+            ),
+            endDate: moment(new Date(prev.attributes.attributes.endTime)),
+            name: prev.attributes.attributes.name,
+            id: prev.attributes.id,
+          },
+        ])
+      })
     }
   }, [lives])
 
@@ -380,7 +387,7 @@ const Account = ({ offerBy }) => {
                   />
                 </a>
               </Link>
-            ) : lives?.next ? (
+            ) : lives?.next?.attributes?.attributes ? (
               <div
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
@@ -399,9 +406,11 @@ const Account = ({ offerBy }) => {
                     'HH-mm'
                   )}
                 </span>
-                <Cta size="m" type="primary">
-                  Mettre un rappel
-                </Cta>
+                <div>
+                  <Cta size="m" type="primary">
+                    Mettre un rappel
+                  </Cta>
+                </div>
               </div>
             ) : null}
           </div>
@@ -459,10 +468,7 @@ const Account = ({ offerBy }) => {
                   className="rotate-180 transform cursor-pointer"
                   onClick={() =>
                     setSelectedDate((selectedDate) =>
-                      moment(selectedDate).subtract(
-                        isSmallScreen ? 1 : 7,
-                        'days'
-                      )
+                      moment(selectedDate).subtract(1, 'days')
                     )
                   }
                 >
@@ -473,7 +479,7 @@ const Account = ({ offerBy }) => {
                   className="cursor-pointer"
                   onClick={() =>
                     setSelectedDate((selectedDate) =>
-                      moment(selectedDate).add(isSmallScreen ? 1 : 7, 'days')
+                      moment(selectedDate).add(1, 'days')
                     )
                   }
                 >

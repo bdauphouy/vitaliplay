@@ -1,3 +1,4 @@
+import { addReminder, getReminders, getToken } from '@/lib/api'
 import moment from 'moment'
 import { useEffect, useState, useRef } from 'react'
 
@@ -32,11 +33,29 @@ const CalendarHeader = ({ startDate, selectedDate, setSelectedDate }) => {
   )
 }
 
-const Event = ({ selectedDate, startDate, endDate, name }) => {
+const Event = ({
+  selectedDate,
+  startDate,
+  hasReminder,
+  liveId,
+  endDate,
+  name,
+}) => {
   const diff = startDate.clone().startOf('day').diff(selectedDate, 'day')
   const color = diff < 0 ? 'orange' : diff > 0 ? 'green' : 'blue'
 
   const colDiff = Math.floor(startDate.diff(selectedDate, 'hours') / 24)
+
+  const [hasReminderState, setHasReminderState] = useState(hasReminder)
+
+  const handleReminder = async () => {
+    if (hasReminderState) return
+    const res = await addReminder(liveId, getToken())
+
+    if (res.liveReminders) {
+      setHasReminderState(true)
+    }
+  }
 
   return (
     <div
@@ -108,17 +127,17 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
           {startDate.format('HH:mm')} - {endDate.format('HH:mm')}
         </p>
       </div>
-
-      <div className="flex grow flex-col justify-end">
+      <div className="flex grow flex-col justify-end" onClick={handleReminder}>
         <button
-          className={`mt-4 rounded px-2 py-1.5 text-md font-semibold text-light-100 transition-[background-color] duration-300 ${(() => {
+          disabled={hasReminderState}
+          className={`mt-4 rounded px-2 py-1.5 text-md font-semibold text-light-100 transition-[background-color] duration-300 disabled:opacity-20 ${(() => {
             switch (color) {
               case 'blue':
-                return 'bg-blue-900 hover:bg-blue-700'
+                return `bg-blue-900 hover:bg-blue-700`
               case 'green':
-                return 'bg-green-900 hover:bg-green-700'
+                return `bg-green-900 hover:bg-green-700`
               case 'orange':
-                return 'bg-orange-900 hover:bg-orange-700'
+                return `bg-orange-900 hover:bg-orange-700`
             }
           })()}`}
         >
@@ -131,6 +150,7 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
 
 const Calendar = ({ events, setSelectedDate, selectedDate }) => {
   const [startDate, setStartDate] = useState(moment().subtract(3, 'days'))
+  const [reminders, setReminders] = useState([])
 
   const calendarContainer = useRef()
 
@@ -140,10 +160,17 @@ const Calendar = ({ events, setSelectedDate, selectedDate }) => {
         calendarContainer.current.offsetWidth / 2,
       0
     )
+
+    const fetchReminders = async () => {
+      const res = await getReminders(getToken())
+      setReminders(res.data.liveReminders)
+    }
+
+    fetchReminders()
   }, [])
 
   useEffect(() => {
-    setStartDate(selectedDate.clone().subtract(moment().day() - 1, 'days'))
+    setStartDate(selectedDate.clone().subtract(3, 'days'))
   }, [selectedDate])
   return (
     <div className="w-full overflow-auto" ref={calendarContainer}>
@@ -163,19 +190,28 @@ const Calendar = ({ events, setSelectedDate, selectedDate }) => {
                   key={i}
                   style={{
                     gridRowStart: row + 1,
-                    gridColumnStart: column,
+                    gridColumnStart: column + 1,
                   }}
                   className={`bg-light-100`}
                 ></div>
               )
             })}
+
             {events.map((event, i) => (
               <Event
                 key={i}
+                liveId={event.id}
                 selectedDate={selectedDate}
                 startDate={event.startDate}
                 endDate={event.endDate}
                 name={event.name}
+                hasReminder={
+                  reminders.find(({ live: { id } }) => {
+                    return event.id === id
+                  })
+                    ? true
+                    : false
+                }
               />
             ))}
           </div>
