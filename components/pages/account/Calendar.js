@@ -33,10 +33,7 @@ const CalendarHeader = ({ startDate, selectedDate, setSelectedDate }) => {
 }
 
 const Event = ({ selectedDate, startDate, endDate, name }) => {
-  const diff = startDate
-    .clone()
-    .startOf("day")
-    .diff(selectedDate, "day");
+  const diff = startDate.clone().startOf('day').diff(selectedDate, 'day')
   const color = diff < 0 ? 'orange' : diff > 0 ? 'green' : 'blue'
 
   const colDiff = Math.floor(startDate.diff(selectedDate, 'hours') / 24)
@@ -92,10 +89,7 @@ const Event = ({ selectedDate, startDate, endDate, name }) => {
             return 'row-end-4'
         }
       })()} ${(() => {
-        const diff = startDate
-          .clone()
-          .startOf("day")
-          .diff(selectedDate, "day");
+        const diff = startDate.clone().startOf('day').diff(selectedDate, 'day')
         return diff <= -3 || diff > 3 ? 'hidden' : ''
       })()} before:absolute before:top-0 before:left-0 before:h-full before:w-1 before:rounded-l ${
         color === 'green'
@@ -149,7 +143,7 @@ const Calendar = ({ events, setSelectedDate, selectedDate }) => {
   }, [])
 
   useEffect(() => {
-    setStartDate(selectedDate.clone().subtract(3, 'days'))
+    setStartDate(selectedDate.clone().subtract(moment().day() - 1, 'days'))
   }, [selectedDate])
   return (
     <div className="w-full overflow-auto" ref={calendarContainer}>
