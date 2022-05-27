@@ -59,11 +59,7 @@ const SessionDisciplines = ({ disciplines }) => {
         </Cta>
       </div>
       <div className="mt-6 flex flex-col gap-12">
-        <Row
-          type="filter"
-          filterOptions={['Toutes']}
-          title="Toutes les disciplines"
-        >
+        <Row type="none" title="Toutes les disciplines">
           {disciplines.map((discipline) => {
             return (
               <Link

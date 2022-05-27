@@ -37,8 +37,6 @@ export const getServerSideProps = async ({ req }) => {
     false
   )
 
-  console.log(paid.status)
-
   if (paid.status !== 'paid') {
     return {
       redirect: {
@@ -49,7 +47,7 @@ export const getServerSideProps = async ({ req }) => {
   }
 
   return {
-    props: { offerBy: paid.payer.email },
+    props: {},
   }
 }
 
@@ -68,7 +66,7 @@ export const CheckupBox = ({ date, score }) => {
   )
 }
 
-const Account = ({ offerBy }) => {
+const Account = () => {
   const [user, setUser] = useState()
 
   const [lives, setLives] = useState()
@@ -94,11 +92,23 @@ const Account = ({ offerBy }) => {
 
   const [events, setEvents] = useState([])
 
+  const [offerBy, setOfferBy] = useState()
+
   useEffect(() => {
     setLinkSize(isSmallScreen ? 's' : 'm')
   }, [isSmallScreen])
 
   useEffect(() => {
+    const getOfferBy = async () => {
+      const paid = await fetchAPIWithToken(
+        '/users/me/subscription',
+        getToken(),
+        false
+      )
+
+      setOfferBy(paid.payer.email)
+    }
+
     const fetchProfilePicture = async () => {
       const { profilePicture } = await getUserProfilePicture(getToken())
 
@@ -136,8 +146,6 @@ const Account = ({ offerBy }) => {
         false
       )
 
-      console.log(questionnaire)
-
       setQuestionnaire(questionnaire.data?.[0]?.attributes?.length < 12)
     }
 
@@ -173,6 +181,7 @@ const Account = ({ offerBy }) => {
       }
     }
 
+    getOfferBy()
     fetchRecommendedWorkout()
     fetchHistory()
     fetchQuestionnaire()
@@ -218,9 +227,7 @@ const Account = ({ offerBy }) => {
         setEvents((events) => [
           ...events,
           {
-            startDate: moment(
-              new Date(nprevext.attributes.attributes.startTime)
-            ),
+            startDate: moment(new Date(prev.attributes.attributes.startTime)),
             endDate: moment(new Date(prev.attributes.attributes.endTime)),
             name: prev.attributes.attributes.name,
             id: prev.attributes.id,

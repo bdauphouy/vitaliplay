@@ -46,61 +46,66 @@ const TheLive = () => {
     fetchLives()
   }, [])
 
+  console.log(lives)
+
   useEffect(() => {
     if (lives?.current) {
-      setEvents((events) => [
-        ...events,
-        {
-          startDate: moment(
-            new Date(lives.current?.attributes.attributes.startTime)
-          ),
-          endDate: moment(
-            new Date(lives.current?.attributes.attributes.endTime)
-          ),
-          name: lives.current?.attributes.attributes.name,
-        },
-      ])
+      lives.current.map((current) => {
+        setEvents((events) => [
+          ...events,
+          {
+            startDate: moment(
+              new Date(current.attributes.attributes.startTime)
+            ),
+            endDate: moment(new Date(current.attributes.attributes.endTime)),
+            name: current.attributes.attributes.name,
+            id: current.attributes.id,
+          },
+        ])
+      })
     }
 
     if (lives?.next) {
-      setEvents((events) => [
-        ...events,
-        {
-          startDate: moment(
-            new Date(lives.next?.attributes.attributes.startTime)
-          ),
-          endDate: moment(new Date(lives.next?.attributes.attributes.endTime)),
-          name: lives.next?.attributes.attributes.name,
-        },
-      ])
+      lives.next.map((next) => {
+        setEvents((events) => [
+          ...events,
+          {
+            startDate: moment(new Date(next.attributes.attributes.startTime)),
+            endDate: moment(new Date(next.attributes.attributes.endTime)),
+            name: next.attributes.attributes.name,
+            id: next.attributes.id,
+          },
+        ])
+      })
     }
 
     if (lives?.prev) {
-      setEvents((events) => [
-        ...events,
-        {
-          startDate: moment(
-            new Date(lives.prev?.attributes.attributes.startTime)
-          ),
-          endDate: moment(new Date(lives.prev?.attributes.attributes.endTime)),
-          name: lives.prev?.attributes.attributes.name,
-        },
-      ])
+      lives.prev.map((prev) => {
+        setEvents((events) => [
+          ...events,
+          {
+            startDate: moment(new Date(prev.attributes.attributes.startTime)),
+            endDate: moment(new Date(prev.attributes.attributes.endTime)),
+            name: prev.attributes.attributes.name,
+            id: prev.attributes.id,
+          },
+        ])
+      })
     }
   }, [lives])
 
   return (
     <div>
-      {lives?.current ? (
+      {lives?.current?.length > 0 ? (
         <div className="mt-20 py-10 px-6 md:py-20 md:px-24">
           <div className="flex flex-col-reverse xl:flex-row xl:items-center xl:justify-between">
             <div className="mt-10 xl:mt-0 xl:mr-24 xl:max-w-xl">
               <Title type="1" html={false}>
-                Live : {lives.current?.attributes.attributes.name}
+                Live : {lives.current?.[0]?.attributes.attributes.name}
               </Title>
               <div className="mt-4">
                 <Subtitle html={false}>
-                  {lives.current?.attributes.attributes.description}
+                  {lives.current?.[0]?.attributes.attributes.description}
                 </Subtitle>
               </div>
             </div>
@@ -111,16 +116,16 @@ const TheLive = () => {
               <div className="flex flex-1 flex-col items-start justify-between md:flex-row md:items-center">
                 <div>
                   <h3 className="font-head text-lg font-bold leading-6 text-light-100">
-                    {lives.current?.attributes.attributes.name}
+                    {lives.current?.[0]?.attributes.attributes.name}
                   </h3>
                   <span className="mt-2 text-sm text-light-100">
                     {moment(
-                      lives.current.attributes.attributes.startTime
+                      lives.current?.[0]?.attributes.attributes.startTime
                     ).format('HH:mm')}{' '}
                     -{' '}
-                    {moment(lives.current.attributes.attributes.endTime).format(
-                      'HH:mm'
-                    )}
+                    {moment(
+                      lives.current?.[0]?.attributes.attributes.endTime
+                    ).format('HH:mm')}
                   </span>
                 </div>
                 <div className="mt-6 md:mt-0">
@@ -132,7 +137,7 @@ const TheLive = () => {
           <div className="flex flex-col gap-0 lg:flex-row lg:gap-12">
             <iframe
               className="mt-12 aspect-video w-full flex-1 bg-dark-900"
-              src={lives.current?.attributes.attributes.liveLink}
+              src={lives.current?.[0]?.attributes.attributes.liveLink}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -140,7 +145,7 @@ const TheLive = () => {
             ></iframe>
             <iframe
               className="mt-12 aspect-video w-full flex-[0.5] bg-dark-900"
-              src={lives.current?.attributes.attributes.chatLink}
+              src={lives.current?.[0]?.attributes.attributes.chatLink}
               title="YouTube video player"
               frameBorder="0"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

@@ -35,10 +35,10 @@ export const getServerSideProps = async ({ req, query }) => {
 const ProfileHealthInformation = () => {
   const router = useRouter()
 
-  const { getPage, accountPages } = useContext(LinksContext)
+  const { getPage, surveyPages } = useContext(LinksContext)
 
   useEffect(() => {
-    router.push(getPage(accountPages, 'pageName', 'Mon espace santé').path)
+    router.push(getPage(surveyPages, 'pageName', 'Questionnaire').path)
   }, [])
 
   return <></>

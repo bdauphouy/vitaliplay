@@ -5,7 +5,16 @@ import { useState } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import { AuthContext } from '@/contexts/AuthContext'
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req }) => {
+  // if (!req.cookies.jwt) {
+  //   return {
+  //     redirect: {
+  //       destination: '/paiement/compte',
+  //       permanent: true,
+  //     },
+  //   }
+  // }
+
   const subscriptions = await fetchAPI('/content/subscriptions', [
     'subscriptions',
   ])
@@ -14,21 +23,15 @@ export const getStaticProps = async () => {
     props: {
       subscriptions: subscriptions.subscriptions,
     },
-    revalidate: 10,
   }
 }
 
 const Checkout = ({ subscriptions }) => {
   const router = useRouter()
 
-  const { setIsAuth } = useContext(AuthContext)
-
   const { getPage, checkoutPages } = useContext(LinksContext)
 
   useEffect(() => {
-    document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-    setIsAuth(false)
-
     let activeStep = window.localStorage.getItem(
       'vitaliplay.checkout.activeStep'
     )
@@ -56,11 +59,6 @@ const Checkout = ({ subscriptions }) => {
     )
 
     router.push(getPage(checkoutPages, 'id', parseInt(activeStep)).path)
-
-    return () => {
-      document.cookie = 'jwt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;'
-      setIsAuth(false)
-    }
   }, [])
 
   return <></>

@@ -80,8 +80,6 @@ export const getServerSideProps = async ({ req }) => {
 const Sessions = ({ workouts, recommended, disciplines, programs, image }) => {
   const router = useRouter()
 
-  // return <></>
-
   return (
     <div className="mt-20">
       <header className="relative h-60 lg:h-96">
@@ -128,7 +126,7 @@ const Sessions = ({ workouts, recommended, disciplines, programs, image }) => {
               )
             })}
         </Row>
-        {recommended && (
+        {recommended?.length > 0 && (
           <Row
             title="Sélectionnées pour vous"
             path={`${router.asPath}/selectionnees-pour-vous`}
@@ -163,7 +161,7 @@ const Sessions = ({ workouts, recommended, disciplines, programs, image }) => {
               })}
           </Row>
         )}
-        {disciplines && (
+        {disciplines?.length > 0 && (
           <Row title="Disciplines" path={`${router.asPath}/disciplines`}>
             {disciplines.reverse().map((discipline) => {
               return (
@@ -188,7 +186,7 @@ const Sessions = ({ workouts, recommended, disciplines, programs, image }) => {
             })}
           </Row>
         )}
-        {programs && (
+        {programs?.length > 0 && (
           <Row title="Programmes" path={`${router.asPath}/programmes`}>
             {programs.reverse().map((program) => {
               return (

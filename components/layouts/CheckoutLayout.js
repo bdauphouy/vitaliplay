@@ -14,6 +14,8 @@ import { AuthContext } from '@/contexts/AuthContext'
 import moment from 'moment'
 import PromoCodeSchema from '@/schemas/checkout/PromoCodeSchema'
 import { fetchAPIWithToken, getToken } from '@/lib/api'
+import Cta from '@/components/utils/Cta'
+import useButtonSize from '@/hooks/useButtonSize'
 
 const CheckoutPreview = ({ children }) => {
   const { checkout, setCheckout } = useContext(CheckoutContext)
@@ -111,6 +113,8 @@ const CheckoutPreview = ({ children }) => {
     }
   }, [])
 
+  const buttonSize = useButtonSize()
+
   return (
     <>
       <CloseNav />
@@ -169,19 +173,26 @@ const CheckoutPreview = ({ children }) => {
                   'Ajouter un moyen de paiement'
                 ).path && (
                 <form
-                  className="mt-7 border-b-1 border-solid border-dark-100 pb-8"
+                  className="mt-7 flex flex-col gap-4 border-b-1 border-solid border-dark-100 pb-8 md:flex-row"
                   onSubmit={formik.handleSubmit}
                 >
-                  <Input
-                    label="Possédez-vous un code promo ?"
-                    value={formik.values.promoCode}
-                    name="promoCode"
-                    onChange={formik.handleChange}
-                    error={
-                      (formik.touched.promoCode && formik.errors.promoCode) ||
-                      serverSideError
-                    }
-                  />
+                  <div className="flex-1">
+                    <Input
+                      label="Possédez-vous un code promo ?"
+                      value={formik.values.promoCode}
+                      name="promoCode"
+                      onChange={formik.handleChange}
+                      error={
+                        (formik.touched.promoCode && formik.errors.promoCode) ||
+                        serverSideError
+                      }
+                    />
+                  </div>
+                  <div className="md:mt-6">
+                    <Cta buttonType="submit" type="primary" size={buttonSize}>
+                      Ajouter
+                    </Cta>
+                  </div>
                 </form>
               )}
             <div>

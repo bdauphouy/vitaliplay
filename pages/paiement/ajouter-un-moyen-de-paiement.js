@@ -17,10 +17,25 @@ import {
   CardNumberElement,
   Elements,
   useElements,
-  useStripe
+  useStripe,
 } from '@stripe/react-stripe-js'
 import CheckoutLayout from '@/components/layouts/CheckoutLayout'
 import { CheckoutContext } from '@/contexts/CheckoutContext'
+
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/paiement/compte',
+        permanent: true,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
@@ -36,7 +51,12 @@ const PaymentForm = () => {
   const [cardValidated, setCardValidated] = useState(false)
 
   useEffect(() => {
-    if (cardName.length > 0 && cardNumberValid && cardExpiryValid && cardCvcValid) {
+    if (
+      cardName.length > 0 &&
+      cardNumberValid &&
+      cardExpiryValid &&
+      cardCvcValid
+    ) {
       setCardValidated(true)
     } else {
       setCardValidated(false)
@@ -52,7 +72,8 @@ const PaymentForm = () => {
   const elements = useElements()
   const stripe = useStripe()
 
-  const [elementsDefinedEffectTriggered, setElementsDefinedEffectTriggered] = useState(false)
+  const [elementsDefinedEffectTriggered, setElementsDefinedEffectTriggered] =
+    useState(false)
   useEffect(() => {
     if (elements && !elementsDefinedEffectTriggered) {
       setElementsDefinedEffectTriggered(true)
@@ -61,7 +82,7 @@ const PaymentForm = () => {
       const cardElementExpiry = elements.getElement('cardExpiry')
       const cardElementCvc = elements.getElement('cardCvc')
 
-      cardElementNumber.on('change', function(event) {
+      cardElementNumber.on('change', function (event) {
         if (event.error || !event.complete) {
           setCardNumberValid(false)
         } else {
@@ -69,7 +90,7 @@ const PaymentForm = () => {
         }
       })
 
-      cardElementExpiry.on('change', function(event) {
+      cardElementExpiry.on('change', function (event) {
         if (event.error || !event.complete) {
           setCardExpiryValid(false)
         } else {
@@ -77,7 +98,7 @@ const PaymentForm = () => {
         }
       })
 
-      cardElementCvc.on('change', function(event) {
+      cardElementCvc.on('change', function (event) {
         if (event.error || !event.complete) {
           setCardCvcValid(false)
         } else {
@@ -102,13 +123,13 @@ const PaymentForm = () => {
       type: 'card',
       card: cardElementNumber,
       billing_details: {
-        name: cardName
-      }
+        name: cardName,
+      },
     })
 
-    setCheckout(checkout => ({
+    setCheckout((checkout) => ({
       ...checkout,
-      selectedPaymentMethod: paymentMethod
+      selectedPaymentMethod: paymentMethod,
     }))
 
     router.back()
@@ -118,13 +139,14 @@ const PaymentForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className='mt-11'>
-        <div
-          className='xl:grid-area-card-info md:grid-area-card-info grid-area-card-info grid gap-3 gap-x-4 md:gap-y-5'>
+      <div className="mt-11">
+        <div className="xl:grid-area-card-info md:grid-area-card-info grid-area-card-info grid gap-3 gap-x-4 md:gap-y-5">
           <div style={{ gridArea: 'a' }}>
-            <Input label='Nom sur la carte' name='name'
-                   value={cardName}
-                   onChange={(e) => setCardName(e.target.value)}
+            <Input
+              label="Nom sur la carte"
+              name="name"
+              value={cardName}
+              onChange={(e) => setCardName(e.target.value)}
             />
           </div>
           <div style={{ gridArea: 'b' }}>
@@ -141,15 +163,19 @@ const PaymentForm = () => {
             <Input label="CVV" name="cvv" />
           </div>
         </div>
-        <div className='mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12'>
+        <div className="mt-8 flex flex-wrap gap-4 md:gap-6 lg:mt-12">
           <div onClick={cardValidated ? useThisCard : () => {}}>
-            <Cta size={buttonSize} buttonType='submit' type={cardValidated ? 'primary' : 'disabled'}>
+            <Cta
+              size={buttonSize}
+              buttonType="submit"
+              type={cardValidated ? 'primary' : 'disabled'}
+            >
               Utiliser cette carte
             </Cta>
           </div>
 
           <div onClick={() => router.back()}>
-            <Cta size={buttonSize} type='secondary'>
+            <Cta size={buttonSize} type="secondary">
               Retour
             </Cta>
           </div>
@@ -162,8 +188,8 @@ const PaymentForm = () => {
 const AddPaymentWay = () => {
   return (
     <Elements stripe={stripePromise}>
-      <div className='mx-auto mt-20 min-h-[calc(100vh_-_165px)] max-w-4xl px-6 py-10 md:px-24 lg:py-20'>
-        <Title type='3'>Ajouter un moyen de paiement</Title>
+      <div className="mx-auto mt-20 min-h-[calc(100vh_-_165px)] max-w-4xl px-6 py-10 md:px-24 lg:py-20">
+        <Title type="3">Ajouter un moyen de paiement</Title>
         <PaymentForm />
       </div>
     </Elements>

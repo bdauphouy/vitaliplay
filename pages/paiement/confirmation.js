@@ -24,6 +24,15 @@ import { Elements } from '@stripe/react-stripe-js'
 import Spin from '@/components/utils/Spin'
 
 export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/paiement/compte',
+        permanent: true,
+      },
+    }
+  }
+
   const savedCards = await fetchAPIWithToken(
     '/users/me/saved-cards',
     req.cookies.jwt,

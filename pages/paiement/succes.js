@@ -15,6 +15,21 @@ import { useContext, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import useConfetti from '@/hooks/useConfetti'
 
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/paiement/compte',
+        permanent: true,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
+
 const CheckoutSuccess = () => {
   const buttonSize = useButtonSize()
   const congratsSize = useCongratsSize()

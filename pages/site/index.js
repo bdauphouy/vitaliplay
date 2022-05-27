@@ -148,7 +148,7 @@ const Home = ({ home, subscriptions }) => {
           </div>
         </div>
         <div className="relative mt-10 h-112 w-80 self-end lg:mt-0 lg:h-full lg:w-2/5 lg:self-stretch">
-          <video muted loop autoPlay className="h-full object-cover">
+          <video controls muted loop autoPlay className="h-full object-cover">
             <source src={getStrapiMedia(home.video?.data.attributes)}></source>
           </video>
         </div>

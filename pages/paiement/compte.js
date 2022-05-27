@@ -19,6 +19,21 @@ import { v4 as uuidv4 } from 'uuid'
 import { postAPI } from '@/lib/api'
 import Error from '@/components/utils/Error'
 
+export const getServerSideProps = async ({ req }) => {
+  if (req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/paiement/informations',
+        permanent: true,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
+
 const CheckoutStart = () => {
   const [civility, setCivility] = useState('M')
 

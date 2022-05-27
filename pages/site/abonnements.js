@@ -13,6 +13,7 @@ import blueOrange from '@/public/decoration-icons/blue-orange.svg'
 import yellowOrange from '@/public/decoration-icons/yellow-orange.svg'
 import Image from 'next/image'
 import SiteLayout from '@/components/layouts/SiteLayout'
+import { useRouter } from 'next/router'
 
 export const getStaticProps = async () => {
   const subscriptions = await fetchAPI('/content/subscriptions', [
@@ -24,7 +25,9 @@ export const getStaticProps = async () => {
 }
 
 const Subscription = ({ subscriptions }) => {
-  const { otherPages, getPage } = useContext(LinksContext)
+  const { otherPages, getPage, checkoutPages } = useContext(LinksContext)
+
+  const router = useRouter()
 
   return (
     <>
@@ -145,7 +148,12 @@ const Subscription = ({ subscriptions }) => {
                 </Subtitle>
               </div>
             </div>
-            <div className="mt-6 lg:mt-0">
+            <div
+              className="mt-6 lg:mt-0"
+              onClick={() =>
+                router.push(getPage(checkoutPages, 'pageName', 'Compte').path)
+              }
+            >
               <Cta size="l" type="primary" arrow="right">
                 {subscriptions.giftSubscriptionButtonText}
               </Cta>

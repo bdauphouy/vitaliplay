@@ -49,16 +49,11 @@ const WebsiteFooter = () => {
             </h3>
             <div className="flex gap-8">
               <DownloadButton>
-                <div className="mr-3">
+                <div className="relative mr-3 flex">
                   <Apple color="#141414" size={23} />
-                </div>
-                Disponible sur IOS
-              </DownloadButton>
-              <DownloadButton>
-                <div className="mr-3">
                   <Android color="#26C196" size={23} />
                 </div>
-                Disponible sur Android
+                Téléchargez l'application sur votre mobile
               </DownloadButton>
             </div>
           </div>
@@ -150,46 +145,57 @@ const WebsiteFooter = () => {
                 Nous retrouver :
               </h3>
               <ul className="mt-3 flex gap-4">
-                <li>
-                  <Link
-                    href={getPage(externalPages, 'pageName', 'Linkedin').path}
-                    passHref
-                  >
-                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
-                      <Linkedin color="#ECF4FE" />
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={getPage(externalPages, 'pageName', 'Instagram').path}
-                    passHref
-                  >
-                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
-                      <Instagram color="#ECF4FE" />
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={getPage(externalPages, 'pageName', 'Facebook').path}
-                    passHref
-                  >
-                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
-                      <Facebook color="#ECF4FE" />
-                    </div>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href={getPage(externalPages, 'pageName', 'Twitter').path}
-                    passHref
-                  >
-                    <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
-                      <Twitter color="#ECF4FE" />
-                    </div>
-                  </Link>
-                </li>
+                {getPage(externalPages, 'pageName', 'Linkedin').path && (
+                  <li>
+                    <Link
+                      href={getPage(externalPages, 'pageName', 'Linkedin').path}
+                      passHref
+                    >
+                      <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
+                        <Linkedin color="#ECF4FE" />
+                      </div>
+                    </Link>
+                  </li>
+                )}
+                {getPage(externalPages, 'pageName', 'Instagram').path && (
+                  <li>
+                    <Link
+                      href={
+                        getPage(externalPages, 'pageName', 'Instagram').path
+                      }
+                      passHref
+                    >
+                      <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
+                        <Instagram color="#ECF4FE" />
+                      </div>
+                    </Link>
+                  </li>
+                )}
+                {getPage(externalPages, 'pageName', 'Facebook').path && (
+                  <li>
+                    <Link
+                      href={getPage(externalPages, 'pageName', 'Facebook').path}
+                      passHref
+                    >
+                      <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
+                        <Facebook color="#ECF4FE" />
+                      </div>
+                    </Link>
+                  </li>
+                )}
+                {getPage(externalPages, 'pageName', 'Twitter').path !==
+                  'https://vitaliplay.fr/twitter' && (
+                  <li>
+                    <Link
+                      href={getPage(externalPages, 'pageName', 'Twitter').path}
+                      passHref
+                    >
+                      <div className="cursor-pointer transition-[margin-top] duration-300 hover:-mt-1">
+                        <Twitter color="#ECF4FE" />
+                      </div>
+                    </Link>
+                  </li>
+                )}
               </ul>
             </div>
           </div>
@@ -219,15 +225,10 @@ const WebsiteFooter = () => {
             </h3>
             <DownloadButton>
               <div className="mr-3">
-                <Apple color="#141414" size={20} />
+                <Apple color="#141414" size={23} />
+                <Android color="#26C196" size={23} />
               </div>
-              Disponible sur IOS
-            </DownloadButton>
-            <DownloadButton>
-              <div className="mr-3">
-                <Android color="#26C196" size={20} />
-              </div>
-              Disponible sur Android
+              Téléchargez l'application sur votre mobile
             </DownloadButton>
           </div>
         </div>

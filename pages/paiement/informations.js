@@ -10,6 +10,21 @@ import { useContext, useState, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import { InformationsSchema } from '@/schemas/checkout/InformationsSchema'
 
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/paiement/compte',
+        permanent: true,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
+
 const CheckoutInfo = () => {
   const [store, setStore] = useState()
 

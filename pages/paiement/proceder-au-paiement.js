@@ -22,6 +22,21 @@ import {
   useStripe,
 } from '@stripe/react-stripe-js'
 
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/paiement/compte',
+        permanent: true,
+      },
+    }
+  }
+
+  return {
+    props: {},
+  }
+}
+
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY)
 
 const CheckoutCheckout = () => {

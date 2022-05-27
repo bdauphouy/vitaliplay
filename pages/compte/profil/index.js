@@ -167,7 +167,7 @@ const Profile = ({}) => {
 
         <div className="mt-2 lg:mt-3">
           <Subtitle type="4" center={true} html={false}>
-            Abonné jusqu’au{' '}
+            Abonnement valable jusqu’au{' '}
             {moment(subscription?.endDate).format('D MMMM YYYY')}
           </Subtitle>
         </div>
@@ -185,7 +185,7 @@ const Profile = ({}) => {
         />
         <Section
           id="2"
-          title="Informations de santé"
+          title="Actualiser les informations de santé"
           path="/informations-de-sante"
         />
         <Section

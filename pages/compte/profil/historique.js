@@ -51,13 +51,8 @@ const ProfileHistory = () => {
       )
 
       if (res.data) {
-        const historyIds = []
-
         const filteredHistory = res.data.filter((workout) => {
-          if (!historyIds.includes(workout.attributes.workout.data.id)) {
-            historyIds.push(workout.attributes.workout.data.id)
-            return workout.attributes.workout
-          }
+          return workout.attributes.workout
         })
 
         const sortedHistory = {}
@@ -94,6 +89,27 @@ const ProfileHistory = () => {
                 workoutCreatedAtMonth === historyCreatedAtMonth &&
                 workoutCreatedAtYear === historyCreatedAtYear
               ) {
+                return workout
+              }
+            })
+
+          let ids = []
+
+          sortedHistory[`${historyCreatedAtMonth} ${historyCreatedAtYear}`] =
+            sortedHistory[
+              `${historyCreatedAtMonth} ${historyCreatedAtYear}`
+            ].filter((workout, i) => {
+              console.log(i)
+              if (
+                i - 1 ===
+                sortedHistory[
+                  `${historyCreatedAtMonth} ${historyCreatedAtYear}`
+                ].length
+              ) {
+                ids = []
+              }
+              if (!ids.includes(workout.attributes.workout.data.id)) {
+                ids.push(workout.attributes.workout.data.id)
                 return workout
               }
             })
