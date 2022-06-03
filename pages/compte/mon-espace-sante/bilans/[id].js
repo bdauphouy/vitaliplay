@@ -114,6 +114,7 @@ const CheckupSectionBar = ({ score, type, section, checkup }) => {
 }
 
 const MyHealthSpaceCheckups1 = ({ checkup }) => {
+  console.log9
   const router = useRouter()
 
   const { getPage, accountPages } = useContext(LinksContext)

@@ -34,46 +34,54 @@ const AccountFooter = () => {
         </div>
       </Link>
       <ul className="flex gap-4">
-        <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link
-            href={getPage(externalPages, 'pageName', 'Linkedin').path}
-            passHref
-          >
-            <div className="cursor-pointer">
-              <Linkedin color="#1778F2" size={socialNetworkSize} />
-            </div>
-          </Link>
-        </li>
-        <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link
-            href={getPage(externalPages, 'pageName', 'Instagram').path}
-            passHref
-          >
-            <div className="cursor-pointer">
-              <Instagram color="#1778F2" size={socialNetworkSize} />
-            </div>
-          </Link>
-        </li>
-        <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link
-            href={getPage(externalPages, 'pageName', 'Facebook').path}
-            passHref
-          >
-            <div className="cursor-pointer">
-              <Facebook color="#1778F2" size={socialNetworkSize} />
-            </div>
-          </Link>
-        </li>
-        <li className="transition-[margin-top] duration-300 hover:-mt-1">
-          <Link
-            href={getPage(externalPages, 'pageName', 'Twitter').path}
-            passHref
-          >
-            <div className="cursor-pointer">
-              <Twitter color="#1778F2" size={socialNetworkSize} />
-            </div>
-          </Link>
-        </li>
+        {getPage(externalPages, 'pageName', 'Linkedin').path && (
+          <li className="transition-[margin-top] duration-300 hover:-mt-1">
+            <Link
+              href={getPage(externalPages, 'pageName', 'Linkedin').path}
+              passHref
+            >
+              <div className="cursor-pointer">
+                <Linkedin color="#1778F2" size={socialNetworkSize} />
+              </div>
+            </Link>
+          </li>
+        )}
+        {getPage(externalPages, 'pageName', 'Instagram').path && (
+          <li className="transition-[margin-top] duration-300 hover:-mt-1">
+            <Link
+              href={getPage(externalPages, 'pageName', 'Instagram').path}
+              passHref
+            >
+              <div className="cursor-pointer">
+                <Instagram color="#1778F2" size={socialNetworkSize} />
+              </div>
+            </Link>
+          </li>
+        )}
+        {getPage(externalPages, 'pageName', 'Facebook').path && (
+          <li className="transition-[margin-top] duration-300 hover:-mt-1">
+            <Link
+              href={getPage(externalPages, 'pageName', 'Facebook').path}
+              passHref
+            >
+              <div className="cursor-pointer">
+                <Facebook color="#1778F2" size={socialNetworkSize} />
+              </div>
+            </Link>
+          </li>
+        )}
+        {getPage(externalPages, 'pageName', 'Twitter').path && (
+          <li className="transition-[margin-top] duration-300 hover:-mt-1">
+            <Link
+              href={getPage(externalPages, 'pageName', 'Twitter').path}
+              passHref
+            >
+              <div className="cursor-pointer">
+                <Twitter color="#1778F2" size={socialNetworkSize} />
+              </div>
+            </Link>
+          </li>
+        )}
       </ul>
       <p className="hidden font-body text-sm font-bold text-dark-300 sm:block">
         Vitaliplay &copy; 2022
