@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { LinksContext } from '@/contexts/LinksContext'
 import {
   Apple,
@@ -27,6 +27,26 @@ const WebsiteFooter = () => {
   const { externalPages, sitePages, otherPages, getPage } =
     useContext(LinksContext)
 
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e) => {
+      window.deferredPrompt = e
+    }
+
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt)
+
+    return () =>
+      window.removeEventListener(
+        'beforeinstallprompt',
+        handleBeforeInstallPrompt
+      )
+  }, [])
+
+  const handleClick = () => {
+    if (deferredPrompt !== null) {
+      deferredPrompt.prompt()
+    }
+  }
+
   return (
     <>
       <footer className="hidden flex-col pt-36 md:flex">
@@ -47,7 +67,7 @@ const WebsiteFooter = () => {
             <h3 className="max-w-sm text-center font-head text-4xl font-bold text-dark-900">
               Pour être toujours au plus près de vous
             </h3>
-            <div className="flex gap-8">
+            <div className="flex gap-8" onClick={handleClick}>
               <DownloadButton>
                 <div className="relative mr-3 flex">
                   <Apple color="#141414" size={23} />
