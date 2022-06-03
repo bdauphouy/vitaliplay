@@ -6,7 +6,12 @@ import { useFormik } from 'formik'
 import LoginLayout from '@/components/layouts/LoginLayout'
 import { useRouter } from 'next/router'
 import useButtonSize from '@/hooks/useButtonSize'
-import { fetchAPI, fetchAPIWithToken, getToken } from '@/lib/api'
+import {
+  fetchAPI,
+  fetchAPIWithToken,
+  postAPIWithToken,
+  getToken,
+} from '@/lib/api'
 import Error from '@/components/utils/Error'
 import { useState } from 'react'
 import InvitationSchema from '@/schemas/InvitationSchema'
@@ -35,7 +40,21 @@ const InvitationStart = ({ invitation }) => {
           setServerSideError("Ce code est expiré ou n'existe pas.")
         } else {
           if (data.data.metadata?.vitalipass === 'true') {
-            router.push(`${router.asPath}/confirmation`)
+            // router.push(`${router.asPath}/confirmation`)
+
+            const fetchStripe = async () => {
+              const res = await postAPIWithToken(
+                '/payments',
+                {
+                  interval: 'year',
+                  promotionCode: values.code,
+                },
+                getToken()
+              )
+              console.log(res)
+            }
+
+            fetchStripe()
           } else {
             setServerSideError(
               'Ce coupon ne vous permet pas de profiter de Vitaliplay gratuitement.'

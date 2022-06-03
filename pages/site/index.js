@@ -44,8 +44,6 @@ const Home = ({ home, subscriptions }) => {
     return int.toString(2)
   }
 
-  console.log(home)
-
   useEffect(() => {
     window.localStorage.removeItem('vitaliplay.checkout.activeStep')
     window.localStorage.removeItem('vitaliplay.checkout.subscription')
