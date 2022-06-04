@@ -68,7 +68,7 @@ const PhysicalEndurance = () => {
           ...store,
           physical: {
             ...store?.physical,
-            endurance: parseInt(values.reps),
+            endurance: { endurance: parseInt(values.reps) },
           },
         })
       )

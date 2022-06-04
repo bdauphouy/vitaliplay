@@ -16,10 +16,19 @@ import Error from '@/components/utils/Error'
 import { useState } from 'react'
 import InvitationSchema from '@/schemas/InvitationSchema'
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async ({ req }) => {
+  if (!req.cookies.jwt) {
+    return {
+      redirect: {
+        destination: '/connexion',
+        permanent: true,
+      },
+    }
+  }
+
   const invitation = await fetchAPI('/content/invitation')
 
-  return { props: { invitation }, revalidate: 10 }
+  return { props: { invitation } }
 }
 
 const InvitationStart = ({ invitation }) => {
@@ -40,8 +49,6 @@ const InvitationStart = ({ invitation }) => {
           setServerSideError("Ce code est expiré ou n'existe pas.")
         } else {
           if (data.data.metadata?.vitalipass === 'true') {
-            // router.push(`${router.asPath}/confirmation`)
-
             const fetchStripe = async () => {
               const res = await postAPIWithToken(
                 '/payments',
@@ -51,7 +58,9 @@ const InvitationStart = ({ invitation }) => {
                 },
                 getToken()
               )
-              console.log(res)
+              if (res.data.attributes.vitalipass) {
+                router.push(`${router.asPath}/confirmation`)
+              }
             }
 
             fetchStripe()

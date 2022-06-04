@@ -2,7 +2,7 @@ import Title from '@/components/utils/Title'
 import Cta from '@/components/utils/Cta'
 import Card from '@/components/pages/account/Card'
 import CardPreview from '@/components/pages/account/CardPreview'
-import { useMediaQuery } from '@mui/material'
+import { FormControlUnstyledContext, useMediaQuery } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
 import Link from 'next/link'
 import { LinksContext } from '@/contexts/LinksContext'
@@ -156,8 +156,9 @@ const Account = () => {
         false,
         ['tags', 'image']
       )
+      console.log(recommended)
 
-      setRecommendedWorkout(recommended.data?.[0])
+      setRecommendedWorkout(recommended.data?.data?.[0])
     }
 
     const fetchHistory = async () => {
@@ -394,7 +395,7 @@ const Account = () => {
                   />
                 </a>
               </Link>
-            ) : lives?.next?.attributes?.attributes ? (
+            ) : lives?.next?.[0] ? (
               <div
                 style={{
                   backgroundImage: `url('http://vitaliplay.eltha.fr/bg-card.png')`,
@@ -402,14 +403,14 @@ const Account = () => {
                 className="flex h-80 flex-col items-center justify-end rounded-lg bg-cover bg-center p-6 sm:h-full"
               >
                 <h3 className="text-center font-head text-lg font-bold leading-6 text-light-100">
-                  {lives.next.attributes.attributes.name}
+                  {lives.next[0].attributes.attributes.name}
                 </h3>
                 <span className="mt-2 mb-4 font-body text-sm font-bold text-light-100">
-                  {moment(lives.next.attributes.attributes.startTime).format(
+                  {moment(lives.next[0].attributes.attributes.startTime).format(
                     'HH-mm'
                   )}{' '}
                   -{' '}
-                  {moment(lives.next.attributes.attributes.endTime).format(
+                  {moment(lives.next[0].attributes.attributes.endTime).format(
                     'HH-mm'
                   )}
                 </span>

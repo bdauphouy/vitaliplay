@@ -272,46 +272,54 @@ const SiteNav = () => {
               Nous retrouver :
             </h3>
             <ul className="mt-3 flex gap-4">
-              <li>
-                <Link
-                  href={getPage(externalPages, 'pageName', 'Linkedin').path}
-                  passHref
-                >
-                  <div className="cursor-pointer">
-                    <Linkedin color="#1778F2" />
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={getPage(externalPages, 'pageName', 'Twitter').path}
-                  passHref
-                >
-                  <div className="cursor-pointer">
-                    <Instagram color="#1778F2" />
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={getPage(externalPages, 'pageName', 'Instagram').path}
-                  passHref
-                >
-                  <div className="cursor-pointer">
-                    <Facebook color="#1778F2" />
-                  </div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={getPage(externalPages, 'pageName', 'Facebook').path}
-                  passHref
-                >
-                  <div className="cursor-pointer">
-                    <Twitter color="#1778F2" />
-                  </div>
-                </Link>
-              </li>
+              {getPage(externalPages, 'pageName', 'Linkedin').path && (
+                <li>
+                  <Link
+                    href={getPage(externalPages, 'pageName', 'Linkedin').path}
+                    passHref
+                  >
+                    <div className="cursor-pointer">
+                      <Linkedin color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+              )}
+              {getPage(externalPages, 'pageName', 'Twitter').path && (
+                <li>
+                  <Link
+                    href={getPage(externalPages, 'pageName', 'Twitter').path}
+                    passHref
+                  >
+                    <div className="cursor-pointer">
+                      <Twitter color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+              )}
+              {getPage(externalPages, 'pageName', 'Instagram').path && (
+                <li>
+                  <Link
+                    href={getPage(externalPages, 'pageName', 'Instagram').path}
+                    passHref
+                  >
+                    <div className="cursor-pointer">
+                      <Instagram color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+              )}
+              {getPage(externalPages, 'pageName', 'Facebook').path && (
+                <li>
+                  <Link
+                    href={getPage(externalPages, 'pageName', 'Facebook').path}
+                    passHref
+                  >
+                    <div className="cursor-pointer">
+                      <Facebook color="#1778F2" />
+                    </div>
+                  </Link>
+                </li>
+              )}
             </ul>
           </div>
           <div className="mt-16 flex justify-between border-t-1 border-solid border-dark-50 pb-4">
