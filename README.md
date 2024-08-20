@@ -1,7 +1,7 @@
 ![vitaliplay thumbnail](public/vitaliplay-thumbnail.png)
 
 <div align="center">
-  <h3>Vitaliplay · <a target="_blank" href="http://vitaliplay.eltha.fr">vitaliplay.eltha.fr</a></h3>
+  <h3>Vitaliplay · <a target="_blank" href="http://vitaliplay.fr">vitaliplay.fr</a></h3>
   <img src="https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white" alt="next js">
   <img src="https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="tailwind css">
   <img src="https://img.shields.io/badge/strapi-%232E7EEA.svg?style=for-the-badge&logo=strapi&logoColor=white" alt="strapi">
